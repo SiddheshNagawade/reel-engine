@@ -82,3 +82,6 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
 - UPDATE: the FCP project rebuilt from original footage lost the whole look (all defaults) → he found it useless. Default is now the RENDERED reel bladed at every cut (exact look, trimmable, not extendable). If he doesn't use it, drop FCP export entirely.
 - Caption/font sizes are PERFECT for mobile as they are. Don't change them. The readability checklist is for NEW elements only.
 - Topic effects (winter snow, summer heat, rain, confetti, money, hearts…): build each the first time a video actually needs it, then keep it in Library for reuse. Don't pre-build a pile.
+
+## Character overlays (learned 2026-10-08, first test; awaiting his feedback)
+- He wants vector characters living in real footage: walking flat on walls, interacting with objects, ~10s with a little story. See brain/genres/character-overlay.md.
