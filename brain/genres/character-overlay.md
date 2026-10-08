@@ -31,3 +31,7 @@ bag → stars → spring up → leap off the wall onto the bag → sit, wave, ki
 - Apple Vision masks (`VNGenerateForegroundInstanceMaskRequest`, like scripts/personmask.py) to auto-cut objects in front
   of him instead of hand polygons; a person walking past could occlude him too.
 - Shoot with an ARKit camera-tracking app (records the phone's real 3D path) → perfect tracking, no drift fixes.
+
+## Local Mac (2026-10-08)
+- Use the sheet's JPG/PNG (Freepik zips include a 6000px JPG): char-parts measures the scale from the big figure, no Ghostscript needed (Homebrew can't install it cheaply on his Intel Mac).
+- Re-rendered the first test locally from the template (output/char/vector-character-test v1). Seen: while he lies after the bonk (~f230-244) the camera pans on and he's half out of frame on the left; when he gets up he looks a bit above the floor line. Fix on the next pass (lie/getup x further right, or ground.fix).

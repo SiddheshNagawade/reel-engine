@@ -2,7 +2,7 @@
 
 Usage: python3 scripts/char-parts.py <sheet.eps|.ai|.pdf|.png> <out-dir> [--names smile,shock,laugh,sad,kiss]
 
-Renders the sheet (Ghostscript for vector files; PNG/JPG with a transparent or white background also work),
+Renders the sheet (Ghostscript for vector files; PNG/JPG with a transparent or white background work without it: the scale is measured from the big figure),
 finds each separate drawing (connected shapes) and saves the heads as PNGs: head-1.png … in reading order,
 plus head-side.png from a side-view figure if the sheet has one. --names renames them in that order.
 Look at parts.png (every head, numbered) and map expressions in scene.json → character.heads. The body, arms and legs are drawn as vector
@@ -22,6 +22,7 @@ import cv2
 import numpy as np
 
 PX = 3  # px per rig unit in the saved PNGs
+TALL_UNITS = 1700  # height of the big front figure in rig units (= sheet points on these EPS sheets)
 YELLOW = np.array([45, 176, 245])  # top colour (BGR), removed from head crops; re-measured from the sheet
 
 
@@ -36,7 +37,7 @@ def main():
         if im.shape[2] == 3 or im[:, :, 3].min() == 255:  # no transparency: treat near-white as background
             im = cv2.cvtColor(im[:, :, :3], cv2.COLOR_BGR2BGRA)
             im[(im[:, :, :3] > 245).all(2), 3] = 0
-        k = 4  # assume the raster is roughly 4 px per sheet point
+        k = None  # rasters: measured from the big figure below (it is ~TALL_UNITS rig units tall)
     else:
         png = os.path.join(tempfile.mkdtemp(), 'sheet.png')
         try:
@@ -46,8 +47,10 @@ def main():
             sys.exit('Ghostscript is needed for EPS/AI/PDF sheets: brew install ghostscript')
         im = cv2.imread(png, cv2.IMREAD_UNCHANGED)
     alpha = (im[:, :, 3] > 10).astype(np.uint8)
-    n, _, st, _ = cv2.connectedComponentsWithStats(cv2.dilate(alpha, np.ones((int(2 * k) | 1,) * 2, np.uint8)))
-    boxes = [tuple(int(v) for v in st[i][:4]) for i in range(1, n) if st[i][4] > 2000 * k * k / 4]
+    if k is None:  # first guess from the sheet size, then calibrate on the big figure
+        k = im.shape[0] / 1100
+        k = max(boxes_of(alpha, k), key=lambda b: b[3])[3] / TALL_UNITS
+    boxes = boxes_of(alpha, k)
     tall = max(boxes, key=lambda b: b[3])  # the big front figure defines the unit
     unit = k  # 1 rig unit = 1 sheet point; the big figure is ~1700 units tall
     global YELLOW  # the top's colour = most common colour across the big figure's chest
@@ -59,7 +62,8 @@ def main():
         YELLOW = vals[counts.argmax()].astype(int) + 4
 
     # Heads = the row of equal boxes along the top (excluding the big figure).
-    heads = sorted([b for b in boxes if b[1] < 20 * k and b != tall], key=lambda b: b[0])
+    top = min(b[1] for b in boxes if b != tall)
+    heads = sorted([b for b in boxes if b[1] < top + 0.08 * tall[3] and b != tall and b[3] < 0.4 * tall[3]], key=lambda b: b[0])
     # same-size boxes in the top band = the expression heads
     if heads:
         hh = np.median([b[3] for b in heads])
@@ -82,6 +86,12 @@ def main():
     json.dump(meta, open(os.path.join(out, 'parts.json'), 'w'), indent=1)
     index(out, meta)
     print('heads:', ', '.join(meta['heads']), f'→ {out}/parts.png')
+
+
+def boxes_of(alpha, k):
+    """Bounding boxes of the separate drawings on the sheet (small bits like hands are dropped)."""
+    n, _, st, _ = cv2.connectedComponentsWithStats(cv2.dilate(alpha, np.ones((int(2 * k) | 1,) * 2, np.uint8)))
+    return [tuple(int(v) for v in st[i][:4]) for i in range(1, n) if st[i][4] > 2000 * k * k / 4]
 
 
 def index(out, meta):

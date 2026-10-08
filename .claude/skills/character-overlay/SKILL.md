@@ -66,5 +66,5 @@ Common fixes: feet floating → `ground.fix`; leaves frame → lower `height` / 
 - After his feedback: lesson → `brain/preferences.md` + `brain/genres/character-overlay.md`; systematic issue → fix the engine.
 
 ## Setup (once per machine)
-`npm install` · `.venv/bin/python -m pip install opencv-python-headless numpy` (run `.venv/bin/python -m ensurepip` first if pip is missing) · `brew install ghostscript` (EPS/AI sheets).
+`npm install` · `.venv/bin/python -m pip install opencv-python-headless numpy` (run `.venv/bin/python -m ensurepip` first if pip is missing) · Ghostscript only for EPS/AI/PDF sheets; on this Intel Mac Homebrew compiles ~50 packages for it, so use the PNG/JPG that comes with the sheet instead (works the same, scale is measured from the big figure).
 Linux/cloud only: `REEL_BROWSER=<path to headless chrome>` if Remotion can't download its browser.
