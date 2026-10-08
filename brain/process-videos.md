@@ -15,7 +15,18 @@ a watchable story, keep the feeling of craft and progress.
 6. **Text:** few and calm: stage labels or a NumberRoll ("12 hours", "Day 1 → Day 30"). Music bed drives the pace; cuts on beats.
 7. **Mood:** usually calm, satisfying, proud. No meme clutter unless HE is narrating something funny.
 
-## To build (when the first footage arrives)
+## Built (first used on `alcoholmarkers`, 2026-10-09)
+- `scripts/sheet.mjs <video> <out.jpg> [--from --to --n --cols]`: contact sheet with timestamps. Look at sheets of EVERY clip
+  first (cheap), then denser sheets of the key clips to find exact in/out points. Never decode hours at full quality to decide.
+- `scripts/process.mjs <name>`: renders `_work/<name>/timeline.json` (segments: src, in/out, dur or speed, focus fx/fy + pan toFx,
+  zoom/toZoom push, mode fill (9:16 crop) | fit (whole landscape frame as a card on a blurred copy), hold, audio, vo line).
+  Writes `<name>-vN.mp4` + `-vN-vo-guide.mp4` (VO lines burned in with a timer = teleprompter for recording) + `-vN-vo-script.txt`.
+  Speed ≥ 60× decodes keyframes only (an hour-long clip renders in minutes).
+- Landscape footage → 9:16: pick the focus per segment from the sheets (paper/hands move between camera setups); use `fit`
+  when the whole artwork must be seen (final reveal).
+- No voice in the footage → cut the picture first, write the VO script to the picture, he records it over the guide video.
+
+## Still to build
 - `scripts/activity.mjs`: per-second change score via ffmpeg (frame difference) → idle vs active stretches.
 - Speed-ramped extraction (setpts per piece) in the selects step; 16:9 or 9:16 output.
 - Beat-synced cuts (music onset detection) and the long-form mode.

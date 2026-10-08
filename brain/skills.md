@@ -26,6 +26,7 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 | Motion templates: CardStage / CircleReveal / NumberRoll | src/templates/* (see brain/motion-design.md; preview T7 references/templates-gallery.mp4) | showing several clips/stages, before/after, progress numbers; long-form + drawing videos | as decoration; more than one big motion idea every ~2s |
 | Colour check (scopes) | scripts/colorcheck.py: clipping, cast, skin vs skin-tone line, skin chroma/brightness | before showing ANY grade change; compare to v1 targets in brain/color.md | judging colour by eye alone |
 | Per-reel look tweaks | direction.json → styleOverride (merged over style.json, e.g. {film:{warmth:0.3}}) | an existing look is ~80% right for this video | changing defaults he loves (edit style.json only if he asks) |
+| Process / time-lapse reel (no voice) | scripts/sheet.mjs + scripts/process.mjs + _work/<name>/timeline.json (see brain/process-videos.md) | drawing, unboxing, making-of footage; hours → 30–45s with variable speed, 9:16 framing, VO guide | talking-head footage (use npm run reel) |
 | Final Cut project export | output/<reel>/<reel>-vN.fcpxml | by default, so he can tweak cuts in FCP | n/a |
 
 ## Legibility & framing checklist (learned from v2)
