@@ -60,7 +60,7 @@ export async function detectSilences(input, noiseDb, minDur, duration) {
 
 // Frame-exact piece of a source clip, conformed to 1080x1920 @30fps, PCM audio (lossless for joining).
 // Proper HDR → SDR conversion (otherwise iPhone HDR footage looks washed out and grey).
-const TONEMAP = 'zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,';
+export const TONEMAP = 'zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,';
 
 export async function extractPiece(src, start, frames, out, fps = 30, freeze = false, hdr = false) {
   const dur = (frames / fps).toFixed(4);

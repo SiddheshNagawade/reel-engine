@@ -1,0 +1,26 @@
+{
+ "name": "vector-character-test",
+ "frames": 318,
+ "fps": 30,
+ "character": {"pxPerUnit": 0.27, "heads": {"smile": "1", "shock": "2", "laugh": "3", "sad": "4", "kiss": "5"}},
+ "ground": {"y0": 648, "slope": 0.0105, "fix": [[0, 0], [100, 0], [150, 30], [190, 40], [205, 65], [220, 80], [235, 85], [252, 80]]},
+ "occluders": [{"from": 0, "to": 70, "poly": [[337, -300], [395, -300], [684, 1000], [622, 1000]]}],
+ "anchors": {"bag-top": {"track": "dark", "frame": 280, "screen": [1000, 470], "lock": 268}},
+ "beats": [
+  {"do": "appear", "to": 14, "x": 560},
+  {"do": "wave", "to": 40},
+  {"do": "turn", "to": 46},
+  {"do": "run", "to": 58, "x": 700},
+  {"do": "run", "to": 84, "x": 1300},
+  {"do": "hop", "to": 134, "x": 2520, "count": 3},
+  {"do": "run", "to": 188, "x": 3672},
+  {"do": "bonk", "to": 205, "x": 3520},
+  {"do": "lie", "to": 232, "stars": true},
+  {"do": "getup", "to": 244},
+  {"do": "think", "to": 252},
+  {"do": "leap", "to": 268, "anchor": "bag-top"},
+  {"do": "sit", "to": 318, "anchor": "bag-top", "wave": [272, 298], "kiss": 298}
+ ],
+ "sfx": [],
+ "fadeOut": 14
+}

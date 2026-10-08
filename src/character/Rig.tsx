@@ -1,7 +1,7 @@
 // A flat-design character rig: vector body + expression heads cut from the character sheet.
 // Units: "rig units" (1 unit = 1 point on the sheet). Origin = between the feet on the ground, y up is negative.
 // Body ~1700 units tall. The heads come from scripts/char-parts.py (public/char-test/parts).
-import React from 'react';
+import React, {createContext, useContext} from 'react';
 import {staticFile} from 'remotion';
 
 export const COLORS = {
@@ -15,6 +15,9 @@ export const COLORS = {
   shoeDark: '#62788F',
   sole: '#E6E6E6',
 };
+
+// Per-character colours (scene.character.colors overrides these defaults).
+const Palette = createContext(COLORS);
 
 export type HeadName = 'smile' | 'shock' | 'laugh' | 'sad' | 'kiss' | 'side';
 export type Limb = {a: number; b: number}; // a: root angle, b: bend at the middle joint (degrees, 0 = straight down)
@@ -30,7 +33,7 @@ export type Pose = {
   sit?: boolean; // front view sitting: thighs foreshortened toward the camera
 };
 
-export type HeadMeta = {file: string; w: number; h: number; anchorX: number; anchorY: number};
+export type HeadMeta = {file: string /* path inside public/ */; w: number; h: number; anchorX: number; anchorY: number};
 
 const HIP_Y = -840;
 const THIGH = 380;
@@ -51,7 +54,8 @@ const chain = (x: number, y: number, l: Limb, len1: number, len2: number, dir: 1
 };
 
 const Shoe: React.FC<{x: number; y: number; ang: number; side: boolean; flip?: boolean; dark?: boolean}> = ({x, y, ang, side, flip, dark}) => {
-  const fill = dark ? COLORS.shoeDark : COLORS.shoe;
+  const P = useContext(Palette);
+  const fill = dark ? P.shoeDark : P.shoe;
   // keep the sole roughly level: only a bit of the shin angle carries into the foot
   const r = side ? ang * 0.35 : ang * 0.5;
   return (
@@ -59,7 +63,7 @@ const Shoe: React.FC<{x: number; y: number; ang: number; side: boolean; flip?: b
       {side ? (
         <>
           <path d="M-58,-30 L-58,92 L140,92 Q170,92 168,58 Q160,0 70,-22 Q20,-40 -58,-30 Z" fill={fill} />
-          <rect x={-58} y={84} width={226} height={16} rx={8} fill={COLORS.sole} />
+          <rect x={-58} y={84} width={226} height={16} rx={8} fill={P.sole} />
           <path d="M10,-8 L58,22 M40,-14 L-2,24" stroke="#1B1B1B" strokeWidth={7} strokeLinecap="round" />
         </>
       ) : (
@@ -73,21 +77,23 @@ const Shoe: React.FC<{x: number; y: number; ang: number; side: boolean; flip?: b
 };
 
 const Arm: React.FC<{x: number; y: number; l: Limb; dir: 1 | -1; dark?: boolean}> = ({x, y, l, dir, dark}) => {
+  const P = useContext(Palette);
   const c = chain(x, y, l, UPPER, FORE, dir);
   const [hx, hy] = step(c.ex, c.ey, c.end, 34);
   return (
     <g>
-      <path d={c.d} stroke={dark ? COLORS.sweaterDark : COLORS.sweater} strokeWidth={104} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <circle cx={hx} cy={hy} r={44} fill={COLORS.skin} />
+      <path d={c.d} stroke={dark ? P.sweaterDark : P.sweater} strokeWidth={104} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <circle cx={hx} cy={hy} r={44} fill={P.skin} />
     </g>
   );
 };
 
 const Leg: React.FC<{x: number; y: number; l: Limb; dir: 1 | -1; side: boolean; dark?: boolean; flip?: boolean; thigh?: number}> = ({x, y, l, dir, side, dark, flip, thigh = THIGH}) => {
+  const P = useContext(Palette);
   const c = chain(x, y, l, thigh, SHIN, dir);
   return (
     <g>
-      <path d={c.d} stroke={dark ? COLORS.jeansDark : COLORS.jeans} strokeWidth={side ? 128 : 124} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d={c.d} stroke={dark ? P.jeansDark : P.jeans} strokeWidth={side ? 128 : 124} strokeLinecap="round" strokeLinejoin="round" fill="none" />
       <Shoe x={c.ex} y={c.ey + 10} ang={c.end} side={side} flip={flip} dark={dark} />
     </g>
   );
@@ -95,11 +101,18 @@ const Leg: React.FC<{x: number; y: number; l: Limb; dir: 1 | -1; side: boolean; 
 
 const Head: React.FC<{meta: HeadMeta; x: number; y: number; mirror?: boolean; tilt?: number}> = ({meta, x, y, mirror, tilt = 0}) => (
   <g transform={`translate(${x},${y}) rotate(${tilt}) scale(${(mirror ? -1 : 1) * HEAD_SCALE},${HEAD_SCALE})`}>
-    <image href={staticFile(`char-test/parts/${meta.file}`)} x={-meta.anchorX} y={-meta.anchorY} width={meta.w} height={meta.h} />
+    <image href={staticFile(meta.file)} x={-meta.anchorX} y={-meta.anchorY} width={meta.w} height={meta.h} />
   </g>
 );
 
-export const Character: React.FC<{pose: Pose; heads: Record<string, HeadMeta>}> = ({pose, heads}) => {
+export const Character: React.FC<{pose: Pose; heads: Record<string, HeadMeta>; colors?: Partial<typeof COLORS>}> = ({pose, heads, colors}) => (
+  <Palette.Provider value={{...COLORS, ...colors}}>
+    <Body pose={pose} heads={heads} />
+  </Palette.Provider>
+);
+
+const Body: React.FC<{pose: Pose; heads: Record<string, HeadMeta>}> = ({pose, heads}) => {
+  const P = useContext(Palette);
   const {view, legs, arms, bob = 0, lean = 0, headTilt = 0, sit} = pose;
   const hipY = HIP_Y - bob;
   const head = heads[pose.head] ?? heads.smile;
@@ -111,14 +124,14 @@ export const Character: React.FC<{pose: Pose; heads: Record<string, HeadMeta>}> 
         <Leg x={-10} y={hipY} l={legs[0]} dir={1} side dark />
         <Arm x={-5} y={SHOULDER_Y - bob} l={arms[0]} dir={1} dark />
         <g transform={`rotate(${lean},0,${hipY})`}>
-          {pose.head === 'side' && <Head meta={heads.side} x={18} y={SHOULDER_Y - bob + 30} mirror tilt={headTilt} />}
+          {pose.head === 'side' && heads.side && <Head meta={heads.side} x={18} y={SHOULDER_Y - bob + 30} mirror tilt={headTilt} />}
           <path
             d={`M-100,${SHOULDER_Y - bob - 30} Q20,${SHOULDER_Y - bob - 70} 80,${SHOULDER_Y - bob - 20} Q128,${SHOULDER_Y - bob + 160} 118,${hipY + 30} Q0,${hipY + 52} -112,${hipY + 30} Q-118,${SHOULDER_Y - bob + 120} -100,${SHOULDER_Y - bob - 30} Z`}
-            fill={COLORS.sweater}
+            fill={P.sweater}
           />
         </g>
         <Leg x={10} y={hipY} l={legs[1]} dir={1} side />
-        {pose.head !== 'side' && (
+        {(pose.head !== 'side' || !heads.side) && (
           // turns his face to the camera (front expression head on the side body)
           <g transform={`rotate(${lean},0,${hipY})`}>
             <Head meta={head} x={10} y={SHOULDER_Y - bob + 58} tilt={headTilt} />
@@ -138,9 +151,9 @@ export const Character: React.FC<{pose: Pose; heads: Record<string, HeadMeta>}> 
       <g transform={`rotate(${lean},0,${hipY})`}>
         <path
           d={`M-165,${sy - 20} Q0,${sy - 52} 165,${sy - 20} Q175,${sy + 200} 162,${hipY + 36} Q0,${hipY + 58} -162,${hipY + 36} Q-175,${sy + 200} -165,${sy - 20} Z`}
-          fill={COLORS.sweater}
+          fill={P.sweater}
         />
-        <path d={`M-108,${sy + 130} L-100,${sy + 360} M108,${sy + 130} L100,${sy + 360}`} stroke={COLORS.sweaterLine} strokeWidth={6} strokeLinecap="round" />
+        <path d={`M-108,${sy + 130} L-100,${sy + 360} M108,${sy + 130} L100,${sy + 360}`} stroke={P.sweaterLine} strokeWidth={6} strokeLinecap="round" />
         <Arm x={-170} y={sy + 20} l={arms[0]} dir={-1} />
         <Arm x={170} y={sy + 20} l={arms[1]} dir={1} />
         <Head meta={head} x={0} y={sy + 58} tilt={headTilt} />

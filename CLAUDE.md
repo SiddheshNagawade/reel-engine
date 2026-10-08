@@ -11,6 +11,7 @@ Local auto-editor for Siddhesh's Instagram reels (Remotion + local Whisper). Bef
 - Work cache per reel: `work/<name>/` (clip-N.words.json transcripts, direction.json = edit decisions, transcript.md = readable edit with frame numbers, selects.mp4 = only the kept footage).
 - To change decisions: edit `work/<name>/direction.json` (removeRanges, emphasis, popups, memes, sections, hookText, themeOverride) and re-run with the reel name. Transcript fixes: edit `work/<name>/clip-N.words.json`.
 - Look: `style.json`. Spelling fixes: `hinglish.json`. Memes: `public/assets/memes/<id>/` + `catalog.json` tags.
+- Vector character in footage (walks on walls, interacts with objects): `npm run char`; follow `.claude/skills/character-overlay/SKILL.md`. Story = `work/char/<name>/scene.json` beats, no new code per video.
 - Verify by extracting frames from the output with ffmpeg and looking at them. Never call a reel done without checking the actual file.
 
 ## Hard rules
