@@ -85,3 +85,9 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
 
 ## Character overlays (learned 2026-10-08, first test; awaiting his feedback)
 - He wants vector characters living in real footage: walking flat on walls, interacting with objects, ~10s with a little story. See brain/genres/character-overlay.md.
+
+## Mood & clutter (learned 2026-10-08)
+- MATCH THE VIDEO'S FEELING. A casual update (under a blanket) gets casual, friendly fonts + light touches, like v1/v2 of img-1391.
+  Don't make every video "cinematic/serious/cool"; each video has one emotion to enhance.
+- Too much editing ruins it: roughly ~2s per visual idea (not a hard rule). The viewer must understand his story first.
+- He'll often bring drawing time-lapse footage (hours of clips): see brain/process-videos.md.

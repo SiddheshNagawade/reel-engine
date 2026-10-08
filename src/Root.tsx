@@ -4,6 +4,7 @@ import {Reel} from './Reel';
 import {CharScene, type CharSceneProps} from './character/CharScene';
 import latest from './edits/latest.json';
 import type {Edit} from './types';
+import {Gallery} from './templates/Gallery';
 
 export const Root: React.FC = () => (
   <>
@@ -33,5 +34,6 @@ export const Root: React.FC = () => (
       fps: props.edit.fps,
     })}
   />
+  <Composition id="Gallery" component={Gallery} width={1080} height={1920} fps={30} durationInFrames={310} defaultProps={{footage: 'input/gallery.mp4'}} />
   </>
 );

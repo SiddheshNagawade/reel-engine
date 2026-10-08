@@ -55,3 +55,5 @@ feel fresh. Rules for anything new:
 @brain/hooks.md
 @brain/craft.md
 @brain/expensive.md
+@brain/motion-design.md
+@brain/process-videos.md
