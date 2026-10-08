@@ -26,3 +26,35 @@ through the full Reel composition, and put them side by side with v1. Example: T
   saturate 1.08 / warmth 0.18 / weave 1.2. The extra grade options exist (style.film scurve, sharpen, halation, hdrTonemap)
   but stay OFF unless a specific video clearly needs them, and then only after a colour-lab comparison against v1.
 - Lesson: when he already loves a look, protect it. "Improving" it is a risk, not a default.
+
+## Method (from two colour-grading tutorials he shared, in my own words)
+- **Two stages.** *Correction* first: neutral base (white balance, exposure, contrast, match shots). *Grading* second: the look.
+  Grading sweetens a good image; it can't rescue a bad one. Get it right in camera where possible.
+- **Contrast** comes from deeper shadows + controlled highlights + a gentle S-curve on the tone curve. Check that nothing
+  piles up at pure black or pure white.
+- **White balance:** judge it AFTER contrast is back and BEFORE touching saturation. Fix tint (green ↔ magenta) and temperature.
+- **Targeted colour curves:** hue-vs-hue (shift one colour, e.g. greens toward blue, oranges toward red), hue-vs-saturation
+  (calm distracting colours, boost one hero colour), hue-vs-luminance (make a colour darker/richer without making it louder).
+- **Colour wheels:** tiny moves in shadows / midtones / highlights (e.g. a touch of blue in highlights). Small changes compound.
+- **Masks / power windows:** a custom soft vignette (darken outside the subject), desaturate a distracting area. Feather a lot;
+  the viewer must never notice the mask.
+- **Scopes beat eyes** (eyes adapt and lie): waveform = exposure/clipping, RGB parade = colour balance, vectorscope =
+  saturation + the **skin-tone line**: isolate skin with a mask and check it sits on the line (too far one way = orange/yellow,
+  the other = pink).
+- **LUTs** are a starting point or finishing touch at ~25–50% strength, never 100%; technical LUTs convert log → Rec 709.
+- **Colour spaces:** Rec 709 is the normal SDR target (Instagram/YouTube). HDR/Rec 2020 holds more range; his iPhone records
+  HLG HDR, which is why handling the conversion matters. Log/raw footage needs a conversion before grading.
+- Finishing: grain for organic texture, glow, sometimes chromatic aberration. Always toggle before/after to see how far you've gone.
+
+## Colour check tool: scripts/colorcheck.py (our "scopes")
+`.venv/bin/python scripts/colorcheck.py <video> <seconds> --label A <video2> <seconds> --label B`
+Reports clipping, contrast spread, wall/neutral cast, and skin hue vs the skin line + skin chroma + skin brightness (face found
+with Apple Vision). Measured on img-1391 (same moments):
+| metric | v1 (liked) | v3 (disliked) |
+|---|---|---|
+| skin vs line | on the line (≤2°) | 14° toward yellow |
+| skin chroma | 37–39 | 23–24 (dull) |
+| skin luma | ~139 | ~152 (washed whiter) |
+| black clipping | ~3% | 6–8% |
+**Targets for his indoor footage (from v1):** skin within ~4° of the line, skin chroma ≥ ~33, skin luma ~130–145, black clip < ~4%.
+Every grade change must be measured against v1 with this tool BEFORE showing him anything.
