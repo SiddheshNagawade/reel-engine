@@ -52,3 +52,4 @@ feel fresh. Rules for anything new:
 @brain/skills.md
 @brain/principles.md
 @brain/hooks.md
+@brain/craft.md
