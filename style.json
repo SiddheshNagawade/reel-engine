@@ -1,0 +1,74 @@
+{
+  "language": "hinglish",
+  "theme": {
+    "captionStyle": "auto",
+    "accent": ""
+  },
+  "captions": {
+    "enabled": true,
+    "size": 78,
+    "color": "#FFFFFF",
+    "highlight": "#FFD400",
+    "emphasis": "#FF3B5C",
+    "stroke": "#000000",
+    "strokeWidth": 12,
+    "top": 0.64,
+    "maxWords": 3,
+    "maxChars": 18,
+    "uppercase": true
+  },
+  "hook": {
+    "enabled": true,
+    "seconds": 2.6,
+    "bg": "#FFFFFF",
+    "color": "#0A0A0A",
+    "size": 62
+  },
+  "popup": {
+    "color": "#FFD400",
+    "size": 150,
+    "seconds": 1.4,
+    "minGapSeconds": 2.5
+  },
+  "motion": {
+    "zoomPattern": [
+      1.0,
+      1.12,
+      1.04,
+      1.16
+    ],
+    "pushPerSegment": 0.03,
+    "emphasisPunch": 0.06,
+    "cutSnap": 0.05,
+    "focusY": 0.38
+  },
+  "film": {
+    "grain": 0.1,
+    "vignette": 0.5,
+    "contrast": 1.08,
+    "saturate": 1.08,
+    "brightness": 1.0,
+    "warmth": 0.18,
+    "weave": 1.2,
+    "scanlines": 0
+  },
+  "audio": {
+    "musicVolume": 0.14,
+    "musicDuckedVolume": 0.05,
+    "sfxVolume": 0.45
+  },
+  "edit": {
+    "silenceDb": -35,
+    "minSilence": 0.35,
+    "padding": 0.1,
+    "mergeGap": 0.15,
+    "minSegment": 0.3,
+    "endTail": 0.5,
+    "endFade": 0.6
+  },
+  "memes": {
+    "minGapSeconds": 6,
+    "fillGapSeconds": 8,
+    "idleVolume": 0.3
+  }
+}

@@ -1,0 +1,467 @@
+{
+  "_how": "library/<kind>/<name>/: sticker.webm (transparent) and/or sound.wav, poster.png, about.txt. tags = when it fits. Rejected and wanted folders are not used.",
+  "memes": [
+    {
+      "id": "cat-sleepy",
+      "tags": [
+        "sleepy",
+        "idle"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.35,
+      "source": "cat-memes compilation",
+      "note": "Sleepy cat. Corner, when things drag on for long or he just stares at the camera.",
+      "dir": "stickers/cat-sleepy",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-yawn",
+      "tags": [
+        "yawn",
+        "bored",
+        "idle"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.35,
+      "source": "cat-memes compilation",
+      "note": "Yawning cat. Boring/long stretch.",
+      "dir": "stickers/cat-yawn",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-yapping",
+      "tags": [
+        "yapping"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "Yapping cat. Corner, when he is yapping a lot non-stop.",
+      "dir": "stickers/cat-yapping",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-wtf-shocked",
+      "tags": [
+        "shock",
+        "wtf"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "peek-left",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "\"What the f*** am I saying?\". Shocking to hear.",
+      "dir": "stickers/cat-wtf-shocked",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-happy-dance",
+      "tags": [
+        "happy",
+        "win"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "Dancing: happy moment.",
+      "dir": "stickers/cat-happy-dance",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-tiny-black",
+      "tags": [
+        "unrated"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "Not reviewed yet: not used automatically.",
+      "dir": "stickers/cat-tiny-black",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-big-eyes-peek",
+      "tags": [
+        "unrated"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "peek-right",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "Not reviewed yet: not used automatically.",
+      "dir": "stickers/cat-big-eyes-peek",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-pain",
+      "tags": [
+        "pain",
+        "sad"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "Pain: something hurts (him, or what he is going through).",
+      "dir": "stickers/cat-pain",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-huh",
+      "tags": [
+        "confused",
+        "question"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "THE actual HUH meme. For question marks / confusion.",
+      "dir": "stickers/cat-huh",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-sus-drip",
+      "tags": [
+        "sus"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "Among Us drip sound. Sus moment.",
+      "dir": "stickers/cat-sus-drip",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-sarcastic-look",
+      "tags": [
+        "sarcastic",
+        "wtf"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0,
+      "source": "cat-memes compilation",
+      "note": "Sarcastic look: \"what am I even talking about\".",
+      "dir": "stickers/cat-sarcastic-look",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-drunk-zoned",
+      "tags": [
+        "zoned-out",
+        "goofy"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "Drunk / zoned-out cat with a good beat. Fun, goofy moments.",
+      "dir": "stickers/cat-drunk-zoned",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-dance",
+      "tags": [
+        "happy"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0,
+      "source": "cat-memes compilation",
+      "note": "Dancing cat. Might be useless: low priority.",
+      "dir": "stickers/cat-dance",
+      "kind": "sticker",
+      "priority": "low"
+    },
+    {
+      "id": "cat-sus-caught",
+      "tags": [
+        "sus",
+        "caught"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "Among Us drip. Sus: when he got caught doing something.",
+      "dir": "stickers/cat-sus-caught",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-soft",
+      "tags": [
+        "soft",
+        "wholesome",
+        "love"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "The best version of soft.",
+      "dir": "stickers/cat-soft",
+      "kind": "sticker"
+    },
+    {
+      "id": "cat-disgust",
+      "tags": [
+        "disgust",
+        "cringe"
+      ],
+      "seconds": 2.2,
+      "sticker": true,
+      "placement": "any",
+      "volume": 0.8,
+      "source": "cat-memes compilation",
+      "note": "Disgust meme.",
+      "dir": "stickers/cat-disgust",
+      "kind": "sticker"
+    },
+    {
+      "id": "faaah",
+      "tags": [
+        "shock",
+        "fail"
+      ],
+      "seconds": 1.7,
+      "soundOnly": true,
+      "beat": false,
+      "volume": 0.7,
+      "length": 1.72,
+      "note": "dramatic 'Faaaah' disappointment",
+      "dir": "sounds/faaah",
+      "kind": "sound"
+    },
+    {
+      "id": "among-us-reveal",
+      "tags": [
+        "sus",
+        "reveal"
+      ],
+      "seconds": 2.5,
+      "soundOnly": true,
+      "beat": false,
+      "volume": 0.7,
+      "length": 3.15,
+      "note": "Among Us role reveal sting: someone exposed / plot twist",
+      "dir": "sounds/among-us-reveal",
+      "kind": "sound"
+    },
+    {
+      "id": "dexter",
+      "tags": [
+        "sus",
+        "evil",
+        "plan"
+      ],
+      "seconds": 4,
+      "soundOnly": true,
+      "beat": false,
+      "volume": 0.7,
+      "length": 10.65,
+      "note": "Dexter meme theme: sinister plan / villain moment. Long → trim + fade",
+      "dir": "sounds/dexter",
+      "kind": "sound"
+    },
+    {
+      "id": "fart-reverb",
+      "tags": [
+        "cringe",
+        "bad-take"
+      ],
+      "seconds": 2.2,
+      "soundOnly": true,
+      "beat": true,
+      "volume": 0.7,
+      "length": 3.6,
+      "note": "after saying something useless/bad: needs a silent pause + dark/B&W screen",
+      "dir": "sounds/fart-reverb",
+      "kind": "sound"
+    },
+    {
+      "id": "bruh",
+      "tags": [
+        "awkward",
+        "bad-take"
+      ],
+      "seconds": 0.34999999999999787,
+      "soundOnly": true,
+      "beat": false,
+      "volume": 0.7,
+      "length": 0.35,
+      "note": "deadpan 'bruh'",
+      "dir": "sounds/bruh",
+      "kind": "sound"
+    },
+    {
+      "id": "punch",
+      "tags": [
+        "impact"
+      ],
+      "seconds": 0.5800000000000018,
+      "soundOnly": true,
+      "beat": false,
+      "volume": 0.7,
+      "length": 0.58,
+      "note": "punch hit: emphasis/slam",
+      "dir": "sounds/punch",
+      "kind": "sound"
+    },
+    {
+      "id": "gopgopgop",
+      "tags": [
+        "goofy",
+        "laugh-silly"
+      ],
+      "seconds": 2.5,
+      "soundOnly": true,
+      "beat": false,
+      "volume": 0.7,
+      "length": 5.66,
+      "note": "goofy chant: silly/ridiculous moment",
+      "dir": "sounds/gopgopgop",
+      "kind": "sound"
+    },
+    {
+      "id": "few-moments-later",
+      "tags": [
+        "time-skip"
+      ],
+      "seconds": 1.6700000000000017,
+      "soundOnly": true,
+      "beat": true,
+      "volume": 0.7,
+      "length": 1.67,
+      "note": "SpongeBob-style time skip card",
+      "dir": "sounds/few-moments-later",
+      "kind": "sound"
+    },
+    {
+      "id": "fart-short",
+      "tags": [
+        "cringe",
+        "bad-take"
+      ],
+      "seconds": 0.370000000000001,
+      "soundOnly": true,
+      "beat": true,
+      "volume": 0.7,
+      "length": 0.37,
+      "note": "quick fart",
+      "dir": "sounds/fart-short",
+      "kind": "sound"
+    },
+    {
+      "id": "fart-short-2",
+      "tags": [
+        "cringe",
+        "bad-take"
+      ],
+      "seconds": 0.3100000000000023,
+      "soundOnly": true,
+      "beat": true,
+      "volume": 0.7,
+      "length": 0.31,
+      "note": "quick fart (variant)",
+      "dir": "sounds/fart-short-2",
+      "kind": "sound"
+    },
+    {
+      "id": "anime-wow",
+      "tags": [
+        "wow",
+        "impressed"
+      ],
+      "seconds": 1.8,
+      "soundOnly": true,
+      "beat": false,
+      "volume": 0.7,
+      "length": 2.8,
+      "note": "anime 'wow': genuinely impressed",
+      "dir": "sounds/anime-wow",
+      "kind": "sound"
+    },
+    {
+      "id": "romance",
+      "tags": [
+        "love",
+        "blush"
+      ],
+      "seconds": 3,
+      "soundOnly": true,
+      "beat": false,
+      "volume": 0.7,
+      "length": 5.81,
+      "note": "romantic swell: love/crush/blush moment. Long → trim + fade",
+      "dir": "sounds/romance",
+      "kind": "sound"
+    },
+    {
+      "id": "taco-bell-bong",
+      "tags": [
+        "impact",
+        "awkward"
+      ],
+      "seconds": 1.4,
+      "soundOnly": true,
+      "beat": false,
+      "volume": 0.7,
+      "length": 1.46,
+      "note": "bong: awkward realization / dramatic stop",
+      "dir": "sounds/taco-bell-bong",
+      "kind": "sound"
+    },
+    {
+      "id": "ack",
+      "tags": [
+        "shock",
+        "choke"
+      ],
+      "seconds": 1.2,
+      "soundOnly": true,
+      "beat": false,
+      "volume": 0.7,
+      "length": 3.83,
+      "note": "'ACK': caught off guard / choking on words",
+      "dir": "sounds/ack",
+      "kind": "sound"
+    },
+    {
+      "id": "prowler",
+      "tags": [
+        "sus",
+        "sneaky"
+      ],
+      "seconds": 3,
+      "soundOnly": true,
+      "beat": false,
+      "volume": 0.7,
+      "length": 3.56,
+      "note": "sneaky prowler music: sneaking / secret plan",
+      "dir": "sounds/prowler",
+      "kind": "sound"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "reel-engine",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "reel": "node scripts/reel.mjs",
+    "watch": "node scripts/watch.mjs",
+    "studio": "remotion studio src/index.ts",
+    "render": "node scripts/render.mjs",
+    "setup-sfx": "node scripts/make-sfx.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/bundler": "^4.0.534",
+    "@remotion/cli": "^4.0.534",
+    "@remotion/google-fonts": "^4.0.534",
+    "@remotion/noise": "^4.0.534",
+    "@remotion/renderer": "^4.0.534",
+    "ffmpeg-static": "^5.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "^4.0.534"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}

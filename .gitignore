@@ -1,0 +1,19 @@
+node_modules
+output
+work
+public/input
+inbox
+.venv
+projects
+.DS_Store
+._*
+# meme/sticker media (copyrighted, large): keep only the catalog + about notes in git
+public/assets/library/**/*.webm
+public/assets/library/**/*.wav
+public/assets/library/**/*.mp3
+public/assets/library/**/*.png
+public/assets/library/**/*.mov
+public/assets/library/**/*.mp4
+# per-reel edit files are regenerated; keep only the placeholder Remotion imports
+src/edits/*.json
+!src/edits/latest.json

@@ -1,0 +1,9 @@
+{
+  "description": "Casual talking-head idea share, Hinglish, selfie. First used on img-1391.",
+  "themeOverride": {"captionStyle": "script-accent"},
+  "topic": "tech",
+  "pace": "energetic",
+  "hookRecipe": "Pick the oddest concrete detail (time, number, place) + 'ka idea' / short phrase; keyword = that detail.",
+  "transitionsAt": "Mode shifts only: idea → example → call-to-action → wrap-up.",
+  "memeMoments": ["questions/confusion → confused", "'akele'/'left out' → sad", "'idea' → thinking"]
+}
