@@ -17,6 +17,8 @@ import subprocess
 import sys
 import tempfile
 
+import cv2
+import numpy as np
 import Quartz  # noqa: F401  (CoreGraphics types)
 import Vision
 from Foundation import NSURL
@@ -99,7 +101,7 @@ def face_of(obs, aspect):
         cx = (pts['leye'][0] + pts['reye'][0]) / 2
         cy = (pts['leye'][1] + pts['reye'][1]) / 2
     up = math.radians(face['roll'])
-    d = face['box'][3] * 0.95  # eyes → top of hair, in frame heights
+    d = face['box'][3] * 0.68  # eyes → top of hair, in frame heights (measured on his footage)
     pts['top'] = [r3(cx + math.sin(up) * d / aspect), r3(cy - math.cos(up) * d)]
     face['pts'] = pts
     return face
@@ -123,6 +125,54 @@ def hands_of(req):
         for h, s in zip(out, 'LR'):
             h['side'] = s
     return out
+
+
+def lab_patch(lab, p, r):
+    h, w = lab.shape[:2]
+    x, y = int(p[0] * w), int(p[1] * h)
+    if not (0 <= x < w and 0 <= y < h):
+        return None
+    patch = lab[max(0, y - r):y + r + 1, max(0, x - r):x + r + 1].reshape(-1, 3)
+    return np.median(patch, 0)
+
+
+def real_hands(hands, face, img):
+    """Vision finds 'hands' in faces, towels and hair. Keep a hand only if its palm is off the face and its skin
+    matches the face's skin colour (a, b of Lab; lightness may differ)."""
+    if not hands:
+        return hands
+    lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB).astype(float)
+    r = max(2, img.shape[1] // 120)
+    skin = None
+    if face and 'nose' in face['pts'] and 'leye' in face['pts']:
+        n, e = face['pts']['nose'], face['pts']['leye']
+        skin = lab_patch(lab, ((n[0] + e[0]) / 2, (n[1] + e[1]) / 2 + 0.01), r)  # cheek, under the eye
+    keep = []
+    for hd in hands:
+        if face:
+            x, y, w, h = face['box']
+            px, py = hd['pts']['palm']
+            if x + 0.1 * w < px < x + 0.9 * w and y + 0.1 * h < py < y + 0.9 * h:
+                continue
+        if skin is not None:
+            ok = 0
+            for k in ('palm', 'index', 'middle', 'thumb'):
+                if k in hd['pts']:
+                    c = lab_patch(lab, hd['pts'][k], r)
+                    if c is not None and np.hypot(c[1] - skin[1], c[2] - skin[2]) < 14:
+                        ok += 1
+            if ok < 2:
+                continue
+        keep.append(hd)
+    return keep
+
+
+def steady(frames):
+    """Drop hands seen in fewer than 2 of the 3 samples around them (one-off false detections)."""
+    seen = [bool(f.get('hands')) for f in frames]
+    for i, f in enumerate(frames):
+        if f.get('hands') and sum(seen[max(0, i - 1):i + 2]) < 2:
+            del f['hands']
 
 
 def body_of(req):
@@ -165,7 +215,7 @@ def main():
             if faces:
                 big = max(faces, key=lambda o: o.boundingBox().size.width * o.boundingBox().size.height)  # the speaker
                 fr['face'] = face_of(big, aspect)
-            hands = hands_of(hand_req)
+            hands = real_hands(hands_of(hand_req), fr.get('face'), cv2.imread(f'{tmp}/{name}'))
             if hands:
                 fr['hands'] = hands
             body = body_of(body_req)
@@ -174,6 +224,7 @@ def main():
             frames.append(fr)
             if i % 30 == 0:
                 print(f'\r  tracking {i + 1}/{len(files)}', end='', flush=True)
+    steady(frames)
     json.dump({'rate': rate, 'w': w, 'h': h, 'frames': frames}, open(out, 'w'), separators=(',', ':'))
     nf = sum('face' in f for f in frames)
     nh = sum('hands' in f for f in frames)

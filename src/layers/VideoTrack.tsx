@@ -4,6 +4,7 @@ import type {Edit} from '../types';
 import {style} from '../style';
 import {transitionMotion} from './Transitions';
 import {footageLook} from './Effects';
+import {AttachLayer} from '../motion/Attach';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
@@ -102,8 +103,9 @@ export const VideoTrack: React.FC<{edit: Edit; behind?: React.ReactNode}> = ({ed
           />
         </Sequence>
       ))}
-      {/* text that sits behind the person, then the person cut-out on top of it */}
+      {/* text / props that sit behind the person, then the person cut-out on top of it */}
       {behind}
+      <AttachLayer items={edit.attach} motion={edit.motion} layer="behind" />
       {(edit.foreground ?? []).map((fg, i) =>
         fg.src ? (
           <Sequence key={`fg${i}`} from={fg.f} durationInFrames={fg.frames} premountFor={30}>
@@ -111,6 +113,7 @@ export const VideoTrack: React.FC<{edit: Edit; behind?: React.ReactNode}> = ({ed
           </Sequence>
         ) : null,
       )}
+      <AttachLayer items={edit.attach} motion={edit.motion} layer="front" />
     </AbsoluteFill>
   );
 };

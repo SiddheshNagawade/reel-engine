@@ -140,7 +140,7 @@ const provisional = plan(pickTheme({topic: direction.topic, pace: direction.pace
 
 // ── 4. Copy ONLY the kept seconds off the source footage ──────────────────────
 const selects = path.join(work, 'selects.mp4');
-const segKey = crypto.createHash('md5').update(JSON.stringify([...provisional.segments.map((s) => [s.srcFrame, s.frames, s.freeze ? 1 : 0]), clips.map((c) => (c.hdr ? 1 : 0))])).digest('hex');
+const segKey = crypto.createHash('md5').update(JSON.stringify([...provisional.segments.map((s) => [s.srcFrame, s.frames, s.freeze ? 1 : 0]), clips.map((c) => (c.hdr ? 1 : 0)), [style.film.scurve, style.film.sharpen, style.film.halation]])).digest('hex');
 const keyFile = path.join(work, 'selects.key');
 if (fresh || !fs.existsSync(selects) || !fs.existsSync(keyFile) || fs.readFileSync(keyFile, 'utf8') !== segKey) {
   step(`Extracting ${provisional.segments.length} kept pieces (${(provisional.durationInFrames / FPS).toFixed(1)}s of ${vDuration.toFixed(0)}s)…`);
@@ -153,7 +153,7 @@ if (fresh || !fs.existsSync(selects) || !fs.existsSync(keyFile) || fs.readFileSy
     const k = clips.findLastIndex((c) => t >= c.offset - 0.5);
     const local = Math.max(0, Math.min(clips[k].duration - s.frames / FPS, t - clips[k].offset));
     const out = path.join(piecesDir, `${String(i).padStart(4, '0')}.mov`);
-    await extractPiece(clips[k].src, local, s.frames, out, FPS, !!s.freeze, !!clips[k].hdr);
+    await extractPiece(clips[k].src, local, s.frames, out, FPS, !!s.freeze, !!clips[k].hdr, style.film);
     pieces.push(out);
     process.stdout.write(`\r  ${i + 1}/${provisional.segments.length}`);
   }
@@ -192,8 +192,32 @@ const virtSegs = edit.segments.map((s) => ({...s})); // positions in the ORIGINA
 edit.segments = edit.segments.map((s) => ({...s, srcFrame: s.outFrame}));
 edit.faces = faces.map((p) => [p.f, +p.x.toFixed(3), +p.y.toFixed(3), +p.h.toFixed(3)]);
 
-// Person cut-outs (for text behind the speaker): made once per range, kept on the drive, copied in only for rendering.
 const tempFiles = [tempInput];
+// Things stuck onto the speaker (direction.attach): track face / hands / body once per cut (cached on the drive).
+if (edit.attach?.length) {
+  const needsTrack = edit.attach.some((a) => a.to !== 'screen');
+  const motionFile = path.join(work, `motion-${segKey.slice(0, 8)}.json`);
+  if (needsTrack && !fs.existsSync(motionFile)) {
+    step('Tracking face, hands and body for attachments…');
+    const r = spawnSync('.venv/bin/python', ['scripts/motiontrack.py', selects, motionFile], {stdio: ['ignore', 'inherit', 'pipe']});
+    if (r.status !== 0) console.log(`  (motion tracking failed: ${r.stderr?.toString().slice(-300)})`);
+  }
+  if (fs.existsSync(motionFile)) edit.motion = readJson(motionFile);
+  // Pictures (stickers cut with scripts/sticker.py, library PNGs): copied in only for the render.
+  for (const [i, a] of edit.attach.entries()) {
+    if (a.what !== 'image' || !a.src) continue;
+    const file = [a.src, path.join(work, a.src), path.resolve('Library', a.src)].find((p) => fs.existsSync(p));
+    if (!file) { console.log(`  (attachment picture not found: ${a.src})`); continue; }
+    const rel = `input/${name}-att${i}${path.extname(file)}`;
+    fs.copyFileSync(file, path.resolve('public', rel));
+    tempFiles.push(path.resolve('public', rel));
+    a.src = rel;
+  }
+  // Props drawn behind him need the person cut out on top for those frames.
+  for (const a of edit.attach.filter((x) => x.behind)) (edit.foreground ??= []).push({f: a.f, frames: a.frames});
+}
+
+// Person cut-outs (for text behind the speaker): made once per range, kept on the drive, copied in only for rendering.
 for (const [i, fg] of (edit.foreground ?? []).entries()) {
   const file = path.join(work, `fg-${fg.f}-${fg.frames}-${segKey.slice(0, 8)}.webm`);
   if (!fs.existsSync(file)) {

@@ -23,6 +23,8 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
   // The big hook owns the screen at the start.
   if (style.hook.enabled && edit.hookText && frame < style.hook.seconds * fps) return null;
 
+  // A text card owns the screen while it's up: never the same words twice.
+  if ((edit.cards ?? []).some((c) => frame >= c.f && frame < c.f + c.frames)) return null;
   const g = edit.captions.find((x) => frame >= x.f0 && frame < x.f1);
   if (!g) return null;
   let current = -1;

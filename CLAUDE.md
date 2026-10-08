@@ -53,3 +53,4 @@ feel fresh. Rules for anything new:
 @brain/principles.md
 @brain/hooks.md
 @brain/craft.md
+@brain/expensive.md

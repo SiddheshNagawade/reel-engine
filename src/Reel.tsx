@@ -9,7 +9,9 @@ import {BrollLayer} from './layers/Broll';
 import {TransitionOverlay} from './layers/Transitions';
 import {MemeLayer} from './layers/Memes';
 import {EffectOverlay} from './layers/Effects';
+import {Cards} from './layers/Cards';
 import {style, applyStyleOverride} from './style';
+import {AttachLayer} from './motion/Attach';
 
 export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
   applyStyleOverride(edit.styleOverride); // per-reel tweaks on top of the defaults
@@ -24,9 +26,11 @@ export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
         <FilmTreatment />
       </AbsoluteFill>
       {/* Text sits above the film look so it stays crisp */}
+      <Cards edit={edit} />
       <Captions edit={edit} />
       <Popups edit={edit} />
       <MemeLayer edit={edit} />
+      <AttachLayer items={edit.attach} motion={edit.motion} layer="screen" />
       {!edit.hookBehind && <Hook edit={edit} />}
       <HookLines edit={edit} />
       <Banner edit={edit} />

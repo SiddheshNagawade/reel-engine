@@ -211,6 +211,14 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     moves.push({f: w.f0, type: k % 2 ? 'pull' : 'push'});
   });
 
+  // Text cards (minimal "expensive" inserts): direction.cards [{at: wordIndex, seconds, text, mode, bg, accentWord, glow}]
+  const cards = (direction?.cards ?? []).flatMap((c) => {
+    const w = byIndex.get(c.at);
+    const f = w ? w.f0 : c.frame;
+    if (f == null) return [];
+    return [{...c, at: undefined, frame: undefined, f, frames: Math.min(Math.round((c.seconds ?? 1.6) * fps), durationInFrames - f)}];
+  });
+
   // 8b. Screen effects: B&W/dark on beats, red burn on angry lines.
   const effects = beatSegs.map((sg) => ({f: sg.outFrame, frames: sg.frames, type: sg.beat?.effect ?? 'mono', end: 'cut'}));
   for (const fx of direction?.effects ?? []) {
@@ -331,6 +339,17 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     memes.push({f: sg.outFrame + 3, frames: sg.frames - 3, sound: path.posix.join('assets', 'library', m.sound), fadeOut: 0, visual: null, isVideo: false, sticker: false, placement: 'drop-top', volume: 0.9});
   }
 
+  // 9b. Things stuck onto him / the screen (src/motion): {at, until? | seconds?, what, to?, text?, …} → output frames.
+  const attach = [];
+  for (const a of direction?.attach ?? []) {
+    const w = byIndex.get(a.at);
+    if (!w) continue;
+    const end = a.until !== undefined ? byIndex.get(a.until)?.f1 : undefined;
+    const frames = Math.max(12, Math.min(durationInFrames - w.f0, end !== undefined ? end - w.f0 : Math.round((a.seconds ?? 2) * fps)));
+    const {at, until, seconds, sound, ...rest} = a;
+    attach.push({...rest, f: w.f0 + (a.delay ?? 0), frames});
+  }
+
   // 10. Sound design: restraint. Soft whoosh only on real transitions, light pop on pop-ups/hook, meme sounds carry the rest.
   const sfxLib = (t) => listAssets(path.join('sfx', t), AUDIO_EXT);
   const vol = style.audio.sfxVolume;
@@ -342,6 +361,15 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   const hookText = style.hook.enabled ? direction?.hookText?.trim() || null : null;
   if (hookText) add('pop', 3, vol * 0.5);
   for (const p of popups) add('pop', p.f, vol * 0.5);
+  // Attachments: the prop's own sound (defaults mirror src/motion/props.tsx); "sound": null in direction = silent.
+  const PROP_SOUND = {sunglasses: 'whoosh', crown: 'pop', horns: 'pop', anger: 'hit', question: 'pop', exclaim: 'pop', bulb: 'pop', hearts: 'pop', fire: 'whoosh', bubble: 'pop', thought: 'pop', label: 'pop', note: 'pop', image: 'pop'};
+  for (const [i, a] of attach.entries()) {
+    const d = direction.attach.filter((x) => byIndex.get(x.at))[i];
+    const snd = d && 'sound' in d ? d.sound : PROP_SOUND[a.what];
+    if (snd) add(snd, a.f - (snd === 'whoosh' ? 6 : 0), vol * 0.45);
+  }
+  // Text cards get their own subtle sound: tick for typewriter, soft whoosh for wave, hit for a slam.
+  for (const c of cards) add(c.mode === 'slam' ? 'hit' : c.mode === 'typewriter' ? 'tick' : 'soft-whoosh', c.f, vol * (c.mode === 'slam' ? 0.6 : 0.35));
   for (const t of transitions) {
     if (t.type === 'flash') add('hit', t.f, vol * 0.5);
     else if (t.type !== 'lightleak') add('whoosh', t.f - 8, vol * 0.45, 6);
@@ -360,6 +388,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     name,
     video,
     banner,
+    cards,
     hookBehind: !!(direction?.hookBehind && hookText),
     foreground,
     endFade: Math.round((style.edit.endFade ?? 0.6) * fps),
@@ -377,6 +406,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     music: pick(listAssets('music', AUDIO_EXT), name),
     hookText,
     memes,
+    attach,
     theme,
     transitions,
     wordFrames,

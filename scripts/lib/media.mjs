@@ -62,13 +62,29 @@ export async function detectSilences(input, noiseDb, minDur, duration) {
 // Proper HDR → SDR conversion (otherwise iPhone HDR footage looks washed out and grey).
 export const TONEMAP = 'zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,';
 
-export async function extractPiece(src, start, frames, out, fps = 30, freeze = false, hdr = false) {
+// Premium grade baked into the footage once (cheap): gentle S-curve contrast, light sharpening, and optional halation
+// (a warm glow around SMALL bright lights: only for night/practical-light footage; it tints big bright walls pink).
+export function gradeChain(look = {}) {
+  const parts = [];
+  const sc = look.scurve ?? 0;
+  if (sc > 0) parts.push(`curves=all='0/0 0.25/${(0.25 - sc * 0.25).toFixed(3)} 0.75/${(0.75 + sc * 0.25).toFixed(3)} 1/1'`);
+  if ((look.sharpen ?? 0) > 0) parts.push(`unsharp=5:5:${look.sharpen}`);
+  return parts.join(',');
+}
+
+export async function extractPiece(src, start, frames, out, fps = 30, freeze = false, hdr = false, look = {}) {
   const dur = (frames / fps).toFixed(4);
   // freeze = hold one frame in silence (comedic beat)
   const hold = (freeze ? 'trim=end_frame=1,tpad=stop_mode=clone:stop=-1,' : '') + (hdr ? TONEMAP : '');
+  const base = `${hold}fps=${fps},scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,setsar=1`;
+  const grade = gradeChain(look);
+  const hal = look.halation ?? 0;
+  const vf = hal > 0
+    ? ['-filter_complex', `[0:v]${base},format=gbrp,split[a][b];[b]curves=all='0/0 0.95/0 1/1',gblur=sigma=22,colorchannelmixer=rr=1:gg=0.6:bb=0.3[h];[a]${grade || 'null'}[g];[g][h]blend=all_mode=screen:all_opacity=${hal},format=yuv420p[v]`, '-map', '[v]', '-map', '0:a?']
+    : ['-vf', `${base}${grade ? ',' + grade : ''},format=yuv420p`];
   await ffmpeg([
     '-y', '-ss', start.toFixed(4), '-i', src,
-    '-vf', `${hold}fps=${fps},scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,setsar=1,format=yuv420p`,
+    ...vf,
     '-frames:v', String(frames),
     '-af', `aresample=48000,${freeze ? 'volume=0,' : ''}apad`, '-t', dur,
     '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '16', '-g', '30',

@@ -50,7 +50,10 @@
     "brightness": 1.0,
     "warmth": 0.18,
     "weave": 1.2,
-    "scanlines": 0
+    "scanlines": 0,
+    "scurve": 0.12,
+    "sharpen": 0.3,
+    "halation": 0
   },
   "audio": {
     "musicVolume": 0.14,
