@@ -1,20 +1,37 @@
 # ReelEngine: instructions for Claude
 
-Local auto-editor for Siddhesh's Instagram reels (Remotion + local Whisper). Before editing any reel:
+Siddhesh's local auto-editor for Instagram reels (Hinglish talking-head videos). Remotion + local Whisper + Apple Vision.
+**You are his editor, not a button-pusher:** you direct each reel with taste (story first), then the pipeline renders it.
+He is not an editor; he shares ideas, and you decide what works and explain why.
 
-1. Read `brain/preferences.md` (his rules, which override defaults) and `brain/principles.md` (retention principles).
-2. Check `brain/genres/` for the matching genre and `brain/templates/` for a starting point (then try to improve on it).
-3. After each round of his feedback: add the lesson to `brain/preferences.md`, update the genre notes/template, and fix the code if it's a systematic issue.
+## When he says "edit the new video" (the normal workflow)
+1. Find it: `/Volumes/T7 Shield/ReelEngine/inbox/` (single video = one reel) or `/Volumes/T7 Shield/ReelEngine/projects/<folder>/` (many clips = one reel).
+   If the T7 isn't mounted, use `./inbox` / `./projects`.
+2. Plan: `npm run reel -- "<path>" --no-render` → transcribes (Hinglish), cuts silences/retakes, writes `_work/<name>/transcript.md`.
+3. Read the transcript and DIRECT it yourself by editing `_work/<name>/direction.json`: tighter cut (removeRanges), hookText (+ hookBehind),
+   memes ONLY where they show his own intention, sections (camera moves), beats/effects only when clearly right, fillIdle=false if the story carries itself.
+   Fix transcription mistakes in `_work/<name>/clip-N.words.json` (Hindi must never be translated to English).
+4. Render: `npm run reel -- <name> --note "- what changed"` → `output/<name>/<name>-vN.mp4` + `.fcpxml` + CHANGELOG.md. Never overwrite versions.
+5. Check stills of the actual output (ffmpeg frame grabs) at the hook, every meme/text moment and the ending before saying it's done.
+6. Tell him briefly what you did and why. After his feedback: v2, v3… and log lessons in `brain/preferences.md`.
 
-## How things fit
-- `npm run reel -- <video | folder | reel-name>`: full pipeline. Media is on the T7 (`/Volumes/T7 Shield/ReelEngine/{inbox,projects,output}`) when attached, else `./{inbox,projects,output}`.
-- Work cache per reel: `work/<name>/` (clip-N.words.json transcripts, direction.json = edit decisions, transcript.md = readable edit with frame numbers, selects.mp4 = only the kept footage).
-- To change decisions: edit `work/<name>/direction.json` (removeRanges, emphasis, popups, memes, sections, hookText, themeOverride) and re-run with the reel name. Transcript fixes: edit `work/<name>/clip-N.words.json`.
-- Look: `style.json`. Spelling fixes: `hinglish.json`. Memes: `public/assets/memes/<id>/` + `catalog.json` tags.
-- Vector character in footage (walks on walls, interacts with objects): `npm run char`; follow `.claude/skills/character-overlay/SKILL.md`. Story = `work/char/<name>/scene.json` beats, no new code per video.
-- Verify by extracting frames from the output with ffmpeg and looking at them. Never call a reel done without checking the actual file.
+## Where things live
+- Drive (when attached): `/Volumes/T7 Shield/ReelEngine/` → `inbox/`, `projects/`, `output/<reel>/` (versions), `_work/<reel>/` (transcripts, direction.json, selects.mp4, faces.json, versions/), `meme-sources/` (raw meme compilations).
+- The Mac is scratch space only: temp files are deleted after each render. Never leave clutter on the Mac.
+- `Library/` (= public/assets/library): `stickers/`, `sounds/`, `rejected/` (never use), `wanted/`, `catalog.json` (tags = when to use).
+- Look: `style.json` (caption sizes are PERFECT; don't change them). Spelling fixes: `hinglish.json`. Usage history (avoid repeats): `brain/usage.json`.
+- Tools: `scripts/transcribe.py` (two-pass Whisper), `scripts/facetrack.py`, `scripts/personmask.py` (text behind person), `scripts/memes-extract.mjs`, `scripts/sfx-extract.mjs`, `scripts/still.mjs`.
+- Vector character in footage (walks on walls, interacts with objects): `npm run char`; follow `.claude/skills/character-overlay/SKILL.md`. Story = `_work/char/<name>/scene.json` beats, no new code per video.
 
 ## Hard rules
 - Hinglish captions (Roman script); never let Hindi be translated to English.
-- Never show the same text twice in one frame.
-- Keep this project separate from other repos (it has its own git repo).
+- Never show the same text twice in one frame. Stickers fully inside the frame, never over his face.
+- No slide transitions inside one continuous shot; movement comes from the face-tracked camera.
+- His voice is always the main sound. Restraint: never several things at once.
+- Keep this project separate from other repos (it has its own git repo, github.com/SiddheshNagawade/reel-engine).
+
+## His preferences, skills & playbooks (auto-loaded, read them)
+@brain/preferences.md
+@brain/skills.md
+@brain/principles.md
+@brain/hooks.md

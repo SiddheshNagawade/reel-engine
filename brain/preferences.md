@@ -24,7 +24,7 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
 - Don't fear trying new things: templates are starting points, always try to improve on them.
 
 ## Memes & stickers (learned 2026-10-08)
-- Meme library built from his cat compilation: 29 green-screen cats → transparent stickers (`public/assets/memes/cat-*`). Tool: `scripts/memes-extract.mjs` (key 0x4BBA45 at similarity 0.10; 0.17 made cats see-through).
+- Meme library built from his cat compilation: 29 green-screen cats → transparent stickers (`Library/stickers/`). Tool: `scripts/memes-extract.mjs` (key 0x4BBA45 at similarity 0.10; 0.17 made cats see-through).
 - Trim repetitive meme audio to ONE punchy hit (the "huh" cat = first huh only, 0.95s).
 - Boring/quiet meme sounds → turned down (idle fillers at 30% volume, silent ones stay silent). Short punchy sounds (huh) stay loud.
 - Variety of entrances, not just one swing: peek from left/right edge, pop in top corners, drop from top. Never over the face: beside the head.
