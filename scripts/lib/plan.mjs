@@ -349,6 +349,11 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const {at, until, seconds, sound, ...rest} = a;
     attach.push({...rest, f: w.f0 + (a.delay ?? 0), frames});
   }
+  // One reaction at a time: a sticker meme that overlaps a face/hand prop is dropped (the prop is the more specific choice).
+  for (let i = memes.length - 1; i >= 0; i--) {
+    const m = memes[i];
+    if (m.visual && attach.some((a) => a.to !== 'screen' && a.what !== 'note' && a.f < m.f + m.frames && m.f < a.f + a.frames)) memes.splice(i, 1);
+  }
 
   // 10. Sound design: restraint. Soft whoosh only on real transitions, light pop on pop-ups/hook, meme sounds carry the rest.
   const sfxLib = (t) => listAssets(path.join('sfx', t), AUDIO_EXT);

@@ -27,6 +27,7 @@ He is not an editor; he shares ideas, and you decide what works and explain why.
 - `Library/` (= public/assets/library): `stickers/`, `sounds/`, `rejected/` (never use), `wanted/`, `catalog.json` (tags = when to use).
 - Look: `style.json` (caption sizes are PERFECT; don't change them). Spelling fixes: `hinglish.json`. Usage history (avoid repeats): `brain/usage.json`.
 - Tools: `scripts/transcribe.py` (two-pass Whisper), `scripts/facetrack.py`, `scripts/personmask.py` (text behind person), `scripts/memes-extract.mjs`, `scripts/sfx-extract.mjs`, `scripts/still.mjs`.
+- Animation on his footage (props stuck to face/hands, bubbles, labels, notes, any object as a sticker): `direction.attach`; follow `.claude/skills/motion-graphics/SKILL.md`.
 - Vector character in footage (walks on walls, interacts with objects): `npm run char`; follow `.claude/skills/character-overlay/SKILL.md`. Story = `_work/char/<name>/scene.json` beats, no new code per video.
 
 ## Freedom to create (and how to make it reusable)

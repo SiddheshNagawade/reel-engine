@@ -13,6 +13,7 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 | 3D hook keyword | hookText | frame 1 of every reel | n/a |
 | Pinned open-loop headline | direction.banner | stories with a real reveal later | simple tips |
 | Caption styles (6) | theme.captionStyle | always, style follows tone | n/a |
+| Tracked props + stickers (motion graphics) | direction.attach + scripts/motiontrack.py, scripts/sticker.py; playbook .claude/skills/motion-graphics/SKILL.md | his emotion/idea/key point lands better visually: ? on confused, sweat on nervous, bulb on idea, note for key points, label to point at things, any object cut out as a sticker | as decoration; over a meme at the same moment; on his eyes/mouth (except glasses/tears/blush) |
 | Meme stickers (transparent cats) | Library/stickers + direction.memes | HIS attitude at that moment clearly matches (huh on confused, sleepy on late night) | just because a keyword matches |
 | Meme / comedy sounds | Library/sounds | reactions, landing a joke | over his words |
 | Comedic beat (freeze + B&W + sound) | direction.beats | after a bad/useless line, for a laugh | serious moments |
