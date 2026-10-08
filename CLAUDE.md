@@ -23,6 +23,17 @@ He is not an editor; he shares ideas, and you decide what works and explain why.
 - Tools: `scripts/transcribe.py` (two-pass Whisper), `scripts/facetrack.py`, `scripts/personmask.py` (text behind person), `scripts/memes-extract.mjs`, `scripts/sfx-extract.mjs`, `scripts/still.mjs`.
 - Vector character in footage (walks on walls, interacts with objects): `npm run char`; follow `.claude/skills/character-overlay/SKILL.md`. Story = `_work/char/<name>/scene.json` beats, no new code per video.
 
+## Freedom to create (and how to make it reusable)
+You are free, and encouraged, to invent new things when a video needs them: new animations, caption styles, effects
+(snow, confetti, money rain…), transitions, meme formats, story techniques. Don't just recycle the same toolkit; each reel should
+feel fresh. Rules for anything new:
+1. Build it as a reusable feature, never a one-off hack: a component in `src/layers/`, switched on by a field in `direction.json`
+   (or `style.json`), with parameters instead of hard-coded values. New media goes in `Library/<kind>/<name>/` with an `about.txt` + catalog tags.
+2. Don't change what he already loves (caption sizes, film look, existing styles) unless he asks; add alongside.
+3. Register it in `brain/skills.md` (what it is, when to use it, when NOT to), so future chats know it exists.
+4. Show him stills, ask for his reaction, and log the verdict in `brain/preferences.md` (keep / tweak / never again).
+5. Commit + push (`git commit` and `git push`) once it works, so nothing is lost.
+
 ## Hard rules
 - Hinglish captions (Roman script); never let Hindi be translated to English.
 - Never show the same text twice in one frame. Stickers fully inside the frame, never over his face.
