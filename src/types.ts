@@ -33,6 +33,7 @@ export type Edit = {
   hookBehind?: boolean;
   foreground?: {f: number; frames: number; src?: string}[];
   endFade?: number;
+  styleOverride?: Record<string, unknown> | null;
   faces?: [number, number, number, number?][]; // [frame, x, y, h] of the speaker's face
   name: string;
   video: string; // path inside public/

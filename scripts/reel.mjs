@@ -124,6 +124,15 @@ if (fresh || flag('--redirect') || !fs.existsSync(dirFile)) {
   direction = readJson(dirFile);
 }
 for (const n of direction.notes ?? []) console.log(`  · ${n}`);
+// Per-reel tweaks of the look (templates are starting points): direction.styleOverride is merged over style.json.
+const deepMerge = (t, o) => {
+  for (const [k, v] of Object.entries(o ?? {})) {
+    if (v && typeof v === 'object' && !Array.isArray(v) && t[k] && typeof t[k] === 'object') deepMerge(t[k], v);
+    else t[k] = v;
+  }
+  return t;
+};
+deepMerge(style, direction.styleOverride);
 
 const clipAt = (t) => clips.findLastIndex((c) => t >= c.offset - 0.5);
 const plan = (theme) => buildEdit({name, video: `input/${name}.mp4`, duration: vDuration, silences: vSilences, words: vWords, direction, style, theme, clipAt, fps: FPS});
@@ -178,6 +187,7 @@ const theme = pickTheme({topic: direction.topic, pace: direction.pace, frames, o
 console.log(`  topic ${theme.topic} (${theme.pace}) → ${theme.captionStyle} captions, accent ${theme.accent}, transitions: ${theme.transitions.join('/')}`);
 
 const {stats, wordFrames, ...edit} = plan(theme);
+edit.styleOverride = direction.styleOverride ?? null;
 const virtSegs = edit.segments.map((s) => ({...s})); // positions in the ORIGINAL recordings (for Final Cut)
 edit.segments = edit.segments.map((s) => ({...s, srcFrame: s.outFrame}));
 edit.faces = faces.map((p) => [p.f, +p.x.toFixed(3), +p.y.toFixed(3), +p.h.toFixed(3)]);

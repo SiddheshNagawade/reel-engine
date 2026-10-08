@@ -9,9 +9,10 @@ import {BrollLayer} from './layers/Broll';
 import {TransitionOverlay} from './layers/Transitions';
 import {MemeLayer} from './layers/Memes';
 import {EffectOverlay} from './layers/Effects';
-import style from '../style.json';
+import {style, applyStyleOverride} from './style';
 
 export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
+  applyStyleOverride(edit.styleOverride); // per-reel tweaks on top of the defaults
   const weave = useGateWeave();
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>

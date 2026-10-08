@@ -19,6 +19,7 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 | Rage (red burn + shake) | direction.effects type rage | clearly angry, raised voice | mild frustration |
 | Film look (grain, grade, vignette, gate weave) | style.film | always (he loves it) | n/a |
 | Soft ending (tail + fade) | style.edit endTail/endFade | always, unless the ending loops into the hook | n/a |
+| Per-reel look tweaks | direction.json → styleOverride (merged over style.json, e.g. {film:{warmth:0.3}}) | an existing look is ~80% right for this video | changing defaults he loves (edit style.json only if he asks) |
 | Final Cut project export | output/<reel>/<reel>-vN.fcpxml | by default, so he can tweak cuts in FCP | n/a |
 
 ## Legibility & framing checklist (learned from v2)

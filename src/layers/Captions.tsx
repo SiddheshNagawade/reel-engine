@@ -3,7 +3,7 @@ import {AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate} from
 import type {CSSProperties} from 'react';
 import type {CapWord, Edit, Theme} from '../types';
 import {fonts} from './fonts';
-import style from '../../style.json';
+import {style} from '../style';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 

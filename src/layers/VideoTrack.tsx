@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, OffthreadVideo, Sequence, staticFile, useCurrentFrame, useVideoConfig, interpolate, spring, Easing} from 'remotion';
 import type {Edit} from '../types';
-import style from '../../style.json';
+import {style} from '../style';
 import {transitionMotion} from './Transitions';
 import {footageLook} from './Effects';
 

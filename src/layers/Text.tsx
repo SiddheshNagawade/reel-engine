@@ -3,7 +3,7 @@ import {AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig, spring, interpo
 import type {Edit, Theme} from '../types';
 import {fonts} from './fonts';
 import {extrude} from './Captions';
-import style from '../../style.json';
+import {style} from '../style';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 

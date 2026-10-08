@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, Img, staticFile, useCurrentFrame} from 'remotion';
 import {noise2D} from '@remotion/noise';
-import style from '../../style.json';
+import {style} from '../style';
 
 // Gate weave: the tiny drift of film running through a projector.
 export const useGateWeave = () => {
