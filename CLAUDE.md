@@ -57,3 +57,4 @@ feel fresh. Rules for anything new:
 @brain/expensive.md
 @brain/motion-design.md
 @brain/process-videos.md
+@brain/color.md
