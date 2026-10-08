@@ -51,9 +51,10 @@
     "warmth": 0.18,
     "weave": 1.2,
     "scanlines": 0,
-    "scurve": 0.12,
-    "sharpen": 0.3,
-    "halation": 0
+    "scurve": 0,
+    "sharpen": 0,
+    "halation": 0,
+    "hdrTonemap": false
   },
   "audio": {
     "musicVolume": 0.14,

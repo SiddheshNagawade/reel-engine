@@ -20,6 +20,9 @@
 Cut 1-second clips per variant straight from the source (keep colour tags where the pipeline does), render one still each
 through the full Reel composition, and put them side by side with v1. Example: T7 `references/color-lab-img1391.jpg`.
 
-## Status
-- Candidate new default: "NEW A natural+" = v1's HDR handling (tags kept) + S-curve 0.06 + vibrance 0.10 + sharpen 0.2,
-  film.warmth 0.05 / contrast 1.03 / saturate 1.04. Waiting for his verdict before switching the pipeline default.
+## Status (his verdict, 2026-10-08)
+- **v1 is the look.** He compared v1, v3, "natural+" and "relight" and chose v1: "just perfect with grains and all".
+- Pipeline default = v1: HDR tags kept (no tone-map), no S-curve/sharpen, film look grain 0.1 / vignette 0.5 / contrast 1.08 /
+  saturate 1.08 / warmth 0.18 / weave 1.2. The extra grade options exist (style.film scurve, sharpen, halation, hdrTonemap)
+  but stay OFF unless a specific video clearly needs them, and then only after a colour-lab comparison against v1.
+- Lesson: when he already loves a look, protect it. "Improving" it is a risk, not a default.

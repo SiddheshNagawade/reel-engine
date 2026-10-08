@@ -140,7 +140,7 @@ const provisional = plan(pickTheme({topic: direction.topic, pace: direction.pace
 
 // ── 4. Copy ONLY the kept seconds off the source footage ──────────────────────
 const selects = path.join(work, 'selects.mp4');
-const segKey = crypto.createHash('md5').update(JSON.stringify([...provisional.segments.map((s) => [s.srcFrame, s.frames, s.freeze ? 1 : 0]), clips.map((c) => (c.hdr ? 1 : 0)), [style.film.scurve, style.film.sharpen, style.film.halation]])).digest('hex');
+const segKey = crypto.createHash('md5').update(JSON.stringify([...provisional.segments.map((s) => [s.srcFrame, s.frames, s.freeze ? 1 : 0]), clips.map((c) => (c.hdr ? 1 : 0)), [style.film.scurve, style.film.sharpen, style.film.halation, style.film.hdrTonemap]])).digest('hex');
 const keyFile = path.join(work, 'selects.key');
 if (fresh || !fs.existsSync(selects) || !fs.existsSync(keyFile) || fs.readFileSync(keyFile, 'utf8') !== segKey) {
   step(`Extracting ${provisional.segments.length} kept pieces (${(provisional.durationInFrames / FPS).toFixed(1)}s of ${vDuration.toFixed(0)}s)…`);
@@ -153,7 +153,8 @@ if (fresh || !fs.existsSync(selects) || !fs.existsSync(keyFile) || fs.readFileSy
     const k = clips.findLastIndex((c) => t >= c.offset - 0.5);
     const local = Math.max(0, Math.min(clips[k].duration - s.frames / FPS, t - clips[k].offset));
     const out = path.join(piecesDir, `${String(i).padStart(4, '0')}.mov`);
-    await extractPiece(clips[k].src, local, s.frames, out, FPS, !!s.freeze, !!clips[k].hdr, style.film);
+    // v1 look (his favourite): keep the iPhone's HDR colour tags and let the renderer convert. Tone-mapping only if asked.
+    await extractPiece(clips[k].src, local, s.frames, out, FPS, !!s.freeze, !!clips[k].hdr && !!style.film.hdrTonemap, style.film);
     pieces.push(out);
     process.stdout.write(`\r  ${i + 1}/${provisional.segments.length}`);
   }

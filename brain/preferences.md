@@ -91,3 +91,5 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   Don't make every video "cinematic/serious/cool"; each video has one emotion to enhance.
 - Too much editing ruins it: roughly ~2s per visual idea (not a hard rule). The viewer must understand his story first.
 - He'll often bring drawing time-lapse footage (hours of clips): see brain/process-videos.md.
+
+- COLOUR: v1 of img-1391 is his favourite look (original iPhone colours + grain/film look). That is the default; don't 'improve' it unasked. See brain/color.md.
