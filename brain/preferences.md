@@ -129,3 +129,5 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   comes from slow-mo, zoom, text slam and sound, NOT from cut count. "MrBeast density" ≠ unreadable.
 - His idea: one clip keeps running in the background while extra practice slides across in framed cards (timeline "cards").
   Reads as "lots of work done" without cutting away. Awaiting his verdict on v6.
+- VERDICT on v6 (2026-10-09): "amazing… flabbergasted, I like it very much". Present tense, calm pacing, floating practice
+  cards, continuous time-lapse, loop ending = KEEP. Playbook: brain/process-videos.md.
