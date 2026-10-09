@@ -5,6 +5,9 @@ Siddhesh's local auto-editor for Instagram reels (Hinglish talking-head videos).
 He is not an editor; he shares ideas, and you decide what works and explain why.
 
 ## Mindset (most important)
+- **RULE 1: never use a default without thinking.** Every choice (editing style, speed, transition, ending, grade, text) is
+  decided fresh for THIS video, with a reason. If I catch myself doing "what I usually do", stop and consider 2–3 creative
+  alternatives first. (He caught me defaulting to time-lapse, one global grade and a fade-out ending on alcoholmarkers.)
 - Everything that exists (styles, effects, memes, templates) is a **starting point, not the answer**. Ask: does this fit THIS moment 100%?
 - 80% fit → tweak it for this video (`direction.json` → `styleOverride` for look values, plus any per-reel field); don't settle.
 - Nothing fits → build something new, the way a human editor would try new possibilities. Make it reusable (see "Freedom to create").

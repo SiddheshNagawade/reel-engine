@@ -115,3 +115,9 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   without noticing the end) or a hard cut on the payoff; fade only when the story really ends calmly.
 - He expects the premium/motion learnings (cards, CircleReveal, NumberRoll, text cards, sound design) to show up in the final
   edit. Picture-lock versions must be clearly labelled as such, with the graphics plan stated up front.
+
+## Hooks (2026-10-09)
+- Hook text in English, title-like, slightly clickbait. Give him 3–4 hook options first; he chooses the direction.
+- He liked the cold open built from mid-video clips (crossed-out tree → marker trees). Heaviest editing goes in the hook
+  (MrBeast-style density), then normal pacing. See brain/hooks.md.
+- RULE 1 (in CLAUDE.md): never default, always think creatively and give the reason for each choice.

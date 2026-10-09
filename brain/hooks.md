@@ -7,6 +7,13 @@ keeps one open, or pays one off. Rule: every loop we open MUST be paid off, or t
 Headlines can sit at the edge of clickbait: a bit exaggerated to grab attention, but the video must genuinely talk about it
 (the payoff can be smaller than people imagine; that's normal). Never promise something the video doesn't contain.
 
+## His hook rules (2026-10-09, override everything below)
+- Hook text is ALWAYS in English (it works like the title), a bit clickbait, but the video must deliver it.
+- Before choosing, give him 3–4 hook OPTIONS (text + what the first 3 seconds look like) and let him pick the direction.
+- Cold open from the middle: pull the most striking moments from anywhere in the footage to the front. He loves this; push it further.
+- The hook gets the HEAVIEST editing in the reel (MrBeast style): 0.3–0.6s cuts, speed ramps, punch-in zooms, impact sounds,
+  text slams, a rewind/reveal effect. After ~3–5s the pace settles into normal story editing.
+
 Pick 1–2 techniques per video. Never all of them: the story comes first.
 
 ## 1. Pinned open-loop headline ("My cat died" technique)
