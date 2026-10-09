@@ -14,6 +14,11 @@ Headlines can sit at the edge of clickbait: a bit exaggerated to grab attention,
 - The hook gets the HEAVIEST editing in the reel (MrBeast style): 0.3–0.6s cuts, speed ramps, punch-in zooms, impact sounds,
   text slams, a rewind/reveal effect. After ~3–5s the pace settles into normal story editing.
 
+- WHY he chose "I was so bad at drawing trees" (his words, 2026-10-09, corrected): the video IS about him, told first
+  person ("main"), which separates it from a tutorial. But the problem he shares must be a COMMON one (most people can't draw
+  trees), so viewers see themselves in his story. His story + their problem. Not tutorial voice ("tum aisa karo"), not a niche
+  personal story nobody relates to. Pinterest-copying is relatable too, but weaker than "can't draw trees".
+
 Pick 1–2 techniques per video. Never all of them: the story comes first.
 
 ## 1. Pinned open-loop headline ("My cat died" technique)

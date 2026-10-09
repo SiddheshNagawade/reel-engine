@@ -26,6 +26,10 @@ a watchable story, keep the feeling of craft and progress.
   when the whole artwork must be seen (final reveal).
 - No voice in the footage → cut the picture first, write the VO script to the picture, he records it over the guide video.
 
+- v4 additions: `rampTo` (speed ramp into real time), `stabilize` (two-pass vidstab, handheld only), per-segment exposure
+  (measured: paper white → shared target, no clipping), `endFade: 0` default (hard cut / loop). Mix styles on purpose:
+  time-lapse for progress, ramps into real-time strokes for technique + sound, stage jump cuts for reveals.
+
 ## Still to build
 - `scripts/activity.mjs`: per-second change score via ffmpeg (frame difference) → idle vs active stretches.
 - Speed-ramped extraction (setpts per piece) in the selects step; 16:9 or 9:16 output.
