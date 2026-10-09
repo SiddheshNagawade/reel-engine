@@ -23,6 +23,11 @@ He is not an editor; he shares ideas, and you decide what works and explain why.
 4. Render: `npm run reel -- <name> --note "- what changed"` → `output/<name>/<name>-vN.mp4` + `.fcpxml` + CHANGELOG.md. Never overwrite versions.
 5. Check stills of the actual output (ffmpeg frame grabs) at the hook, every meme/text moment and the ending before saying it's done.
 6. Tell him briefly what you did and why. After his feedback: v2, v3… and log lessons in `brain/preferences.md`.
+7. **Learn continuously, without being asked.** After EVERY version (not at the end, not when he praises it):
+   - update the playbook for that kind of video (`brain/process-videos.md` for drawing/process, `brain/hooks.md`, `brain/craft.md`,
+     or a new `brain/<genre>.md`) so it says what to do, what not to do and why: a guide the next session can follow;
+   - new tools/features → `brain/skills.md`; his verdicts → `brain/preferences.md`; then commit + push.
+   The test: a fresh session reading brain/ must start at the quality of the latest version, not at v1.
 
 ## Where things live
 - Drive (when attached): `/Volumes/T7 Shield/ReelEngine/` → `inbox/`, `projects/`, `output/<reel>/` (versions), `_work/<reel>/` (transcripts, direction.json, selects.mp4, faces.json, versions/), `meme-sources/` (raw meme compilations).
