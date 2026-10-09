@@ -103,3 +103,15 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   fix was exposure: paper came out grey (Y max ~190) → lift whites (colorlevels 0.84) so paper is white without clipping (Y max < 235).
 - Honesty in VO: the big drawing was a Pinterest piece he copied and modified (himself in his first-year room). Say so in the VO
   ("Pinterest pe dekhi, apna twist diya"); never present a reference as fully original.
+
+## Learned 2026-10-09 (alcoholmarkers v3 feedback)
+- GRADE PER CLIP, not one global filter. One whites-lift fixed the grey-paper clips but pushed already-bright clips
+  (unboxing, white marker bodies, big drawing; Y max 243–253) over the edge. Method: measure every segment (signalstats
+  YHIGH/YMAX, paper white), correct each to a shared target (paper white ≈ 215–225, nothing above 235), THEN one shared look on top.
+- EDITING STYLE is a choice, not a default. Don't turn every long process into a pure time-lapse: mix time-lapse (progress)
+  with jump cuts to real-time moments (a stroke, a blend, the cap click: texture + ASMR) and stage jump cuts (same framing,
+  drawing visibly further along). Say WHY I picked a style.
+- ENDINGS: no automatic fade-out. Decide per reel: a loop (last frame/line flows back into the first, so the viewer rewatches
+  without noticing the end) or a hard cut on the payoff; fade only when the story really ends calmly.
+- He expects the premium/motion learnings (cards, CircleReveal, NumberRoll, text cards, sound design) to show up in the final
+  edit. Picture-lock versions must be clearly labelled as such, with the graphics plan stated up front.
