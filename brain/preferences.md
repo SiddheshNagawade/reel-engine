@@ -93,3 +93,13 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
 - He'll often bring drawing time-lapse footage (hours of clips): see brain/process-videos.md.
 
 - COLOUR: v1 of img-1391 is his favourite look (original iPhone colours + grain/film look). That is the default; don't 'improve' it unasked. See brain/color.md.
+
+## Process / drawing reels (learned 2026-10-09, alcoholmarkers)
+- His reaction to the first process cut (story from unboxing → test → before/after trees → big piece, VO guide): "wow, just wow, too good". Keep this structure as the starting point for drawing videos.
+- ORIENTATION: he rotates the phone mid-recording. Check every used range for sideways / upside-down paper (dense contact sheets) and
+  fix it per segment (`rotate` in timeline.json), or skip the stretch. A sideways landscape clip rotated 90° fills 9:16 perfectly.
+  I missed an upside-down tree in v2; he noticed immediately.
+- COLOUR for paper/drawing footage: he wants it to pop a little: grain + slight contrast + VIBRANCE (not saturation). The real
+  fix was exposure: paper came out grey (Y max ~190) → lift whites (colorlevels 0.84) so paper is white without clipping (Y max < 235).
+- Honesty in VO: the big drawing was a Pinterest piece he copied and modified (himself in his first-year room). Say so in the VO
+  ("Pinterest pe dekhi, apna twist diya"); never present a reference as fully original.

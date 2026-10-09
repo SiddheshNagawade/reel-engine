@@ -7,12 +7,17 @@
 // {
 //   "srcDir": "/Volumes/T7 Shield/Raw videos/<folder>",
 //   "size": [1080, 1920], "fps": 30,
+//   "look": {"whites": 0.84, "contrast": 1.05, "vibrance": 0.22, "vignette": 0.4, "grain": 5},  // optional, whole reel:
+//      whites = input level that becomes pure white (lifts grey, under-exposed paper; check YMAX < 235), vibrance = boosts dull
+//      colours more than strong ones (gentler than saturation), vignette = angle (0 = off), grain = temporal noise strength
 //   "segments": [{
 //     "src": "video_x.mp4", "in": 12, "out": 40,     // source range (seconds)
 //     "dur": 3,                  // output seconds (→ speed = (out-in)/dur); or "speed": 8
-//     "fx": 0.5, "fy": 0.5,      // focus point (0..1 of the source frame) the vertical window centres on
+//     "rotate": 90,              // fix a phone turned mid-recording: 90 = clockwise, 270 = counter-clockwise, 180 = upside down
+//     "fx": 0.5, "fy": 0.5,      // focus point (0..1 of the (rotated) source frame) the vertical window centres on
 //     "toFx": 0.6,               // optional pan: focus at the END of the segment
-//     "zoom": 1, "toZoom": 1.1,  // 1 = full source height; >1 punches in; toZoom animates (push-in)
+//     "zoom": 1, "toZoom": 1.1,  // 1 = full source height; >1 punches in; toZoom animates (push-in / pull-out, eased)
+//     "zx": 0.5, "zy": 0.5,      // where an animated zoom is centred inside the vertical window (e.g. on a face)
 //     "mode": "fill" | "fit",    // fill = vertical crop (default); fit = whole frame as a card on its own blurred copy
 //     "hold": 0,                 // freeze the last frame this many extra seconds
 //     "audio": 0.6,              // keep natural sound at this volume (only for speed ≤ 2); omitted = silent
@@ -65,7 +70,8 @@ try {
     const fx0 = s.fx ?? 0.5, fx1 = s.toFx ?? fx0, fy0 = s.fy ?? 0.5, fy1 = s.toFy ?? fy0;
     const z0 = s.zoom ?? 1, z1 = s.toZoom ?? z0;
     // timing: speed up, then a steady frame rate; hold = clone the last frame
-    const timing = `setpts=(PTS-STARTPTS)/${speed},fps=${FPS}${s.hold ? `,tpad=stop_mode=clone:stop_duration=${s.hold}` : ''}`;
+    const rot = {90: 'transpose=1,', 270: 'transpose=2,', [-90]: 'transpose=2,', 180: 'hflip,vflip,'}[s.rotate ?? 0] ?? '';
+    const timing = `${rot}setpts=(PTS-STARTPTS)/${speed},fps=${FPS}${s.hold ? `,tpad=stop_mode=clone:stop_duration=${s.hold}` : ''}`;
     const conv = `out_color_matrix=bt709:out_range=tv`;
     let vf;
     if ((s.mode ?? 'fill') === 'fill') {
@@ -75,8 +81,11 @@ try {
       vf = `${timing},crop=w='${ww}':h='${hh}':x='max(0,min(iw-(${ww}),${cx}-(${ww})/2))':y='max(0,min(ih-(${hh}),${cy}-(${hh})/2))'`;
       if (z1 !== z0) {
         // animated push: zoompan on a 2× upscale so the move stays smooth
-        const zk = `min(1,on/${Math.max(1, Math.round(total * FPS))})`;
-        vf += `,scale=${W * 2}:${H * 2}:flags=bicubic,zoompan=z='${lerp(z0, z1, zk)}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=${W}x${H}:fps=${FPS}`;
+        const lin = `min(1,on/${Math.max(1, Math.round(total * FPS))})`;
+        const zk = `(${lin})*(${lin})*(3-2*(${lin}))`; // smoothstep: soft start and landing
+        const zx = s.zx ?? 0.5, zy = s.zy ?? 0.5;
+        vf += `,scale=${W * 2}:${H * 2}:flags=bicubic,zoompan=z='${lerp(z0, z1, zk)}'` +
+          `:x='max(0,min(iw-iw/zoom,iw*${zx}-iw/zoom/2))':y='max(0,min(ih-ih/zoom,ih*${zy}-ih/zoom/2))':d=1:s=${W}x${H}:fps=${FPS}`;
       }
       vf += `,scale=${W}:${H}:flags=lanczos:${conv},setsar=1`;
     } else {
@@ -116,8 +125,16 @@ try {
   while (fs.existsSync(path.join(outDir, `${name}-v${v}.mp4`))) v++;
   const final = path.join(outDir, `${name}-v${v}.mp4`);
   const fadeOut = tl.endFade ?? 0.8;
+  const L = tl.look ?? {};
+  const look = [
+    L.whites ? `colorlevels=rimax=${L.whites}:gimax=${L.whites}:bimax=${L.whites}` : '',
+    L.contrast ? `eq=contrast=${L.contrast}` : '',
+    L.vibrance ? `vibrance=intensity=${L.vibrance}` : '',
+    L.vignette ? `vignette=angle=${L.vignette}` : '',
+    L.grain ? `noise=alls=${L.grain}:allf=t` : '',
+  ].filter(Boolean).map((f) => f + ',').join('');
   ff(['-f', 'concat', '-safe', '0', '-i', list,
-    '-vf', `fade=t=out:st=${(clock - fadeOut).toFixed(3)}:d=${fadeOut}`, '-af', `afade=t=out:st=${(clock - fadeOut).toFixed(3)}:d=${fadeOut}`,
+    '-vf', `${look}fade=t=out:st=${(clock - fadeOut).toFixed(3)}:d=${fadeOut}`, '-af', `afade=t=out:st=${(clock - fadeOut).toFixed(3)}:d=${fadeOut}`,
     ...ENC, '-movflags', '+faststart', final]);
   console.log(`\n✅ ${final} (${clock.toFixed(1)}s)`);
 
