@@ -91,6 +91,36 @@ function expandRamps(segments) {
     });
   });
 }
+// A floating card: a clip in a white-bordered rounded frame with a soft shadow and a slight tilt, rendered with alpha.
+// timeline "cards": [{src, in, out, dur, at (reel second it enters), from: 'right'|'left', y: 0..1, w: 0..1 of frame width,
+//   aspect (w/h, default 0.8), tilt (deg), fx, fy, zoom, rotate, drift}]
+function renderCard(c, j) {
+  const src = path.isAbsolute(c.src) ? c.src : path.join(tl.srcDir, c.src);
+  const span = c.out - c.in, speed = c.speed ?? span / c.dur;
+  const cw = Math.round((W * (c.w ?? 0.5)) / 2) * 2, ch = Math.round(cw / (c.aspect ?? 0.8) / 2) * 2;
+  const b = Math.round(cw * 0.025), R = Math.round(cw * 0.06), P = 60;
+  const mask = path.join(pieces, `mask-${j}.png`);
+  ff(['-f', 'lavfi', '-i', `color=black:s=${cw}x${ch}`, '-frames:v', '1', '-vf',
+    `format=gray,geq=lum='if(gt(abs(X-W/2),W/2-${R})*gt(abs(Y-H/2),H/2-${R}),if(lte(hypot(abs(X-W/2)-(W/2-${R}),abs(Y-H/2)-(H/2-${R})),${R}),255,0),255)',gblur=sigma=0.7`, mask]);
+  const rot = ROT[c.rotate ?? 0] ?? '';
+  const gain = c.exposure ?? measureGain(src, c, cw, ch);
+  const expo = Math.abs(gain - 1) > 0.01 ? `lutyuv=y='clip(val*${gain.toFixed(3)},0,255)',` : '';
+  const z = c.zoom ?? 1, fx = c.fx ?? 0.5, fy = c.fy ?? 0.5;
+  const ww = `min(iw,ih/${z}*${cw}/${ch})`, hh = `(${ww})*${ch}/${cw}`;
+  const crop = `crop=w='${ww}':h='${hh}':x='max(0,min(iw-(${ww}),iw*${fx}-(${ww})/2))':y='max(0,min(ih-(${hh}),ih*${fy}-(${hh})/2))'`;
+  const tilt = ((c.tilt ?? 0) * Math.PI) / 180;
+  const out = path.join(pieces, `card-${j}.mov`);
+  const keyOnly = speed >= 60 ? ['-skip_frame', 'nokey'] : [];
+  ff([...keyOnly, '-ss', String(c.in), '-t', String(span), '-i', src, '-loop', '1', '-i', mask, '-filter_complex',
+    `[0:v]${rot}${expo}setpts=(PTS-STARTPTS)/${speed},fps=${FPS},${crop},scale=${cw - 2 * b}:${ch - 2 * b}:flags=lanczos,` +
+    `pad=${cw}:${ch}:${b}:${b}:white,format=rgba[c];[1:v]format=gray[m];[c][m]alphamerge,split[a][s];` +
+    `[s]colorchannelmixer=rr=0:gg=0:bb=0:aa=0.65,pad=${cw + 2 * P}:${ch + 2 * P}:${P}:${P + 18}:color=0x00000000,boxblur=22:2[sh];` +
+    `[a]pad=${cw + 2 * P}:${ch + 2 * P}:${P}:${P}:color=0x00000000[cp];[sh][cp]overlay=format=auto` +
+    (tilt ? `,rotate=${tilt.toFixed(4)}:c=none:ow=rotw(${tilt.toFixed(4)}):oh=roth(${tilt.toFixed(4)})` : '') + `,format=rgba[v]`,
+    '-map', '[v]', '-t', String(c.dur), '-c:v', 'png', '-r', String(FPS), out]);
+  console.log(`  card ${j + 1}: ${path.basename(src)} ${c.in}→${c.out}s at ${c.at}s for ${c.dur}s (from ${c.from ?? 'right'})`);
+  return out;
+}
 const lerp = (a, b, k) => `(${a}+(${b - a})*${k})`;
 const ENC_V = ['-c:v', 'libx264', '-preset', 'medium', '-crf', '16', '-pix_fmt', 'yuv420p', '-r', String(FPS),
   '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv'];
@@ -171,13 +201,13 @@ try {
 
   // join
   const list = path.join(pieces, 'list.txt');
-  fs.writeFileSync(list, fs.readdirSync(pieces).filter((f) => f.endsWith('.mp4') && !f.startsWith('.')).sort().map((f) => `file '${path.join(pieces, f)}'`).join('\n'));
+  fs.writeFileSync(list, fs.readdirSync(pieces).filter((f) => /^\d+\.mp4$/.test(f)).sort().map((f) => `file '${path.join(pieces, f)}'`).join('\n'));
   const outDir = path.join(outputRoot(), name);
   fs.mkdirSync(outDir, {recursive: true});
   let v = 1;
   while (fs.existsSync(path.join(outDir, `${name}-v${v}.mp4`))) v++;
   const final = path.join(outDir, `${name}-v${v}.mp4`);
-  const fadeOut = tl.endFade ?? 0.8;
+  const fadeOut = tl.endFade ?? 0; // hard cut unless the reel asks for a fade (a loop needs the cut)
   const L = tl.look ?? {};
   const look = [
     L.whites ? `colorlevels=rimax=${L.whites}:gimax=${L.whites}:bimax=${L.whites}` : '',
@@ -185,9 +215,27 @@ try {
     L.vibrance ? `vibrance=intensity=${L.vibrance}` : '',
     L.vignette ? `vignette=angle=${L.vignette}` : '',
     L.grain ? `noise=alls=${L.grain}:allf=t` : '',
-  ].filter(Boolean).map((f) => f + ',').join('');
-  ff(['-f', 'concat', '-safe', '0', '-i', list,
-    '-vf', `${look}fade=t=out:st=${(clock - fadeOut).toFixed(3)}:d=${fadeOut}`, '-af', `afade=t=out:st=${(clock - fadeOut).toFixed(3)}:d=${fadeOut}`,
+    fadeOut ? `fade=t=out:st=${(clock - fadeOut).toFixed(3)}:d=${fadeOut}` : '',
+  ].filter(Boolean);
+  // floating cards: rendered with alpha, then slid across the frame over the running background
+  const cards = (tl.cards ?? []).map((c, j) => ({...c, file: renderCard(c, j)}));
+  const chain = [];
+  let cur = '0:v';
+  cards.forEach((c, j) => {
+    const at = c.at, d = c.dur, e = Math.min(0.55, d / 4), side = c.from === 'left' ? -1 : 1, drift = (c.drift ?? 0.08) * side;
+    const p = `(t-${at})`;
+    const xs = `(W*${(0.5 + drift).toFixed(3)}-w/2)`, xe = `(W*${(0.5 - drift).toFixed(3)}-w/2)`;
+    const off0 = side > 0 ? 'W' : '(-w)', off1 = side > 0 ? '(-w)' : 'W';
+    const x = `if(lt(${p},${e}),${off0}+(${xs}-${off0})*(1-pow(1-${p}/${e},3)),` +
+      `if(lt(${p},${d - e}),${xs}+(${xe}-${xs})*(${p}-${e})/${d - 2 * e},${xe}+(${off1}-${xe})*pow((${p}-${d - e})/${e},3)))`;
+    chain.push(`[${j + 1}:v]setpts=PTS-STARTPTS+${at}/TB[c${j}]`);
+    chain.push(`[${cur}][c${j}]overlay=x='${x}':y='H*${c.y ?? 0.33}-h/2':eval=frame:eof_action=pass:enable='between(t,${at},${at + d})'[o${j}]`);
+    cur = `o${j}`;
+  });
+  chain.push(`[${cur}]${look.length ? look.join(',') : 'null'}[v]`);
+  const af = fadeOut ? `afade=t=out:st=${(clock - fadeOut).toFixed(3)}:d=${fadeOut}` : 'anull';
+  ff(['-f', 'concat', '-safe', '0', '-i', list, ...cards.flatMap((c) => ['-i', c.file]),
+    '-filter_complex', `${chain.join(';')};[0:a]${af}[a]`, '-map', '[v]', '-map', '[a]',
     ...ENC, '-movflags', '+faststart', final]);
   console.log(`\n✅ ${final} (${clock.toFixed(1)}s)`);
 

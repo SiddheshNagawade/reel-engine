@@ -121,3 +121,11 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
 - He liked the cold open built from mid-video clips (crossed-out tree → marker trees). Heaviest editing goes in the hook
   (MrBeast-style density), then normal pacing. See brain/hooks.md.
 - RULE 1 (in CLAUDE.md): never default, always think creatively and give the reason for each choice.
+
+## Learned 2026-10-09 (v5 → v6)
+- VO TENSE: present tense for process/journey stories ("nahi banta", "try karta hoon"): the viewer lives it with him. Past
+  tense sounds like a report afterwards.
+- PACING: 0.45–0.5s cuts confused him ("I'm not able to focus on anything, I might scroll"). Keep shots ≳1s; hook energy
+  comes from slow-mo, zoom, text slam and sound, NOT from cut count. "MrBeast density" ≠ unreadable.
+- His idea: one clip keeps running in the background while extra practice slides across in framed cards (timeline "cards").
+  Reads as "lots of work done" without cutting away. Awaiting his verdict on v6.

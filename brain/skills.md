@@ -27,6 +27,7 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 | Colour check (scopes) | scripts/colorcheck.py: clipping, cast, skin vs skin-tone line, skin chroma/brightness | before showing ANY grade change; compare to v1 targets in brain/color.md | judging colour by eye alone |
 | Per-reel look tweaks | direction.json → styleOverride (merged over style.json, e.g. {film:{warmth:0.3}}) | an existing look is ~80% right for this video | changing defaults he loves (edit style.json only if he asks) |
 | Process / time-lapse reel (no voice) | scripts/sheet.mjs + scripts/process.mjs + _work/<name>/timeline.json (see brain/process-videos.md) | drawing, unboxing, making-of footage; hours → 30–45s with variable speed, 9:16 framing, VO guide | talking-head footage (use npm run reel) |
+| Floating cards (practice montage) | process.mjs timeline "cards": clip in a white rounded frame + shadow + tilt, slides across over a running background | showing extra work/practice without cutting away from the main shot | more than 2 at once; over the main subject's key moment |
 | Final Cut project export | output/<reel>/<reel>-vN.fcpxml | by default, so he can tweak cuts in FCP | n/a |
 
 ## Legibility & framing checklist (learned from v2)
