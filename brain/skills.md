@@ -19,7 +19,7 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 | Comedic beat (freeze + B&W + sound) | direction.beats | after a bad/useless line, for a laugh | serious moments |
 | Rage (red burn + shake) | direction.effects type rage | clearly angry, raised voice | mild frustration |
 | Film look (grain, grade, vignette, gate weave) | style.film | always (he loves it) | n/a |
-| Soft ending (tail + fade) | style.edit endTail/endFade | always, unless the ending loops into the hook | n/a |
+| Clean ending (short tail, NO fade) | style.edit endTail (endFade stays 0) | always: hard cut on the payoff or loop into the hook | never fade to black at the end (his rule) |
 | Text cards: typewriter / wave / slam | direction.cards [{at, seconds, text, mode, bg: white/black/accent/blur, accentWord, glow}] | a key line deserves its own moment; long-form B-roll replacement | stacked with memes/moves at the same moment; more than 1–2 per reel |
 | Premium grade (S-curve, sharpen, halation) | style.film scurve / sharpen / halation (baked at extraction) | always subtle S-curve + sharpen; halation only on night/practical-light footage | halation on bright walls (turns pink) |
 | UI/text sounds | sfx tick / click / soft-whoosh | every text/UI appearance | over his voice at full volume |

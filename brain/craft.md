@@ -12,7 +12,7 @@ the viewer never notices, unless we WANT them to feel it.
 | Match cut | next shot matches shape/movement/sound of the last | clever, seamless | multi-clip: same gesture/position in two clips, or a sound that rhymes | ❌ todo: find matching face position / gesture across clips |
 | J-cut | next shot's AUDIO starts before its picture | pulled forward, smooth | between clips/scenes; B-roll entering; very good in short-form (no dead air at the start of a shot) | ❌ todo: audio lead of ~4–8 frames at clip changes |
 | L-cut | current AUDIO continues after the picture changes | flowing, explanatory | his voice keeps talking while we cut to B-roll/screen recording (e.g. CaptionKaro website) | ❌ todo: B-roll over continuing voice (B-roll layer exists, needs the screen-recording workflow) |
-| Fade (to/from black/white) | picture fades to a colour | beginning / ending / finality | endings (✅ soft fade to black); fade to white = dream/memory | ✅ ending |
+| Fade (to/from black/white) | picture fades to a colour | beginning / ending / finality | NOT at the end of his reels (he hates it: hard cut / loop instead); fade to white = dream/memory inside a story | ❌ banned at endings |
 | Dissolve | one shot fades into the next | time passing, memory | "3 months later…", a calm montage | ❌ todo (rare in reels; useful in long-form) |
 | Cut on action | cut during a movement | seamless, energetic | cut while his hand/head moves: hides jump cuts even better | ❌ todo: use face-track motion to nudge cut points onto movement |
 | Cross-cutting | alternate between two simultaneous scenes | tension, comparison | "what people think vs what actually happens", two-character skits, before/after | ❌ todo: multi-clip interleave in direction |

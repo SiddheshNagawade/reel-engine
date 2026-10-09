@@ -68,7 +68,7 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
 - VERSIONS: never overwrite. Each render = output/<reel>/<reel>-vN.mp4 + transcript + CHANGELOG.md entry saying exactly what changed. Keep everything he didn't ask to change.
 - He liked: the huh cat on "confused" and the sleepy cat on "late night" (img-1391). Those were RIGHT: removing them in v1 was my mistake. Good keyword+intention matches are welcome; random ones aren't.
 - He likes the premium film look (grain, grade). Keep it.
-- ENDINGS: never an abrupt stop. Keep a concluding line if he has one, let it breathe (~0.5s room tone), soft fade to black + audio fade.
+- ENDINGS (replaced 2026-10-09): keep a concluding line if he has one and don't clip the last word (~0.3s tail), but NO fade (see below).
 - Hook keyword shows 2.5s then disappears so the story takes over; it can sit BEHIND his head (person cut-out via scripts/personmask.py) with small words readable on top.
 - Corner stickers must sit above the head (uses face tracking), never on his hair/face.
 - He says he's not an editor and is just dumping thoughts: I decide what works best and explain why.
@@ -112,7 +112,8 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   with jump cuts to real-time moments (a stroke, a blend, the cap click: texture + ASMR) and stage jump cuts (same framing,
   drawing visibly further along). Say WHY I picked a style.
 - ENDINGS: no automatic fade-out. Decide per reel: a loop (last frame/line flows back into the first, so the viewer rewatches
-  without noticing the end) or a hard cut on the payoff; fade only when the story really ends calmly.
+  without noticing the end) or a hard cut on the payoff.
+- NO FADE-OUT AT THE END OF ANY VIDEO, EVER (his words: "it looks bad", 2026-10-09). style.json endFade = 0; process.mjs has no fade option.
 - He expects the premium/motion learnings (cards, CircleReveal, NumberRoll, text cards, sound design) to show up in the final
   edit. Picture-lock versions must be clearly labelled as such, with the graphics plan stated up front.
 

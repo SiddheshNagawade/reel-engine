@@ -67,8 +67,8 @@
     "padding": 0.1,
     "mergeGap": 0.15,
     "minSegment": 0.3,
-    "endTail": 0.5,
-    "endFade": 0.6
+    "endTail": 0.3,
+    "endFade": 0
   },
   "memes": {
     "minGapSeconds": 6,

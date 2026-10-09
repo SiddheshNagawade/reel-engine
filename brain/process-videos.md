@@ -27,7 +27,7 @@ Reference: `_work/alcoholmarkers/timeline.json` (v6, with a "why" block explaini
   light shared look (contrast ~1.04, vibrance ~0.2 instead of saturation, light vignette, grain). One global whites-lift blew
   out the bright clips.
 - **Stabilize handheld shots only** (`stabilize`: vidstab, value = smoothing); tripod time-lapses don't need it.
-- **Endings: no automatic fade.** A loop (last line flows into the first line, hard cut) or a hard cut on the payoff.
+- **Endings: never a fade (his rule, any video).** A loop (last line flows into the first line, hard cut) or a hard cut on the payoff.
 - **Honesty:** if a drawing is from a reference (Pinterest), the VO says so.
 - **Final reveal:** start close on the meaningful detail (him in the drawing), ease back to the whole artwork.
 

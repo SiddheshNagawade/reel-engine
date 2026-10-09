@@ -10,7 +10,7 @@
 //   "look": {"contrast": 1.04, "vibrance": 0.2, "vignette": 0.35, "grain": 5},  // optional, shared look ON TOP of per-clip exposure:
 //      vibrance = boosts dull colours more than strong ones (gentler than saturation), vignette = angle (0 = off), grain = noise.
 //      ("whites" exists but lifts every clip equally; exposure belongs per segment, see measureGain. Avoid it.)
-//   "endFade": 0,  // seconds of fade to black at the end; 0 = hard cut (loops)
+//   (no fade at the end, ever: his rule. Endings are a hard cut, ideally looping into the first frame/line.)
 //   "segments": [{
 //     "src": "video_x.mp4", "in": 12, "out": 40,     // source range (seconds)
 //     "dur": 3,                  // output seconds (→ speed = (out-in)/dur); or "speed": 8
@@ -207,7 +207,6 @@ try {
   let v = 1;
   while (fs.existsSync(path.join(outDir, `${name}-v${v}.mp4`))) v++;
   const final = path.join(outDir, `${name}-v${v}.mp4`);
-  const fadeOut = tl.endFade ?? 0; // hard cut unless the reel asks for a fade (a loop needs the cut)
   const L = tl.look ?? {};
   const look = [
     L.whites ? `colorlevels=rimax=${L.whites}:gimax=${L.whites}:bimax=${L.whites}` : '',
@@ -215,7 +214,6 @@ try {
     L.vibrance ? `vibrance=intensity=${L.vibrance}` : '',
     L.vignette ? `vignette=angle=${L.vignette}` : '',
     L.grain ? `noise=alls=${L.grain}:allf=t` : '',
-    fadeOut ? `fade=t=out:st=${(clock - fadeOut).toFixed(3)}:d=${fadeOut}` : '',
   ].filter(Boolean);
   // floating cards: rendered with alpha, then slid across the frame over the running background
   const cards = (tl.cards ?? []).map((c, j) => ({...c, file: renderCard(c, j)}));
@@ -233,7 +231,7 @@ try {
     cur = `o${j}`;
   });
   chain.push(`[${cur}]${look.length ? look.join(',') : 'null'}[v]`);
-  const af = fadeOut ? `afade=t=out:st=${(clock - fadeOut).toFixed(3)}:d=${fadeOut}` : 'anull';
+  const af = 'anull';
   ff(['-f', 'concat', '-safe', '0', '-i', list, ...cards.flatMap((c) => ['-i', c.file]),
     '-filter_complex', `${chain.join(';')};[0:a]${af}[a]`, '-map', '[v]', '-map', '[a]',
     ...ENC, '-movflags', '+faststart', final]);

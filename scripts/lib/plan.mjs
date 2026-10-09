@@ -396,7 +396,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     cards,
     hookBehind: !!(direction?.hookBehind && hookText),
     foreground,
-    endFade: Math.round((style.edit.endFade ?? 0.6) * fps),
+    endFade: Math.round((style.edit.endFade ?? 0) * fps),
     fps,
     durationInFrames,
     segments: segments.map(({a, b, ...s}) => s),
