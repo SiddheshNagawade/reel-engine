@@ -66,3 +66,4 @@ feel fresh. Rules for anything new:
 @brain/motion-design.md
 @brain/process-videos.md
 @brain/color.md
+@brain/clipping.md
