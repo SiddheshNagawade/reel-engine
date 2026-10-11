@@ -16,18 +16,33 @@ Dates are absolute. Last updated: 2026-10-11.
 | birkin, equity, forty, dad, hate, perfect, team, voice | clipping-day clips (2026-10-11) | not his content; clipping dropped |
 | chandigarh trip (inbox) | raw, folder empty on the T7 | footage still to copy? |
 | vector character test (inbox) | raw | character-overlay test |
-| Monsoon pastels × rainwater | IDEA, see below | rain window likely closed |
+| Monsoon pastels × rainwater | parked (his call, 2026-10-11) | monsoon 2027 |
 
-## Ideas bank
-### Monsoon rainwater + water-soluble pastels (from his earlier planning chat)
-- Concept: water-soluble pastels activated by real rainwater at IIT Roorkee; satisfying ASMR (rain, brush, water mixing).
-  Strong because the material and the setting do something together, not a gimmick stuck onto a normal drawing.
-- Subject: monsoon-themed (wet street, rain on trees, stormy sky) so the gimmick ties to the picture.
-- Formats: one long YouTube speedpaint + several shorts (rain, dip, blend, reveal). Long-form 16:9 mode isn't built
-  in ReelEngine yet; the reel side uses the process-video playbook (brain/process-videos.md).
-- TIMING PROBLEM: today is 2026-10-11 and Roorkee's monsoon normally ends by late September. Unless it still rains,
-  park it for monsoon 2027 (Jun–Sep) or rework it (a planned water-on-paper piece, or the first winter rain/fog).
-- Sponsor order (agreed): make the video first, pitch with the link and stats afterwards; never pitch an idea alone.
+## Direction (his decision, 2026-10-11)
+- Focus: Instagram first + a YouTube drawing channel where HE is part of the video (Gawx-style: personality + art,
+  face on camera, challenges, him drawn into the art). Starting from zero. Monsoon/Derwent idea: dropped.
+- Angle: "IIT engineer who draws": Indian student life + Hinglish + his face/voice. Art is the hook, he is the reason to follow.
+- One shoot → two edits: YouTube long-form (8–15 min story) + IG reel (30–45 s). Long-form 16:9 mode isn't built yet;
+  reels are ready (process-video playbook + talking-head pipeline).
+
+## Ideas bank (ranked, ★ = make first)
+Series A: Challenges (Gawx core)
+- ★ ₹100 vs ₹1,000 vs ₹10,000 art supplies (same drawing three times; Indian prices make it relatable)
+- ★ Drawing in a boring lecture with only a ball pen (hidden, real classroom vibe)
+- Drawing with weird stuff: chai, coffee, mess dal/haldi, a lab pipette
+- 1 min vs 10 min vs 1 hour of the same subject
+Series B: Him inside the art
+- ★ Putting myself into famous paintings / Bollywood posters / anime scenes
+- Drawing my hostel room / first-year life with me in it (already done once; proven)
+- His vector-character mascot interacting with his drawings (ReelEngine character-overlay)
+Series C: People + reactions (face, emotion, shareable)
+- ★ Drawing strangers / campus people (guard, mess bhaiya, juniors) and giving it to them: reaction = payoff
+- Drawing friends as anime characters → their reaction
+- Parents/relatives react: "art se kya hoga?"
+Series D: Journey (proven by alcoholmarkers)
+- "I couldn't draw X" → 7 days later (hands, faces, cars, trees)
+- Learning a new medium from zero on camera
+Parked: monsoon rainwater pastels (monsoon 2027), Diwali art piece (~Nov 1, 2026) if time.
 
 ## Money & sponsors (notes, sanity-checked)
 - Indian brands first (Kokuyo Camlin = the "Camlin" brand, one company; Brustro; local art shops); international brands
