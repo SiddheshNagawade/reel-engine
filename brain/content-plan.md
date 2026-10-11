@@ -26,6 +26,12 @@ Script rules: brain/content-brief.md (still valid for hooks, 5 beats, open loops
 - Footage: T7 projects/<name>/ (build-19oct …). Editing for this account: one-take talking head, clean captions, one
   rewatch moment (number on screen / screen recording / prototype); no memes unless truly fitting.
 
+## Planner flow (his design, 2026-10-11)
+- PROJECTS table (top source, Past/Now) → he speaks everything per project → I draft Core idea + Story per video in
+  VIDEOS (he edits) → I plan WORK DAYS. Now-items from his older chat: DEC 301, Design Days, HWWE paper, toy project.
+- He is a 3rd-year B.Des student (IIT Roorkee). Long-term he wants to be a creator (YouTube long-form later);
+  Day 100 check 27 Jan 2027: judge trajectory (rising avg views, one outlier, better watch time, real comments/DMs; 3 of 4 = continue).
+
 ## Parked
 - Drawing-channel ideas (Arts account): ₹100 vs ₹10,000 supplies, ball-pen lecture drawing, drawing campus people,
   himself in Bollywood posters, "couldn't draw X → 7 days later". Monsoon rainwater pastels (monsoon 2027).
