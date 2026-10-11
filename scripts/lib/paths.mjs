@@ -19,6 +19,11 @@ export function mediaRoots() {
 // Working files (transcripts, kept footage, face data, versions) live on the drive; the Mac is only scratch space.
 export const workRoot = () => (driveAttached() ? path.join(DRIVE_ROOT, '_work') : path.join(LOCAL_ROOT, 'work'));
 
+// Media library (stickers, sounds, music + catalog) lives on the drive. The Mac only keeps fonts (program files).
+// When the drive is unplugged, renders still work: library elements are skipped with a warning.
+export const LOCAL_LIBRARY = path.resolve('public/assets/library');
+export const libraryRoot = () => (driveAttached() ? path.join(DRIVE_ROOT, 'Library') : LOCAL_LIBRARY);
+
 export const outputRoot = () => (driveAttached() ? path.join(DRIVE_ROOT, 'output') : path.join(LOCAL_ROOT, 'output'));
 
 export const VIDEO_RE = /\.(mp4|mov|m4v|mkv|webm|mts)$/i;

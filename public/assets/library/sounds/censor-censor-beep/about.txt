@@ -1,8 +1,0 @@
-censor beep
-Family: censor
-Use it for (contextual, not literal):
-- bleeping a swear word (his or a quoted one)
-- hiding a secret / "I won't say who"
-- spoiler
-- the thing he almost said ("I was about to say…")
-Source: Censor beep sound effect.mp3 (sfx-pack-1)

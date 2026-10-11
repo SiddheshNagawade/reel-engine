@@ -16,6 +16,8 @@ import {bundle} from '@remotion/bundler';
 import {renderMedia, renderStill, selectComposition} from '@remotion/renderer';
 import {ffmpeg, probe, TONEMAP} from './lib/media.mjs';
 import {mediaRoots, outputRoot, workRoot, VIDEO_RE} from './lib/paths.mjs';
+import {syncToDrive} from './lib/sync.mjs';
+syncToDrive(); // work made on the Mac while the T7 was unplugged → drive
 
 const argv = process.argv.slice(2);
 const opt = (k, d) => (argv.includes(k) ? argv[argv.indexOf(k) + 1] : d);

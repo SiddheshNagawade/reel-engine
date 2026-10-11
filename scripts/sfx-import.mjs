@@ -5,13 +5,14 @@
 // Every sound: own folder, level-matched mp3 (-20 LUFS, silence trimmed), about.txt; catalog entry with family tags.
 import fs from 'node:fs';
 import path from 'node:path';
+import {libraryRoot} from './lib/paths.mjs';
 import {ffmpeg} from './lib/media.mjs';
 import {FAMILIES} from './lib/sound-families.mjs';
 
 const [packDir, scanFile, labelsFile] = process.argv.slice(2);
 const scan = JSON.parse(fs.readFileSync(scanFile, 'utf8'));
 const labels = JSON.parse(fs.readFileSync(labelsFile, 'utf8'));
-const LIB = path.resolve('public/assets/library');
+const LIB = libraryRoot(); // on the T7 (Mac only as fallback)
 const catalogFile = path.join(LIB, 'catalog.json');
 const catalog = JSON.parse(fs.readFileSync(catalogFile, 'utf8'));
 const packName = path.basename(labelsFile).replace(/\.labels\.json$/, '');
@@ -63,4 +64,5 @@ for (const s of scan) {
   process.stdout.write(`\r  ${n} sounds imported`);
 }
 fs.writeFileSync(catalogFile, JSON.stringify(catalog, null, 2));
+fs.writeFileSync('brain/library-catalog.json', JSON.stringify(catalog, null, 2)); // metadata backup in git
 console.log(`\n✅ ${n} sounds from ${packName} → Library/`);

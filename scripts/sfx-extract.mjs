@@ -3,11 +3,12 @@
 //   segments.json: [{id, start, end, tags:[], seconds (how long to use it), beat? (needs a silent pause), note}]
 import fs from 'node:fs';
 import path from 'node:path';
+import {libraryRoot} from './lib/paths.mjs';
 import {ffmpeg} from './lib/media.mjs';
 
 const [src, segFile] = process.argv.slice(2);
 const segments = JSON.parse(fs.readFileSync(segFile, 'utf8'));
-const MEMES = path.resolve('public/assets/library');
+const MEMES = libraryRoot(); // on the T7 (Mac only as fallback)
 const KIND = 'sounds';
 const catalogFile = path.join(MEMES, 'catalog.json');
 const catalog = JSON.parse(fs.readFileSync(catalogFile, 'utf8'));
@@ -28,4 +29,5 @@ for (const s of segments) {
   console.log(`  ${s.id.padEnd(22)} ${dur.toFixed(1)}s (use ${Math.min(s.seconds, dur).toFixed(1)}s)  [${s.tags.join(', ')}]${s.beat ? '  ⏸ beat' : ''}`);
 }
 fs.writeFileSync(catalogFile, JSON.stringify(catalog, null, 2));
+fs.writeFileSync('brain/library-catalog.json', JSON.stringify(catalog, null, 2)); // metadata backup in git
 console.log(`✅ ${segments.length} sound effects → Library/`);

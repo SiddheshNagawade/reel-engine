@@ -1,9 +1,0 @@
-digit display tick: counting / numbers
-Family: tech-ui
-Use it for (contextual, not literal):
-- thinking / processing information ("loading…")
-- his brain connecting the dots (connect) or losing focus (disconnect)
-- tech, apps, websites (CaptionKaro!)
-- downloading knowledge / learning
-- old-internet nostalgia (dial-up)
-Source: Display Digits 1.wav (sfx-pack-1)

@@ -1,8 +1,0 @@
-Click - Sound Effect (HD)
-Family: click
-Use it for (contextual, not literal):
-- choosing / selecting an option, a decision click
-- a list item or UI element appearing
-- "next"
-- subtle sound under text or sticker appearances
-Source: Click - Sound Effect (HD).mp3 (sfx-pack-1)

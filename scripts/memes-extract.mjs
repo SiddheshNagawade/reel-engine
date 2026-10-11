@@ -3,13 +3,14 @@
 //   segments.json: [{id, start, end, tags:[], placement?: 'peek-left'|'peek-right'|'corner'|'any', note?}]
 import fs from 'node:fs';
 import path from 'node:path';
+import {libraryRoot} from './lib/paths.mjs';
 import {spawn} from 'node:child_process';
 import {ffmpeg} from './lib/media.mjs';
 import ffmpegPath from 'ffmpeg-static';
 
 const [src, segFile] = process.argv.slice(2);
 const segments = JSON.parse(fs.readFileSync(segFile, 'utf8'));
-const MEMES = path.resolve('public/assets/library');
+const MEMES = libraryRoot(); // on the T7 (Mac only as fallback)
 const KIND = 'stickers';
 const KEY = '0x4BBA45';
 const MAX_SECONDS = 6;
@@ -96,4 +97,5 @@ for (const seg of segments) {
 }
 
 fs.writeFileSync(catalogFile, JSON.stringify(catalog, null, 2));
+fs.writeFileSync('brain/library-catalog.json', JSON.stringify(catalog, null, 2)); // metadata backup in git
 console.log(`\n✅ ${segments.length} memes → Library/`);

@@ -1,8 +1,0 @@
-Pop
-Family: pop
-Use it for (contextual, not literal):
-- text, sticker or bubble appearing
-- a small idea / tiny fact
-- something cute or small
-- a list item
-Source: Pop.mp3 (sfx-pack-1)

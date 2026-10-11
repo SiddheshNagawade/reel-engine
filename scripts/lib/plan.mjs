@@ -1,6 +1,7 @@
 // Turns raw analysis (silences, words, AI direction) into a frame-exact Edit for Remotion.
 import fs from 'node:fs';
 import path from 'node:path';
+import {libraryRoot} from './paths.mjs';
 
 const PUBLIC = path.resolve('public');
 const VIDEO_EXT = /\.(mp4|mov|m4v|webm)$/i;
@@ -228,11 +229,11 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   }
 
   // 9. Memes: a short reaction clip/sticker + its sound, in the top half, while captions continue below.
-  const catalogFile = path.join(PUBLIC, 'assets', 'library', 'catalog.json');
+  const catalogFile = path.join(libraryRoot(), 'catalog.json');
   // Each meme lives in public/assets/memes/<id>/ : any audio file = its sound, any video/image = its clip. Empty folders are skipped.
   const catalog = (fs.existsSync(catalogFile) ? JSON.parse(fs.readFileSync(catalogFile, 'utf8')).memes : [])
     .map((m) => {
-      const dir = path.join(PUBLIC, 'assets', 'library', m.dir ?? m.id);
+      const dir = path.join(libraryRoot(), m.dir ?? m.id);
       const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => !f.startsWith('.')) : [];
       const sound = files.find((f) => AUDIO_EXT.test(f));
       const visual = files.find((f) => /^sticker\./.test(f)) ?? files.find((f) => MEDIA_EXT.test(f) && !/^poster\./.test(f));

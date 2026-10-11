@@ -1,9 +1,0 @@
-party horn: celebration, sarcastic "congrats"
-Family: crowd
-Use it for (contextual, not literal):
-- a fake audience reacting to what he said
-- celebration / he did it
-- sympathy ("awww")
-- sarcastic applause after a bad idea
-- shock from the "audience"
-Source: party horn.mp3 (sfx-pack-1)

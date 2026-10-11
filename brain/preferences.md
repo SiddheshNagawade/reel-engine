@@ -132,3 +132,5 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   Reads as "lots of work done" without cutting away. Awaiting his verdict on v6.
 - VERDICT on v6 (2026-10-09): "amazing… flabbergasted, I like it very much". Present tense, calm pacing, floating practice
   cards, continuous time-lapse, loop ending = KEEP. Playbook: brain/process-videos.md.
+
+- STORAGE (2026-10-11): ALL data on the T7 (Library, _work, output, inbox, projects, references, meme-sources). The Mac keeps only the reusable system (code, tools, models, fonts). Mac work while the T7 is unplugged is moved to the drive automatically on the next run. Renders never leave temp files behind (incl. crashes and plan-only runs; --studio keeps them on purpose).

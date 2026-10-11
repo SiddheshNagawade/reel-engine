@@ -1,9 +1,0 @@
-short synth tone (unknown, rate it): UI / thinking
-Family: tech-ui
-Use it for (contextual, not literal):
-- thinking / processing information ("loading…")
-- his brain connecting the dots (connect) or losing focus (disconnect)
-- tech, apps, websites (CaptionKaro!)
-- downloading knowledge / learning
-- old-internet nostalgia (dial-up)
-Source: Core.mp3 (sfx-pack-1)

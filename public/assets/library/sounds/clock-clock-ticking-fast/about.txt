@@ -1,9 +1,0 @@
-Clock ticking fast
-Family: clock
-Use it for (contextual, not literal):
-- waiting / it took forever
-- deadline or time pressure
-- a boring stretch (ironic)
-- late night / time passing
-- a countdown before something happens
-Source: Clock ticking fast.mp3 (sfx-pack-1)

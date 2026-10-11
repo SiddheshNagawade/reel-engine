@@ -1,9 +1,0 @@
-message received
-Family: notify
-Use it for (contextual, not literal):
-- an idea pops into his head / a sudden thought
-- a reminder / reality calling ("ping: you have exams")
-- a new point in a list arrives
-- a reply, comment or DM in the story
-- social proof (likes, followers, views)
-Source: Iphone Receive.wav (sfx-pack-1)

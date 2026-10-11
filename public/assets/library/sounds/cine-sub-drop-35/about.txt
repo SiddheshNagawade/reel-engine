@@ -1,8 +1,0 @@
-cinematic sub-drop
-Family: sub-drop
-Use it for (contextual, not literal):
-- the mood drops: a serious or dark realization
-- a heavy truth / consequence
-- plot twist
-- right before a sad or honest line
-Source: Cinematic Sounds.mp3 (sfx-pack-1)

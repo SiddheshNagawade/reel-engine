@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {spawn} from 'node:child_process';
 import {mediaRoots, listVideos} from './lib/paths.mjs';
+import {syncToDrive} from './lib/sync.mjs';
 
 const seen = new Map(); // path -> {sig, since}
 let busy = false;
@@ -28,6 +29,7 @@ function ready(key, sig, quiet) {
 
 async function tick() {
   if (busy) return;
+  syncToDrive();
   for (const root of mediaRoots()) {
     const inbox = path.join(root, 'inbox');
     for (const f of listVideos(inbox)) {

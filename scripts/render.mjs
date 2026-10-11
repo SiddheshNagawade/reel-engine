@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import crypto from 'node:crypto';
+import {stageLibrary} from './lib/assets.mjs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {bundle} from '@remotion/bundler';
@@ -11,7 +12,7 @@ import {renderMedia, selectComposition} from '@remotion/renderer';
 const chromiumOptions = {gl: process.env.REEL_GL || 'angle'};
 
 // Reuse the compiled bundle while src/ and style.json are unchanged (saves ~10s per render).
-async function cachedBundle() {
+export async function cachedBundle() {
   const h = crypto.createHash('md5');
   const walk = (d) => fs.readdirSync(d, {withFileTypes: true}).forEach((e) => {
     const p = path.join(d, e.name);
@@ -28,6 +29,8 @@ async function cachedBundle() {
 }
 
 export async function renderEdit(edit, outPath, {frameRange} = {}) {
+  const unstage = stageLibrary(edit); // library files from the drive, only for this render
+  try {
   const t0 = Date.now();
   process.stdout.write('  bundling…');
   const serveUrl = await cachedBundle();
@@ -52,6 +55,9 @@ export async function renderEdit(edit, outPath, {frameRange} = {}) {
     },
   });
   process.stdout.write(`\r  rendered in ${((Date.now() - t0) / 1000).toFixed(0)}s → ${outPath}\n`);
+  } finally {
+    unstage();
+  }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

@@ -1,9 +1,0 @@
-blowing: blowing something away, relief, "phew"
-Family: cartoon
-Use it for (contextual, not literal):
-- a silly or goofy moment
-- self-own / dumb mistake (bonk)
-- something small and cute (toy squeak, bloop)
-- an embarrassing beat
-- a comic punctuation after a joke
-Source: mixkit-person-blows-2660.wav (sfx-pack-1)

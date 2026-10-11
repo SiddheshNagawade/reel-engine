@@ -1,7 +1,0 @@
-discord join: someone/an idea enters
-Family: join-leave
-Use it for (contextual, not literal):
-- join: someone or a new idea enters the conversation / joining a trend
-- leave: giving up on something, ghosting, leaving a topic, "and he left"
-- a character entering/exiting his story
-Source: Discord_Join.mp3 (sfx-pack-1)

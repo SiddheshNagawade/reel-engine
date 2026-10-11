@@ -17,6 +17,7 @@ import {directLocal} from './lib/director.mjs';
 import {analyzeFrames, pickTheme} from './lib/themes.mjs';
 import {buildEdit, buildTranscript, brollTags} from './lib/plan.mjs';
 import {mediaRoots, outputRoot, workRoot, listVideos} from './lib/paths.mjs';
+import {syncToDrive} from './lib/sync.mjs';
 import os from 'node:os';
 import {renderEdit} from './render.mjs';
 import {writeRenderedFcpxml} from './lib/fcpxml.mjs';
@@ -46,6 +47,7 @@ if (!target) {
   process.exit(1);
 }
 
+syncToDrive(); // anything made on the Mac while the T7 was unplugged → drive
 const roots = mediaRoots();
 const name = slug(target.replace(/\/+$/, ''));
 const work = path.join(workRoot(), name);
@@ -177,7 +179,8 @@ const faces = fs.existsSync(facesFile) ? readJson(facesFile) : [];
 
 // Expose only this reel's selects to Remotion.
 fs.mkdirSync('public/input', {recursive: true});
-for (const f of fs.readdirSync('public/input')) fs.rmSync(path.join('public/input', f), {force: true});
+// Only clear THIS reel's old temp files: another chat may be rendering a different reel at the same time.
+for (const f of fs.readdirSync('public/input')) if (f === `${name}.mp4` || f.startsWith(`${name}-fg`)) fs.rmSync(path.join('public/input', f), {force: true});
 const tempInput = path.resolve('public/input', `${name}.mp4`);
 fs.copyFileSync(selects, tempInput); // temporary: deleted right after rendering
 
@@ -308,6 +311,8 @@ if (!flag('--no-render')) {
   });
   writeJson(usageFile, usage);
 }
+// Planning-only runs leave nothing on the Mac either (use --studio to keep the temp files for Remotion Studio).
+if (flag('--no-render') && !flag('--studio')) for (const f of tempFiles) fs.rmSync(f, {force: true});
 if (flag('--no-render')) console.log(`\n✅ Planned (not rendered). Transcript: ${path.join(work, 'transcript.md')} · preview: npm run studio`);
 timings.push([stepName, (Date.now() - stepStart) / 1000]);
 console.log('\n⏱  Time spent:\n' + timings.filter(([, t]) => t >= 0.5).map(([n, t]) => `   ${t.toFixed(0).padStart(4)}s  ${n}`).join('\n'));

@@ -1,9 +1,0 @@
-crowd gasp: shocking statement
-Family: crowd
-Use it for (contextual, not literal):
-- a fake audience reacting to what he said
-- celebration / he did it
-- sympathy ("awww")
-- sarcastic applause after a bad idea
-- shock from the "audience"
-Source: crowd shocked.mp3 (sfx-pack-1)

@@ -1,8 +1,0 @@
-Cash Register
-Family: money
-Use it for (contextual, not literal):
-- money, profit, a price reveal, a sale
-- "worth it" / that's valuable
-- cha-ching success
-- greed or flexing (sarcastic)
-Source: Cash Register.mp3 (sfx-pack-1)

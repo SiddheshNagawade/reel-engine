@@ -32,7 +32,8 @@ He is not an editor; he shares ideas, and you decide what works and explain why.
 ## Where things live
 - Drive (when attached): `/Volumes/T7 Shield/ReelEngine/` → `inbox/`, `projects/`, `output/<reel>/` (versions), `_work/<reel>/` (transcripts, direction.json, selects.mp4, faces.json, versions/), `meme-sources/` (raw meme compilations).
 - The Mac is scratch space only: temp files are deleted after each render. Never leave clutter on the Mac.
-- `Library/` (= public/assets/library): `stickers/`, `sounds/`, `rejected/` (never use), `wanted/`, `catalog.json` (tags = when to use).
+- **Library on the T7**: `/Volumes/T7 Shield/ReelEngine/Library/` → `stickers/`, `sounds/` (INDEX.md), `music/`, `rejected/` (never use), `wanted/`, `catalog.json` (tags = when to use; git backup in `brain/library-catalog.json`). Files a render needs are staged into public/ only during the render, then removed. Only `public/assets/library/fonts/` stays on the Mac.
+- **Mac = the system only** (code, node_modules, .venv, Whisper model, fonts, film grain). If the T7 is unplugged, work/output fall back to the Mac and `syncToDrive()` moves them to the drive on the next run.
 - Look: `style.json` (caption sizes are PERFECT; don't change them). Spelling fixes: `hinglish.json`. Usage history (avoid repeats): `brain/usage.json`.
 - Tools: `scripts/transcribe.py` (two-pass Whisper), `scripts/facetrack.py`, `scripts/personmask.py` (text behind person), `scripts/memes-extract.mjs`, `scripts/sfx-extract.mjs`, `scripts/still.mjs`.
 - Animation on his footage (props stuck to face/hands, bubbles, labels, notes, any object as a sticker): `direction.attach`; follow `.claude/skills/motion-graphics/SKILL.md`.

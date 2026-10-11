@@ -1,9 +1,0 @@
-minecraft "oof": small pain / self-own
-Family: cartoon
-Use it for (contextual, not literal):
-- a silly or goofy moment
-- self-own / dumb mistake (bonk)
-- something small and cute (toy squeak, bloop)
-- an embarrassing beat
-- a comic punctuation after a joke
-Source: Minecraft Hurt.wav (sfx-pack-1)

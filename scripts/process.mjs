@@ -35,6 +35,8 @@ import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import ffmpegPath from 'ffmpeg-static';
 import {outputRoot, workRoot} from './lib/paths.mjs';
+import {syncToDrive} from './lib/sync.mjs';
+syncToDrive(); // work made on the Mac while the T7 was unplugged → drive
 
 const args = process.argv.slice(2);
 const opt = (f, d) => (args.includes(f) ? args[args.indexOf(f) + 1] : d);

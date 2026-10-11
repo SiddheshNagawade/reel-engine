@@ -1,8 +1,0 @@
-electric power-up: motivation boost
-Family: energy
-Use it for (contextual, not literal):
-- a motivation boost / power-up
-- a glow-up or transformation (before → after)
-- something shiny/premium
-- an epic moment / trailer feel
-Source: mixkit-electricity-static-power-up-2600.wav (sfx-pack-1)

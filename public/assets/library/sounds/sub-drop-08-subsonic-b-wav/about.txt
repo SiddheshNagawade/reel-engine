@@ -1,8 +1,0 @@
-08 Subsonic B.wav
-Family: sub-drop
-Use it for (contextual, not literal):
-- the mood drops: a serious or dark realization
-- a heavy truth / consequence
-- plot twist
-- right before a sad or honest line
-Source: 08 Subsonic B.wav.wav (sfx-pack-1)

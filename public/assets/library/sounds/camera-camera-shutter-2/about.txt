@@ -1,9 +1,0 @@
-camera-shutter-6305
-Family: camera
-Use it for (contextual, not literal):
-- capturing a moment / "screenshot this" / "noted"
-- a freeze frame or photo of the result
-- a flash of memory
-- showing proof
-- fame / paparazzi / "main character" moment
-Source: camera-shutter-6305.mp3 (sfx-pack-1)

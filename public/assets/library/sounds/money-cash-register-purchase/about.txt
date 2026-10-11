@@ -1,8 +1,0 @@
-cash-register-purchase-87313
-Family: money
-Use it for (contextual, not literal):
-- money, profit, a price reveal, a sale
-- "worth it" / that's valuable
-- cha-ching success
-- greed or flexing (sarcastic)
-Source: cash-register-purchase-87313.mp3 (sfx-pack-1)

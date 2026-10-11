@@ -1,9 +1,0 @@
-Typewriter
-Family: typing
-Use it for (contextual, not literal):
-- working hard / grinding
-- writing a plan, script or list
-- researching / searching online
-- messaging someone
-- hacker / "I figured it out" smart move
-Source: Typewriter.mp3 (sfx-pack-1)
