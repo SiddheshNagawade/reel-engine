@@ -5,7 +5,10 @@ Two shared Claude Docs (he and I both edit; read them with the docs tools before
   Goal + two tables. WORK DAYS: one row per date (never repeat a date), one MODE per day so he never switches
   (Tue planning = stories for the week's 5 videos, Wed gym, Thu record all 4 talking videos, Sat review + schedule all
   5 on Instagram, Sun analytics). His column "Your notes and analytics" is his ONLY update (no daily logs: they stress
-  him). VIDEOS: # | Upload | Pillar | Title | Your story (HE fills) | Script (I fill the night of the planning day) | Status.
+  him). VIDEOS overview: Name (pillar-date, e.g. build-19oct = also the T7 projects/ folder name) | Upload | Pillar |
+  Idea | Status. VIDEO BRIEFS per week: for each video, numbered QUESTIONS with SUGGESTIONS/examples and a → line for his
+  answer, footage to get, then the script I write the night of the planning day. He is blank: never "write your story",
+  always ask specific questions with options. Points, not sentences. Add next week's briefs the night before planning day.
   When he says "I made changes", read it sinceRev and reply with updates.
 - BRAND PLAN (strategy, content bank, rhythm, reviews): https://claude.ai/code/artifact/e0b1f621-2e02-4aea-88df-87e18568c35f
 Script rules: brain/content-brief.md (still valid for hooks, 5 beats, open loops, stranger rule; CaptionKaro parts are void).
