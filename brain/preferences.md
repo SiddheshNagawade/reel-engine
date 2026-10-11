@@ -156,3 +156,11 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
      (sync, cut-offs) are necessary but not the goal.
   6. If infrastructure is eating the day, say so and protect time for the creative pass.
 - His decision: clipping isn't worth it for him; focus on his own content (see brain/clipping.md).
+
+## Learned 2026-10-11 (Chandigarh vlog, first look at the vlog graphics)
+- Vlog captions: MrBeast style, not plain subtitles. Big heavy font, thick outline, a few words at a time, pop-in,
+  key word in colour. When a caption would cover the action (a face, the object he's showing), move it for that shot.
+- More MrBeast-style illustrations (arrows, circles, pop labels, emoji-like stickers, punch-in zooms), not only
+  clean minimal titles.
+- NEVER point at a person with a name/label unless I know who it is. I confused his friends. Get a labelled face
+  sheet from him first, then place tags by face detection, and only where the face is clearly visible.
