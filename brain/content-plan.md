@@ -1,62 +1,57 @@
-# Content plan (the planner chat's file; every edit chat reads this)
+# Content plan: live tracker (planner chat; every edit chat reads this)
 
-The planner chat decides WHAT to make and WHEN; edit chats decide HOW. Update the status here after every render/post.
-Dates are absolute. Last updated: 2026-10-11.
+Rules and formats: brain/content-brief.md (his standing brief, 21 Sept 2026). This file = current state.
+The planner chat plans and writes scripts; edit chats edit. Update after every script, render and post. Last updated: 2026-10-11.
 
-## Channel facts
-- YouTube: ~10.6k subscribers; best video ~272k views. (Instagram numbers: ask him.)
-- Niche: his art: speedpaint / drawing process (markers, pastels), IIT Roorkee student artist. Hinglish voice.
-- Goal for the page: TO CONFIRM WITH HIM (followers? art audience? supplies/brand deals? side income?).
+## Accounts
+- PERSONAL account (this plan): "IIT design guy who builds real apps with AI and builds his body the same way".
+  Builds · thinks · trains. Pillars Mon Story (CaptionKaro) / Wed My Take / Fri Work Log / Sun Road to 73.
+- "Siddhesh Nagawade Arts": separate, UCEED aspirants, feeds Crinspire. Not part of this plan. (Drawing reels like
+  alcoholmarkers belong there.) Drawing-channel ideas from 2026-10-11 are parked at the bottom.
 
-## Pipeline
-| Reel | Status | Notes |
+## Status (2026-10-11)
+- NOTHING started yet: no handle, no setup, no videos. The brief's window (Sep 28 – Nov 22) has already slipped 2 weeks.
+- Start date: TO DECIDE (proposed: setup week Oct 12–18, Week 1 starts Mon Oct 19 → 60 days end ~Dec 13; check end-sem dates).
+
+## Running facts
+| Fact | Current | Updated |
 |---|---|---|
-| alcoholmarkers | edited, v6 loved (2026-10-09) | posted? when? |
-| img-1391 | test reel, not for posting | learning only |
-| birkin, equity, forty, dad, hate, perfect, team, voice | clipping-day clips (2026-10-11) | not his content; clipping dropped |
-| chandigarh trip (inbox) | raw, folder empty on the T7 | footage still to copy? |
-| vector character test (inbox) | raw | character-overlay test |
-| Monsoon pastels × rainwater | parked (his call, 2026-10-11) | monsoon 2027 |
+| CaptionKaro paying users | ? | |
+| CaptionKaro monthly visitors | ? | |
+| CaptionKaro public finish line | ? (Diwali Nov 8 now too close) | |
+| Weight | 69 kg (start) | |
+| Bench / squat / rows | ? | |
+| Instagram handle | ? | |
+| Followers | 0 | |
+| End-sem / mid-sem dates | ? | |
 
-## Direction (his decision, 2026-10-11)
-- Focus: Instagram first + a YouTube drawing channel where HE is part of the video (Gawx-style: personality + art,
-  face on camera, challenges, him drawn into the art). Starting from zero. Monsoon/Derwent idea: dropped.
-- Angle: "IIT engineer who draws": Indian student life + Hinglish + his face/voice. Art is the hook, he is the reason to follow.
-- One shoot → two edits: YouTube long-form (8–15 min story) + IG reel (30–45 s). Long-form 16:9 mode isn't built yet;
-  reels are ready (process-video playbook + talking-head pipeline).
+## Setup checklist (Week 0)
+- [ ] "How did you find us?" field at CaptionKaro signup
+- [ ] Distinct bio link (UTM / short link)
+- [ ] Instagram handle + bio + link
+- [ ] Recording spot (window light, stand, clip-on mic); editing route decided
+- [ ] 2–3 practice recordings (energy calibration)
+- [ ] Gym Day 1 baseline (photos, weight, 3 lifts)
+- [ ] Flashback buffer: 2–3 Work Log videos recorded ahead
 
-## Ideas bank (ranked, ★ = make first)
-Series A: Challenges (Gawx core)
-- ★ ₹100 vs ₹1,000 vs ₹10,000 art supplies (same drawing three times; Indian prices make it relatable)
-- ★ Drawing in a boring lecture with only a ball pen (hidden, real classroom vibe)
-- Drawing with weird stuff: chai, coffee, mess dal/haldi, a lab pipette
-- 1 min vs 10 min vs 1 hour of the same subject
-Series B: Him inside the art
-- ★ Putting myself into famous paintings / Bollywood posters / anime scenes
-- Drawing my hostel room / first-year life with me in it (already done once; proven)
-- His vector-character mascot interacting with his drawings (ReelEngine character-overlay)
-Series C: People + reactions (face, emotion, shareable)
-- ★ Drawing strangers / campus people (guard, mess bhaiya, juniors) and giving it to them: reaction = payoff
-- Drawing friends as anime characters → their reaction
-- Parents/relatives react: "art se kya hoga?"
-Series D: Journey (proven by alcoholmarkers)
-- "I couldn't draw X" → 7 days later (hands, faces, cars, trees)
-- Learning a new medium from zero on camera
-Parked: monsoon rainwater pastels (monsoon 2027), Diwali art piece (~Nov 1, 2026) if time.
+## Editing route for this account (to confirm with him)
+- Brief says: one take, CaptionKaro captions, no heavy editing. ReelEngine's brain says captions alone aren't editing.
+  Reconcile: light, purposeful edits only where the brief asks for them (rewatch trigger: number on screen, screen
+  recording, prototype clip; frame-one text that adds to the hook). No memes/stickers by default on this account.
 
-## Money & sponsors (notes, sanity-checked)
-- Indian brands first (Kokuyo Camlin = the "Camlin" brand, one company; Brustro; local art shops); international brands
-  (Derwent) want bigger reach. Free supplies are an easier first ask than paid deals.
-- Affiliate links (Amazon India Associates) cost nothing to start; the earlier chat's estimates were too optimistic:
-  20 sales of a ~₹2,000 set at a few % commission ≈ ₹1–3k, not ₹5–10k. Worth it, not a plan by itself.
-- Patreon/memberships/courses: only after a steady audience; not a priority now.
+## Calendar / pipeline
+| Date | Pillar | Video | Status |
+|---|---|---|---|
+| (fills once the start date is set) | | | |
 
-## Seasonal calendar (from 2026-10-11)
-- Dussehra (~Oct 20, 2026), Diwali (Nov 8, 2026): festival art (diyas, rangoli-inspired, lights) → start shooting by ~Oct 25.
-- Winter / fog at Roorkee (Dec–Jan), end-sem exams (Nov–Dec?) → plan around his exam dates.
-- Holi (Mar 2027), monsoon 2027 (Jun–Sep) → the rainwater video.
+## Experiments (Monday arc, 3–4 total)
+| # | Where (community/channel) | Started | Stage | Verdict |
+|---|---|---|---|---|
 
-## Open questions for him
-- Is it still raining in Roorkee? Does he already own the water-soluble pastels?
-- Posting rhythm he can sustain (reels/week, YouTube videos/month)? Exam dates?
-- Was alcoholmarkers posted? How did it do?
+## Weekly reviews (Sundays)
+(views/video · watch-time % · profile visits · link clicks · new followers; best and worst video + why)
+
+## Parked
+- Arts account / drawing-channel ideas (2026-10-11, from a wrong-chat mix-up): ₹100 vs ₹10,000 supplies, ball-pen in a
+  lecture, drawing campus people and gifting it, putting himself into Bollywood posters, "couldn't draw X → 7 days later".
+- Monsoon rainwater pastels (monsoon 2027).
