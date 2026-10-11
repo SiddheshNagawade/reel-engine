@@ -54,3 +54,18 @@ Pick 1–2 techniques per video. Never all of them: the story comes first.
 - Long-form: the first 30s must confirm the title/thumbnail promise, state the stakes, and open a loop. Then mini-loops every 5–15s
   in high-energy content (fast cuts, text pops for key points only, sound on every cut), chapter cards between sections.
   Captions are optional: big keyword text only on key moments, not full subtitles.
+
+## The 3-second formula (from a creator-education video he shared, 2026-10-11; my notes)
+- People judge a reel in ~1 s. Never open with an intro ("Hi, I'm…"). The first 1–3 s should carry a TRAILER of the
+  highest-effort part of the video.
+- A visual hook needs all three: MOTION (something in frame moves), CURIOSITY (a question pops up: "why is he doing that?"),
+  CLARITY (you instantly understand what the video is about).
+- Hook types, combine 2–3: visual (something people don't normally see) · unbelievable (a shot that makes you ask "how?")
+  · pain point (SPECIFIC: "salary gone by the 15th", not "money problems") · curiosity gap (incomplete information) ·
+  relatability (alarm at 7, awake at 8) · transformation (show the after first, then the process).
+- For his drawing videos the transformation hook is native: final artwork (or the before/after) first, then the process.
+  Already proven: the alcoholmarkers trees cold open.
+- Body: real value, researched (what are people already saying?); keep attention with questions, humour, meme
+  references, and sound that changes with the mood every few seconds.
+- Ending: ask a question that people want to answer in the comments, instead of "like, share, subscribe".
+- "The algorithm" = consistency + value. Don't chase myths about likes vs shares.

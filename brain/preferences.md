@@ -134,3 +134,25 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   cards, continuous time-lapse, loop ending = KEEP. Playbook: brain/process-videos.md.
 
 - STORAGE (2026-10-11): ALL data on the T7 (Library, _work, output, inbox, projects, references, meme-sources). The Mac keeps only the reusable system (code, tools, models, fonts). Mac work while the T7 is unplugged is moved to the drive automatically on the next run. Renders never leave temp files behind (incl. crashes and plan-only runs; --studio keeps them on purpose).
+
+## Learned 2026-10-11 (clipping day): my edits were flat. Why, and the rules that fix it
+- His verdict: "you just caption and leave everything. There is no kind of editing." He taught me vectors, motion graphics,
+  character overlays and SFX, and the clips used none of them: captions + zooms + one hook line.
+- Causes (mine): graphics are opt-in fields, so the default render is captions only; I read the restraint rules as
+  "add nothing" (safest = emptiest); the day's time went to plumbing (downloads, sync, fonts); my checks hunt for errors,
+  never for "is this gripping?".
+- RULES (these override any restraint wording elsewhere):
+  1. Restraint = ONE idea at a time, not ZERO ideas. A 20–30 s reel needs something new to see or hear every ~2–3 s
+     (vector/graphic, UI frame, b-roll, camera move, real transition, sound). Captions alone are not editing.
+  2. Before rendering, write a beat-by-beat VISUAL PLAN: for every line, what the viewer sees besides the face and what
+     they hear. "Nothing here" needs a reason, not the other way round.
+  3. When the speaker describes something visual, SHOW it. Misses from today: "pie chart, 20% for this, 30% for this" →
+     an animated pie chart; "equity, not cash" → cash turning into a share certificate + $1M counter; "me, my tripod, my
+     iPhone" → phone/UI frame; "Birkin vs kids' college fund" → two vector cards. If the asset doesn't exist, build it on
+     the spot as a reusable layer (CLAUDE.md "Freedom to create").
+  4. Use what already exists first: direction.attach (motion-graphics skill), cards, CardStage / CircleReveal / NumberRoll,
+     character overlay, SFX library, transitions at real picture changes.
+  5. QA as a viewer: watch the whole thing at 1x with sound and ask every ~3 s "why would I keep watching?". Error checks
+     (sync, cut-offs) are necessary but not the goal.
+  6. If infrastructure is eating the day, say so and protect time for the creative pass.
+- His decision: clipping isn't worth it for him; focus on his own content (see brain/clipping.md).

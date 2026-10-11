@@ -76,3 +76,6 @@ Campaign files live next to the footage: T7 `clipings/<campaign>/CAMPAIGN.md` (r
 
 ## Results log
 - (fill in: which clips got views, Tier 1 %, payouts)
+- 2026-10-11, end of day: he decided clipping isn't worth it for him (most campaigns need Tier 1 / Germany / TikTok, the
+  money is small, and it took the whole day). Focus = his own content. Tools that carry over: vcrop.py (landscape → 9:16),
+  avsync.py, subocr.py, yt-dlp section workflow for studying reference videos cheaply, REEL_VOICE_AF switch.
