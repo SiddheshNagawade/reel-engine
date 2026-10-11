@@ -55,6 +55,16 @@ a few narration lines (he records them; not the whole video), premium-edit style
 - He asked for a progress + time estimate mid-render: give one up front next time (≈ 2–2.5 h for a 10-min vlog on
   this 8 GB Mac: preview 30–40 min, full 1080p 60–80 min).
 
+## v3 (2026-10-12): tools added
+- `make_vlog.py [--long]` builds both cuts from one script (L(short, long) per value); `node scripts/vlog.mjs <name>
+  --edit vlog-long.json --out <name>-long`. Pieces are content-addressed (md5 of the segment) so both cuts share renders.
+- Hardware encoding (h264_videotoolbox ~26 Mbps) for every piece + Remotion `hardwareAcceleration` → several times faster.
+- `sub(src, s, e, text)` aligns my corrected caption words to Whisper word times (difflib); captions are karaoke.
+- `censor: [{keys: [[t, x, y, w, h], ...]}]` = tracked pixel mosaic (keys from 3-fps gridded frames of the piece).
+- scripts/herocut.py: one person out of a photo/frame by Vision instance mask (hero intros).
+- Music runs: talk segments (talk=True or captions ≥ 6 s) end a run; each new run starts on a different strong entry
+  of the song (drop / after a break), cuts snapped to that run's beat grid.
+
 ## Taste notes / open questions for him
 - Alcohol: night 2 has bottles/drinking; v1 keeps the chaos (wrestling, dancing, tucking someone in) and leaves out
   the drinking shots, because the account is his personal brand. His call.

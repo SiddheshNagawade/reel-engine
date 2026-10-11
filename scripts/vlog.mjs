@@ -39,6 +39,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
+import crypto from 'node:crypto';
 import ffmpegPath from 'ffmpeg-static';
 import {outputRoot, workRoot, libraryRoot} from './lib/paths.mjs';
 import {TONEMAP} from './lib/media.mjs';
@@ -53,7 +54,9 @@ if (!name) {
 const PREVIEW = args.includes('--preview');
 const ONLY = opt('--only', '') ? new Set(opt('--only', '').split(',')) : null;
 const work = path.join(workRoot(), name);
-const V = JSON.parse(fs.readFileSync(path.join(work, 'vlog.json'), 'utf8'));
+const EDIT = opt('--edit', 'vlog.json');                  // e.g. vlog-long.json: another cut of the same footage
+const OUTNAME = opt('--out', name);                       // e.g. chandigarh-long
+const V = JSON.parse(fs.readFileSync(path.join(work, EDIT), 'utf8'));
 const [W, H] = PREVIEW ? [960, 540] : (V.size ?? [1920, 1080]);
 const FPS = V.fps ?? 30;
 const S = W / 1920; // layout scale
@@ -65,8 +68,9 @@ const ff = (a) => {
 const ffInfo = (file) => String(spawnSync(ffmpegPath, ['-hide_banner', '-i', file], {encoding: 'utf8'}).stderr);
 const ROT = {90: 'transpose=1,', 270: 'transpose=2,', [-90]: 'transpose=2,', 180: 'hflip,vflip,'};
 const even = (x) => Math.round(x / 2) * 2;
-const ENC_V = ['-c:v', 'libx264', '-preset', PREVIEW ? 'veryfast' : 'medium', '-crf', PREVIEW ? '26' : '17', '-pix_fmt', 'yuv420p',
-  '-r', String(FPS), '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv'];
+// Hardware H.264 (Apple VideoToolbox): visually transparent at these bitrates and several times faster than x264.
+const ENC_V = ['-c:v', 'h264_videotoolbox', '-b:v', PREVIEW ? '5M' : '26M', '-maxrate', PREVIEW ? '8M' : '34M', '-profile:v', 'high', '-allow_sw', '1',
+  '-pix_fmt', 'yuv420p', '-r', String(FPS), '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv'];
 const ENC_A = ['-c:a', 'pcm_s16le', '-ar', '48000', '-ac', '2'];
 
 const srcPath = (f) => (path.isAbsolute(f) ? f : path.join(V.srcDir, f));
@@ -235,7 +239,42 @@ function renderSegment(s, out, tmp) {
 
   if (!aLabel) { inputs.push(...silent); fc += `;[${nIn++}:a]anull[a]`; }
   ff([...inputs, '-filter_complex', fc, '-map', '[v]', '-map', '[a]', '-t', T, ...ENC_V, ...ENC_A, out]);
+  if (s.censor?.length) censorPiece(out, s.censor, tmp);
   return total;
+}
+
+// Mosaic ("Japanese blur") that follows hand-placed keyframes: censor: [{keys: [[t, x, y, w, h], ...], block?: 18}]
+// t = piece seconds, box = fractions of the frame (top-left). Box size is the largest of the keys (generous on
+// purpose); its position is interpolated per frame, so it tracks the spot.
+function censorPiece(file, list, tmp) {
+  const lin = (keys, i) => {
+    let e = `${keys[keys.length - 1][i]}`;
+    for (let k = keys.length - 2; k >= 0; k--) {
+      const [t0, t1, a, b] = [keys[k][0], keys[k + 1][0], keys[k][i], keys[k + 1][i]];
+      e = `if(lt(t,${t1}),${a}+(${b - a})*(t-${t0})/${Math.max(0.001, t1 - t0)},${e})`;
+    }
+    return `if(lt(t,${keys[0][0]}),${keys[0][i]},${e})`;
+  };
+  const parts = [], labels = [];
+  let cur = '0:v';
+  list.forEach((c, j) => {
+    const keys = c.keys;
+    const bw = even(Math.max(...keys.map((k) => k[3])) * W), bh = even(Math.max(...keys.map((k) => k[4])) * H);
+    const blk = Math.max(4, Math.round((c.block ?? 22) * S));
+    // centre of the box follows the keys; keep the fixed-size box inside the frame
+    const cx = (t) => `(${lin(keys, 1)}+${lin(keys, 3)}/2)`;
+    const cy = () => `(${lin(keys, 2)}+${lin(keys, 4)}/2)`;
+    const X = `max(0,min(${W - bw},${cx()}*${W}-${bw / 2}))`, Y = `max(0,min(${H - bh},${cy()}*${H}-${bh / 2}))`;
+    const on = `between(t,${keys[0][0]},${keys[keys.length - 1][0]})`;
+    parts.push(`[${cur}]split[b${j}][s${j}]`);
+    parts.push(`[s${j}]crop=w=${bw}:h=${bh}:x='${X}':y='${Y}',scale=${Math.max(2, Math.round(bw / blk))}:${Math.max(2, Math.round(bh / blk))}:flags=area,scale=${bw}:${bh}:flags=neighbor[p${j}]`);
+    parts.push(`[b${j}][p${j}]overlay=x='${X}':y='${Y}':enable='${on}':eval=frame[c${j}]`);
+    cur = `c${j}`;
+  });
+  const tmpOut = path.join(tmp, `censor-${path.basename(file)}`);
+  ff(['-i', file, '-filter_complex', parts.join(';'), '-map', `[${cur}]`, '-map', '0:a', ...ENC_V, '-c:a', 'copy', tmpOut]);
+  fs.copyFileSync(tmpOut, file); // tmp is on the Mac, pieces on the T7 (rename fails across disks)
+  fs.rmSync(tmpOut, {force: true});
 }
 function photoDims(f, rotate = 0) {
   const i = info(photoPath(f));
@@ -251,8 +290,8 @@ const timeline = []; // {id, start, total, seg}
 let clock = 0;
 try {
   for (const [k, s] of segs.entries()) {
-    const out = path.join(pieces, `${String(k).padStart(3, "0")}-${s.id}.mov`);
-    const sig = JSON.stringify({s, W, look: 1});
+    const sig = JSON.stringify({s: {...s, gfx: undefined, chapter: undefined}, W, enc: 2});
+    const out = path.join(pieces, `${s.id}-${crypto.createHash('md5').update(sig).digest('hex').slice(0, 10)}.mov`);
     const sigFile = out + '.sig';
     let total;
     if (ONLY && !ONLY.has(s.id)) {
@@ -267,7 +306,7 @@ try {
     timeline.push({id: s.id, start: clock, total, seg: s, file: out});
     clock += total;
   }
-  fs.writeFileSync(path.join(work, PREVIEW ? 'timeline-preview.json' : 'timeline.json'),
+  fs.writeFileSync(path.join(work, `${OUTNAME}${PREVIEW ? '-preview' : ''}.timeline.json`),
     JSON.stringify(timeline.map(({seg, ...t}) => t), null, 1));
   console.log(`\n  ${timeline.length} pieces, ${(clock / 60).toFixed(2)} min`);
   if (args.includes('--pieces-only')) process.exit(0);
@@ -329,7 +368,7 @@ try {
   // look + subtitles
   const L = V.look ?? {};
   const look = [
-    L.contrast ? `eq=contrast=${L.contrast}` : '',
+    L.contrast || L.gamma ? `eq=contrast=${L.contrast ?? 1}:gamma=${L.gamma ?? 1}` : '',
     L.vibrance ? `vibrance=intensity=${L.vibrance}` : '',
     L.vignette ? `vignette=angle=${L.vignette}` : '',
     L.grain ? `noise=alls=${L.grain}:allf=t` : '',
@@ -337,18 +376,19 @@ try {
   const ass = V.captions === 'plain' ? writeSubs(timeline, path.join(tmp, 'subs.ass')) : null;
   if (ass) look.push(`subtitles=${ass.replace(/[:\\']/g, (c) => '\\' + c)}:fontsdir=${path.resolve('public/assets/library/fonts').replace(/[:\\']/g, (c) => '\\' + c)}`);
   const outDir = path.join(outputRoot(), name);
+  const name_ = OUTNAME;
   fs.mkdirSync(outDir, {recursive: true});
   let v = 1;
-  while (fs.existsSync(path.join(outDir, `${name}-v${v}${PREVIEW ? '-preview' : ''}.mp4`))) v++;
-  const final = path.join(outDir, `${name}-v${v}${PREVIEW ? '-preview' : ''}.mp4`);
+  while (fs.existsSync(path.join(outDir, `${name_}-v${v}${PREVIEW ? '-preview' : ''}.mp4`))) v++;
+  const final = path.join(outDir, `${name_}-v${v}${PREVIEW ? '-preview' : ''}.mp4`);
   ff([...aIn, '-filter_complex', `${chains.join(';')};[0:v]${look.length ? look.join(',') : 'null'}[vout]`,
     '-map', '[vout]', '-map', '[aout]', ...ENC_V, '-c:a', 'aac', '-b:a', '256k', '-ar', '48000', '-movflags', '+faststart', '-t', clock.toFixed(3), final]);
   console.log(`\n✅ ${final} (${(clock / 60).toFixed(2)} min)`);
   if (!PREVIEW) {
     const note = opt('--note', V.changeNote ?? '');
-    fs.appendFileSync(path.join(outDir, 'CHANGELOG.md'), `\n## v${v} (${new Date().toISOString().slice(0, 10)}): ${(clock / 60).toFixed(2)} min\n${note}\n`);
-    fs.copyFileSync(path.join(work, 'vlog.json'), path.join(outDir, `${name}-v${v}.vlog.json`));
-    fs.writeFileSync(path.join(outDir, `${name}-v${v}.chapters.txt`), chapters(timeline));
+    fs.appendFileSync(path.join(outDir, 'CHANGELOG.md'), `\n## ${name_} v${v} (${new Date().toISOString().slice(0, 10)}): ${(clock / 60).toFixed(2)} min\n${note}\n`);
+    fs.copyFileSync(path.join(work, EDIT), path.join(outDir, `${name_}-v${v}.vlog.json`));
+    fs.writeFileSync(path.join(outDir, `${name_}-v${v}.chapters.txt`), chapters(timeline));
   }
 } finally {
   fs.rmSync(tmp, {recursive: true, force: true});
@@ -367,12 +407,12 @@ function faces(t) {
   return JSON.parse(fs.readFileSync(f, 'utf8'));
 }
 function captionLayers(t) {
-  const SPOTS = {bottom: [0.12, 0.7, 0.88, 0.93], top: [0.12, 0.06, 0.88, 0.3], right: [0.68, 0.35, 0.99, 0.65], left: [0.01, 0.35, 0.32, 0.65]};
+  const SPOTS = {bottom: [0.2, 0.72, 0.8, 0.92], top: [0.2, 0.06, 0.8, 0.26], right: [0.68, 0.35, 0.99, 0.65], left: [0.01, 0.35, 0.32, 0.65]};
   const s = t.seg;
   if (!s.subs?.length) return [];
   const {speed} = segTiming(s);
   const fb = faces(t);
-  const order = s.capPos ? [s.capPos] : (s.layout === 'card' ? ['bottom', 'right', 'left', 'top'] : ['bottom', 'top']);
+  const order = s.capPos ? [s.capPos] : ['bottom', 'top'];
   const out = [];
   for (const l of s.subs) {
     const a = Math.max(0, (l.s - (s.in ?? 0)) / speed), b = Math.min(t.total, (l.e - (s.in ?? 0)) / speed);
@@ -381,9 +421,13 @@ function captionLayers(t) {
       const m = /^([*^!])(.+)\1([.,!?…]*)$/.exec(w);
       return m ? {w: m[2] + m[3], hot: {'*': 'yellow', '^': 'green', '!': 'red'}[m[1]]} : {w};
     });
-    const total = words.reduce((n, w) => n + w.w.length + 2, 0);
-    let c = a;
-    for (const w of words) { w.s = c; c += ((w.w.length + 2) / total) * (b - a); }
+    if (l.w?.length === words.length) {
+      words.forEach((w, i) => { w.s = Math.min(b - 0.05, Math.max(a, (l.w[i][1] - (s.in ?? 0)) / speed)); });
+    } else {
+      const total = words.reduce((n, w) => n + w.w.length + 2, 0);
+      let c = a;
+      for (const w of words) { w.s = c; c += ((w.w.length + 2) / total) * (b - a); }
+    }
     const groups = [];
     for (const w of words) {
       const g = groups[groups.length - 1];

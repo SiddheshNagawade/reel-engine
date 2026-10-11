@@ -168,3 +168,18 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   cut-outs, canvas moves, zooms. Before rendering ANY video: walk brain/edit-layers.md pass by pass and use the
   library. A friends vlog = funny + poppy + beat-synced; photos hang over footage; heroes intro each friend.
 - Music he gives = the backbone: use it in sections all through the video, beat-synced (see brain/vlog.md).
+
+## Learned 2026-10-12 (Chandigarh vlog, his notes on the v2 preview)
+- NO EMOJI graphics: "so low effort". Use meme stickers, meme voices, punch-zooms, pop text with a real joke instead.
+- Cold open = short and INTENSE: big face zooms (1.3–1.6), tension/shiver sound under it, meme sounds on the beats
+  (fart on the reveal, hmmm, faaah). Variety: never the same meme sound twice in a row.
+- Captions: karaoke (spoken word lit), centred, big, timed to the REAL audio (Whisper word times + my corrected text),
+  on EVERY understandable line. Even-spread timing looked wrong. Group noise clips can't be captioned honestly.
+- Filters: his original colours + rich grain, a touch more contrast and vibrance, slightly deeper mids. No vignette.
+- Text must carry the friends' actual inside jokes (he supplies them: "drunk dance", "thul thula Hrushi",
+  "PAISA BARBAD", "we don't smoke weed, we smoke money", hero titles). Ask/listen for these, don't invent bland ones.
+- Show real numbers when there are any (punch score 308 read off the machine display; push-up counts he gave).
+- Music must NOT run under real conversations: drop out, come back on a beat with a different song section.
+- Two cuts: a tight ~10 min version AND a long 20+ min one that keeps every moment and conversation.
+- Censor (pixel mosaic, tracked) only on crotch/butt moments, never chests. Crude labels are his call.
+- He's fine with the drinking content (night 2, "drunk manager"); no need to hide it.

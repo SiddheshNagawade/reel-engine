@@ -269,7 +269,7 @@ const pop = (t: number, d = 0.28) => {
 };
 
 // Captions: 2–3 words, each word pops when spoken, hot words in colour. Placed off faces by scripts/vlog.mjs.
-const Caps: React.FC<Extract<Gfx, {type: 'caps'}>> = ({at, dur, words, pos = 'bottom', size = 0.078}) => {
+const Caps: React.FC<Extract<Gfx, {type: 'caps'}>> = ({at, dur, words, pos = 'bottom', size = 0.088}) => {
   const f = useCurrentFrame();
   const {fps, width: Wd, height: H} = useVideoConfig();
   const t = f / fps - at;
@@ -286,10 +286,12 @@ const Caps: React.FC<Extract<Gfx, {type: 'caps'}>> = ({at, dur, words, pos = 'bo
     <div style={{position: 'absolute', ...box, textAlign: 'center', opacity: out, lineHeight: 1.12}}>
       {words.map((w, i) => {
         const k = pop(t - (w.s - at) + 0.02);
-        const color = w.hot === 'green' ? BEAST.green : w.hot === 'red' ? BEAST.red : w.hot ? BEAST.yellow : '#fff';
+        // karaoke: the word being spoken now is lit (yellow, bigger); coloured hot words keep their colour
+        const now = t >= w.s - at && (i === words.length - 1 || t < words[i + 1].s - at);
+        const color = w.hot === 'green' ? BEAST.green : w.hot === 'red' ? BEAST.red : (w.hot || now) ? BEAST.yellow : '#fff';
         return (
           <span key={i} style={{display: 'inline-block', margin: `0 ${fs * 0.13}px`, fontFamily: BEAST.font, fontWeight: 900, fontSize: fs * (w.hot ? 1.12 : 1),
-            color, textTransform: 'uppercase', transform: `scale(${k}) rotate(${w.hot ? -2 : 0}deg)`, opacity: k > 0 ? 1 : 0, ...stroke(fs * 0.12)}}>{w.w}</span>
+            color, textTransform: 'uppercase', transform: `scale(${k * (now ? 1.12 : 1)}) rotate(${w.hot ? -2 : 0}deg)`, opacity: k > 0 ? 1 : 0, ...stroke(fs * 0.12)}}>{w.w}</span>
         );
       })}
     </div>
