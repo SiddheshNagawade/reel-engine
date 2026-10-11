@@ -25,13 +25,18 @@ export async function probe(file) {
   };
 }
 
-// Constant 30fps H.264, sized to cover 1080x1920, voice cleaned and loudness-normalised (-14 LUFS, the reels standard).
+// Voice chain: cleaned + loudness-normalised (-14 LUFS, the reels standard) for his phone recordings.
+// Already-mastered audio (podcasts, other creators' footage) must NOT be processed: the denoiser makes voices sound
+// artificial. Set REEL_VOICE_AF=anull for those (or any other ffmpeg audio filter).
+const VOICE_AF = process.env.REEL_VOICE_AF || 'highpass=f=80,afftdn=nf=-25,loudnorm=I=-14:TP=-1.5:LRA=11';
+
+// Constant 30fps H.264, sized to cover 1080x1920, voice chain applied (see VOICE_AF).
 export async function normalize(input, output) {
   await ffmpeg([
     '-y', '-i', input,
     '-vf', "fps=30,scale='if(gt(a,9/16),-2,1080)':'if(gt(a,9/16),1920,-2)':flags=lanczos,format=yuv420p",
     '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '17', '-g', '30',
-    '-af', 'highpass=f=80,afftdn=nf=-25,loudnorm=I=-14:TP=-1.5:LRA=11',
+    '-af', VOICE_AF,
     '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',
     '-movflags', '+faststart', output,
   ]);
@@ -101,7 +106,7 @@ export async function joinPieces(pieces, out, workDir) {
   await ffmpeg(['-y', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', raw]);
   await ffmpeg([
     '-y', '-i', raw, '-c:v', 'copy',
-    '-af', 'highpass=f=80,afftdn=nf=-25,loudnorm=I=-14:TP=-1.5:LRA=11',
+    '-af', VOICE_AF,
     '-c:a', 'aac', '-b:a', '256k', '-ar', '48000', '-movflags', '+faststart', out,
   ]);
   fs.rmSync(raw);

@@ -30,6 +30,7 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 | Floating cards (practice montage) | process.mjs timeline "cards": clip in a white rounded frame + shadow + tilt, slides across over a running background | showing extra work/practice without cutting away from the main shot | more than 2 at once; over the main subject's key moment |
 | Clip mode (Whop clipping) | scripts/clip.mjs + scripts/subocr.py; playbook brain/clipping.md | cutting OTHER creators' 16:9 footage into 9:16 posts with original picture/audio, logo, title, captions | his own reels (use npm run reel / process.mjs) |
 | Sound design by meaning | Library/sounds (387 from his pack, INDEX.md) + scripts/lib/sound-families.mjs; choose via brain/sounds.md; import new packs with scripts/sfx-scan.mjs + sfx-import.mjs | a moment's meaning matches (zone-out → glitch, gives up → Discord leave, idea → notify…) | over his words; two sounds at once; same sound as the last reel |
+| Podcast clip pipeline (16:9 interview → 9:16) | yt-dlp sections + scripts/avsync.py + scripts/vcrop.py + npm run reel with REEL_VOICE_AF=anull; steps in brain/clipping.md | clipping podcasts / interviews / any landscape talking footage | his own vertical phone footage (use npm run reel directly) |
 | Final Cut project export | output/<reel>/<reel>-vN.fcpxml | by default, so he can tweak cuts in FCP | n/a |
 
 ## Legibility & framing checklist (learned from v2)

@@ -37,6 +37,25 @@ Campaign files live next to the footage: T7 `clipings/<campaign>/CAMPAIGN.md` (r
   First render missed this and showed every line twice.
 - Find cut points with ffmpeg scene detection (`select='gt(scene,0.25)',showinfo`) so cuts land on shot changes.
 
+## Podcast / interview clips (Aspire campaign, 2026-10-11): the efficient + correct pipeline
+1. PLAN CHEAP: 360p video-only preview + YouTube's own captions (json3 word timings, `--write-auto-subs --sub-format json3`).
+   Local Whisper on a 1-hour episode was too slow here. Read the transcript, pick moments, note exact times.
+2. FETCH ONLY WHAT'S NEEDED in 4K: `yt-dlp --download-sections "*a-b"` (VP9 313; AV1 decodes too slowly). 4K → a 9:16 crop
+   is native 1080x1920 (1080p would be upscaled 1.8x and soft). Never download the whole episode in high quality.
+   YouTube may block this Mac ("not a bot"): `--cookies-from-browser chrome` (ask him first) + `yt-dlp[default]` (EJS solver)
+   + `--js-runtimes node`.
+3. AUDIO: pick the ORIGINAL English track WITHOUT DRC (`140-15`, "original … m4a_dash", not "DRC"); multi-language episodes
+   also carry AI-dubbed tracks: never those.
+4. A/V SYNC (critical, he caught it): section downloads start the picture at the previous keyframe but the audio exactly
+   on time → picture 0.1–5.4 s ahead of the voice, different per clip. ALWAYS run `scripts/avsync.py` (matches camera
+   cuts against the 360p preview, falls back to frame matching; replaces the audio with the exact slice of the full
+   original track). Both methods agreed within 1 frame on every clip.
+5. `scripts/vcrop.py`: 16:9 → 9:16, one steady framing per camera shot on the biggest face, changes only at real cuts.
+6. Then the normal pipeline with `REEL_VOICE_AF=anull`: mastered audio must NOT go through our denoiser (afftdn made her
+   voice sound fake/"dubbed"). Direction: original colours (film look off), no memes, honest hook, highlight-box captions.
+7. Logo on top afterwards: light logo + soft shadow, top centre at y≈150 (reads on light AND dark backgrounds).
+8. Before showing him anything: check lip sync on a real frame, listen to the voice, check stills.
+
 ## Posting
 - Post at the time the target audience is awake (US evening = 5:30–8:30 AM IST).
 - Warm up new accounts 2–3 days in the target niche/country content. No VPN (breaks platform rules).
