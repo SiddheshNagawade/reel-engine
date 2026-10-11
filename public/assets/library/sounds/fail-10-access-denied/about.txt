@@ -1,0 +1,9 @@
+access denied: rejection, "not allowed"
+Family: fail
+Use it for (contextual, not literal):
+- wrong answer / a mistake / bad idea
+- rejection ("access denied", "nope")
+- something breaking or crashing
+- brain error: "I don't understand" / system failure
+- self-own (funny)
+Source: 10 Access Denied.wav (sfx-pack-1)

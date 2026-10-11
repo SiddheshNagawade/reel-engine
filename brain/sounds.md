@@ -1,0 +1,47 @@
+# Sound design by MEANING (his rule, 2026-10-11)
+
+Sounds are chosen for what the moment MEANS in his story, not for what they literally are. A glitch isn't only for
+glitches; a Discord "leave" isn't only for Discord. Think like an editor: what is he feeling/doing right now, and which
+sound says that with a wink? If nothing clearly fits, use nothing (story first, his voice always on top).
+
+Library: 387 sounds from his pack (`Library/sounds/`, full list `Library/sounds/INDEX.md`), each with `about.txt`.
+Families + meanings are defined once in `scripts/lib/sound-families.mjs` (tags used by `direction.memes`).
+Use: `direction.memes: [{at: wordIndex, id: 'glitch-004'}]` (exact sound) or `{at, tag: 'zone-out'}` (pick one, avoids repeats).
+
+## Moment → sound (starting points, not rules)
+| What's happening in his story | Reach for | Why it works |
+|---|---|---|
+| He zones out / loses the thought / says rubbish and snaps to the next topic | glitch (glitch-001…010, terminal/line-break), `17 Disconnected` | the "brain" glitches; the cut feels intentional |
+| Awkward or abrupt topic switch | glitch, `CARTOON TRANSITION`, portal hop | funnier than a plain whoosh |
+| An idea arrives / lightbulb | notify: new-idea, good-idea, Doraemon gadget, Apple/iPhone ping | the idea "pings" in |
+| A reminder / reality calls ("but exams…") | notify (message/iPhone receive) | reality is texting him |
+| Someone/an idea enters the conversation | Discord join | a character "joined" |
+| He gives up / leaves a topic / gets ghosted | Discord leave, YEET | dramatic exit |
+| A mistake / bad decision / plan fails | Windows XP error, wrong answer, access denied, glass shatter | the system says no |
+| A useless/bad line (comic beat) | silent freeze → fart / bruh / awkward pause | lands AFTER the line, never over it |
+| Self-own / dumb moment | bamboo bonk, minecraft oof, body thud | slapstick on himself |
+| Approval / nailed it / unlocked | access granted, correct, ding, ascending, Mario coin | tiny reward |
+| Money / price / value / flex | cash register, racks, coin | cha-ching |
+| Waiting / it took forever / late night | clock ticking, bike wheel spinning, dial-up | time dragging |
+| Working hard / planning / researching | typing, typewriter, hacking | grind sound |
+| Drawing / notes / start over | pencil/writing, paper flip (next chapter), rip/crumple (reject idea) | his art + metaphor |
+| Thinking it through / connecting dots | gears turning, processing, network connect, loading | the brain at work |
+| Flashback / story time / "let me rewind" | flashback, projector, tape rewind | time travel |
+| Skip the boring part / time skip | fast forward, "a few moments later" | |
+| Build-up before a reveal / number / punchline | riser, drum roll, cine-riser-07 → impact | anticipation |
+| Reveal / big number / hard truth / title slam | impact, explosion, boom, boxing bell (challenge starts) | emphasis |
+| Mood drops / serious realization / twist | sub-drop, dark drop, sudden suspense, glass-hit stinger | weight |
+| Nervous / pressure / regret / lonely | heartbeat, upset pulses, spooky wind, cine drone | under the line, very low |
+| Glow-up / motivation / transformation | energy: power-up, lens flare, brassy swell | shine |
+| Suspicious / caught / coincidence | among us, hmmm, illuminati confirmed | sus |
+| Fake audience reaction | crowd gasp, applause (also sarcastic), awww, kids yay, party horn | |
+| Swear / secret / spoiler / "I won't say who" | censor beep | |
+| Text, sticker, list item appearing | pop, click, tick | subtle, low |
+| Real movement (camera move, scene change) | whoosh-short / whoosh-long | only for real motion |
+
+## Rules
+- His voice is the main sound: effects in the pauses, ducked under speech, ~1 meme sound per ~12 s.
+- Vary: don't reuse the same sound in back-to-back reels (brain/usage.json); the pack has many variants per family.
+- One sound per moment. A sound + a sticker for the same moment is fine; two sounds stacked is not.
+- Meme voices (bruh, nope, OMG, rizz, YEET…) are strongest; use them only when HIS attitude matches.
+- 8 music beds were imported to `Library/music/` but need his rating before use (names only, I can't hear mood).

@@ -1,0 +1,8 @@
+rm click (2)
+Family: click
+Use it for (contextual, not literal):
+- choosing / selecting an option, a decision click
+- a list item or UI element appearing
+- "next"
+- subtle sound under text or sticker appearances
+Source: rm click (2).wav (sfx-pack-1)

@@ -1,0 +1,7 @@
+mixkit-cinematic-transition-wind-swoosh-1468
+Family: whoosh-long
+Use it for (contextual, not literal):
+- a real scene/clip change or a big camera move
+- time passing / travelling somewhere
+- a dreamy, floaty moment
+Source: mixkit-cinematic-transition-wind-swoosh-1468.wav (sfx-pack-1)

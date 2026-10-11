@@ -1,0 +1,8 @@
+energy shot: power-up
+Family: energy
+Use it for (contextual, not literal):
+- a motivation boost / power-up
+- a glow-up or transformation (before → after)
+- something shiny/premium
+- an epic moment / trailer feel
+Source: shot light energy.mp3 (sfx-pack-1)

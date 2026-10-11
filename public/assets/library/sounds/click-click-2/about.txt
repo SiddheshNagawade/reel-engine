@@ -1,0 +1,8 @@
+click
+Family: click
+Use it for (contextual, not literal):
+- choosing / selecting an option, a decision click
+- a list item or UI element appearing
+- "next"
+- subtle sound under text or sticker appearances
+Source: All type of sound in this video.mp4 (sfx-pack-1)

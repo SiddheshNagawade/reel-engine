@@ -1,0 +1,1929 @@
+{
+ "SFX Sound Effects/-camera-shutter.wav": {
+  "id": "camera-camera-shutter",
+  "family": "camera",
+  "note": "-camera-shutter"
+ },
+ "SFX Sound Effects/001.wav": {
+  "id": "glitch-001",
+  "family": "glitch",
+  "note": "001"
+ },
+ "SFX Sound Effects/002.wav": {
+  "id": "glitch-002",
+  "family": "glitch",
+  "note": "002"
+ },
+ "SFX Sound Effects/003.wav": {
+  "id": "glitch-003",
+  "family": "glitch",
+  "note": "003"
+ },
+ "SFX Sound Effects/004.wav": {
+  "id": "glitch-004",
+  "family": "glitch",
+  "note": "004"
+ },
+ "SFX Sound Effects/005.wav": {
+  "id": "glitch-005",
+  "family": "glitch",
+  "note": "005"
+ },
+ "SFX Sound Effects/006.wav": {
+  "id": "glitch-006",
+  "family": "glitch",
+  "note": "006"
+ },
+ "SFX Sound Effects/007.wav": {
+  "id": "glitch-007",
+  "family": "glitch",
+  "note": "007"
+ },
+ "SFX Sound Effects/008.wav": {
+  "id": "glitch-008",
+  "family": "glitch",
+  "note": "008"
+ },
+ "SFX Sound Effects/009.wav": {
+  "id": "glitch-009",
+  "family": "glitch",
+  "note": "009"
+ },
+ "SFX Sound Effects/01 Beating.wav": {
+  "id": "tension-01-beating",
+  "family": "tension",
+  "note": "heartbeat: nervous, pressure, crush moment",
+  "tags": [
+   "nervous"
+  ]
+ },
+ "SFX Sound Effects/01 Boom.wav": {
+  "id": "impact-01-boom",
+  "family": "impact",
+  "note": "01 Boom"
+ },
+ "SFX Sound Effects/01 Evolve_Brassy Swell.wav": {
+  "id": "energy-01-evolve-brassy-swell",
+  "family": "energy",
+  "note": "brassy swell: epic build, trailer feel",
+  "tags": [
+   "epic"
+  ]
+ },
+ "SFX Sound Effects/01 Processing.wav": {
+  "id": "tech-ui-01-processing",
+  "family": "tech-ui",
+  "note": "processing: thinking it through",
+  "tags": [
+   "thinking"
+  ]
+ },
+ "SFX Sound Effects/010.wav": {
+  "id": "glitch-010",
+  "family": "glitch",
+  "note": "010"
+ },
+ "SFX Sound Effects/02 Deep.wav": {
+  "id": "sub-drop-02-deep",
+  "family": "sub-drop",
+  "note": "02 Deep"
+ },
+ "SFX Sound Effects/02 Dial-up.wav": {
+  "id": "tech-ui-02-dial-up",
+  "family": "tech-ui",
+  "note": "dial-up modem: old-internet nostalgia, slow loading, \"connecting…\"",
+  "tags": [
+   "nostalgia"
+  ]
+ },
+ "SFX Sound Effects/02 Evolve_Brassy Drop.2.wav": {
+  "id": "sub-drop-02-evolve-brassy-drop-2",
+  "family": "sub-drop",
+  "note": "brassy drop: epic dark drop"
+ },
+ "SFX Sound Effects/03 Evolve_Boom Brass D.wav": {
+  "id": "impact-03-evolve-boom-brass-d",
+  "family": "impact",
+  "note": "03 Evolve_Boom Brass D"
+ },
+ "SFX Sound Effects/03 Grand Hit A.wav": {
+  "id": "impact-03-grand-hit-a",
+  "family": "impact",
+  "note": "03 Grand Hit A"
+ },
+ "SFX Sound Effects/03 RF Switcher.wav": {
+  "id": "glitch-03-rf-switcher",
+  "family": "glitch",
+  "note": "RF switch glitch"
+ },
+ "SFX Sound Effects/04 Erased Data.wav": {
+  "id": "glitch-04-erased-data",
+  "family": "glitch",
+  "note": "erased data: forget it, deleting a thought, memory wiped"
+ },
+ "SFX Sound Effects/04 Evolve_Boom Feedback E.wav": {
+  "id": "impact-04-evolve-boom-feedback-e",
+  "family": "impact",
+  "note": "04 Evolve_Boom Feedback E"
+ },
+ "SFX Sound Effects/04 Grand Hit B.wav.wav": {
+  "id": "impact-04-grand-hit-b-wav",
+  "family": "impact",
+  "note": "04 Grand Hit B.wav"
+ },
+ "SFX Sound Effects/05 Evolve_Boom Shot.wav": {
+  "id": "impact-05-evolve-boom-shot",
+  "family": "impact",
+  "note": "05 Evolve_Boom Shot"
+ },
+ "SFX Sound Effects/05 Impact.wav": {
+  "id": "impact-05-impact",
+  "family": "impact",
+  "note": "05 Impact"
+ },
+ "SFX Sound Effects/05 Reboot Failure.wav": {
+  "id": "fail-05-reboot-failure",
+  "family": "fail",
+  "note": "reboot failure: brain shutdown, total fail"
+ },
+ "SFX Sound Effects/06 Drum Roll.wav": {
+  "id": "riser-06-drum-roll",
+  "family": "riser",
+  "note": "drum roll: right before a reveal/result",
+  "tags": [
+   "drumroll"
+  ]
+ },
+ "SFX Sound Effects/06 Evolve_Boom Hint of Metal.wav": {
+  "id": "impact-06-evolve-boom-hint-of-metal",
+  "family": "impact",
+  "note": "06 Evolve_Boom Hint of Metal"
+ },
+ "SFX Sound Effects/06 Portal Hop.wav": {
+  "id": "time-06-portal-hop",
+  "family": "time",
+  "note": "portal hop: jump to another place/topic"
+ },
+ "SFX Sound Effects/07 Line Break.wav": {
+  "id": "glitch-07-line-break",
+  "family": "glitch",
+  "note": "line break: hard topic switch"
+ },
+ "SFX Sound Effects/07 Subsonic A.wav": {
+  "id": "sub-drop-07-subsonic-a",
+  "family": "sub-drop",
+  "note": "07 Subsonic A"
+ },
+ "SFX Sound Effects/08 Rewinding.wav": {
+  "id": "time-08-rewinding",
+  "family": "time",
+  "note": "rewinding"
+ },
+ "SFX Sound Effects/08 Subsonic B.wav.wav": {
+  "id": "sub-drop-08-subsonic-b-wav",
+  "family": "sub-drop",
+  "note": "08 Subsonic B.wav"
+ },
+ "SFX Sound Effects/09 Data Transfer.wav": {
+  "id": "tech-ui-09-data-transfer",
+  "family": "tech-ui",
+  "note": "data transfer: learning / downloading knowledge"
+ },
+ "SFX Sound Effects/09 Struck Down.wav": {
+  "id": "impact-09-struck-down",
+  "family": "impact",
+  "note": "09 Struck Down"
+ },
+ "SFX Sound Effects/10 Access Denied.wav": {
+  "id": "fail-10-access-denied",
+  "family": "fail",
+  "note": "access denied: rejection, \"not allowed\""
+ },
+ "SFX Sound Effects/10 Dark Drop.wav": {
+  "id": "sub-drop-10-dark-drop",
+  "family": "sub-drop",
+  "note": "10 Dark Drop"
+ },
+ "SFX Sound Effects/10 Evolve_Riser Robo Drums.wav": {
+  "id": "riser-10-evolve-riser-robo-drums",
+  "family": "riser",
+  "note": "robo-drum riser"
+ },
+ "SFX Sound Effects/11 Access Granted.wav": {
+  "id": "success-11-access-granted",
+  "family": "success",
+  "note": "access granted: approval, \"you're in\", unlocked"
+ },
+ "SFX Sound Effects/11 Low Quick.wav": {
+  "id": "impact-11-low-quick",
+  "family": "impact",
+  "note": "low quick hit"
+ },
+ "SFX Sound Effects/11 Universe Boom A.wav": {
+  "id": "impact-11-universe-boom-a",
+  "family": "impact",
+  "note": "11 Universe Boom A"
+ },
+ "SFX Sound Effects/12 Intermodulation.wav": {
+  "id": "glitch-12-intermodulation",
+  "family": "glitch",
+  "note": "intermodulation buzz glitch"
+ },
+ "SFX Sound Effects/12 Universe Boom B.wav": {
+  "id": "impact-12-universe-boom-b",
+  "family": "impact",
+  "note": "12 Universe Boom B"
+ },
+ "SFX Sound Effects/13 Metal Slam.wav": {
+  "id": "impact-13-metal-slam",
+  "family": "impact",
+  "note": "13 Metal Slam"
+ },
+ "SFX Sound Effects/13 Restart Switch.wav": {
+  "id": "tech-ui-13-restart-switch",
+  "family": "tech-ui",
+  "note": "restart: a fresh start, trying again",
+  "tags": [
+   "start-over"
+  ]
+ },
+ "SFX Sound Effects/14 Disc Read.wav": {
+  "id": "tech-ui-14-disc-read",
+  "family": "tech-ui",
+  "note": "disc read: loading a memory, thinking"
+ },
+ "SFX Sound Effects/14 Incoming Crash.wav": {
+  "id": "riser-14-incoming-crash",
+  "family": "riser",
+  "note": "incoming crash: build into a crash"
+ },
+ "SFX Sound Effects/15 Fast Forward.wav": {
+  "id": "time-15-fast-forward",
+  "family": "time",
+  "note": "fast forward"
+ },
+ "SFX Sound Effects/16 Network Connect.wav": {
+  "id": "tech-ui-16-network-connect",
+  "family": "tech-ui",
+  "note": "connect: dots connecting, understanding clicks",
+  "tags": [
+   "connect"
+  ]
+ },
+ "SFX Sound Effects/17 Disconnected.wav": {
+  "id": "tech-ui-17-disconnected",
+  "family": "tech-ui",
+  "note": "disconnected: zoning out, losing focus, giving up",
+  "tags": [
+   "zone-out",
+   "disconnect"
+  ]
+ },
+ "SFX Sound Effects/18 Termainal Glitch.wav": {
+  "id": "glitch-18-termainal-glitch",
+  "family": "glitch",
+  "note": "terminal glitch"
+ },
+ "SFX Sound Effects/19 Download.wav": {
+  "id": "tech-ui-19-download",
+  "family": "tech-ui",
+  "note": "download: learning something / taking it in"
+ },
+ "SFX Sound Effects/29 Swing A.wav": {
+  "id": "whoosh-short-29-swing-a",
+  "family": "whoosh-short",
+  "note": "swing whoosh"
+ },
+ "SFX Sound Effects/All type of sound in this video.mp4": {
+  "id": "alltypes",
+  "split": [
+   {
+    "part": 1,
+    "id": "whoosh-short-whoosh-sound-1",
+    "family": "whoosh-short",
+    "note": "whoosh sound 1"
+   },
+   {
+    "part": 3,
+    "id": "whoosh-short-whoosh-sound-10",
+    "family": "whoosh-short",
+    "note": "whoosh sound 10"
+   },
+   {
+    "part": 4,
+    "id": "whoosh-short-whoosh-sound-10-2",
+    "family": "whoosh-short",
+    "note": "whoosh sound 10"
+   },
+   {
+    "part": 5,
+    "id": "whoosh-short-whoosh-sound-10-3",
+    "family": "whoosh-short",
+    "note": "whoosh sound 10"
+   },
+   {
+    "part": 6,
+    "id": "whoosh-short-whoosh-sound-10-4",
+    "family": "whoosh-short",
+    "note": "whoosh sound 10"
+   },
+   {
+    "part": 7,
+    "id": "whoosh-short-whoosh-sound-10-5",
+    "family": "whoosh-short",
+    "note": "whoosh sound 10"
+   },
+   {
+    "part": 8,
+    "id": "whoosh-short-whoosh-sound-10-6",
+    "family": "whoosh-short",
+    "note": "whoosh sound 10"
+   },
+   {
+    "part": 9,
+    "id": "whoosh-short-whoosh-sound-10-7",
+    "family": "whoosh-short",
+    "note": "whoosh sound 10"
+   },
+   {
+    "part": 10,
+    "id": "whoosh-short-whoosh-sound-10-8",
+    "family": "whoosh-short",
+    "note": "whoosh sound 10"
+   },
+   {
+    "part": 11,
+    "id": "whoosh-short-whoosh-sound-10-9",
+    "family": "whoosh-short",
+    "note": "whoosh sound 10"
+   },
+   {
+    "part": 12,
+    "id": "whoosh-short-whoosh-sound-10-10",
+    "family": "whoosh-short",
+    "note": "whoosh sound 10"
+   },
+   {
+    "part": 13,
+    "id": "whoosh-short-whoosh-sound-10-11",
+    "family": "whoosh-short",
+    "note": "whoosh sound 10"
+   },
+   {
+    "part": 15,
+    "id": "whoosh-short-whoosh-sound-18",
+    "family": "whoosh-short",
+    "note": "whoosh sound 18"
+   },
+   {
+    "part": 16,
+    "id": "whoosh-short-whoosh-sound-18-2",
+    "family": "whoosh-short",
+    "note": "whoosh sound 18"
+   },
+   {
+    "part": 18,
+    "id": "whoosh-short-moosh-26",
+    "family": "whoosh-short",
+    "note": "moosh 26"
+   },
+   {
+    "part": 19,
+    "id": "whoosh-short-woosh-27",
+    "family": "whoosh-short",
+    "note": "woosh 27"
+   },
+   {
+    "part": 21,
+    "id": "glitch-glitch",
+    "family": "glitch",
+    "note": "glitch"
+   },
+   {
+    "part": 22,
+    "id": "impact-hit",
+    "family": "impact",
+    "note": "hit sound effect"
+   },
+   {
+    "part": 23,
+    "id": "impact-explosion-1",
+    "family": "impact",
+    "note": "explosion 1"
+   },
+   {
+    "part": 24,
+    "id": "impact-explosion-1-2",
+    "family": "impact",
+    "note": "explosion 1"
+   },
+   {
+    "part": 25,
+    "id": "riser-suspence-riser",
+    "family": "riser",
+    "note": "suspence riser"
+   },
+   {
+    "part": 26,
+    "id": "success-ding",
+    "family": "success",
+    "note": "ding"
+   },
+   {
+    "part": 27,
+    "id": "impact-punch",
+    "family": "impact",
+    "note": "punch"
+   },
+   {
+    "part": 31,
+    "id": "clock-55-60-50-5-85-5-70-90-75-135-20-30-25-cl",
+    "family": "clock",
+    "note": "55 60 50 5 85 5 70 90 75. 135 20 30 25 clock ticking..."
+   },
+   {
+    "part": 32,
+    "id": "camera-camera-clicking",
+    "family": "camera",
+    "note": "camera clicking"
+   },
+   {
+    "part": 33,
+    "id": "camera-camera-clicking-2",
+    "family": "camera",
+    "note": "camera clicking"
+   },
+   {
+    "part": 34,
+    "id": "camera-camera-clicking-3",
+    "family": "camera",
+    "note": "camera clicking"
+   },
+   {
+    "part": 35,
+    "id": "camera-camera-clicking-4",
+    "family": "camera",
+    "note": "camera clicking"
+   },
+   {
+    "part": 36,
+    "id": "camera-camera-clicking-5",
+    "family": "camera",
+    "note": "camera clicking"
+   },
+   {
+    "part": 37,
+    "id": "camera-camera-clicking-6",
+    "family": "camera",
+    "note": "camera clicking"
+   },
+   {
+    "part": 38,
+    "id": "camera-camera-clicking-7",
+    "family": "camera",
+    "note": "camera clicking"
+   },
+   {
+    "part": 39,
+    "id": "click-click",
+    "family": "click",
+    "note": "click"
+   },
+   {
+    "part": 40,
+    "id": "click-click-2",
+    "family": "click",
+    "note": "click"
+   },
+   {
+    "part": 41,
+    "id": "clock-00-00-07-time-bomb-clicking",
+    "family": "clock",
+    "note": "00:00:07 time bomb clicking"
+   }
+  ]
+ },
+ "SFX Sound Effects/Animal Crossing Menu.mp3": {
+  "id": "cute-menu",
+  "splitAll": "click",
+  "note": "cute-menu variant"
+ },
+ "SFX Sound Effects/Applause.wav": {
+  "id": "crowd-applause",
+  "family": "crowd",
+  "note": "applause: celebration or sarcastic applause",
+  "tags": [
+   "celebrate"
+  ]
+ },
+ "SFX Sound Effects/Apple Notification.wav": {
+  "id": "notify-apple-notification",
+  "family": "notify",
+  "note": "apple notification"
+ },
+ "SFX Sound Effects/Ascending sound effect.mp3": {
+  "id": "success-ascending",
+  "family": "success",
+  "note": "ascending: level up, things improving"
+ },
+ "SFX Sound Effects/BUILD-UP.mp3": {
+  "id": "riser-build-up",
+  "family": "riser",
+  "note": "build-up"
+ },
+ "SFX Sound Effects/Bloop Cartoon Sound Effect (MP3_160K) (1).mp3": {
+  "id": "cartoon-bloop-cartoon-mp3-160k-1",
+  "family": "cartoon",
+  "note": "Bloop Cartoon Sound Effect (MP3_160K) (1)"
+ },
+ "SFX Sound Effects/CARTOON FART.wav": {
+  "id": "cartoon-cartoon-fart",
+  "family": "cartoon",
+  "note": "cartoon fart: bad take beat (lighter)",
+  "tags": [
+   "bad-take"
+  ]
+ },
+ "SFX Sound Effects/Cartoon Splat.wav": {
+  "id": "cartoon-cartoon-splat",
+  "family": "cartoon",
+  "note": "Cartoon Splat"
+ },
+ "SFX Sound Effects/Cash Register (Kaching) - Sound Effect (HD).mp3": {
+  "id": "money-cash-register-kaching-hd",
+  "family": "money",
+  "note": "Cash Register (Kaching) - Sound Effect (HD)"
+ },
+ "SFX Sound Effects/Cash Register sounds effects No Copyright free use.mp3": {
+  "id": "money-cash-register-sounds-effects",
+  "family": "money",
+  "note": "Cash Register sounds effects No Copyright free use"
+ },
+ "SFX Sound Effects/Cash Register.mp3": {
+  "id": "money-cash-register",
+  "family": "money",
+  "note": "Cash Register"
+ },
+ "SFX Sound Effects/Censor beep sound effect.mp3": {
+  "id": "censor-censor-beep",
+  "family": "censor",
+  "note": "censor beep"
+ },
+ "SFX Sound Effects/Cinematic Sounds.mp3": {
+  "id": "cine",
+  "note": "cinematic pack",
+  "split": [
+   {
+    "part": 1,
+    "id": "cine-glitch-01",
+    "family": "glitch",
+    "note": "glitch → riser → hit transition"
+   },
+   {
+    "part": 2,
+    "id": "cine-whoosh-long-02",
+    "family": "whoosh-long",
+    "note": "cinematic whoosh-long"
+   },
+   {
+    "part": 3,
+    "id": "cine-whoosh-long-03",
+    "family": "whoosh-long",
+    "note": "cinematic whoosh-long"
+   },
+   {
+    "part": 4,
+    "id": "cine-impact-04",
+    "family": "impact",
+    "note": "cinematic impact"
+   },
+   {
+    "part": 5,
+    "id": "cine-impact-05",
+    "family": "impact",
+    "note": "cinematic impact"
+   },
+   {
+    "part": 6,
+    "id": "cine-sub-drop-06",
+    "family": "sub-drop",
+    "note": "cinematic sub-drop"
+   },
+   {
+    "part": 7,
+    "id": "cine-riser-07",
+    "family": "riser",
+    "note": "long 15s riser into a hit"
+   },
+   {
+    "part": 8,
+    "id": "cine-tension-08",
+    "family": "tension",
+    "note": "tension drone into stutter"
+   },
+   {
+    "part": 9,
+    "id": "cine-whoosh-long-09",
+    "family": "whoosh-long",
+    "note": "cinematic whoosh-long"
+   },
+   {
+    "part": 10,
+    "id": "cine-whoosh-short-10",
+    "family": "whoosh-short",
+    "note": "cinematic whoosh-short"
+   },
+   {
+    "part": 11,
+    "id": "cine-impact-11",
+    "family": "impact",
+    "note": "cinematic impact"
+   },
+   {
+    "part": 12,
+    "id": "cine-impact-12",
+    "family": "impact",
+    "note": "cinematic impact"
+   },
+   {
+    "part": 13,
+    "id": "cine-glitch-13",
+    "family": "glitch",
+    "note": "cinematic glitch"
+   },
+   {
+    "part": 14,
+    "id": "cine-riser-14",
+    "family": "riser",
+    "note": "cinematic riser"
+   },
+   {
+    "part": 15,
+    "id": "cine-impact-15",
+    "family": "impact",
+    "note": "cinematic impact"
+   },
+   {
+    "part": 16,
+    "id": "cine-riser-16",
+    "family": "riser",
+    "note": "riser with drums into a hit"
+   },
+   {
+    "part": 17,
+    "id": "cine-whoosh-short-17",
+    "family": "whoosh-short",
+    "note": "cinematic whoosh-short"
+   },
+   {
+    "part": 18,
+    "id": "cine-whoosh-short-18",
+    "family": "whoosh-short",
+    "note": "cinematic whoosh-short"
+   },
+   {
+    "part": 19,
+    "id": "cine-whoosh-short-19",
+    "family": "whoosh-short",
+    "note": "cinematic whoosh-short"
+   },
+   {
+    "part": 20,
+    "id": "cine-sub-drop-20",
+    "family": "sub-drop",
+    "note": "cinematic sub-drop"
+   },
+   {
+    "part": 21,
+    "id": "cine-glitch-21",
+    "family": "glitch",
+    "note": "cinematic glitch"
+   },
+   {
+    "part": 22,
+    "id": "cine-whoosh-long-22",
+    "family": "whoosh-long",
+    "note": "cinematic whoosh-long"
+   },
+   {
+    "part": 23,
+    "id": "cine-impact-23",
+    "family": "impact",
+    "note": "impact with metallic ring"
+   },
+   {
+    "part": 24,
+    "id": "cine-glitch-24",
+    "family": "glitch",
+    "note": "impact + stutter"
+   },
+   {
+    "part": 25,
+    "id": "cine-riser-25",
+    "family": "riser",
+    "note": "drum build-up that cuts off"
+   },
+   {
+    "part": 26,
+    "id": "cine-whoosh-short-26",
+    "family": "whoosh-short",
+    "note": "cinematic whoosh-short"
+   },
+   {
+    "part": 27,
+    "id": "cine-whoosh-short-27",
+    "family": "whoosh-short",
+    "note": "cinematic whoosh-short"
+   },
+   {
+    "part": 28,
+    "id": "cine-whoosh-short-28",
+    "family": "whoosh-short",
+    "note": "cinematic whoosh-short"
+   },
+   {
+    "part": 29,
+    "id": "cine-whoosh-short-29",
+    "family": "whoosh-short",
+    "note": "cinematic whoosh-short"
+   },
+   {
+    "part": 30,
+    "id": "cine-whoosh-short-30",
+    "family": "whoosh-short",
+    "note": "cinematic whoosh-short"
+   },
+   {
+    "part": 31,
+    "id": "cine-whoosh-short-31",
+    "family": "whoosh-short",
+    "note": "cinematic whoosh-short"
+   },
+   {
+    "part": 32,
+    "id": "cine-impact-32",
+    "family": "impact",
+    "note": "whoosh into a hit"
+   },
+   {
+    "part": 33,
+    "id": "cine-riser-33",
+    "family": "riser",
+    "note": "reverse swell into a hit"
+   },
+   {
+    "part": 34,
+    "id": "cine-sub-drop-34",
+    "family": "sub-drop",
+    "note": "cinematic sub-drop"
+   },
+   {
+    "part": 35,
+    "id": "cine-sub-drop-35",
+    "family": "sub-drop",
+    "note": "cinematic sub-drop"
+   },
+   {
+    "part": 36,
+    "id": "cine-ambience-36",
+    "family": "ambience",
+    "note": "38s dark drone bed"
+   },
+   {
+    "part": 37,
+    "id": "cine-impact-37",
+    "family": "impact",
+    "note": "big boom with long tail"
+   },
+   {
+    "part": 38,
+    "id": "cine-riser-38",
+    "family": "riser",
+    "note": "cinematic riser"
+   },
+   {
+    "part": 39,
+    "id": "cine-sub-drop-39",
+    "family": "sub-drop",
+    "note": "cinematic sub-drop"
+   },
+   {
+    "part": 40,
+    "id": "cine-impact-40",
+    "family": "impact",
+    "note": "cinematic impact"
+   },
+   {
+    "part": 41,
+    "id": "cine-impact-41",
+    "family": "impact",
+    "note": "boom with tonal tail"
+   }
+  ]
+ },
+ "SFX Sound Effects/Click - Sound Effect (HD).mp3": {
+  "id": "click-click-hd",
+  "family": "click",
+  "note": "Click - Sound Effect (HD)"
+ },
+ "SFX Sound Effects/Click.wav": {
+  "id": "click-click-3",
+  "family": "click",
+  "note": "Click"
+ },
+ "SFX Sound Effects/Clock Tick.mp3": {
+  "id": "clock-clock-tick",
+  "family": "clock",
+  "note": "Clock Tick"
+ },
+ "SFX Sound Effects/Clock Ticking Sound Effect(MP3_160K).mp3": {
+  "id": "clock-clock-ticking",
+  "family": "clock",
+  "note": "Clock Ticking Sound Effect(MP3_160K)"
+ },
+ "SFX Sound Effects/Clock Ticking Sound Effect.mp3": {
+  "id": "clock-clock-ticking-2",
+  "family": "clock",
+  "note": "Clock Ticking Sound Effect"
+ },
+ "SFX Sound Effects/Clock ticking fast.mp3": {
+  "id": "clock-clock-ticking-fast",
+  "family": "clock",
+  "note": "Clock ticking fast"
+ },
+ "SFX Sound Effects/Digital counting.mp3": {
+  "id": "tech-ui-digital-counting",
+  "family": "tech-ui",
+  "note": "digital counting: numbers going up (pair with NumberRoll)",
+  "tags": [
+   "counting"
+  ]
+ },
+ "SFX Sound Effects/Ding Sound Effect.mp3": {
+  "id": "success-ding-2",
+  "family": "success",
+  "note": "Ding Sound Effect"
+ },
+ "SFX Sound Effects/Ding.mp3": {
+  "id": "success-ding-3",
+  "family": "success",
+  "note": "Ding"
+ },
+ "SFX Sound Effects/Discord_Join.mp3": {
+  "id": "join-leave-discord-join",
+  "family": "join-leave",
+  "note": "discord join: someone/an idea enters",
+  "tags": [
+   "join"
+  ]
+ },
+ "SFX Sound Effects/Discord_Leave.mp3": {
+  "id": "join-leave-discord-leave",
+  "family": "join-leave",
+  "note": "discord leave: someone leaves / he gives up / ghosted",
+  "tags": [
+   "leave"
+  ]
+ },
+ "SFX Sound Effects/Display Digits 1.wav": {
+  "id": "tech-ui-display-digits-1",
+  "family": "tech-ui",
+  "note": "digit display tick: counting / numbers",
+  "tags": [
+   "counting"
+  ]
+ },
+ "SFX Sound Effects/Display Digits 2.wav": {
+  "id": "tech-ui-display-digits-2",
+  "family": "tech-ui",
+  "note": "digit display tick: counting / numbers",
+  "tags": [
+   "counting"
+  ]
+ },
+ "SFX Sound Effects/Display Digits 3.wav": {
+  "id": "tech-ui-display-digits-3",
+  "family": "tech-ui",
+  "note": "digit display tick: counting / numbers",
+  "tags": [
+   "counting"
+  ]
+ },
+ "SFX Sound Effects/Display Digits 4.wav": {
+  "id": "tech-ui-display-digits-4",
+  "family": "tech-ui",
+  "note": "digit display tick: counting / numbers",
+  "tags": [
+   "counting"
+  ]
+ },
+ "SFX Sound Effects/Drop Disto Sub 1.wav": {
+  "id": "sub-drop-drop-disto-sub-1",
+  "family": "sub-drop",
+  "note": "Drop Disto Sub 1"
+ },
+ "SFX Sound Effects/ES_Jump Swish - SFX Producer.mp3": {
+  "id": "whoosh-short-es-jump-swish",
+  "family": "whoosh-short",
+  "note": "ES_Jump Swish - SFX Producer"
+ },
+ "SFX Sound Effects/ES_Riser Suction 5 - SFX Producer.mp3": {
+  "id": "riser-es-riser-suction-5",
+  "family": "riser",
+  "note": "suction riser"
+ },
+ "SFX Sound Effects/ES_Suction Pop 5 - SFX Producer.mp3": {
+  "id": "pop-es-suction-pop-5",
+  "family": "pop",
+  "note": "suction pop"
+ },
+ "SFX Sound Effects/Fast Forward Sound Effect(MP3_160K).mp3": {
+  "id": "time-fast-forward",
+  "family": "time",
+  "note": "fast forward: skipping the boring part"
+ },
+ "SFX Sound Effects/Fast Whoosh Sound Effect.mp3": {
+  "id": "whoosh-short-fast-whoosh",
+  "family": "whoosh-short",
+  "note": "Fast Whoosh Sound Effect"
+ },
+ "SFX Sound Effects/GEARS_TURNING_SOUND_EFFECT_FREE_FWOSt38lbFE_137.mp4": {
+  "id": "tech-ui-gears-turning-sound-effect-free-fwost38l",
+  "family": "tech-ui",
+  "note": "gears turning: thinking, the mechanism behind it, \"how it works\"",
+  "tags": [
+   "thinking"
+  ]
+ },
+ "SFX Sound Effects/Game Menu Select Sound Effect.mp3": {
+  "id": "click-game-menu-select",
+  "family": "click",
+  "note": "game menu select: choosing an option"
+ },
+ "SFX Sound Effects/Glitch Sound Effect.mp3": {
+  "id": "glitch-glitch-2",
+  "family": "glitch",
+  "note": "Glitch Sound Effect"
+ },
+ "SFX Sound Effects/Goofy 1 ,2 and 3 .mp3": {
+  "id": "goofy",
+  "splitAll": "cartoon",
+  "note": "goofy variant"
+ },
+ "SFX Sound Effects/Hacking Sound Effect .MP3 (MOST VIEWED VIDEO).mp3": {
+  "id": "typing-hacking-mp3-most-viewed-video",
+  "family": "typing",
+  "note": "hacking: smart move, \"I figured out the system\", hacker vibe",
+  "tags": [
+   "hacker"
+  ]
+ },
+ "SFX Sound Effects/Heavy object Hit and body thud sound effect.mp3": {
+  "id": "cartoon-heavy-object-hit-and-body-thud",
+  "family": "cartoon",
+  "note": "body thud: falling flat, failing hard",
+  "tags": [
+   "fall"
+  ]
+ },
+ "SFX Sound Effects/Hit 1.mp3": {
+  "id": "impact-hit-1",
+  "family": "impact",
+  "note": "Hit 1"
+ },
+ "SFX Sound Effects/Iphone Receive.wav": {
+  "id": "notify-iphone-receive",
+  "family": "notify",
+  "note": "message received"
+ },
+ "SFX Sound Effects/Iphone Send.wav": {
+  "id": "notify-iphone-send",
+  "family": "notify",
+  "note": "message sent: sent it / no going back",
+  "tags": [
+   "sent"
+  ]
+ },
+ "SFX Sound Effects/Lens flare transition sound effect.mp3": {
+  "id": "energy-lens-flare-transition",
+  "family": "energy",
+  "note": "lens flare: shine, glamour, glow-up"
+ },
+ "SFX Sound Effects/Long whoosh sound effect.mp3": {
+  "id": "whoosh-long-long-whoosh",
+  "family": "whoosh-long",
+  "note": "Long whoosh sound effect"
+ },
+ "SFX Sound Effects/Mario Coin Sound - Sound Effect (HD).mp3": {
+  "id": "money-mario-coin-sound-hd",
+  "family": "money",
+  "note": "coin: a small reward / tiny win",
+  "tags": [
+   "reward"
+  ]
+ },
+ "SFX Sound Effects/Message sound.mp3": {
+  "id": "notify-message-sound",
+  "family": "notify",
+  "note": "message sound"
+ },
+ "SFX Sound Effects/Microsoft Windows XP Error - Sound Effect (HD)-0lhhrUuw2N8-128k-1655433026313.mp3": {
+  "id": "fail-microsoft-windows-xp-error-hd-0lhhruuw2n",
+  "family": "fail",
+  "note": "windows error: mistake, brain error, \"this went wrong\""
+ },
+ "SFX Sound Effects/Minecraft Hurt.wav": {
+  "id": "minecraft-hurt",
+  "split": [
+   {
+    "part": 1,
+    "id": "cartoon-minecraft-hurt",
+    "family": "cartoon",
+    "note": "minecraft \"oof\": small pain / self-own"
+   }
+  ]
+ },
+ "SFX Sound Effects/Mountain Audio - New Idea Notification.mp3": {
+  "id": "notify-mountain-audio-new-idea-notification",
+  "family": "notify",
+  "note": "new idea: lightbulb moment",
+  "tags": [
+   "idea"
+  ]
+ },
+ "SFX Sound Effects/Mouse Click Sound Effect.mp3": {
+  "id": "click-mouse-click",
+  "family": "click",
+  "note": "Mouse Click Sound Effect"
+ },
+ "SFX Sound Effects/Mouse Click.mp3": {
+  "id": "click-mouse-click-2",
+  "family": "click",
+  "note": "Mouse Click"
+ },
+ "SFX Sound Effects/Mouse click 2.mp3": {
+  "id": "click-mouse-click-2-2",
+  "family": "click",
+  "note": "Mouse click 2"
+ },
+ "SFX Sound Effects/NO COPYRIGHT BOXING BELL SOUND EFFECT.mp3": {
+  "id": "impact-boxing-bell",
+  "family": "impact",
+  "note": "boxing bell: a fight/round/challenge begins, a debate starts, \"round 2\"",
+  "tags": [
+   "start",
+   "challenge"
+  ]
+ },
+ "SFX Sound Effects/Paper Flip Sound Effect.mp3": {
+  "id": "paper-paper-flip",
+  "family": "paper",
+  "note": "Paper Flip Sound Effect"
+ },
+ "SFX Sound Effects/Paper Ripping.mp3": {
+  "id": "paper-paper-ripping",
+  "family": "paper",
+  "note": "Paper Ripping"
+ },
+ "SFX Sound Effects/Paper Slide 03.wav": {
+  "id": "paper-paper-slide-03",
+  "family": "paper",
+  "note": "Paper Slide 03"
+ },
+ "SFX Sound Effects/Paper Sound Effects.mp3": {
+  "id": "paper",
+  "splitAll": "paper",
+  "note": "paper variant"
+ },
+ "SFX Sound Effects/Podcast Background Music While Talking Interview - Free Music to use, No Copyright - TALK#1.mp3": {
+  "id": "music-podcast-background-music-while-talking-i",
+  "music": true,
+  "note": "calm podcast bed for talking"
+ },
+ "SFX Sound Effects/Pop 1.mp3": {
+  "id": "pop-pop-1",
+  "family": "pop",
+  "note": "Pop 1"
+ },
+ "SFX Sound Effects/Pop 9.mp3": {
+  "id": "pop9",
+  "splitAll": "pop",
+  "note": "pop9 variant"
+ },
+ "SFX Sound Effects/Pop Bubble Sound Effect.mp3": {
+  "id": "pop-pop-bubble",
+  "family": "pop",
+  "note": "Pop Bubble Sound Effect"
+ },
+ "SFX Sound Effects/Pop sound effect.mp3": {
+  "id": "pop-pop",
+  "family": "pop",
+  "note": "Pop sound effect"
+ },
+ "SFX Sound Effects/Pop up Sound effect ( 256kbps cbr ).mp3": {
+  "id": "pop-pop-up-256kbps-cbr",
+  "family": "pop",
+  "note": "pop-up"
+ },
+ "SFX Sound Effects/Pop.mp3": {
+  "id": "pop-pop-2",
+  "family": "pop",
+  "note": "Pop"
+ },
+ "SFX Sound Effects/Racks.wav": {
+  "id": "money-racks",
+  "family": "money",
+  "note": "cash counter: counting money, rich flex",
+  "tags": [
+   "flex"
+  ]
+ },
+ "SFX Sound Effects/Rake Swing Whoosh Close.mp3": {
+  "id": "whoosh-short-rake-swing-whoosh-close",
+  "family": "whoosh-short",
+  "note": "Rake Swing Whoosh Close"
+ },
+ "SFX Sound Effects/SOUND 1.mp3": {
+  "id": "whoosh-short-sound-1",
+  "family": "whoosh-short",
+  "note": "SOUND 1"
+ },
+ "SFX Sound Effects/SOUND 10.mp3": {
+  "id": "riser-sound-10",
+  "family": "riser",
+  "note": "SOUND 10"
+ },
+ "SFX Sound Effects/SOUND 2.mp3": {
+  "id": "whoosh-short-sound-2",
+  "family": "whoosh-short",
+  "note": "SOUND 2"
+ },
+ "SFX Sound Effects/SOUND 3.mp3": {
+  "id": "whoosh-short-sound-3",
+  "family": "whoosh-short",
+  "note": "SOUND 3"
+ },
+ "SFX Sound Effects/SOUND 4.mp3": {
+  "id": "glitch-sound-4",
+  "family": "glitch",
+  "note": "SOUND 4"
+ },
+ "SFX Sound Effects/SOUND 5.mp3": {
+  "id": "impact-sound-5",
+  "family": "impact",
+  "note": "SOUND 5"
+ },
+ "SFX Sound Effects/SOUND 6.mp3": {
+  "id": "glitch-sound-6",
+  "family": "glitch",
+  "note": "SOUND 6"
+ },
+ "SFX Sound Effects/SOUND 7.mp3": {
+  "id": "sub-drop-sound-7",
+  "family": "sub-drop",
+  "note": "SOUND 7"
+ },
+ "SFX Sound Effects/SOUND 8.mp3": {
+  "id": "whoosh-short-sound-8",
+  "family": "whoosh-short",
+  "note": "SOUND 8"
+ },
+ "SFX Sound Effects/SOUND 9.mp3": {
+  "id": "glitch-sound-9",
+  "family": "glitch",
+  "note": "SOUND 9"
+ },
+ "SFX Sound Effects/Sci Fi UI Sounds.mp3": {
+  "id": "tech-ui-sci-fi-ui-sounds",
+  "family": "tech-ui",
+  "note": "sci-fi UI sequence"
+ },
+ "SFX Sound Effects/SciFi Sound Effects.mp3": {
+  "id": "scifi",
+  "splitAll": "tech-ui",
+  "note": "scifi variant"
+ },
+ "SFX Sound Effects/Short Transition _2 Sound .mp3": {
+  "id": "whoosh-short-short-transition-2-sound",
+  "family": "whoosh-short",
+  "note": "Short Transition _2 Sound "
+ },
+ "SFX Sound Effects/Short Whoosh.mp3": {
+  "id": "whoosh-short-short-whoosh",
+  "family": "whoosh-short",
+  "note": "Short Whoosh"
+ },
+ "SFX Sound Effects/Shutter Click sound effect (no copyright ).mp3": {
+  "id": "camera-shutter-click",
+  "family": "camera",
+  "note": "Shutter Click sound effect (no copyright )"
+ },
+ "SFX Sound Effects/Shutter Click sound effect no copyright.mp3": {
+  "id": "camera-shutter-click-2",
+  "family": "camera",
+  "note": "Shutter Click sound effect no copyright"
+ },
+ "SFX Sound Effects/Sound Effect Glitch.mp3": {
+  "id": "glitch-glitch-3",
+  "family": "glitch",
+  "note": "Sound Effect Glitch"
+ },
+ "SFX Sound Effects/Spooky Wind.wav": {
+  "id": "tension-spooky-wind",
+  "family": "tension",
+  "note": "spooky wind: eerie, empty, lonely",
+  "tags": [
+   "lonely"
+  ]
+ },
+ "SFX Sound Effects/Sudden suspense Sound effect.mp3": {
+  "id": "sub-drop-sudden-suspense",
+  "family": "sub-drop",
+  "note": "sudden suspense stinger: \"wait…\", shocking realization"
+ },
+ "SFX Sound Effects/Swish Swoosh Cutscene Sound Effect.mp3": {
+  "id": "swish",
+  "splitAll": "whoosh-short",
+  "note": "swish variant"
+ },
+ "SFX Sound Effects/Swoosh.mp3": {
+  "id": "whoosh-short-swoosh",
+  "family": "whoosh-short",
+  "note": "Swoosh"
+ },
+ "SFX Sound Effects/Typewriter.mp3": {
+  "id": "typing-typewriter",
+  "family": "typing",
+  "note": "Typewriter"
+ },
+ "SFX Sound Effects/UI Data Loading Sound Effect.mp3": {
+  "id": "tech-ui-ui-data-loading",
+  "family": "tech-ui",
+  "note": "loading: thinking / waiting for the brain to load",
+  "tags": [
+   "loading"
+  ]
+ },
+ "SFX Sound Effects/Upset Pulses.wav": {
+  "id": "tension-upset-pulses",
+  "family": "tension",
+  "note": "low ominous pulses: regret, unease, something is wrong",
+  "tags": [
+   "regret"
+  ]
+ },
+ "SFX Sound Effects/WHOOSH FIRE TRANSITION.mp3": {
+  "id": "whoosh-long-whoosh-fire-transition",
+  "family": "whoosh-long",
+  "note": "WHOOSH FIRE TRANSITION"
+ },
+ "SFX Sound Effects/WRITING Sound Effect 2.mp3": {
+  "id": "paper-writing-2",
+  "family": "paper",
+  "note": "WRITING Sound Effect 2"
+ },
+ "SFX Sound Effects/Whoosh 2.mp3": {
+  "id": "whoosh-short-whoosh-2",
+  "family": "whoosh-short",
+  "note": "Whoosh 2"
+ },
+ "SFX Sound Effects/Whoosh Sound Effects _ No Copyright Whoosh Sound Effects.mp3": {
+  "id": "whoosh",
+  "splitAll": "whoosh-short",
+  "note": "whoosh variant"
+ },
+ "SFX Sound Effects/Wine Glass Shatter.mp3": {
+  "id": "fail-wine-glass-shatter",
+  "family": "fail",
+  "note": "glass shatter: a broken plan / dream shattered"
+ },
+ "SFX Sound Effects/Writing Sound Effect 1.mp3": {
+  "id": "paper-writing-1",
+  "family": "paper",
+  "note": "Writing Sound Effect 1"
+ },
+ "SFX Sound Effects/Writing on keyboard Sound Effect.mp3": {
+  "id": "typing-writing-on-keyboard",
+  "family": "typing",
+  "note": "Writing on keyboard Sound Effect"
+ },
+ "SFX Sound Effects/Wrong Answer.mp3": {
+  "id": "fail-wrong-answer",
+  "family": "fail",
+  "note": "wrong answer"
+ },
+ "SFX Sound Effects/arrow sounds.mp3": {
+  "id": "whoosh-short-arrow-sounds",
+  "family": "whoosh-short",
+  "note": "arrow sounds"
+ },
+ "SFX Sound Effects/awww.mp3": {
+  "id": "crowd-awww",
+  "family": "crowd",
+  "note": "awww: something cute, or fake sympathy",
+  "tags": [
+   "cute",
+   "sympathy"
+  ]
+ },
+ "SFX Sound Effects/boom sound effect.mp3": {
+  "id": "impact-boom",
+  "family": "impact",
+  "note": "boom sound effect"
+ },
+ "SFX Sound Effects/boom-geomorphism-cinematic-trailer-sound-effects-123876.mp3": {
+  "id": "impact-boom-geomorphism-cinematic-trailer-sound",
+  "family": "impact",
+  "note": "boom-geomorphism-cinematic-trailer-sound-effects-123876"
+ },
+ "SFX Sound Effects/bottle cork.mp3": {
+  "id": "pop-bottle-cork",
+  "family": "pop",
+  "note": "cork pop: opening/celebrating, a fresh start"
+ },
+ "SFX Sound Effects/camera shot flash 2.wav": {
+  "id": "camera-camera-shot-flash-2",
+  "family": "camera",
+  "note": "camera shot flash 2"
+ },
+ "SFX Sound Effects/camera shot flash 4.wav": {
+  "id": "camera-camera-shot-flash-4",
+  "family": "camera",
+  "note": "camera shot flash 4"
+ },
+ "SFX Sound Effects/camera-13695.mp3": {
+  "id": "camera-camera",
+  "family": "camera",
+  "note": "camera-13695"
+ },
+ "SFX Sound Effects/camera-shutter-6305.mp3": {
+  "id": "camera-camera-shutter-2",
+  "family": "camera",
+  "note": "camera-shutter-6305"
+ },
+ "SFX Sound Effects/camera-shutter-sound-effect.wav": {
+  "id": "camera-camera-shutter-sound-effect",
+  "family": "camera",
+  "note": "camera-shutter-sound-effect"
+ },
+ "SFX Sound Effects/cash ting.mp3": {
+  "id": "money-cash-ting",
+  "family": "money",
+  "note": "cash ting"
+ },
+ "SFX Sound Effects/cash-register-purchase-87313.mp3": {
+  "id": "money-cash-register-purchase",
+  "family": "money",
+  "note": "cash-register-purchase-87313"
+ },
+ "SFX Sound Effects/censorship .mp3": {
+  "id": "censor-censorship",
+  "family": "censor",
+  "note": "censorship beep (variant)"
+ },
+ "SFX Sound Effects/clean-fast-swooshaiff-14784.mp3": {
+  "id": "whoosh-short-clean-fast-swooshaiff",
+  "family": "whoosh-short",
+  "note": "clean-fast-swooshaiff-14784"
+ },
+ "SFX Sound Effects/click sound by 90 Creators.mp3": {
+  "id": "click-click-sound-by-90-creators",
+  "family": "click",
+  "note": "click sound by 90 Creators"
+ },
+ "SFX Sound Effects/correct sfx.mp3": {
+  "id": "success-correct-sfx",
+  "family": "success",
+  "note": "correct sfx"
+ },
+ "SFX Sound Effects/crowd shocked.mp3": {
+  "id": "crowd-crowd-shocked",
+  "family": "crowd",
+  "note": "crowd gasp: shocking statement",
+  "tags": [
+   "shock"
+  ]
+ },
+ "SFX Sound Effects/crumpled paper sound fx.mp3": {
+  "id": "paper-crumpled-paper-sound-fx",
+  "family": "paper",
+  "note": "crumpled paper sound fx"
+ },
+ "SFX Sound Effects/fart.mp3": {
+  "id": "cartoon-fart",
+  "family": "cartoon",
+  "note": "fart: bad take beat",
+  "tags": [
+   "bad-take"
+  ]
+ },
+ "SFX Sound Effects/fast-whoosh-118248.mp3": {
+  "id": "whoosh-short-fast-whoosh-2",
+  "family": "whoosh-short",
+  "note": "fast-whoosh-118248"
+ },
+ "SFX Sound Effects/futuristic metal keyboard .wav": {
+  "id": "typing-futuristic-metal-keyboard",
+  "family": "typing",
+  "note": "futuristic typing"
+ },
+ "SFX Sound Effects/good-idea.mp3": {
+  "id": "notify-good-idea",
+  "family": "notify",
+  "note": "good idea: lightbulb moment",
+  "tags": [
+   "idea"
+  ]
+ },
+ "SFX Sound Effects/hmmm.mp3": {
+  "id": "meme-voice-hmmm",
+  "family": "meme-voice",
+  "note": "hmmm: thinking / suspicious consideration",
+  "tags": [
+   "thinking",
+   "sus"
+  ]
+ },
+ "SFX Sound Effects/keyboard press.mp3": {
+  "id": "typing-keyboard-press",
+  "family": "typing",
+  "note": "keyboard press"
+ },
+ "SFX Sound Effects/keyboard-typing-5997.mp3": {
+  "id": "typing-keyboard-typing",
+  "family": "typing",
+  "note": "keyboard-typing-5997"
+ },
+ "SFX Sound Effects/kids yeyy.mp3": {
+  "id": "crowd-kids-yeyy",
+  "family": "crowd",
+  "note": "kids cheering: celebration (also sarcastic \"yay\")",
+  "tags": [
+   "celebrate"
+  ]
+ },
+ "SFX Sound Effects/mixkit-21-445.mp3": {
+  "id": "music-21",
+  "music": true,
+  "note": "music bed (rate it)"
+ },
+ "SFX Sound Effects/mixkit-arrow-whoosh-1491.wav": {
+  "id": "whoosh-short-arrow-whoosh",
+  "family": "whoosh-short",
+  "note": "mixkit-arrow-whoosh-1491"
+ },
+ "SFX Sound Effects/mixkit-big-cinematic-impact-788.mp3": {
+  "id": "impact-big-cinematic-impact",
+  "family": "impact",
+  "note": "mixkit-big-cinematic-impact-788"
+ },
+ "SFX Sound Effects/mixkit-bike-wheel-spinning-1613.wav": {
+  "id": "time-bike-wheel-spinning",
+  "family": "time",
+  "note": "wheel spinning: going round in circles, waiting"
+ },
+ "SFX Sound Effects/mixkit-bone-breaking-with-echo-2937.wav": {
+  "id": "fail-bone-breaking-with-echo",
+  "family": "fail",
+  "note": "bone crack: brutal / \"that hurt\""
+ },
+ "SFX Sound Effects/mixkit-cartoon-strong-fart-3050.wav": {
+  "id": "cartoon-cartoon-strong-fart",
+  "family": "cartoon",
+  "note": "strong fart: very bad take",
+  "tags": [
+   "bad-take"
+  ]
+ },
+ "SFX Sound Effects/mixkit-cartoon-toy-whistle-616.wav": {
+  "id": "cartoon-cartoon-toy-whistle",
+  "family": "cartoon",
+  "note": "mixkit-cartoon-toy-whistle-616"
+ },
+ "SFX Sound Effects/mixkit-cinematic-glass-hit-suspense-677.wav": {
+  "id": "sub-drop-cinematic-glass-hit-suspense",
+  "family": "sub-drop",
+  "note": "glass-hit suspense stinger"
+ },
+ "SFX Sound Effects/mixkit-cinematic-transition-wind-swoosh-1468.wav": {
+  "id": "whoosh-long-cinematic-transition-wind-swoosh",
+  "family": "whoosh-long",
+  "note": "mixkit-cinematic-transition-wind-swoosh-1468"
+ },
+ "SFX Sound Effects/mixkit-cinematic-wind-swoosh-1471.wav": {
+  "id": "whoosh-long-cinematic-wind-swoosh",
+  "family": "whoosh-long",
+  "note": "mixkit-cinematic-wind-swoosh-1471"
+ },
+ "SFX Sound Effects/mixkit-dog-barking-twice-1.wav": {
+  "id": "cartoon-dog-barking-twice-1",
+  "family": "cartoon",
+  "note": "dog bark: random interruption, comic beat"
+ },
+ "SFX Sound Effects/mixkit-driving-ambition-32.mp3": {
+  "id": "music-driving-ambition-32",
+  "music": true,
+  "note": "motivational bed (by name; rate it)"
+ },
+ "SFX Sound Effects/mixkit-electricity-static-power-up-2600.wav": {
+  "id": "energy-electricity-static-power-up",
+  "family": "energy",
+  "note": "electric power-up: motivation boost"
+ },
+ "SFX Sound Effects/mixkit-eyes-in-the-puddle-257.mp3": {
+  "id": "music-eyes-in-the-puddle",
+  "music": true,
+  "note": "music bed (rate it)"
+ },
+ "SFX Sound Effects/mixkit-fast-tape-rewind-cinematic-transition-1092.wav": {
+  "id": "time-fast-tape-rewind-cinematic-transition",
+  "family": "time",
+  "note": "tape rewind: \"let me rewind\", flashback"
+ },
+ "SFX Sound Effects/mixkit-gun-click-1123.wav": {
+  "id": "click-gun-click",
+  "family": "click",
+  "note": "gun click: \"locked in\", ready, a sarcastic threat"
+ },
+ "SFX Sound Effects/mixkit-gun-metal-click-1121.wav": {
+  "id": "click-gun-metal-click",
+  "family": "click",
+  "note": "metal click: locked in"
+ },
+ "SFX Sound Effects/mixkit-hard-pop-click-2364.wav": {
+  "id": "pop-hard-pop-click",
+  "family": "pop",
+  "note": "hard pop click"
+ },
+ "SFX Sound Effects/mixkit-in-and-out-zoom-sound-2622.wav": {
+  "id": "whoosh-short-in-and-out-zoom-sound",
+  "family": "whoosh-short",
+  "note": "zoom in/out swoosh: under a punch-in or pull-out"
+ },
+ "SFX Sound Effects/mixkit-metal-hit-woosh-1485.wav": {
+  "id": "impact-metal-hit-woosh",
+  "family": "impact",
+  "note": "metal hit whoosh"
+ },
+ "SFX Sound Effects/mixkit-person-blows-2660.wav": {
+  "id": "cartoon-person-blows",
+  "family": "cartoon",
+  "note": "blowing: blowing something away, relief, \"phew\""
+ },
+ "SFX Sound Effects/mixkit-purple-js-453.mp3": {
+  "id": "music-purple-js",
+  "music": true,
+  "note": "music bed (rate it)"
+ },
+ "SFX Sound Effects/mixkit-space-impact-774.wav": {
+  "id": "impact-space-impact",
+  "family": "impact",
+  "note": "mixkit-space-impact-774"
+ },
+ "SFX Sound Effects/mixkit-trap-305.mp3": {
+  "id": "music-trap",
+  "music": true,
+  "note": "trap beat (rate it)"
+ },
+ "SFX Sound Effects/mixkit-warping-slide-1531.wav": {
+  "id": "time-warping-slide",
+  "family": "time",
+  "note": "warp slide: entering another world/topic"
+ },
+ "SFX Sound Effects/mixkit-we-own-the-night-roll-out-320.mp3": {
+  "id": "music-we-own-the-night-roll-out",
+  "music": true,
+  "note": "energetic night bed (by name; rate it)"
+ },
+ "SFX Sound Effects/mixkit-zay-zay-309.mp3": {
+  "id": "music-zay-zay",
+  "music": true,
+  "note": "music bed (rate it)"
+ },
+ "SFX Sound Effects/mouse-click-153941.mp3": {
+  "id": "click-mouse-click-3",
+  "family": "click",
+  "note": "mouse-click-153941"
+ },
+ "SFX Sound Effects/onlymp3.to - bass drop sound effect-H9CWQaMYXiI-192k-1688370057.mp3": {
+  "id": "sub-drop-bass-drop-h9cwqamyxii-k",
+  "family": "sub-drop",
+  "note": "onlymp3.to - bass drop sound effect-H9CWQaMYXiI-192k-1688370057"
+ },
+ "SFX Sound Effects/party horn.mp3": {
+  "id": "crowd-party-horn",
+  "family": "crowd",
+  "note": "party horn: celebration, sarcastic \"congrats\"",
+  "tags": [
+   "celebrate"
+  ]
+ },
+ "SFX Sound Effects/projector-spinning-1444.wav": {
+  "id": "time-projector-spinning",
+  "family": "time",
+  "note": "projector: story time, old memory",
+  "tags": [
+   "story-time"
+  ]
+ },
+ "SFX Sound Effects/punch.mp3": {
+  "id": "impact-punch-2",
+  "family": "impact",
+  "note": "punch"
+ },
+ "SFX Sound Effects/quick-win.mp3": {
+  "id": "success-quick-win",
+  "family": "success",
+  "note": "quick-win"
+ },
+ "SFX Sound Effects/rm click (1).wav": {
+  "id": "click-rm-click-1",
+  "family": "click",
+  "note": "rm click (1)"
+ },
+ "SFX Sound Effects/rm click (2).wav": {
+  "id": "click-rm-click-2",
+  "family": "click",
+  "note": "rm click (2)"
+ },
+ "SFX Sound Effects/rm click (3).wav": {
+  "id": "click-rm-click-3",
+  "family": "click",
+  "note": "rm click (3)"
+ },
+ "SFX Sound Effects/rm whoosh.wav": {
+  "id": "whoosh-short-rm-whoosh",
+  "family": "whoosh-short",
+  "note": "rm whoosh"
+ },
+ "SFX Sound Effects/shot light energy.mp3": {
+  "id": "energy-shot-light-energy",
+  "family": "energy",
+  "note": "energy shot: power-up"
+ },
+ "SFX Sound Effects/smooth_pencil_sfx.MP3": {
+  "id": "paper-smooth-pencil-sfx",
+  "family": "paper",
+  "note": "smooth_pencil_sfx"
+ },
+ "SFX Sound Effects/swinging-staff-whoosh-strong-08-44658.mp3": {
+  "id": "whoosh-short-swinging-staff-whoosh-strong-08",
+  "family": "whoosh-short",
+  "note": "swinging-staff-whoosh-strong-08-44658"
+ },
+ "SFX Sound Effects/swipes.mp3": {
+  "id": "swipe",
+  "splitAll": "whoosh-short",
+  "note": "swipe variant"
+ },
+ "SFX Sound Effects/whoosh sound effect.mp3": {
+  "id": "whoosh-short-whoosh",
+  "family": "whoosh-short",
+  "note": "whoosh sound effect"
+ },
+ "SFX Sound Effects/whoosh-6316.mp3": {
+  "id": "whoosh-short-whoosh-3",
+  "family": "whoosh-short",
+  "note": "whoosh-6316"
+ },
+ "SFX Sound Effects/woosh-building-109596.mp3": {
+  "id": "riser-woosh-building",
+  "family": "riser",
+  "note": "building whoosh: build-up"
+ },
+ "sound effects (copywrite free part 2)/AUGGHH  AHHHHH sound effect.mp3": {
+  "id": "meme-voice-augghh-ahhhhh",
+  "family": "meme-voice",
+  "note": "augh/ahh scream: frustration, pain, \"I give up\"",
+  "tags": [
+   "frustration",
+   "pain"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Among us sound effect.mp3": {
+  "id": "meme-voice-among-us",
+  "family": "meme-voice",
+  "note": "among us: sus moment / caught doing something",
+  "tags": [
+   "sus",
+   "caught"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Angel - Sound Effect (HD).mp3": {
+  "id": "meme-voice-angel-hd",
+  "family": "meme-voice",
+  "note": "angel choir: pure/innocent moment, a good deed, divine timing (also ironic \"so innocent\")",
+  "tags": [
+   "innocent",
+   "blessed"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Awkward Pause 02.mp3": {
+  "id": "meme-voice-awkward-pause-02",
+  "family": "meme-voice",
+  "note": "awkward pause (variant): cringe silence",
+  "tags": [
+   "awkward",
+   "cringe"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Awkward Pause.mp3": {
+  "id": "meme-voice-awkward-pause",
+  "family": "meme-voice",
+  "note": "awkward pause: cringe silence after a bad joke or weird line",
+  "tags": [
+   "awkward",
+   "cringe"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Bamboo Hit (AnimeCartoon Bonk) - Sound Effect for Editing.mp3": {
+  "id": "cartoon-bamboo-hit-animecartoon-bonk-for-editing",
+  "family": "cartoon",
+  "note": "anime bonk: \"bonk\" for a dumb thought or mistake",
+  "tags": [
+   "bonk",
+   "dumb"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Bamboo Hit.mp3": {
+  "id": "cartoon-bamboo-hit",
+  "family": "cartoon",
+  "note": "bamboo bonk: self-own, hitting himself for a dumb mistake",
+  "tags": [
+   "bonk",
+   "dumb"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Bruh Sound Effect.mp3": {
+  "id": "meme-voice-bruh",
+  "family": "meme-voice",
+  "note": "bruh: deadpan disbelief at something dumb (his own or someone else's)",
+  "tags": [
+   "bad-take",
+   "awkward"
+  ]
+ },
+ "sound effects (copywrite free part 2)/CARTOON TRANSITION.mp3": {
+  "id": "whoosh-short-cartoon-transition",
+  "family": "whoosh-short",
+  "note": "cartoon zip transition: playful topic switch"
+ },
+ "sound effects (copywrite free part 2)/Cartoon Eating Sound Effect  Non Copyrighted  PP Technical.mp3": {
+  "id": "cartoon-cartoon-eating-pp-technical",
+  "family": "cartoon",
+  "note": "cartoon eating: food, greed, \"nom nom\"",
+  "tags": [
+   "food"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Clock Ticking Sound Effect.mp3": {
+  "id": "clock-clock-ticking-3",
+  "family": "clock",
+  "note": "Clock Ticking Sound Effect"
+ },
+ "sound effects (copywrite free part 2)/Confused Reverb.m4a": {
+  "id": "meme-voice-confused-reverb",
+  "family": "meme-voice",
+  "note": "confused (reverb): genuinely lost / \"I don't get it\"",
+  "tags": [
+   "confused"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Core.mp3": {
+  "id": "tech-ui-core",
+  "family": "tech-ui",
+  "note": "short synth tone (unknown, rate it): UI / thinking"
+ },
+ "sound effects (copywrite free part 2)/Disappointed.mp3": {
+  "id": "meme-voice-disappointed",
+  "family": "meme-voice",
+  "note": "disappointed: a letdown, expectations vs reality",
+  "tags": [
+   "letdown",
+   "fail"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Doraemon Notification Sound.mp3": {
+  "id": "notify-doraemon-notification-sound",
+  "family": "notify",
+  "note": "doraemon gadget sound: an idea/solution appears, childhood nostalgia",
+  "tags": [
+   "idea",
+   "nostalgia"
+  ]
+ },
+ "sound effects (copywrite free part 2)/FLASHBACK.wav": {
+  "id": "time-flashback",
+  "family": "time",
+  "note": "flashback: going into a memory"
+ },
+ "sound effects (copywrite free part 2)/Fart - Sound Effect.mp3": {
+  "id": "cartoon-fart-2",
+  "family": "cartoon",
+  "note": "fart: a bad/useless line (beat after a silent pause)",
+  "tags": [
+   "bad-take"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Illuminati Confirmed.mp3": {
+  "id": "meme-voice-illuminati-confirmed",
+  "family": "meme-voice",
+  "note": "illuminati confirmed: a suspicious coincidence, \"it all connects\", conspiracy joke",
+  "tags": [
+   "sus",
+   "coincidence"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Nope sound effect.mp3": {
+  "id": "meme-voice-nope",
+  "family": "meme-voice",
+  "note": "nope: refusing / rejecting an idea / \"not doing that\"",
+  "tags": [
+   "rejected"
+  ]
+ },
+ "sound effects (copywrite free part 2)/OMG meme.mp3": {
+  "id": "meme-voice-omg-meme",
+  "family": "meme-voice",
+  "note": "OMG: excited or fake shock",
+  "tags": [
+   "shock",
+   "wow"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Reveal Sound Effect.mp3": {
+  "id": "riser-reveal",
+  "family": "riser",
+  "note": "reveal: build → reveal of the result",
+  "tags": [
+   "reveal"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Rizz Sound Effect.mp3": {
+  "id": "meme-voice-rizz",
+  "family": "meme-voice",
+  "note": "rizz: a smooth line, flirting, a confident flex",
+  "tags": [
+   "flex",
+   "smooth"
+  ]
+ },
+ "sound effects (copywrite free part 2)/Spider-Man 3 Meme Sound.mp3": {
+  "id": "meme-voice-spider-man-3-meme-sound",
+  "family": "meme-voice",
+  "note": "spider-man 3 meme: dramatic over-the-top cringe/emo moment",
+  "tags": [
+   "cringe",
+   "dramatic"
+  ]
+ },
+ "sound effects (copywrite free part 2)/TOY DUCK.mp3": {
+  "id": "cartoon-toy-duck",
+  "family": "cartoon",
+  "note": "toy duck squeak: something small, cute or silly"
+ },
+ "sound effects (copywrite free part 2)/Twitch Alert Sound Effect.m4a": {
+  "id": "notify-twitch-alert",
+  "family": "notify",
+  "note": "twitch alert: new follower / achievement / hype moment",
+  "tags": [
+   "achievement"
+  ]
+ },
+ "sound effects (copywrite free part 2)/YEET - Sound Effect HD.mp3": {
+  "id": "meme-voice-yeet-hd",
+  "family": "meme-voice",
+  "note": "YEET: throwing something away, giving up dramatically, launching into something",
+  "tags": [
+   "give-up",
+   "throw"
+  ]
+ },
+ "sound effects (copywrite free part 2)/_What_ Bottom Text.m4a": {
+  "id": "meme-voice-what-bottom-text",
+  "family": "meme-voice",
+  "note": "\"what?\": confused disbelief",
+  "tags": [
+   "confused",
+   "wtf"
+  ]
+ },
+ "sound effects (copywrite free part 2)/faahhhhh.mp3": {
+  "id": "meme-voice-faahhhhh",
+  "family": "meme-voice",
+  "note": "faaah: dramatic fail or disappointment",
+  "tags": [
+   "fail",
+   "shock"
+  ]
+ },
+ "sound effects (copywrite free part 2)/taco bell.m4a": {
+  "id": "impact-taco-bell",
+  "family": "impact",
+  "note": "taco bell bong: awkward realization, dramatic stop",
+  "tags": [
+   "awkward",
+   "realization"
+  ]
+ }
+}
