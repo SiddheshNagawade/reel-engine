@@ -17,8 +17,10 @@ He is not an editor; he shares ideas, and you decide what works and explain why.
 1. Find it: `/Volumes/T7 Shield/ReelEngine/inbox/` (single video = one reel) or `/Volumes/T7 Shield/ReelEngine/projects/<folder>/` (many clips = one reel).
    If the T7 isn't mounted, use `./inbox` / `./projects`.
 2. Plan: `npm run reel -- "<path>" --no-render` → transcribes (Hinglish), cuts silences/retakes, writes `_work/<name>/transcript.md`.
-3. Read the transcript and DIRECT it yourself by editing `_work/<name>/direction.json`: tighter cut (removeRanges), hookText (+ hookBehind),
-   memes ONLY where they show his own intention, sections (camera moves), beats/effects only when clearly right, fillIdle=false if the story carries itself.
+3. Read the transcript and DIRECT it yourself, LAYER BY LAYER (brain/edit-layers.md): lock the story first (cut, hook, ending),
+   then one pass each for captions/hero words → support visuals → canvas layout → caption placement/connectors → depth
+   (behind him) → motion → sound → density walk. Never decide everything in one go. Write it into `_work/<name>/direction.json`
+   (removeRanges, hookText, sections, memes only for his own intention, …).
    Fix transcription mistakes in `_work/<name>/clip-N.words.json` (Hindi must never be translated to English).
 4. Render: `npm run reel -- <name> --note "- what changed"` → `output/<name>/<name>-vN.mp4` + `.fcpxml` + CHANGELOG.md. Never overwrite versions.
 5. Check stills of the actual output (ffmpeg frame grabs) at the hook, every meme/text moment and the ending before saying it's done.
@@ -59,6 +61,7 @@ feel fresh. Rules for anything new:
 
 ## His preferences, skills & playbooks (auto-loaded, read them)
 @brain/preferences.md
+@brain/edit-layers.md
 @brain/skills.md
 @brain/principles.md
 @brain/hooks.md
