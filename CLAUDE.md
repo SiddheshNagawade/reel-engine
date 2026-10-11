@@ -73,3 +73,4 @@ feel fresh. Rules for anything new:
 @brain/sounds.md
 @brain/clipping.md
 @brain/content-plan.md
+@brain/vlog.md

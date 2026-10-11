@@ -164,3 +164,7 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   clean minimal titles.
 - NEVER point at a person with a name/label unless I know who it is. I confused his friends. Get a labelled face
   sheet from him first, then place tags by face detection, and only where the face is clearly visible.
+- (2026-10-11, vlog) He was frustrated that I didn't use the rulebook/features: memes, sound design, magnetic-mask
+  cut-outs, canvas moves, zooms. Before rendering ANY video: walk brain/edit-layers.md pass by pass and use the
+  library. A friends vlog = funny + poppy + beat-synced; photos hang over footage; heroes intro each friend.
+- Music he gives = the backbone: use it in sections all through the video, beat-synced (see brain/vlog.md).

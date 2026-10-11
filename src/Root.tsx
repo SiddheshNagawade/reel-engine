@@ -5,6 +5,7 @@ import {CharScene, type CharSceneProps} from './character/CharScene';
 import latest from './edits/latest.json';
 import type {Edit} from './types';
 import {Gallery} from './templates/Gallery';
+import {VlogPiece, type VlogPieceProps} from './vlog/VlogPiece';
 
 export const Root: React.FC = () => (
   <>
@@ -33,6 +34,19 @@ export const Root: React.FC = () => (
       durationInFrames: Math.max(1, props.edit.durationInFrames),
       fps: props.edit.fps,
     })}
+  />
+  <Composition
+    id="VlogPiece"
+    component={VlogPiece as unknown as React.FC<Record<string, unknown>>}
+    width={1920}
+    height={1080}
+    fps={30}
+    durationInFrames={90}
+    defaultProps={{base: null, frames: 90, layers: []}}
+    calculateMetadata={({props}) => {
+      const p = props as unknown as VlogPieceProps & {size?: [number, number]; fps?: number};
+      return {durationInFrames: Math.max(1, p.frames), width: p.size?.[0] ?? 1920, height: p.size?.[1] ?? 1080, fps: p.fps ?? 30};
+    }}
   />
   <Composition id="Gallery" component={Gallery} width={1080} height={1920} fps={30} durationInFrames={310} defaultProps={{footage: 'input/gallery.mp4'}} />
   </>

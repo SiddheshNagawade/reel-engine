@@ -19,6 +19,12 @@ const KEYWORD_FONT: Record<string, {family: string; size: number; upper: boolean
 
 function splitHook(text: string) {
   const ws = text.replace(/…$/, '').split(/\s+/).filter(Boolean);
+  // *word* marks the keyword explicitly (otherwise: first number, else the longest word)
+  const marked = ws.findIndex((w) => /^\*.+\*[.,!?]?$/.test(w));
+  if (marked >= 0) {
+    const clean = ws.map((w) => w.replace(/\*/g, ''));
+    return {before: clean.slice(0, marked).join(' '), key: clean[marked].replace(/[.,!?]$/, ''), after: clean.slice(marked + 1).join(' ')};
+  }
   let k = ws.findIndex((w) => /[\d₹%]/.test(w));
   if (k < 0) k = ws.reduce((best, w, i) => (w.length > ws[best].length ? i : best), 0);
   return {before: ws.slice(0, k).join(' '), key: ws[k]?.replace(/[.,!?]$/, '') ?? '', after: ws.slice(k + 1).join(' ')};

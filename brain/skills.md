@@ -31,6 +31,7 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 | Clip mode (Whop clipping) | scripts/clip.mjs + scripts/subocr.py; playbook brain/clipping.md | cutting OTHER creators' 16:9 footage into 9:16 posts with original picture/audio, logo, title, captions | his own reels (use npm run reel / process.mjs) |
 | Sound design by meaning | Library/sounds (387 from his pack, INDEX.md) + scripts/lib/sound-families.mjs; choose via brain/sounds.md; import new packs with scripts/sfx-scan.mjs + sfx-import.mjs | a moment's meaning matches (zone-out → glitch, gives up → Discord leave, idea → notify…) | over his words; two sounds at once; same sound as the last reel |
 | Podcast clip pipeline (16:9 interview → 9:16) | yt-dlp sections + scripts/avsync.py + scripts/vcrop.py + npm run reel with REEL_VOICE_AF=anull; steps in brain/clipping.md | clipping podcasts / interviews / any landscape talking footage | his own vertical phone footage (use npm run reel directly) |
+| Long-form vlog (YouTube 16:9) | scripts/vlog.mjs + _work/<name>/vlog.json (written by make_vlog.py); graphics src/vlog/VlogPiece.tsx; playbook brain/vlog.md | trip/day vlogs from many phone clips + photos: card / split / rotate→full layouts, stamps, chapters, route map, photo wall, name tags, ducked music, hand-written subtitles, YouTube chapters file | reels (npm run reel) or no-voice process videos (process.mjs) |
 | Final Cut project export | output/<reel>/<reel>-vN.fcpxml | by default, so he can tweak cuts in FCP | n/a |
 
 ## Legibility & framing checklist (learned from v2)
