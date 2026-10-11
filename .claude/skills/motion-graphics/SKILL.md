@@ -63,6 +63,8 @@ Bubbles, labels, notes and images flip to the roomier side and stay inside the f
 2. Hands: check the motion track says a hand is really there at that time (`hands` in motion json) before anchoring to it.
 3. Objects as stickers: find the frame where the object is clearest (`scripts/char-inspect.py frame …` or ffmpeg),
    run `sticker.py --point` on it, look at the check image, save into `_work/<reel>/` and use `{"what":"image","src":"<file>"}`.
+   A sticker worth reusing goes to the T7 library (`Library/stickers/<name>/sticker.png` + `about.txt` + catalog tags);
+   `src` paths are looked up in `_work/<reel>/`, then the library (`libraryRoot()`).
 4. `npm run reel -- <name> --no-render`, then `node scripts/still.mjs <name> <frames…>` at every prop. LOOK at them.
 5. Render. Check the real file (frames + sound). Add what he liked / disliked to `brain/preferences.md`.
 

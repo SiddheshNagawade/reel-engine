@@ -16,7 +16,7 @@ import {probe, extractAudio, detectSilences, extractPiece, joinPieces, wordLoudn
 import {directLocal} from './lib/director.mjs';
 import {analyzeFrames, pickTheme} from './lib/themes.mjs';
 import {buildEdit, buildTranscript, brollTags} from './lib/plan.mjs';
-import {mediaRoots, outputRoot, workRoot, listVideos} from './lib/paths.mjs';
+import {mediaRoots, outputRoot, workRoot, listVideos, libraryRoot} from './lib/paths.mjs';
 import {syncToDrive} from './lib/sync.mjs';
 import os from 'node:os';
 import {renderEdit} from './render.mjs';
@@ -210,7 +210,7 @@ if (edit.attach?.length) {
   // Pictures (stickers cut with scripts/sticker.py, library PNGs): copied in only for the render.
   for (const [i, a] of edit.attach.entries()) {
     if (a.what !== 'image' || !a.src) continue;
-    const file = [a.src, path.join(work, a.src), path.resolve('Library', a.src)].find((p) => fs.existsSync(p));
+    const file = [a.src, path.join(work, a.src), path.join(libraryRoot(), a.src)].find((p) => fs.existsSync(p));
     if (!file) { console.log(`  (attachment picture not found: ${a.src})`); continue; }
     const rel = `input/${name}-att${i}${path.extname(file)}`;
     fs.copyFileSync(file, path.resolve('public', rel));
