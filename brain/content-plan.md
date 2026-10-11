@@ -10,17 +10,21 @@ Two shared Claude Docs (he and I both edit; read them with the docs tools before
   the script I write once his story is in. Points, not sentences. When he says "made changes": read sinceRev, update
   Work days + scripts, reply with what changed.
 - BRAND PLAN (strategy, content bank, rhythm, reviews): https://claude.ai/code/artifact/e0b1f621-2e02-4aea-88df-87e18568c35f
-Script rules: brain/content-brief.md (still valid for hooks, 5 beats, open loops, stranger rule; CaptionKaro parts are void).
+Script rules: brain/content-brief.md (still valid for hooks, 5 beats, open loops, stranger rule; pillars/CaptionKaro parts are void).
 
-## Decisions (2026-10-11)
-- Personal brand Instagram: IIT design student who builds real things with AI + gym. Arts account stays separate.
-- CaptionKaro DROPPED (he built ReelEngine; captioning alone felt worthless). Shutting it down = one honest video.
-- Flagship: ReelEngine ("this reel was edited by an AI I built"), Thursday ReelEngine log.
-- Prep week Oct 12–18 (film Week 1 ahead), launch Mon Oct 19, 5 posts/week (Mon Build, Wed My Take, Thu ReelEngine log,
-  Fri Build, Sun Road to 73) until Mon Nov 30 finale. ~31 posts. Running number = followers; GOAL (confirmed) 1,000 followers by Nov 30.
-- His time: ~1 hour/day, ready to grind. Work batched by mode (see Work days).
-- Footage: T7 projects/<MMDD>-<short-name>/ per video. Editing style for this account: one-take talking head, clean
-  captions, one rewatch moment (number on screen / screen recording / prototype); no memes unless truly fitting.
+## Decisions (2026-10-11, latest)
+- Personal brand Instagram: IIT design student who builds real things + gym. Arts account stays separate.
+- NEVER mention ReelEngine (or "an AI edits my videos") on his account: it is his private tool. No ReelEngine log.
+- CaptionKaro dropped; only one honest shutdown video (build-23oct), no reason that reveals ReelEngine.
+- My Take dropped (he has no opinions to force). Wednesday = comment reply (Week 1: setup-21oct, his build setup).
+- Series: "I've built 10 things. Most failed." One project per week in two parts (Mon part 1 ends on the moment it
+  broke, Fri part 2 = what went wrong + lesson), numbered oldest → newest. He speaks each project into the planner's
+  Projects table; I pick the 5 strongest and the order.
+- 4 posts/week (Mon project pt1, Wed comment reply, Fri project pt2, Sun Road to 73), Oct 19 → Nov 30 finale: 25 posts.
+  Goal 1,000 followers by Nov 30; running number = followers.
+- Batches: Tue planning, Wed gym, Thu record 3 talking videos, Sat review + schedule 4, Sun analytics.
+- Footage: T7 projects/<name>/ (build-19oct …). Editing for this account: one-take talking head, clean captions, one
+  rewatch moment (number on screen / screen recording / prototype); no memes unless truly fitting.
 
 ## Parked
 - Drawing-channel ideas (Arts account): ₹100 vs ₹10,000 supplies, ball-pen lecture drawing, drawing campus people,
