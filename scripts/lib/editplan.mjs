@@ -4,6 +4,8 @@
 // every pass has a decision written down, so a new session can't skip a step either.
 import fs from 'node:fs';
 import path from 'node:path';
+import {passTechniques} from './techniques.mjs';
+import {lint} from './lint.mjs';
 
 // Every pass: what to decide. `need` = which kinds must finish it before a final render.
 export const PASSES = [
@@ -23,10 +25,12 @@ export const PASSES = [
     ask: 'Moments for text/objects/effects BEHIND the person (person mask). Costly: only where it pays.'},
   {id: 'motion', title: 'Motion & transitions', need: ['reel', 'vlog'],
     ask: 'Every element enters/leaves with motion. Camera push/punch on ideas; real transitions only at real picture changes.'},
+  {id: 'look', title: 'Colour & look', need: ['reel', 'vlog', 'process'],
+    ask: 'His original colours + grain unless this footage needs more; per-clip exposure where clips differ; orientation of every range; scopes before any grade change (brain/color.md).'},
   {id: 'sound', title: 'Sound design (by meaning)', need: ['reel', 'vlog', 'process'],
     ask: 'Whoosh for real movement, tick for text/UI, impact for reveals, meme voices for his attitude (brain/sounds.md). Music sections.'},
   {id: 'density', title: 'Density walk (something new every 2–3 s)', need: ['reel', 'vlog'],
-    ask: 'Walk the timeline in 2–3 s steps. Boring stretch → add from any layer. Overloaded → remove. Vlog: run `node scripts/editplan.mjs <name> density`.'},
+    ask: 'Walk the timeline in 2–3 s steps. Boring stretch → add from any layer. Overloaded → remove. Run `node scripts/editplan.mjs <name> check` (automatic checks + boring stretches).'},
   {id: 'asks', title: 'Asset requests to Siddhesh (CHECKPOINT: ask him)', need: ['reel', 'vlog', 'process'],
     ask: 'What would make this land harder that the Library lacks? Expression memes, reaction GIFs, stickers, illustrations, photos, names, inside jokes. One row each with Google search words; he finds them, drops them in Library/wanted/<id>/, `node scripts/assets.mjs import` adds them to the Library for good. Status per row: asked → received / declined / have.'},
   {id: 'viewer', title: 'Viewer check (after the render)', need: [],
@@ -47,9 +51,17 @@ export function template(name, kind) {
     'One pass at a time, in order (brain/edit-layers.md). Each pass ends with a Status line:',
     '`Status: done` (decisions written below it) or `Status: none: <why nothing is needed here>`.',
     'Final renders refuse to run until every required pass is closed. Check with `node scripts/editplan.mjs ' + name + '`.',
+    '',
+    'Each pass lists the techniques he taught for it (scripts/lib/techniques.mjs). Mark every one:',
+    '`- [x] name: where/how it is used in THIS video` or `- [-] name: why it does not fit here`. Unmarked `- [ ]` blocks the render.',
+    'Your own decisions go below the checklist as plain bullets (`- 0:12 → what → why`).',
     ''];
   PASSES.forEach((p, i) => {
     parts.push(`## ${i}. ${p.title} {#${p.id}}`, `> ${p.ask}`, '');
+    const list = passTechniques(p.id, kind);
+    if (list.length) {
+      parts.push(...list.map((t) => `- [ ] ${t.name}: ${t.when} (how: ${t.how})${t.built ? '' : ' ⚠️ NOT BUILT YET: build it if this video needs it'}`), '');
+    }
     if (p.id === 'asks') parts.push('kinds: sticker (cut out) · image (keep whole) · gif · sound · photo · illustration', '', ASK_TABLE);
     parts.push('Status: todo', '');
   });
@@ -66,13 +78,17 @@ export function parse(text) {
     if (!id) continue;
     const st = /^Status:\s*(todo|done|none)\b[:\s—-]*(.*)$/m.exec(c);
     const body = c.split('\n').slice(1).filter((l) => !/^>/.test(l) && !/^Status:/.test(l)).join('\n');
-    const items = body.split('\n').filter((l) => /^\s*[-*]\s+\S/.test(l)).length;
+    const lines = body.split('\n');
+    // decision bullets (not the technique checklist)
+    const items = lines.filter((l) => /^\s*[-*]\s+\S/.test(l) && !/^\s*-\s+\[[ x-]\]/i.test(l)).length;
+    const unchecked = lines.filter((l) => /^\s*-\s+\[ \]/.test(l)).map((l) => l.replace(/^\s*-\s+\[ \]\s*/, '').split(':')[0]);
+    const badSkips = lines.filter((l) => /^\s*-\s+\[-\]/.test(l) && (l.split(':').slice(1).join(':').trim().length < 6)).map((l) => l.replace(/^\s*-\s+\[-\]\s*/, '').split(':')[0]);
     const rows = body.split('\n').filter((l) => /^\|/.test(l) && !/^\|\s*(id|-)/.test(l))
       .map((l) => l.split('|').slice(1, -1).map((x) => x.trim()))
       .filter((r) => r.length >= 6 && r[0]);
     // rows as objects; status is always the last column
     const asks = rows.map((r) => ({id: r[0], moment: r[1], what: r[2], kind: r[3], search: r[4], tags: r.length >= 7 ? r[5] : '', status: r[r.length - 1]}));
-    out[id] = {id, status: st?.[1] ?? 'todo', reason: (st?.[2] ?? '').trim(), items, rows: asks};
+    out[id] = {id, status: st?.[1] ?? 'todo', reason: (st?.[2] ?? '').trim(), items, unchecked, badSkips, rows: asks};
   }
   return {kind, passes: out};
 }
@@ -86,6 +102,8 @@ export function problems(plan) {
     const got = passes[p.id];
     if (!got || got.status === 'todo') { list.push(`${p.id}: not done yet (${p.title})`); continue; }
     if (got.status === 'none' && got.reason.length < 10) list.push(`${p.id}: "none" needs a real reason`);
+    if (got.unchecked?.length) list.push(`${p.id}: techniques not considered yet: ${got.unchecked.join(' · ')}`);
+    if (got.badSkips?.length) list.push(`${p.id}: say WHY these don't fit: ${got.badSkips.join(' · ')}`);
     if (p.minItems && (got.status === 'none' || got.items < p.minItems))
       list.push(`${p.id}: needs at least ${p.minItems} visual ideas as bullets (has ${got.items}); "none" is not allowed here`);
     if (p.id === 'asks' && got.status === 'done') {
@@ -109,6 +127,11 @@ export function requirePlan(work, name, args, kindHint) {
     return '- ⚠️ rendered without a finished edit plan (--no-plan)';
   }
   const list = plan ? problems(plan) : [`no plan yet: node scripts/editplan.mjs ${name} init --kind ${kindHint}`];
+  // rules the computer can check on the edit itself (lint.mjs): errors block too
+  const editName = args.includes('--edit') ? args[args.indexOf('--edit') + 1] : undefined;
+  const checks = lint(work, plan?.kind ?? kindHint, editName);
+  for (const e of checks.errors) list.push(`check: ${e}`);
+  for (const w of checks.warnings) console.warn(`  ⚠️ ${w}`);
   if (list.length === 0) return '';
   console.error(`\n✋ The edit plan for "${name}" isn't finished, so this won't render yet:\n${list.map((l) => `   - ${l}`).join('\n')}`);
   console.error(`\n   Work through the passes one by one in ${planFile(work)} (the edit-video skill says how),`);

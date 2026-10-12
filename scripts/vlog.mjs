@@ -27,6 +27,7 @@
 //     "cx": 0.5,                                  // card centre (0..1 of width)
 //     "stabilize": 12,                            // handheld shake → vidstab (value = smoothing)
 //     "hold": 0.6,                                // freeze the last frame (seconds)
+//     "jumps": [[a,b],…], "rampTo", "jcut", "lcut", "transition", "smash"   // cut styles: scripts/lib/vlog-cuts.mjs
 //     "gfx": [{type, at, dur, ...}],              // Remotion layers drawn over this segment (src/vlog/*)
 //     "subs": [{"s": 4.1, "e": 6.0, "t": "line"}] // subtitles, SOURCE time of src (in..out), Hinglish
 //   }],
@@ -44,6 +45,7 @@ import ffmpegPath from 'ffmpeg-static';
 import {outputRoot, workRoot, libraryRoot} from './lib/paths.mjs';
 import {TONEMAP} from './lib/media.mjs';
 import {requirePlan} from './lib/editplan.mjs';
+import {expandSegments} from './lib/vlog-cuts.mjs';
 
 const args = process.argv.slice(2);
 const opt = (f, d) => (args.includes(f) ? args[args.indexOf(f) + 1] : d);
@@ -120,10 +122,11 @@ function cover(sw, sh, w, h, fx = 0.5, fy = 0.5, zoom = 1) {
   return `scale=${tw}:${th}:flags=lanczos,crop=${w}:${h}:${x}:${y}`;
 }
 // eased push/pull on a finished WxH frame (zoompan on 2× so it stays smooth)
-function pushChain(z0, z1, total, zx = 0.5, zy = 0.5) {
+function pushChain(z0, z1, total, zx = 0.5, zy = 0.5, linear = false) {
   if (z0 === z1) return '';
   const lin = `min(1,on/${Math.max(1, Math.round(total * FPS))})`;
-  const k = `(${lin})*(${lin})*(3-2*(${lin}))`;
+  // linear for the parts of a speed ramp: the ease is spread over the whole ramp, not repeated per part
+  const k = linear ? lin : `(${lin})*(${lin})*(3-2*(${lin}))`;
   return `,scale=${W * 2}:${H * 2}:flags=bicubic,zoompan=z='${z0}+(${z1 - z0})*${k}'` +
     `:x='max(0,min(iw-iw/zoom,iw*${zx}-iw/zoom/2))':y='max(0,min(ih-ih/zoom,ih*${zy}-ih/zoom/2))':d=1:s=${W}x${H}:fps=${FPS}`;
 }
@@ -172,7 +175,7 @@ function renderSegment(s, out, tmp) {
     }
     const base = `[${i}:v]${clipChain(s, speed)}${stab}${holdF}`;
     if (layout === 'full') {
-      fc = `${base},${cover(sw, sh, W, H, s.fx, s.fy, s.crop ?? 1)}${pushChain(s.zoom ?? 1, s.toZoom ?? s.zoom ?? 1, total, s.zx, s.zy)},setsar=1,format=yuv420p[v]`;
+      fc = `${base},${cover(sw, sh, W, H, s.fx, s.fy, s.crop ?? 1)}${pushChain(s.zoom ?? 1, s.toZoom ?? s.zoom ?? 1, total, s.zx, s.zy, s.linearZoom)},setsar=1,format=yuv420p[v]`;
     } else {
       const ch = even(H * (s.cardH ?? 0.9)), cw = even(ch * sw / sh), r = Math.round(26 * S);
       const x = Math.round(W * (s.cx ?? 0.5) - cw / 2), y = Math.round((H - ch) / 2);
@@ -181,7 +184,7 @@ function renderSegment(s, out, tmp) {
       const mi = nIn++;
       fc = `${base},split[s1][s2];[s1]${BG(sw, sh)},drawbox=x=${x + 10}:y=${y + 24}:w=${cw}:h=${ch}:color=black@0.55:t=fill,gblur=sigma=${Math.round(22 * S)}[bg];` +
         `[s2]${cover(sw, sh, cw, ch, s.fx, s.fy, s.crop ?? 1)},format=rgba[fg0];[${mi}:v]format=gray,scale=${cw}:${ch}[m];[fg0][m]alphamerge[fg];` +
-        `[bg][fg]overlay=${x}:${y}:shortest=1${pushChain(s.zoom ?? 1, s.toZoom ?? s.zoom ?? 1, total)},setsar=1,format=yuv420p[v]`;
+        `[bg][fg]overlay=${x}:${y}:shortest=1${pushChain(s.zoom ?? 1, s.toZoom ?? s.zoom ?? 1, total, 0.5, 0.5, s.linearZoom)},setsar=1,format=yuv420p[v]`;
     }
     const af = audioOf(i, speed, moving);
     if (af) { fc += `;${af}`; aLabel = '[a]'; }
@@ -288,16 +291,17 @@ function photoDims(f, rotate = 0) {
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'vlog-'));
 const pieces = path.join(work, PREVIEW ? 'pieces-preview' : 'pieces');
 fs.mkdirSync(pieces, {recursive: true});
-const segs = V.segments.filter((s) => !s.skip);
+const segs = expandSegments(V.segments.filter((s) => !s.skip)); // jump cuts / ramps → plain parts
+const only = (s) => !ONLY || ONLY.has(s.id) || ONLY.has(s.parent);
 const timeline = []; // {id, start, total, seg}
 let clock = 0;
 try {
   for (const [k, s] of segs.entries()) {
-    const sig = JSON.stringify({s: {...s, gfx: undefined, chapter: undefined}, W, enc: 2});
+    const sig = JSON.stringify({s: {...s, gfx: undefined, chapter: undefined, jcut: undefined, lcut: undefined, transition: undefined, smash: undefined, parent: undefined}, W, enc: 2});
     const out = path.join(pieces, `${s.id}-${crypto.createHash('md5').update(sig).digest('hex').slice(0, 10)}.mov`);
     const sigFile = out + '.sig';
     let total;
-    if (ONLY && !ONLY.has(s.id)) {
+    if (!only(s)) {
       total = segTiming(s).total;
     } else if (fs.existsSync(out) && fs.existsSync(sigFile) && fs.readFileSync(sigFile, 'utf8') === sig) {
       total = segTiming(s).total; // unchanged since last render: reuse
@@ -306,8 +310,10 @@ try {
       fs.writeFileSync(sigFile, sig);
       console.log(`  ${String(k + 1).padStart(3)}. ${clock.toFixed(1).padStart(6)}s  ${s.id.padEnd(22)} ${(s.layout ?? 'full').padEnd(6)} ${total.toFixed(2)}s`);
     }
-    timeline.push({id: s.id, start: clock, total, seg: s, file: out});
-    clock += total;
+    // a dissolve INTO this segment overlaps the previous one by d seconds
+    const overlap = k > 0 && s.transition?.d ? s.transition.d : 0;
+    timeline.push({id: s.id, start: clock - overlap, total, seg: s, file: out});
+    clock += total - overlap;
   }
   fs.writeFileSync(path.join(work, `${OUTNAME}${PREVIEW ? '-preview' : ''}.timeline.json`),
     JSON.stringify(timeline.map(({seg, ...t}) => t), null, 1));
@@ -316,7 +322,7 @@ try {
 
   // MrBeast captions (from subs), placed off faces; then the Remotion graphics pass on pieces that have layers
   for (const t of timeline) t.layers = [...(t.seg.gfx ?? []), ...(V.captions === 'plain' ? [] : captionLayers(t))];
-  const withGfx = timeline.filter((t) => t.layers.length && (!ONLY || ONLY.has(t.id)));
+  const withGfx = timeline.filter((t) => t.layers.length && only(t.seg));
   if (withGfx.length) {
     const {renderGfx} = await import('./lib/vlog-gfx.mjs');
     await renderGfx(withGfx, {W, H, FPS, work, preview: PREVIEW, photoPath});
@@ -325,21 +331,64 @@ try {
 
   // join video + natural sound
   const list = path.join(tmp, 'list.txt');
-  fs.writeFileSync(list, timeline.map((t) => `file '${(t.gfxFile ?? t.file).replace(/'/g, "'\\''")}'`).join('\n'));
+  // dissolves / dips: the two pieces are blended over the overlap (picture xfade + sound crossfade)
+  const joins = [];
+  for (const t of timeline) {
+    const f = t.gfxFile ?? t.file;
+    const tr = t.seg.transition;
+    if (tr?.d && joins.length) {
+      const prev = joins.pop();
+      const xf = path.join(tmp, `xf-${joins.length}-${t.id.replace(/[^\w-]/g, '_')}.mov`);
+      const type = {dissolve: 'fade', white: 'fadewhite', black: 'fadeblack'}[tr.type ?? 'dissolve'] ?? tr.type;
+      ff(['-i', prev.file, '-i', f, '-filter_complex',
+        `[0:v][1:v]xfade=transition=${type}:duration=${tr.d}:offset=${(prev.dur - tr.d).toFixed(3)},format=yuv420p[v];[0:a][1:a]acrossfade=d=${tr.d}[a]`,
+        '-map', '[v]', '-map', '[a]', ...ENC_V, ...ENC_A, xf]);
+      joins.push({file: xf, dur: prev.dur + t.total - tr.d});
+    } else joins.push({file: f, dur: t.total});
+  }
+  fs.writeFileSync(list, joins.map((j) => `file '${j.file.replace(/'/g, "'\\''")}'`).join('\n'));
   const joined = path.join(tmp, 'joined.mov');
   ff(['-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', joined]);
 
   // ---- audio: natural sound (levelled) + music (ducked under speech) + sfx ----
+  // a segment cut into parts (jump cuts, ramps) is still addressed by its own id: t counts across its parts
+  const partsOf = (ref) => timeline.filter((x) => x.id === ref || x.seg.parent === ref);
   const at = (ref, t = 0) => {
-    const seg = timeline.find((x) => x.id === ref);
-    if (!seg) throw new Error(`unknown segment id "${ref}"`);
-    return seg.start + t;
+    const ps = partsOf(ref);
+    if (!ps.length) throw new Error(`unknown segment id "${ref}"`);
+    let rest = t;
+    for (const p of ps) { if (rest < p.total || p === ps[ps.length - 1]) return p.start + rest; rest -= p.total; }
   };
-  const endOf = (ref) => { const s = timeline.find((x) => x.id === ref); return s.start + s.total; };
+  const endOf = (ref) => { const ps = partsOf(ref); const s = ps[ps.length - 1]; return s.start + s.total; };
   const aIn = ['-i', joined];
-  const chains = ['[0:a]highpass=f=70,acompressor=threshold=-20dB:ratio=3:attack=5:release=120,loudnorm=I=-16:TP=-2:LRA=9,asplit=2[nat][key]'];
-  const mixes = ['[nat]'];
+  const chains = [];
   let n = 1;
+  // J-cut: the next scene's sound starts early, under the end of the current picture. L-cut: a scene's sound runs on
+  // under the next picture. The sound already in the joined pieces fades out/in across the same window.
+  const env = [], jl = [];
+  timeline.forEach((t, k) => {
+    const s = t.seg, sp = segTiming(s).speed;
+    const ok = (x) => x && x.src && (x.layout ?? 'full') !== 'split' && segTiming(x).speed === 1 && (x.audio ?? 0) > 0 && !x.transition;
+    if (s.jcut && k > 0 && ok(s) && (s.in ?? 0) >= s.jcut) {
+      const d = s.jcut, a = t.start - d;
+      aIn.push('-ss', String((s.in ?? 0) - d), '-t', String(d), '-i', srcPath(s.src));
+      chains.push(`[${n}:a]aformat=sample_rates=48000:channel_layouts=stereo,volume=${s.audio},afade=t=in:d=${(d * 0.6).toFixed(3)},adelay=${Math.round(a * 1000)}:all=1[jl${n}]`);
+      jl.push(`[jl${n}]`); n++;
+      env.push(`if(between(t,${a.toFixed(3)},${t.start.toFixed(3)}),(${t.start.toFixed(3)}-t)/${d},1)`);
+    }
+    const next = timeline[k + 1];
+    if (s.lcut && next && ok(s) && !s.hold && !next.seg.transition && sp === 1) {
+      const d = s.lcut, b = t.start + t.total;
+      aIn.push('-ss', String(s.out), '-t', String(d), '-i', srcPath(s.src));
+      chains.push(`[${n}:a]aformat=sample_rates=48000:channel_layouts=stereo,volume=${s.audio},afade=t=out:st=${(d * 0.4).toFixed(3)}:d=${(d * 0.6).toFixed(3)},adelay=${Math.round(b * 1000)}:all=1[jl${n}]`);
+      jl.push(`[jl${n}]`); n++;
+      env.push(`if(between(t,${b.toFixed(3)},${(b + d).toFixed(3)}),(t-${b.toFixed(3)})/${d},1)`);
+    }
+  });
+  const envExpr = env.length ? `volume=eval=frame:volume='${env.join('*')}',` : '';
+  chains.push(`[0:a]${envExpr}anull[n0]`);
+  chains.push(`[n0]${jl.join('')}${jl.length ? `amix=inputs=${jl.length + 1}:normalize=0:duration=first,` : ''}highpass=f=70,acompressor=threshold=-20dB:ratio=3:attack=5:release=120,loudnorm=I=-16:TP=-2:LRA=9,asplit=2[nat][key]`);
+  const mixes = ['[nat]'];
   for (const [j, m] of (V.music ?? []).entries()) {
     const file = path.join(libraryRoot(), '..', m.file.startsWith('Library') ? m.file : path.join('Library', m.file));
     const t0 = at(m.from, m.t ?? 0), t1 = m.to ? endOf(m.to) + (m.toT ?? 0) : clock;
@@ -367,9 +416,12 @@ try {
   const dipExpr = dips.length
     ? `volume=eval=frame:volume='1-0.82*max(0,${dips.map(([a, b]) => `min(clip((t-${a.toFixed(2)})/0.25,0,1),clip((${(b + 0.35).toFixed(2)}-t)/0.35,0,1))`).reduce((acc, e) => `max(${acc},${e})`)})'`
     : 'anull';
+  // smash cut: music drops to nothing for a moment at that cut (loud → silent contrast)
+  const smashes = timeline.filter((t) => t.seg.smash).map((t) => [t.start, t.start + t.seg.smash]);
+  const smashExpr = smashes.length ? `,volume=eval=frame:volume='${smashes.map(([a, b]) => `(1-between(t,${a.toFixed(3)},${b.toFixed(3)}))`).join('*')}'` : '';
   let musicBus = null;
   if ((V.music ?? []).length) {
-    chains.push(`${mixes.slice(1).join('')}amix=inputs=${mixes.length - 1}:normalize=0,apad[mus];[mus][key]sidechaincompress=threshold=0.03:ratio=8:attack=40:release=500:makeup=1,${dipExpr}[musd]`);
+    chains.push(`${mixes.slice(1).join('')}amix=inputs=${mixes.length - 1}:normalize=0,apad[mus];[mus][key]sidechaincompress=threshold=0.03:ratio=8:attack=40:release=500:makeup=1,${dipExpr}${smashExpr}[musd]`);
     musicBus = '[musd]';
   } else chains.push('[key]anullsink');
   const sfxLabels = [];

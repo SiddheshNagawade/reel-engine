@@ -9,14 +9,14 @@ the viewer never notices, unless we WANT them to feel it.
 |---|---|---|---|---|
 | Straight cut | instant switch, picture + sound together | neutral | default between clips | ✅ |
 | Jump cut | piece removed from the same shot | time skips, energy | removing pauses/retakes in talking head; hide with a zoom change | ✅ (zoom alternation hides it) |
-| Match cut | next shot matches shape/movement/sound of the last | clever, seamless | multi-clip: same gesture/position in two clips, or a sound that rhymes | ❌ todo: find matching face position / gesture across clips |
-| J-cut | next shot's AUDIO starts before its picture | pulled forward, smooth | between clips/scenes; B-roll entering; very good in short-form (no dead air at the start of a shot) | ❌ todo: audio lead of ~4–8 frames at clip changes |
-| L-cut | current AUDIO continues after the picture changes | flowing, explanatory | his voice keeps talking while we cut to B-roll/screen recording (e.g. CaptionKaro website) | ❌ todo: B-roll over continuing voice (B-roll layer exists, needs the screen-recording workflow) |
+| Match cut | next shot matches shape/movement/sound of the last | clever, seamless | multi-clip: same gesture/position in two clips, or a sound that rhymes | ✅ vlog/process: `cutfinder.py match <A> <t> <B>` finds the frame in B that looks most like A at t → use it as B's in point |
+| J-cut | next shot's AUDIO starts before its picture | pulled forward, smooth | between clips/scenes; B-roll entering; very good in short-form (no dead air at the start of a shot) | ✅ vlog: `"jcut": 0.4` (this scene's sound starts early, the old sound fades under it) · reel: todo for multi-clip reels |
+| L-cut | current AUDIO continues after the picture changes | flowing, explanatory | his voice keeps talking while we cut to B-roll/screen recording (e.g. CaptionKaro website) | ✅ vlog: `"lcut": 0.5` · reel: B-roll over continuing voice = direction.broll |
 | Fade (to/from black/white) | picture fades to a colour | beginning / ending / finality | NOT at the end of his reels (he hates it: hard cut / loop instead); fade to white = dream/memory inside a story | ❌ banned at endings |
-| Dissolve | one shot fades into the next | time passing, memory | "3 months later…", a calm montage | ❌ todo (rare in reels; useful in long-form) |
-| Cut on action | cut during a movement | seamless, energetic | cut while his hand/head moves: hides jump cuts even better | ❌ todo: use face-track motion to nudge cut points onto movement |
-| Cross-cutting | alternate between two simultaneous scenes | tension, comparison | "what people think vs what actually happens", two-character skits, before/after | ❌ todo: multi-clip interleave in direction |
-| Smash cut | abrupt cut between contrasting moments (loud → silent) | comedy, shock | punchlines: hype line → dead silence + B&W (our beat is a cousin of this) | ⚠️ partly (beats); a true smash cut = hard contrast in sound + picture |
+| Dissolve | one shot fades into the next | time passing, memory | "3 months later…", a calm montage | ✅ vlog: `"transition": {"type": "dissolve"|"white"|"black", "d": 0.6}` (xfade + sound crossfade); lint blocks it inside one shot |
+| Cut on action | cut during a movement | seamless, energetic | cut while his hand/head moves: hides jump cuts even better | ✅ vlog/process: `cutfinder.py actions` lists movement peaks → in/out points |
+| Cross-cutting | alternate between two simultaneous scenes | tension, comparison | "what people think vs what actually happens", two-character skits, before/after | ✅ vlog: interleave segments (with jumps, each side can be its best beats) |
+| Smash cut | abrupt cut between contrasting moments (loud → silent) | comedy, shock | punchlines: hype line → dead silence + B&W (our beat is a cousin of this) | ✅ vlog: `"smash": 0.8` drops music/effects to dead silence at that cut · reel: direction.beats |
 
 Rule of thumb: short shots = energy, long shots = tension/intimacy. Indian reels often run 8–15 cuts per 30s, but
 for HIS talking-head reels the cut count comes from his speech, not from a quota. Never cut for the sake of cutting.
@@ -35,6 +35,12 @@ for HIS talking-head reels the cut count comes from his speech, not from a quota
 - Raw phone footage reads as authentic. Don't over-polish him into looking like an ad. The film look should feel premium, not corporate.
 - "Interval twist": flip the premise ~2s in (like a movie interval twist): a strong retention spike for Indian audiences.
 - Multi-character / debate skits (one doubts, one explains, one shows the result) mirror how people actually talk.
+
+## Built 2026-10-12: cut styles for long footage (his note: "you just speed up the long recordings")
+- Plain 1.5–3× fast-forward of people is banned (lint error). Pick per scene: jump cuts to the best beats (`"jumps"`,
+  found by `cutfinder.py beats`: movement + loudness), a speed ramp into a real-time moment (`"rampTo"`), time-lapse only
+  for slow progress (`"timelapse": "<why>"`), J/L-cuts at scene changes, match cuts, cut on action, smash cut, dissolve.
+- Jump-cut beats alternate a small punch-in (`jumpZoom`, 1.12) so the cut reads as intended.
 
 ## Ideas this unlocks for ReelEngine (build when a video needs them)
 1. **J-cut at clip changes** (audio leads picture by ~5 frames): smoother multi-clip reels.

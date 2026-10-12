@@ -30,10 +30,19 @@ Use AskUserQuestion, or `show_design_options` (design-picker mod) when the choic
 plan, close the pass with `Status: done`.
 
 ## Step 2b: cut style per scene (pass "cuts")
-Chandigarh had 19 scenes (206 of 612 s) simply played 1.5–2.8× faster. Never again: each long scene gets a chosen
-cut style with a reason (jump cuts to the best beats at real speed is the default for action). The density command
-flags plain fast-forward. Missing in the vlog engine (build on the next vlog): `jumps` (several in/out ranges of one
-clip with alternating punch-in), `rampTo` (exists in process.mjs), J/L-cut audio lead at scene changes.
+Chandigarh had 19 scenes (206 of 612 s) simply played 1.5–2.8× faster. That is now a blocking check. Each long scene
+gets a chosen cut style with a reason, from the checklist in plan.md:
+- jump cuts to the best beats: `.venv/bin/python scripts/cutfinder.py beats <clip> --from a --to b --n 4` → `"jumps"`
+- speed ramp into a real-time moment: `"speed": 8, "rampTo": 1, "dur": 3`
+- time-lapse only for slow progress: `"timelapse": "<why>"`
+- J/L-cut at scene changes (`"jcut"`, `"lcut"`), match cut (`cutfinder.py match`), cut on action (`cutfinder.py actions`),
+  smash cut (`"smash"`), dissolve for time passing (`"transition"`), cross-cutting (segment order).
+
+## Every pass has a technique checklist
+Each pass in plan.md lists the techniques he taught for it (scripts/lib/techniques.mjs). Mark each one
+`- [x] name: where it's used` or `- [-] name: why it doesn't fit here`; unmarked lines block the render. A technique
+marked "NOT BUILT YET" that this video needs gets built (reusable), then its `built` flag flips in techniques.mjs.
+brain/coverage.md shows the whole map.
 
 ## Step 3: passes 1–8, ONE AT A TIME
 For each pass, in order:
@@ -59,7 +68,9 @@ minute). Reach across the whole toolbox, not only text:
   requests table (pass 9), with the beat it's for.
 
 ### Pass 8: density walk
-Vlog: `node scripts/editplan.mjs <name> density` lists every stretch over 6 s with no new graphic/sticker/sound.
+`node scripts/editplan.mjs <name> check` runs the automatic rules (fast-forward, emoji, repeated meme sounds,
+transitions inside a shot, short shots, end fades; errors block the render) and, for a vlog, lists every stretch over
+6 s with no new graphic/sticker/sound.
 Fill each one from any layer, or write why that stretch stays calm (a real conversation that carries itself).
 Reel: walk the transcript in 2–3 s steps by hand.
 
