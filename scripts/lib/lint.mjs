@@ -54,8 +54,33 @@ export function vlogGaps(edit, gap = 6) {
   return {clock, events, parts, gaps: gaps.map(([a, b]) => ({a, b, from: inSeg(a + 0.01)?.parent ?? inSeg(a + 0.01)?.id, to: inSeg(b - 0.01)?.parent ?? inSeg(b - 0.01)?.id}))};
 }
 
-function lintVlog(edit) {
+const DEVANAGARI = /[\u0900-\u097F]/;
+const norm = (w) => w.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+// The reel's words, all clips in order (direction.json word indices point into this list).
+function reelWords(work) {
+  const out = [];
+  for (let k = 0; fs.existsSync(path.join(work, `clip-${k}.words.json`)); k++) {
+    const d = read(path.join(work, `clip-${k}.words.json`));
+    out.push(...(Array.isArray(d) ? d : d.words ?? []));
+  }
+  return out;
+}
+
+function lintVlog(edit, work) {
   const errors = [], warnings = [];
+  // Hinglish in Roman script, never Devanagari
+  for (const s of edit.segments ?? []) for (const l of s.subs ?? []) if (DEVANAGARI.test(l.t)) errors.push(`${s.id}: subtitle in Devanagari ("${l.t.slice(0, 30)}"). Hinglish in Roman script`);
+  // never name a person he hasn't labelled (people.json from his who-is-who sheet)
+  const people = read(path.join(work, 'people.json'));
+  const known = new Set(Object.values(people ?? {}).filter((p) => p?.name).map((p) => norm(p.name)));
+  for (const s of edit.segments ?? []) for (const g of s.gfx ?? []) {
+    const names = g.type === 'cast' ? (g.people ?? []).map((p) => p.name) : ['tag', 'name', 'hero'].includes(g.type) ? [g.name] : [];
+    for (const n of names.filter(Boolean)) {
+      if (!people) errors.push(`${s.id}: name "${n}" but no people.json. Get his labelled who-is-who sheet first`);
+      else if (![...known].some((k) => norm(n).startsWith(k) || k.startsWith(norm(n)))) errors.push(`${s.id}: "${n}" isn't in people.json. Never tag a person he hasn't confirmed`);
+    }
+  }
   const segs = (edit.segments ?? []).filter((s) => !s.skip);
   // plain fast-forward of people (Chandigarh: 19 scenes) → must be jump cuts / a ramp, or a stated time-lapse reason
   for (const s of segs) {
@@ -84,8 +109,18 @@ function lintVlog(edit) {
   return {errors, warnings};
 }
 
-function lintReel(direction, style) {
+function lintReel(direction, style, work) {
   const errors = [], warnings = [];
+  const words = reelWords(work);
+  const bad = words.filter((w) => DEVANAGARI.test(w.w ?? ''));
+  if (bad.length) errors.push(`${bad.length} words in Devanagari (e.g. "${bad[0].w}"). Fix them in clip-N.words.json: Hinglish in Roman script`);
+  // never the same text twice on screen: a pop-up that repeats the words being said right then
+  for (const p of direction.popups ?? []) {
+    const said = new Set(words.slice(Math.max(0, p.at - 3), p.at + 7).map((w) => norm(w.w ?? '')));
+    const pw = (p.text ?? '').split(/\s+/).map(norm).filter((w) => w.length > 2);
+    // the planner drops these on its own (plan.mjs §6), so it's a warning: the idea is lost unless the words change
+    if (pw.length && pw.filter((w) => said.has(w)).length / pw.length >= 0.5) warnings.push(`pop-up "${p.text}" repeats the words being said, so it gets dropped (never the same text twice). Use different words or a visual`);
+  }
   const endFade = direction.styleOverride?.edit?.endFade ?? style?.edit?.endFade ?? 0;
   if (endFade > 0) errors.push(`end fade is ${endFade}: never a fade at the end (his rule). Loop or hard cut`);
   if ((direction.cards ?? []).length > 2) warnings.push(`${direction.cards.length} text cards: 1–2 per reel, they stop the story`);
@@ -110,6 +145,6 @@ export function lint(work, kind, editName) {
   const f = editFile(work, kind, editName);
   const edit = read(f);
   if (!edit) return {errors: [], warnings: [`no ${path.basename(f)} yet`], file: f};
-  const r = kind === 'vlog' ? lintVlog(edit) : kind === 'reel' ? lintReel(edit, read('style.json')) : lintProcess(edit);
+  const r = kind === 'vlog' ? lintVlog(edit, work) : kind === 'reel' ? lintReel(edit, read('style.json'), work) : lintProcess(edit);
   return {...r, file: f};
 }

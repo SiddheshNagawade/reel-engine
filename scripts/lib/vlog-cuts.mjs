@@ -40,9 +40,14 @@ function partsOf(s) {
     let clock = 0;
     return s.jumps.map(([a, b], k) => {
       const len = b - a;
-      const zoom = (s.zoom ?? 1) * (k % 2 ? jz : 1);
+      // the punch-in: full-frame scenes zoom the frame; card scenes zoom INSIDE the card (zooming the whole frame
+      // would push the card's edges out of the picture)
+      const punch = k % 2 ? jz : 1;
+      const inCard = (s.layout ?? 'full') !== 'full';
+      const zoom = (s.zoom ?? 1) * (inCard ? 1 : punch);
       const part = {
         ...s, id: `${s.id}~${k + 1}`, parent: s.id, in: a, out: b, dur: undefined, speed: 1, jumps: undefined,
+        ...(inCard ? {crop: (s.crop ?? 1) * punch} : {}),
         zoom, toZoom: zoom * (s.toZoom && s.zoom ? s.toZoom / s.zoom : 1.02), hold: k === s.jumps.length - 1 ? s.hold : undefined,
         gfx: splitTimed(s.gfx, clock, len), chapter: k === 0 ? s.chapter : undefined,
         jcut: k === 0 ? s.jcut : undefined, lcut: k === s.jumps.length - 1 ? s.lcut : undefined,
