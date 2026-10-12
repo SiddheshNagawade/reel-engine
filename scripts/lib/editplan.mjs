@@ -9,6 +9,8 @@ import path from 'node:path';
 export const PASSES = [
   {id: 'story', title: 'Story lock (cut, order, hook, ending)', need: ['reel', 'vlog', 'process'],
     ask: 'Cut, order, hook, ending. Give him 3–4 hook options (English text + first 3 s) and let him pick. Timing is locked after this.'},
+  {id: 'cuts', title: 'Cut style per scene (jump, J/L, match, action, smash, ramp)', need: ['reel', 'vlog', 'process'],
+    ask: 'For every scene longer than ~8 s of source, pick HOW it is cut and why (brain/craft.md): jump cuts to the 3–5 best beats at real speed with natural sound (default for action/chaos), speed ramp into a real-time moment, time-lapse only for slow progress, J/L-cut at scene changes, match cut / cut on action between clips, smash cut on a punchline, cross-cut for two things at once. Plain 1.5–3× fast-forward of people is NOT a style.'},
   {id: 'captions', title: 'Captions & hero words', need: ['reel', 'vlog'],
     ask: 'Caption look for this video. The hero words (numbers, emotions, objects, twists) and how each one is exaggerated.'},
   {id: 'visuals', title: 'Support visuals (graphics, vector illustrations, props, bubbles, memes, UI frames, charts)', need: ['reel', 'vlog', 'process'], minItems: 3,

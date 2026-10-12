@@ -79,6 +79,8 @@ if (cmd === 'density') {
   const empty = gaps.reduce((a, [x, y]) => a + (y - x), 0);
   console.log(`${fmt(clock)} long · ${events.length} edit events (${(events.length / (clock / 60)).toFixed(1)}/min) · ${gaps.length} stretches over ${GAP}s with nothing new (${Math.round((100 * empty) / clock)}% of the video)\n`);
   for (const [a, b] of gaps) console.log(`  ${fmt(a)}–${fmt(b)}  (${(b - a).toFixed(0)}s)  in ${inSeg(a + 0.01)}${inSeg(b - 0.01) !== inSeg(a + 0.01) ? ` → ${inSeg(b - 0.01)}` : ''}`);
+  const ff = segs.filter((s) => s.src && s._len > 3 && ((s.out ?? 0) - (s.in ?? 0)) / s._len > 1.2 && ((s.out ?? 0) - (s.in ?? 0)) / s._len < 4);
+  if (ff.length) console.log(`\n⚠️ ${ff.length} scenes are plain fast-forward (1.2–4×): use jump cuts to the best beats or a speed ramp instead:\n${ff.map((s) => `  ${s.id} (${(((s.out ?? 0) - (s.in ?? 0)) / s._len).toFixed(1)}×)`).join('\n')}`);
   console.log('\nTalk that carries itself can stay calm; everything else needs an idea from any layer (or a reason in the plan).');
   process.exit(0);
 }

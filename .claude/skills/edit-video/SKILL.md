@@ -29,6 +29,12 @@ Cut, order, hook, ending. Give him 3–4 hook options (English text + what the f
 Use AskUserQuestion, or `show_design_options` (design-picker mod) when the choice is visual. Write his pick into the
 plan, close the pass with `Status: done`.
 
+## Step 2b: cut style per scene (pass "cuts")
+Chandigarh had 19 scenes (206 of 612 s) simply played 1.5–2.8× faster. Never again: each long scene gets a chosen
+cut style with a reason (jump cuts to the best beats at real speed is the default for action). The density command
+flags plain fast-forward. Missing in the vlog engine (build on the next vlog): `jumps` (several in/out ranges of one
+clip with alternating punch-in), `rampTo` (exists in process.mjs), J/L-cut audio lead at scene changes.
+
 ## Step 3: passes 1–8, ONE AT A TIME
 For each pass, in order:
 1. Re-read that pass's question in plan.md.
