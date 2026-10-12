@@ -193,3 +193,5 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   stack of stickers, memes and GIFs over time. Every video now has an asset-request checkpoint (pass 9).
 - New sessions didn't follow the layer method because it was only prose among ~15 auto-loaded files and nothing checked
   it. Now: the edit-video skill + plan.md + a render gate in code (brain/edit-layers.md "Enforced").
+- Standing permission (2026-10-12): "whatever makes the video better". Changes to the system (like the render gate)
+  don't need his explicit request if they clearly improve the videos; explain them afterwards.
