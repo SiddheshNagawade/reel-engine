@@ -83,3 +83,12 @@ a few narration lines (he records them; not the whole video), premium-edit style
 - Watch renders by FILE GROWTH (every 1–2 min), never only by log lines. A silent log ≠ progress.
 - Check orientation of every range used, including the first seconds (IMG_5904 starts upside down for ~20 s).
 - Give him ETAs up front and keep them honest; he waited ~10 h for this one.
+
+## Cuts + graphics (2026-10-12, after "you just speed up the long recordings")
+- Plain 1.5–3× fast-forward of people is blocked by `node scripts/editplan.mjs <name> check`. Per scene choose:
+  `"jumps"` (best beats at real speed, from `cutfinder.py beats`; card scenes punch in inside the card), `"rampTo"`,
+  `"timelapse": "<why>"` (slow progress only), `"jcut"` / `"lcut"`, `"smash"`, `"transition"` (dissolve for time passing).
+- Props, bubbles, labels, notes stick to faces (`{type: "attach", what, text, near}`); chat, notifications, counters,
+  scatter text, bursts, 3D planes and push-throughs are `{type: "insert", kind, …}`.
+- Demo of all of it on trip footage: T7 `references/cuts-and-graphics-demo.mp4` (+ its vlog.json beside it).
+

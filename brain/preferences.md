@@ -195,3 +195,11 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   it. Now: the edit-video skill + plan.md + a render gate in code (brain/edit-layers.md "Enforced").
 - Standing permission (2026-10-12): "whatever makes the video better". Changes to the system (like the render gate)
   don't need his explicit request if they clearly improve the videos; explain them afterwards.
+
+## Learned 2026-10-12 (cuts + "make it for everything")
+- "You just speed up the long recordings": the cut vocabulary he taught (jump, J/L, match, cut on action, smash, ramp,
+  dissolve) was documentation only. Now built for vlogs, and plain fast-forward of people is a blocking check.
+- His ask: everything he ever taught must be BUILT and CHECKED like that, not just written down. Now every technique
+  lives in scripts/lib/techniques.mjs → a checklist in every plan.md (mark used / not used with a reason) +
+  brain/coverage.md (66 techniques: 65 built, 1 parked on purpose: subject separation, because he chose the v1 look).
+  Rule for the future: a new lesson from him = a line in techniques.mjs (+ a lint rule if a computer can check it).
