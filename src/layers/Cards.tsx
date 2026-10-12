@@ -10,6 +10,7 @@ const easeOut = Easing.bezier(0.16, 1, 0.3, 1); // smooth "expensive" ease: fast
 //   typewriter: letters appear one by one (pairs with a soft tick sound)
 //   wave: letters rise in with a slight tilt + blur, staggered, then settle
 //   slam: one big bold word hits the screen
+//   title: mixed type: serif CAPS rise and un-blur, one script word draws in with a warm glow (chapter / big idea)
 // bg: white | black | accent | blur (frosted footage: keeps the speaker present in talking-head reels)
 export const Cards: React.FC<{edit: Edit}> = ({edit}) => (
   <>
@@ -52,6 +53,37 @@ const Card: React.FC<{c: TextCard; accent: string}> = ({c, accent}) => {
         transform: `scale(${1.5 - 0.5 * t})`, filter: `blur(${(1 - t) * 10}px)`, opacity: Math.min(1, t * 2)}}>
         {c.text}
       </span>
+    );
+  } else if (c.mode === 'title') {
+    // serif caps for every word except the accent word, which is a big script word with a warm glow
+    const words = c.text.split(/\s+/);
+    const accentIdx = Math.max(0, words.findIndex((w) => w.toLowerCase().replace(/[^\w]/g, '') === accentWord));
+    const glow = c.color ?? '#ffd9a0';
+    // three lines: the serif words before the accent, the script accent word, the serif words after it
+    const lines = [words.slice(0, accentIdx).join(' '), words[accentIdx], words.slice(accentIdx + 1).join(' ')];
+    content = (
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: size * 0.05}}>
+        {lines.map((w, i) => {
+          if (!w) return null;
+          const d = frame - i * 6;
+          const t = interpolate(d, [0, 14], [0, 1], {...clamp, easing: easeOut});
+          if (i === 1) {
+            const draw = interpolate(d, [0, 22], [0, 1], {...clamp, easing: easeOut});
+            return (
+              <span key={i} style={{fontFamily: fonts.yellowtail, fontWeight: 400, fontSize: size * 2, lineHeight: 1, color: glow, letterSpacing: 0, padding: '0 0.15em',
+                textShadow: `0 0 ${18 * t}px ${glow}, 0 0 ${50 * t}px ${glow}99`, clipPath: `inset(-40% ${(1 - draw) * 110 - 10}% -40% -10%)`, transform: `translateY(${(1 - t) * 10}px) rotate(-4deg)`}}>
+                {w}
+              </span>
+            );
+          }
+          return (
+            <span key={i} style={{fontFamily: fonts.dmSerif, fontWeight: 400, fontSize: size * 0.95, textTransform: 'uppercase', letterSpacing: size * 0.12,
+              opacity: t, filter: `blur(${(1 - t) * 10}px)`, transform: `translateY(${(1 - t) * 24}px)`}}>
+              {w}
+            </span>
+          );
+        })}
+      </div>
     );
   } else {
     // wave: per-letter rise + tilt + blur, staggered (the classic smooth kinetic subtitle)

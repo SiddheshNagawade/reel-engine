@@ -75,7 +75,10 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   }
 
   // 3. Kept pieces → segments; near-continuous pieces merge so we only jump-cut where time actually skips.
-  const kept = merge(subtract(padded, removals), 0).filter(([a, b]) => b - a >= e.minSegment);
+  // keepTimeline: the picture is already final (a process/drawing video with his voice-over): no silence cuts,
+  // no retake cuts, no zoom jumps; only captions, hook, sound design and graphics are added on top.
+  const keep = !!direction?.keepTimeline;
+  const kept = keep ? [[0, duration]] : merge(subtract(padded, removals), 0).filter(([a, b]) => b - a >= e.minSegment);
   const pieces = [];
   for (const k of kept) {
     const last = pieces[pieces.length - 1];
@@ -92,7 +95,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   }
   // Let the ending breathe: keep a little room tone after the last word instead of cutting dead on it.
   const lastPiece = pieces[pieces.length - 1];
-  lastPiece[1] = Math.min(duration, lastPiece[1] + (e.endTail ?? 0.5));
+  if (!keep) lastPiece[1] = Math.min(duration, lastPiece[1] + (e.endTail ?? 0.5));
 
   // Beats: after a line that deserves a reaction (bad take, cringe…), hold a silent freeze so the sound lands in the pause.
   const beatsIn = (direction?.beats ?? [])
@@ -116,7 +119,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const [a, b] = p;
     const frames = p.freeze ? Math.round(p.freeze * fps) : Math.max(8, Math.round((b - a) * fps));
     // a freeze punches in a little on the held frame
-    const zoom = p.freeze ? zooms[Math.max(0, zi - 1) % zooms.length] + 0.06 : zooms[zi++ % zooms.length];
+    const zoom = keep ? 1 : p.freeze ? zooms[Math.max(0, zi - 1) % zooms.length] + 0.06 : zooms[zi++ % zooms.length];
     const seg = {srcFrame: Math.round(a * fps), outFrame: out, frames, zoom: p.cold ? zoom + 0.12 : zoom, ...(p.freeze ? {freeze: true} : {})};
     out += seg.frames;
     return {...seg, a, b, beat: p.beat, cold: p.cold};

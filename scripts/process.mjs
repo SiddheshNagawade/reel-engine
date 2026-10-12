@@ -26,6 +26,9 @@
 //     "exposure": 1.1,           // luma gain override; omitted = measured per segment (paper white → shared target, no clipping)
 //     "audio": 0.6,              // keep natural sound at this volume (only for speed ≤ 2); omitted = silent
 //     "vo": "line to say here"   // voice-over guide line (lasts until the next segment that has one)
+//   (reel level) "voice": {"file": "<his VO recording>", "offset": 0, "trim": 0, "volume": 1}
+//     his recorded voice-over, levelled to -14 LUFS; the natural sound ducks under it. Then the final stage:
+//     npm run reel -- "<this output>.mp4" with direction.keepTimeline = true → captions, hook, sound design, graphics.
 //   }]
 // }
 // Output: <drive>/output/<name>/<name>-vN.mp4 (+ -vN-vo-guide.mp4 when lines exist) + CHANGELOG.md. Versions never overwrite.
@@ -235,9 +238,17 @@ try {
     cur = `o${j}`;
   });
   chain.push(`[${cur}]${look.length ? look.join(',') : 'null'}[v]`);
-  const af = 'anull';
-  ff(['-f', 'concat', '-safe', '0', '-i', list, ...cards.flatMap((c) => ['-i', c.file]),
-    '-filter_complex', `${chain.join(';')};[0:a]${af}[a]`, '-map', '[v]', '-map', '[a]',
+  // his voice-over on top: levelled, cleaned; the natural sound (ASMR, cap clicks) ducks under it
+  const vo = tl.voice?.file ? [tl.voice.file, path.join(work, tl.voice.file)].find((f) => fs.existsSync(f)) : null;
+  if (tl.voice?.file && !vo) console.log(`  ⚠️ voice-over not found: ${tl.voice.file}`);
+  const vi = cards.length + 1;
+  const audio = vo
+    ? `[${vi}:a]atrim=start=${tl.voice.trim ?? 0},asetpts=PTS-STARTPTS,highpass=f=80,afftdn=nf=-25,loudnorm=I=-14:TP=-1.5:LRA=11,volume=${tl.voice.volume ?? 1},` +
+      `adelay=${Math.round((tl.voice.offset ?? 0) * 1000)}:all=1,apad,asplit=2[vo][vokey];[0:a][vokey]sidechaincompress=threshold=0.02:ratio=10:attack=20:release=400[nat];` +
+      `[nat][vo]amix=inputs=2:normalize=0:duration=first[a]`
+    : '[0:a]anull[a]';
+  ff(['-f', 'concat', '-safe', '0', '-i', list, ...cards.flatMap((c) => ['-i', c.file]), ...(vo ? ['-i', vo] : []),
+    '-filter_complex', `${chain.join(';')};${audio}`, '-map', '[v]', '-map', '[a]',
     ...ENC, '-movflags', '+faststart', final]);
   console.log(`\n✅ ${final} (${clock.toFixed(1)}s)`);
 

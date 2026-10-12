@@ -39,8 +39,11 @@ Reference: `_work/alcoholmarkers/timeline.json` (v6, with a "why" block explaini
   [{src, in, out, dur, at, from, y, w, aspect, tilt, fx, fy, zoom, rotate}]. Speed ≥ 60× decodes keyframes only.
 - Gotchas: macOS writes `._*` files on the T7 (filter them); `vidstabdetect accuracy=12` corrupts the .trf in this ffmpeg build.
 
-## Still to build
-- **Final stage for process reels:** feed the picture-locked cut + his VO into the Remotion pipeline (captions from the VO
-  transcript WITHOUT silence-cutting the picture, hook text, sound design, CircleReveal/NumberRoll/cards from src/templates).
-- `scripts/activity.mjs`: per-second change score → idle vs active stretches, to find moments faster on long footage.
-- Long-form 16:9 mode (YouTube: chapters, calmer time-lapse, no crop) and beat-synced cuts.
+## Final stage (built 2026-10-12)
+1. His VO recording → timeline `"voice": {"file", "offset", "trim", "volume"}`: levelled to -14 LUFS, natural sound
+   ducks under it. Render with `node scripts/process.mjs <name>`.
+2. `npm run reel -- "<output>/<name>-vN.mp4"` with `_work/<name>-vN/direction.json` → `"keepTimeline": true` (no silence
+   cuts, no zoom jumps) + hookText, emphasis, counters / reveals / cards / memes / sounds, and
+   `"styleOverride": {"film": {"grain": 0}}` (the process look already has grain).
+- Finding moments in hours of footage: `.venv/bin/python scripts/cutfinder.py activity <clip>` (active vs idle
+  stretches, keyframes only: ~3.5 min for a 72-min recording). Long-form 16:9 = scripts/vlog.mjs.

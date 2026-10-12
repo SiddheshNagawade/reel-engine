@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-62 techniques · 62 built · 0 still to build
+66 techniques · 65 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -17,6 +17,8 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | story | His story + a common problem | process | ✅ | VO script, present tense | hooks.md |
 | story | Ending: loop or hard cut on the payoff, never a fade | reel, vlog, process | ✅ | last segment / last line | preferences.md |
 | story | Honest claims | reel, vlog, process | ✅ | hook text, VO, name tags from people.json | preferences.md |
+| story | Find active vs idle stretches in hours of footage | process, vlog | ✅ | cutfinder.py activity <clip> | process-videos.md |
+| story | Final stage: his VO + captions, hook, sound, graphics | process | ✅ | timeline "voice" → npm run reel -- <output> with direction.keepTimeline | process-videos.md |
 | cuts | Jump cuts to the best beats | vlog, process | ✅ | vlog: "jumps" + cutfinder.py beats · process: separate segments | craft.md |
 | cuts | Speed ramp into a real-time moment | vlog, process | ✅ | "speed" + "rampTo" + "dur" | process-videos.md |
 | cuts | Time-lapse only for slow progress | vlog, process | ✅ | "speed" / "dur" | preferences.md |
@@ -45,6 +47,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | visuals | Real numbers on screen | reel, vlog | ✅ | counter / pop | preferences.md |
 | visuals | Vector character in the footage | reel, vlog | ✅ | npm run char (character-overlay skill) | preferences.md |
 | visuals | Vector illustration / icon | reel, vlog | ✅ | Library/stickers *.svg/png (assets.mjs) · reel: attach {what: "image", src} · vlog: gfx sticker / attach image | preferences.md |
+| visuals | Title card: serif caps + glowing script word | reel | ✅ | direction.cards mode "title" + accentWord | expensive.md |
 | layout | Footage makes room (shrinks/moves, blurred fill) | reel | ✅ | direction.layouts {at, until, scale, x, y, fill: blur/color} | edit-layers.md |
 | layout | card / split / rotate → full | vlog | ✅ | segment layout | vlog.md |
 | layout | Floating practice cards over a running shot | process | ✅ | timeline cards | process-videos.md |
@@ -64,6 +67,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | look | Grade per clip, then one shared look | process, vlog | ✅ | process: exposure per segment | preferences.md |
 | look | Scopes before any grade change | reel, vlog, process | ✅ | scripts/colorcheck.py | color.md |
 | look | Orientation of every range | vlog, process | ✅ | contact sheets → rotate | preferences.md |
+| look | Subject/background separation grade | reel | ⏸ parked: he chose the v1 look ("just perfect"); his rule is not to improve it unasked. Build only if he asks. | scripts/personmask.py (mask edge must be shrunk + feathered: the first try left a halo) | color.md |
 | sound | Sound by meaning | reel, vlog, process | ✅ | direction.memes tags / vlog sfx | sounds.md |
 | sound | Soft whoosh for real movement, tick/click for text/UI | reel, vlog, process | ✅ | sfx | expensive.md |
 | sound | Meme voices after the line, never over his words | reel, vlog | ✅ | memes / sfx (checked automatically) | preferences.md |

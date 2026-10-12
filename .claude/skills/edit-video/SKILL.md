@@ -54,16 +54,19 @@ For each pass, in order:
 ### Pass 2 (support visuals) is where the edit is made: think like a motion designer
 For every beat ask: what does the viewer SEE besides the footage? At least 3 ideas, usually far more (vlog: several a
 minute). Reach across the whole toolbox, not only text:
-- **Reel** (`direction.json`): `attach` = props on face/hands (sunglasses, crown, sweat, anger mark, ?, bulb, tears,
-  hearts), speech/thought bubbles, labels + arrows, sticky notes, any object as a cut-out sticker
-  (`.claude/skills/motion-graphics/SKILL.md`); `memes` (stickers + sounds), `cards` (typewriter/wave/slam), `banner`,
-  `hookBehind` (text behind him), CardStage / CircleReveal / NumberRoll (`src/templates`), character overlay
-  (`.claude/skills/character-overlay/SKILL.md`).
-- **Vlog** (`vlog.json` gfx): sticker (memes, his imported PNG/GIF too), pop, hang (photos), hero intro, counter, arrow,
-  circle, tag/name, map, stamp, chapter, zoom (punch + flash), censor.
-- **Missing?** Vector illustrations, props or bubbles in the vlog, an animated chart, a UI frame: BUILD it as a reusable
-  layer (CLAUDE.md "Freedom to create": component + data field + brain/skills.md row). "We don't have it" is never the
-  reason to leave a beat empty.
+- **Reel** (`direction.json`, all keyed to a word index `at`): `attach` = props on face/hands (sunglasses, crown, sweat,
+  anger mark, ?, bulb, tears, hearts), speech/thought bubbles, labels + arrows, sticky notes, any picture/illustration
+  (`.claude/skills/motion-graphics/SKILL.md`); `memes`; `cards` (typewriter / wave / slam / title / scatter); `counters`;
+  `reveals` (before/after); `stages` (clips as cards); `ui` (chat / notifications / button + cursor); `planes` (3D tilted
+  screen); `pushes` (push-through); `connectors`; `bursts`; `layouts` (footage makes room) + `captionMoves`; `coldOpen`;
+  `banner`; `hookBehind`; character overlay (`.claude/skills/character-overlay/SKILL.md`). Fields: brain/skills.md.
+- **Vlog** (`vlog.json` gfx): sticker (memes, his imported PNG/GIF/SVG), pop, hang (photos), hero intro, counter, arrow,
+  circle, tag/name, map, stamp, chapter, zoom (punch + flash), censor, `attach` (the reel's props/bubbles/labels/notes
+  stuck to a face: `near: [x, y]` picks the person) and `insert` (chat, notify, cursor, counter, connector, burst,
+  scatter, plane, push).
+- **Missing?** Anything still not in that list: BUILD it as a reusable layer (CLAUDE.md "Freedom to create": component +
+  data field + brain/skills.md row + a line in scripts/lib/techniques.mjs). "We don't have it" is never the reason to
+  leave a beat empty.
 - **Needs an asset the Library lacks** (an expression meme, a reaction GIF, a logo, a photo) → it goes in the Asset
   requests table (pass 9), with the beat it's for.
 

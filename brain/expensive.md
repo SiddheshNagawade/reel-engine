@@ -26,18 +26,18 @@ Also: you're biased about your own edit. Judge it like a stranger who doesn't kn
 | Minimal text cards | short lines on plain white/black, letter-by-letter typing or a soft per-letter wave (letters rise, tilt, un-blur, staggered) | ✅ `direction.cards` modes `typewriter`, `wave` (+ `accentWord` in serif italic) |
 | Single-word slam | one huge heavy word ("REALITY", "MISSING IMPACT") | ✅ card mode `slam` (+ hit sound) |
 | Frosted text over footage | (adapted for talking head) text on blurred footage keeps the speaker present | ✅ card `bg: 'blur'` |
-| Mixed-type title with glow | serif caps + script word, warm glow on black | ⚠️ partly: hook styles + `glow: true` on cards; a dedicated title card is a todo |
-| Footage framed in rounded cards on white, triptychs | B-roll as clean "photo cards", 3 side by side | ❌ todo (long-form especially) |
-| UI mockups | chat bubbles, notification stacks, button + cursor click | ❌ todo (great for CaptionKaro promos) |
-| Circle-wipe before/after | circular mask reveals the graded version | ❌ todo |
-| 3D tilted UI plane | screen recording tilted in perspective | ❌ todo |
+| Mixed-type title with glow | serif caps + script word, warm glow on black | ✅ card mode `title` (serif caps rise + un-blur, script accentWord draws in with a warm glow) |
+| Footage framed in rounded cards on white, triptychs | B-roll as clean "photo cards", 3 side by side | ✅ direction.stages (CardStage: single / row / grid / stack / focus, morphing) |
+| UI mockups | chat bubbles, notification stacks, button + cursor click | ✅ direction.ui: chat (whatsapp / imessage / instagram), notify (list or iOS stack), cursor (button + click) |
+| Circle-wipe before/after | circular mask reveals the graded version | ✅ direction.reveals (CircleReveal; before/after from his own footage {word} or a file) |
+| 3D tilted UI plane | screen recording tilted in perspective | ✅ direction.planes (screen recording / picture on a 3D-tilted card that turns and scrolls) |
 | Section colour coding | a whole segment on one brand colour (e.g. promo section) | ⚠️ card `bg: 'accent'` |
 | Grade: S-curve + sharpen (+ halation) | baked into footage | ✅ style.film `scurve`, `sharpen`, `halation` (default 0) |
 | UI/text sounds | ticks, clicks, soft whooshes | ✅ Library sfx `tick`, `click`, `soft-whoosh` (generated, original) |
 
 ## Reels vs long-form
 - **Long-form (16:9):** this style fits best: the speaker's voice runs over a sequence of text cards, framed B-roll, UI
-  mockups and stock footage, cutting every 1–3 s on the meaning of the words. (Needs the long-form mode: still to build.)
+  mockups and stock footage, cutting every 1–3 s on the meaning of the words. (Long-form = scripts/vlog.mjs; every reel insert also works there as gfx {type: "insert"}.)
 - **Reels (his talking head):** use it lightly. One text card or slam at a key line (the face stays the main visual), the
   grade + sound design always. Never stack: card OR meme OR camera move per moment.
 - Never show the same words twice: captions hide automatically while a card is up.

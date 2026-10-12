@@ -9,7 +9,7 @@ export type MemePlacement = 'peek-left' | 'peek-right' | 'corner-left' | 'corner
 export type Meme = {f: number; frames: number; sound: string | null; visual: string | null; isVideo: boolean; volume: number; sticker: boolean; placement: MemePlacement; fadeOut?: number; id?: string; scale?: number; lift?: number; tilt?: number};
 export type Effect = {f: number; frames: number; type: 'mono' | 'dark' | 'rage'; end: 'fade' | 'cut'};
 
-export type TextCard = {f: number; frames: number; text: string; mode: 'typewriter' | 'wave' | 'slam'; bg?: 'white' | 'black' | 'accent' | 'blur'; accentWord?: string; size?: number; speed?: number; color?: string; glow?: boolean};
+export type TextCard = {f: number; frames: number; text: string; mode: 'typewriter' | 'wave' | 'slam' | 'title'; bg?: 'white' | 'black' | 'accent' | 'blur'; accentWord?: string; size?: number; speed?: number; color?: string; glow?: boolean};
 export type CaptionStyle = 'bold-pop' | 'editorial' | 'script-accent' | 'condensed-stack' | 'highlight-box' | 'bubble';
 export type TransitionType = 'whip' | 'zoomblur' | 'flash' | 'lightleak' | 'tilt3d';
 export type Theme = {

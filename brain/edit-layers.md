@@ -77,10 +77,9 @@ file at all. So it's no longer only advice:
 ## Keep the layers separate (editable like tracks)
 - Each pass is its own part of the plan, so "change only the sounds" or "move that arrow" touches one layer and nothing else.
 
-## What exists vs what still has to be built (2026-10-11)
-- Exists: caption styles + emphasis words (Captions.tsx), hook text, text behind head (personmask), cards, CardStage (footage
-  in cards on a stage), CircleReveal, NumberRoll, motion-graphics attach (props, bubbles, labels, notes), character overlay,
-  big SFX library, camera push/punch moves.
-- To build when the first video needs it: canvas layout keyframes for the main footage (shrink/move + blurred fill),
-  caption position keyframes, word→visual connectors (animated arrows/curves/dotted lines), objects/effects behind the
-  person (beyond text), a per-layer structure in direction.json.
+## What exists (2026-10-12: every layer of this method is now built; brain/coverage.md has the full map)
+- Captions + hero words, hook text, text behind him (personmask), text cards (typewriter / wave / slam / title / scatter).
+- Support visuals: attach props/bubbles/labels/notes/images (reel + vlog), memes, counters, reveals, stages, chat /
+  notifications / cursor, 3D plane, push-through, connectors, bursts, character overlay.
+- Canvas: `layouts` (footage shrinks/moves, blurred or colour fill). Captions: `captionMoves`. Depth: attach {behind}.
+- Per-layer structure: plan.md (one section per pass, technique checklist each) + the render gate.

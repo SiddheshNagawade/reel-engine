@@ -7,6 +7,9 @@
       Movement peaks: cutting ON an action (a punch, a jump, a turn) hides the cut. Use them as in/out points.
   .venv/bin/python scripts/cutfinder.py match <videoA> <secondsA> <videoB> [--from --to] [--rotA 90 --rotB 0]
       The moment in B whose picture looks most like A at secondsA (shapes, positions, light): a match cut.
+  .venv/bin/python scripts/cutfinder.py activity <video> [--fps 1] [--min 20]
+      Hours of drawing/making-of footage: which stretches are ACTIVE (hand moving, paper changing) and which are idle
+      (break, phone moved away, nothing happening). Look at the active ones first; skip idle ones without decoding.
 
 Reads tiny grey frames (64x36 @ 10 fps) and mono audio through ffmpeg, so it's fast even on long 4K clips.
 """
@@ -109,12 +112,38 @@ def match(pa, ta, pb):
                       'top': [round(off + j / FPS, 2) for j in np.argsort(-sim)[:5]]}))
 
 
+def activity(path):
+    # 1 sample per second over the whole clip is enough to tell work from idle on hour-long recordings
+    rate = arg('--fps', 1.0)
+    cmd = [FF, '-v', 'error', '-skip_frame', 'nokey', '-i', path, '-vf', f'fps={rate},scale={W}:{H},format=gray', '-f', 'rawvideo', '-']
+    raw = subprocess.run(cmd, capture_output=True).stdout
+    fr = np.frombuffer(raw, np.uint8).reshape(-1, H, W).astype(np.float32)
+    if len(fr) < 3:
+        print(json.dumps({'active': [], 'idle': []}))
+        return
+    mo = np.convolve(motion(fr), np.ones(5) / 5, 'same')
+    thr = max(np.percentile(mo, 35), 0.6)
+    act = mo > thr
+    runs, start = [], 0
+    for i in range(1, len(act) + 1):
+        if i == len(act) or act[i] != act[start]:
+            runs.append((bool(act[start]), start / rate, i / rate))
+            start = i
+    mn = arg('--min', 20.0)
+    active = [[round(a, 1), round(b, 1)] for on, a, b in runs if on and b - a >= mn]
+    idle = [[round(a, 1), round(b, 1)] for on, a, b in runs if not on and b - a >= mn]
+    total = len(act) / rate
+    print(json.dumps({'seconds': round(total, 1), 'active_share': round(float(act.mean()), 2), 'active': active, 'idle': idle}))
+
+
 if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else ''
     if cmd == 'beats':
         beats(sys.argv[2])
     elif cmd == 'actions':
         actions(sys.argv[2])
+    elif cmd == 'activity':
+        activity(sys.argv[2])
     elif cmd == 'match':
         match(sys.argv[2], float(sys.argv[3]), sys.argv[4])
     else:

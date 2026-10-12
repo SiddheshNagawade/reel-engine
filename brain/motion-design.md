@@ -33,7 +33,9 @@ Deformation/morph moments are ACCENTS: one per section at most.
 - `CircleReveal`: before/after spotlight, soft edge + guide ring, opens to full reveal.
 - `NumberRoll`: slot-machine counter with giant faded echo + label.
 - (from expensive.md) text cards `typewriter | wave | slam` on white/black/accent/blur.
-Todo when a video needs them: push-through, chat/notification UI, 3D tilted plane, cascade, scatter text, light-burst transition.
+Built 2026-10-12 (src/layers/Inserts.tsx, reel direction fields / vlog gfx {type: "insert"}): push-through (`pushes`), chat /
+notification cascade / button + cursor (`ui`), 3D tilted plane (`planes`), scatter text (card mode `scatter`), light burst
+(`bursts`), connectors, counters, reveals, stages, footage making room (`layouts`). The templates above are wired in too.
 Render the gallery: `node scripts/gallery.mjs <footage.mp4> <out.mp4>`.
 
 ## Mood first (most important; from Siddhesh)

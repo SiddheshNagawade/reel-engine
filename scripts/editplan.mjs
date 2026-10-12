@@ -18,15 +18,16 @@ const fmt = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(
 
 if (args.includes('--coverage')) {
   const rows = PASSES.flatMap((p) => TECHNIQUES.filter((t) => t.pass === p.id).map((t) =>
-    `| ${p.id} | ${t.name} | ${t.kinds.join(', ')} | ${t.built ? '✅' : '❌ to build'} | ${t.how.replace(/\|/g, '/')} | ${t.src} |`));
-  const open = TECHNIQUES.filter((t) => !t.built);
+    `| ${p.id} | ${t.name} | ${t.kinds.join(', ')} | ${t.parked ? `⏸ parked: ${t.parked}` : t.built ? '✅' : '❌ to build'} | ${t.how.replace(/\|/g, '/')} | ${t.src} |`));
+  const open = TECHNIQUES.filter((t) => !t.built && !t.parked);
+  const parked = TECHNIQUES.filter((t) => t.parked);
   fs.writeFileSync('brain/coverage.md', `# Coverage: everything he taught → built? → where it's checked
 
 Generated from scripts/lib/techniques.mjs (\`node scripts/editplan.mjs --coverage\`); edit that file, not this one.
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-${TECHNIQUES.length} techniques · ${TECHNIQUES.length - open.length} built · ${open.length} still to build${open.length ? `: ${open.map((t) => t.name).join('; ')}` : ''}
+${TECHNIQUES.length} techniques · ${TECHNIQUES.length - open.length - parked.length} built · ${open.length} still to build${open.length ? `: ${open.map((t) => t.name).join('; ')}` : ''} · ${parked.length} parked on purpose${parked.length ? ` (${parked.map((t) => t.name).join('; ')})` : ''}
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|

@@ -23,6 +23,7 @@ Read first: `brain/preferences.md`, `brain/principles.md`, `brain/craft.md` (cut
 | Body tracking | face (eyes, nose, mouth, chin, head top, head tilt), hands (palm + fingertips), shoulders | `scripts/motiontrack.py` (Apple Vision), run automatically by `npm run reel` when `direction.attach` exists, cached as `_work/<reel>/motion-<key>.json` |
 | Tracked props | ~20 drawn props that stick to those points and follow the head's tilt and the camera zooms | `direction.attach` → `src/motion/props.tsx` + `src/motion/Attach.tsx` |
 | Sticker maker | ANY object → cut-out PNG with white outline + shadow (background removal) | `.venv/bin/python scripts/sticker.py <picture or video> out.png [--frame N] [--point x,y]` → look at `out-check.jpg` |
+| Vlogs too | the same props/bubbles/labels/notes/images in 16:9 vlog pieces, stuck to a face from the piece's face boxes | vlog gfx `{type: "attach", at, dur, what, text, near: [x, y]}` (no hands/body there: face anchors only) |
 | Surface tracking + characters | a cartoon living on a wall, hiding behind real things, jumping onto objects | `npm run char` (see `.claude/skills/character-overlay/SKILL.md`) |
 | Text behind him, cards, memes | other layers | `brain/skills.md` |
 

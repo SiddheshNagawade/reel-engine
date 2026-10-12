@@ -90,9 +90,16 @@ export const TECHNIQUES = [
   {id: 'music-sections', pass: 'sound', kinds: [V], name: 'Music in beat-synced sections, out under conversations', when: 'his song is the backbone; drops land on chapters', how: 'vlog music runs', src: 'vlog.md', built: true},
   {id: 'tension-bed', pass: 'sound', kinds: [R, V], name: 'Tension / riser under a build-up', when: 'cold opens, before a reveal', how: 'sfx tension-*, riser → impact', src: 'preferences.md', built: true},
 
+  {id: 'subject-separation', pass: 'look', kinds: [R], name: 'Subject/background separation grade', when: 'person mask: subject a touch brighter/warmer, background darker', how: 'scripts/personmask.py (mask edge must be shrunk + feathered: the first try left a halo)', src: 'color.md', built: false,
+    parked: 'he chose the v1 look ("just perfect"); his rule is not to improve it unasked. Build only if he asks.'},
+  {id: 'title-card', pass: 'visuals', kinds: [R], name: 'Title card: serif caps + glowing script word', when: 'a chapter or the big idea gets a premium title moment', how: 'direction.cards mode "title" + accentWord', src: 'expensive.md', built: true},
+  {id: 'activity', pass: 'story', kinds: [P, V], name: 'Find active vs idle stretches in hours of footage', when: 'long drawing / making-of recordings before choosing moments', how: 'cutfinder.py activity <clip>', src: 'process-videos.md', built: true},
+  {id: 'voice-final', pass: 'story', kinds: [P], name: 'Final stage: his VO + captions, hook, sound, graphics', when: 'after he records the VO: picture stays, layers go on top', how: 'timeline "voice" → npm run reel -- <output> with direction.keepTimeline', src: 'process-videos.md', built: true},
+
   // ── density ──
   {id: 'density', pass: 'density', kinds: ALL, name: 'Something new every 2–3 s; one idea at a time', when: 'walk the timeline; fill boring stretches, thin overloaded ones', how: 'node scripts/editplan.mjs <name> check', src: 'preferences.md', built: true},
 ];
 
 // Rules the computer can check on the edit itself (scripts/lib/lint.mjs). error = blocks the render.
-export const passTechniques = (pass, kind) => TECHNIQUES.filter((t) => t.pass === pass && t.kinds.includes(kind));
+// parked techniques (a reasoned 'not now', e.g. against one of his rules) never appear as checklist lines
+export const passTechniques = (pass, kind) => TECHNIQUES.filter((t) => t.pass === pass && t.kinds.includes(kind) && !t.parked);
