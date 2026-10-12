@@ -37,7 +37,12 @@ export async function renderGfx(items, {W, H, FPS, preview, photoPath, work}) {
         ...(g.photo ? {photo: link(photoPath(g.photo))} : {}),
         ...(g.type === 'hero' && g.cut ? {cut: link(path.isAbsolute(g.cut) ? g.cut : path.join(work, g.cut))} : {}),
         ...(g.type === 'hero' && g.bg ? {bg: link(path.isAbsolute(g.bg) ? g.bg : g.bg.startsWith('heroes/') ? path.join(work, g.bg) : photoPath(g.bg))} : {}),
-        ...(g.sticker ? {src: link(path.join(libraryRoot(), 'stickers', g.sticker, 'sticker.webm'), g.sticker + '.webm')} : {}),
+        ...(g.sticker ? (() => {
+          // Moving stickers are sticker.webm; his imported memes can also be sticker.png / .svg (scripts/assets.mjs).
+          const dir = path.join(libraryRoot(), 'stickers', g.sticker);
+          const file = ['sticker.webm', 'sticker.png', 'sticker.svg', 'sticker.jpg'].find((f) => fs.existsSync(path.join(dir, f))) ?? 'sticker.webm';
+          return {src: link(path.join(dir, file), g.sticker + path.extname(file))};
+        })() : {}),
         ...(g.people ? {people: g.people.map((p) => ({...p, photo: link(photoPath(p.photo))}))} : {}),
       }));
       const sig = JSON.stringify({layers: it.layers ?? s.gfx, base: fs.statSync(it.file).mtimeMs, v: fs.statSync(path.resolve('src/vlog/VlogPiece.tsx')).mtimeMs});

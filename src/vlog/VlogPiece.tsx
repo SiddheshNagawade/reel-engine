@@ -437,7 +437,11 @@ const Sticker: React.FC<Extract<Gfx, {type: 'sticker'}>> = ({at, dur, src, x, y,
   const k = pop(t, 0.3), out = interpolate(t, [dur - 0.2, dur], [1, 0], clamp);
   return (
     <div style={{position: 'absolute', left: x * Wd, top: y * H, height: H * h, transform: `translate(-50%,-50%) scale(${k * out}) ${flip ? 'scaleX(-1)' : ''}`, filter: 'drop-shadow(0 10px 18px rgba(0,0,0,0.45))'}}>
-      <OffthreadVideo src={staticFile(src)} transparent muted style={{height: '100%'}} />
+      {/\.(png|svg|jpe?g|webp)$/i.test(src) ? (
+        <Img src={staticFile(src)} style={{height: '100%'}} />
+      ) : (
+        <OffthreadVideo src={staticFile(src)} transparent muted style={{height: '100%'}} />
+      )}
     </div>
   );
 };

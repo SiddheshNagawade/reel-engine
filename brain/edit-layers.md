@@ -55,9 +55,24 @@ These are passes and questions, not a template. Every video decides its own answ
 - Go through the timeline in 2–3 s steps: is something new to see or hear? Too much at once? Boring stretch → add from any
   layer. Overloaded → remove. Restraint = one idea at a time, not zero ideas.
 
-## Pass 9: viewer check
+## Pass 9: asset requests (CHECKPOINT: ask him, every video)
+- What would land harder with something the Library doesn't have? Expression memes, reaction GIFs, stickers, logos,
+  illustrations, photos, friends' names, inside jokes. He is happy to Google them; that's how the Library grows.
+- Table in plan.md (id, moment, what, kind, Google search words, tags, status) → `node scripts/assets.mjs request <name>`
+  → he drops files in Library/wanted/<id>/ → `node scripts/assets.mjs import` (cut-out / GIF → webm / sound levelled,
+  catalog + tags, row marked received). Imported items are reused in later videos by their tags.
+
+## Pass 10: viewer check
 - Watch it through at 1x with sound like a stranger (hook in 1 s? would I keep watching at second 6?).
 - Then stills at every layer event (hook, each visual, each layout change, ending).
+
+## Enforced (2026-10-12): the plan file + render gate
+His note: "it should be one by one, step by step, so that you don't miss anything", and new sessions didn't follow this
+file at all. So it's no longer only advice:
+- `_work/<name>/plan.md` holds every pass (`node scripts/editplan.mjs <name> init --kind reel|vlog|process`).
+- reel.mjs / vlog.mjs / process.mjs refuse a final render until every required pass is closed; pass 2 needs ≥ 3
+  visual ideas and can't be "none"; pass 9 can't have rows still "asked". Previews are always allowed.
+- The `edit-video` skill (.claude/skills/edit-video) is the route every session follows; CLAUDE.md points to it.
 
 ## Keep the layers separate (editable like tracks)
 - Each pass is its own part of the plan, so "change only the sounds" or "move that arrow" touches one layer and nothing else.

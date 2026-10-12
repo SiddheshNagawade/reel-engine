@@ -36,6 +36,7 @@ import {spawnSync} from 'node:child_process';
 import ffmpegPath from 'ffmpeg-static';
 import {outputRoot, workRoot} from './lib/paths.mjs';
 import {syncToDrive} from './lib/sync.mjs';
+import {requirePlan} from './lib/editplan.mjs';
 syncToDrive(); // work made on the Mac while the T7 was unplugged → drive
 
 const args = process.argv.slice(2);
@@ -46,6 +47,7 @@ if (!name) {
   process.exit(1);
 }
 const work = path.join(workRoot(), name);
+const PLAN_NOTE = requirePlan(work, name, args, 'process');
 const tl = JSON.parse(fs.readFileSync(path.join(work, 'timeline.json'), 'utf8'));
 const [W, H] = tl.size ?? [1080, 1920];
 const FPS = tl.fps ?? 30;
@@ -254,7 +256,7 @@ try {
     console.log(`   guide: ${name}-v${v}-vo-guide.mp4 + ${name}-v${v}-vo-script.txt`);
   }
   const note = opt('--note', tl.changeNote ?? '');
-  fs.appendFileSync(path.join(outDir, 'CHANGELOG.md'), `\n## v${v} (${new Date().toISOString().slice(0, 10)}): ${clock.toFixed(1)}s\n${note}\n`);
+  fs.appendFileSync(path.join(outDir, 'CHANGELOG.md'), `\n## v${v} (${new Date().toISOString().slice(0, 10)}): ${clock.toFixed(1)}s\n${note}${PLAN_NOTE ? `\n${PLAN_NOTE}` : ''}\n`);
   fs.copyFileSync(path.join(work, 'timeline.json'), path.join(outDir, `${name}-v${v}.timeline.json`));
 } finally {
   fs.rmSync(pieces, {recursive: true, force: true});

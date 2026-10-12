@@ -43,6 +43,7 @@ import crypto from 'node:crypto';
 import ffmpegPath from 'ffmpeg-static';
 import {outputRoot, workRoot, libraryRoot} from './lib/paths.mjs';
 import {TONEMAP} from './lib/media.mjs';
+import {requirePlan} from './lib/editplan.mjs';
 
 const args = process.argv.slice(2);
 const opt = (f, d) => (args.includes(f) ? args[args.indexOf(f) + 1] : d);
@@ -57,6 +58,8 @@ const work = path.join(workRoot(), name);
 const EDIT = opt('--edit', 'vlog.json');                  // e.g. vlog-long.json: another cut of the same footage
 const OUTNAME = opt('--out', name);                       // e.g. chandigarh-long
 const V = JSON.parse(fs.readFileSync(path.join(work, EDIT), 'utf8'));
+// Previews (stills checks while planning) may run any time; a real version needs every pass decided.
+const PLAN_NOTE = PREVIEW || args.includes('--pieces-only') ? '' : requirePlan(work, name, args, 'vlog');
 const [W, H] = PREVIEW ? [960, 540] : (V.size ?? [1920, 1080]);
 const FPS = V.fps ?? 30;
 const S = W / 1920; // layout scale
@@ -409,7 +412,7 @@ try {
   console.log(`\n✅ ${final} (${(clock / 60).toFixed(2)} min)`);
   if (!PREVIEW) {
     const note = opt('--note', V.changeNote ?? '');
-    fs.appendFileSync(path.join(outDir, 'CHANGELOG.md'), `\n## ${name_} v${v} (${new Date().toISOString().slice(0, 10)}): ${(clock / 60).toFixed(2)} min\n${note}\n`);
+    fs.appendFileSync(path.join(outDir, 'CHANGELOG.md'), `\n## ${name_} v${v} (${new Date().toISOString().slice(0, 10)}): ${(clock / 60).toFixed(2)} min\n${note}${PLAN_NOTE ? `\n${PLAN_NOTE}` : ''}\n`);
     fs.copyFileSync(path.join(work, EDIT), path.join(outDir, `${name_}-v${v}.vlog.json`));
     fs.writeFileSync(path.join(outDir, `${name_}-v${v}.chapters.txt`), chapters(timeline));
   }

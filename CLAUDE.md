@@ -13,19 +13,24 @@ He is not an editor; he shares ideas, and you decide what works and explain why.
 - Nothing fits → build something new, the way a human editor would try new possibilities. Make it reusable (see "Freedom to create").
 - Never copy the previous reel's choices by default. Each reel should feel made for its own story.
 
-## When he says "edit the new video" (the normal workflow)
+## When he says "edit the new video" (ANY video: reel, vlog, drawing): use the `edit-video` skill. Always.
+It is the step-by-step route and nothing in it is optional. The short version:
 1. Find it: `/Volumes/T7 Shield/ReelEngine/inbox/` (single video = one reel) or `/Volumes/T7 Shield/ReelEngine/projects/<folder>/` (many clips = one reel).
    If the T7 isn't mounted, use `./inbox` / `./projects`.
-2. Plan: `npm run reel -- "<path>" --no-render` → transcribes (Hinglish), cuts silences/retakes, writes `_work/<name>/transcript.md`.
-3. Read the transcript and DIRECT it yourself, LAYER BY LAYER (brain/edit-layers.md): lock the story first (cut, hook, ending),
-   then one pass each for captions/hero words → support visuals → canvas layout → caption placement/connectors → depth
-   (behind him) → motion → sound → density walk. Never decide everything in one go. Write it into `_work/<name>/direction.json`
-   (removeRanges, hookText, sections, memes only for his own intention, …).
-   Fix transcription mistakes in `_work/<name>/clip-N.words.json` (Hindi must never be translated to English).
-4. Render: `npm run reel -- <name> --note "- what changed"` → `output/<name>/<name>-vN.mp4` + `.fcpxml` + CHANGELOG.md. Never overwrite versions.
-5. Check stills of the actual output (ffmpeg frame grabs) at the hook, every meme/text moment and the ending before saying it's done.
-6. Tell him briefly what you did and why. After his feedback: v2, v3… and log lessons in `brain/preferences.md`.
-7. **Learn continuously, without being asked.** After EVERY version (not at the end, not when he praises it):
+2. `node scripts/editplan.mjs <name> init --kind reel|vlog|process` → `_work/<name>/plan.md`: one section per pass
+   (brain/edit-layers.md). Tell him the route, the 2 checkpoints and honest time estimates.
+3. Watch/transcribe (reel: `npm run reel -- "<path>" --no-render`). Fix Hinglish in `clip-N.words.json` (never translate Hindi).
+4. Pass 0 story lock → **CHECKPOINT 1: he picks the hook** (3–4 options).
+5. Passes 1–8 **one at a time**, each written into plan.md and closed (`Status: done` / `none: <reason>`) before the next.
+   Pass 2 (support visuals: graphics, vector illustrations, props, bubbles, memes, charts, UI frames) needs ≥ 3 ideas;
+   anything missing gets BUILT. Vlog density: `node scripts/editplan.mjs <name> density`.
+6. Pass 9 → **CHECKPOINT 2: ask him for memes/GIFs/pictures** (table with Google search words →
+   `node scripts/assets.mjs request <name>`; his files → `node scripts/assets.mjs import` → Library for good).
+7. Render (`npm run reel -- <name> --note "…"` / `node scripts/vlog.mjs <name>` / `node scripts/process.mjs <name>`).
+   **The render refuses to run until the plan is finished** (exit code 2 with the open passes). Never overwrite versions.
+8. Pass 10 viewer check: watch at 1x, stills at the hook, every graphic, every layout change, the ending.
+9. Tell him briefly what you did and why. After his feedback: v2, v3… (a new pass over the layers he commented on).
+10. **Learn continuously, without being asked.** After EVERY version (not at the end, not when he praises it):
    - update the playbook for that kind of video (`brain/process-videos.md` for drawing/process, `brain/hooks.md`, `brain/craft.md`,
      or a new `brain/<genre>.md`) so it says what to do, what not to do and why: a guide the next session can follow;
    - new tools/features → `brain/skills.md`; his verdicts → `brain/preferences.md`; then commit + push.

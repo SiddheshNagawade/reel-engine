@@ -18,6 +18,7 @@ import {analyzeFrames, pickTheme} from './lib/themes.mjs';
 import {buildEdit, buildTranscript, brollTags} from './lib/plan.mjs';
 import {mediaRoots, outputRoot, workRoot, listVideos, libraryRoot} from './lib/paths.mjs';
 import {syncToDrive} from './lib/sync.mjs';
+import {requirePlan} from './lib/editplan.mjs';
 import os from 'node:os';
 import {renderEdit} from './render.mjs';
 import {writeRenderedFcpxml} from './lib/fcpxml.mjs';
@@ -275,6 +276,7 @@ if (flag('--fcp')) {
 }
 
 if (!flag('--no-render')) {
+  const planNote = requirePlan(work, name, args, 'reel'); // every pass decided before a version exists
   step('Rendering…');
   const tmp = path.join(os.tmpdir(), `reelengine-${name}.mp4`);
   await renderEdit(edit, tmp);
@@ -292,7 +294,7 @@ if (!flag('--no-render')) {
   const note = opt('--note', direction.changeNote ?? '');
   fs.appendFileSync(
     path.join(reelDir, 'CHANGELOG.md'),
-    `\n## v${version} (${new Date().toLocaleString('en-IN', {hour12: false})})\n${note || '- (no notes)'}\n- Length ${(edit.durationInFrames / FPS).toFixed(1)}s · memes: ${(edit.memes ?? []).map((m) => m.id).filter(Boolean).join(', ') || 'none'} · captions: ${edit.theme.captionStyle}\n`,
+    `\n## v${version} (${new Date().toLocaleString('en-IN', {hour12: false})})\n${note || '- (no notes)'}${planNote ? `\n${planNote}` : ''}\n- Length ${(edit.durationInFrames / FPS).toFixed(1)}s · memes: ${(edit.memes ?? []).map((m) => m.id).filter(Boolean).join(', ') || 'none'} · captions: ${edit.theme.captionStyle}\n`,
   );
   step('Writing Final Cut project…');
   await exportFcp(vName);

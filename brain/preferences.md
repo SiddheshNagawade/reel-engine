@@ -183,3 +183,13 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
 - Two cuts: a tight ~10 min version AND a long 20+ min one that keeps every moment and conversation.
 - Censor (pixel mosaic, tracked) only on crotch/butt moments, never chests. Crude labels are his call.
 - He's fine with the drinking content (night 2, "drunk manager"); no need to hide it.
+
+## Learned 2026-10-12 (after the Chandigarh vlog): step by step, and ask me for memes
+- His words: the steps "should be one by one, step by step, so that you don't miss anything". The vlog had no vector
+  graphics or illustrations ("it didn't even think of doing that work"), and nothing asked him for memes.
+- Measured: 104 graphics, but 37 pop texts + 18 hanging photos; 7 meme stickers in 11 min; 2 arrows, 1 circle; no
+  vector illustrations/props/bubbles; 66% of the runtime in 6 s+ stretches with nothing new added.
+- He WANTS to be asked: "even if it is just some expression memes, I can search on Google and provide them", building a
+  stack of stickers, memes and GIFs over time. Every video now has an asset-request checkpoint (pass 9).
+- New sessions didn't follow the layer method because it was only prose among ~15 auto-loaded files and nothing checked
+  it. Now: the edit-video skill + plan.md + a render gate in code (brain/edit-layers.md "Enforced").
