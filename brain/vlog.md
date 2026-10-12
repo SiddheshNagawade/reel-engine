@@ -75,3 +75,11 @@ a few narration lines (he records them; not the whole video), premium-edit style
 - `node scripts/vlog.mjs <name> [--preview] [--pieces-only] [--only id1,id2] [--note "..."]`
   Pieces are cached per segment (signature), so re-renders only redo changed beats. Graphics pass via Remotion per
   piece (`scripts/lib/vlog-gfx.mjs`, staged into public/vlog-stage only during the render).
+
+## Render reliability (learned the hard way, 2026-10-12)
+- The final mix deadlocked TWICE near the end of a 21-min render (froze for hours, no error): the music bus ended
+  before the voice, so the sidechain stopped reading the voice copy and asplit blocked everything. Fixed: music bus is
+  `apad`-ded, and audio is mixed in its own pass (mix.wav) before the video pass.
+- Watch renders by FILE GROWTH (every 1–2 min), never only by log lines. A silent log ≠ progress.
+- Check orientation of every range used, including the first seconds (IMG_5904 starts upside down for ~20 s).
+- Give him ETAs up front and keep them honest; he waited ~10 h for this one.

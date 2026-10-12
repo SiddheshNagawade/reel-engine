@@ -347,9 +347,26 @@ try {
     mixes.push(`[mu${j}]`);
     n++;
   }
+  // Expression / meme sounds get their own moment: the music dips (to ~18 %) from just before each one until it ends,
+  // with soft ramps. Animation sounds (pop, whoosh, click, paper, camera) simply play over the music.
+  const ANIM = /^(pop|cute-menu|whoosh|cine-whoosh|click|paper|camera)/;
+  const dips = [];
+  for (const x of V.sfx ?? []) {
+    if (ANIM.test(x.id) || x.duck === false) continue;
+    const dir = path.join(libraryRoot(), x.sticker ? 'stickers' : 'sounds', x.sticker ?? x.id);
+    const file = ['sound.mp3', 'sound.wav'].map((f) => path.join(dir, f)).find((f) => fs.existsSync(f));
+    if (!file) continue;
+    const d = /Duration: (\d+):(\d+):([\d.]+)/.exec(ffInfo(file));
+    const len = Math.min(x.trim ?? 99, d ? +d[1] * 3600 + +d[2] * 60 + +d[3] : 1.5, 3.0);
+    const t0 = at(x.at, x.t ?? 0);
+    dips.push([t0 - 0.3, t0 + len]);
+  }
+  const dipExpr = dips.length
+    ? `volume=eval=frame:volume='1-0.82*max(0,${dips.map(([a, b]) => `min(clip((t-${a.toFixed(2)})/0.25,0,1),clip((${(b + 0.35).toFixed(2)}-t)/0.35,0,1))`).reduce((acc, e) => `max(${acc},${e})`)})'`
+    : 'anull';
   let musicBus = null;
   if ((V.music ?? []).length) {
-    chains.push(`${mixes.slice(1).join('')}amix=inputs=${mixes.length - 1}:normalize=0[mus];[mus][key]sidechaincompress=threshold=0.03:ratio=8:attack=40:release=500:makeup=1[musd]`);
+    chains.push(`${mixes.slice(1).join('')}amix=inputs=${mixes.length - 1}:normalize=0,apad[mus];[mus][key]sidechaincompress=threshold=0.03:ratio=8:attack=40:release=500:makeup=1,${dipExpr}[musd]`);
     musicBus = '[musd]';
   } else chains.push('[key]anullsink');
   const sfxLabels = [];
@@ -381,8 +398,14 @@ try {
   let v = 1;
   while (fs.existsSync(path.join(outDir, `${name_}-v${v}${PREVIEW ? '-preview' : ''}.mp4`))) v++;
   const final = path.join(outDir, `${name_}-v${v}${PREVIEW ? '-preview' : ''}.mp4`);
-  ff([...aIn, '-filter_complex', `${chains.join(';')};[0:v]${look.length ? look.join(',') : 'null'}[vout]`,
-    '-map', '[vout]', '-map', '[aout]', ...ENC_V, '-c:a', 'aac', '-b:a', '256k', '-ar', '48000', '-movflags', '+faststart', '-t', clock.toFixed(3), final]);
+  // (the music bus is padded with silence: when the last music cue ended before the voice, the sidechain stopped
+  // reading the voice copy and the whole graph deadlocked: two overnight renders froze at ~91 % this way.)
+  // Audio and video in two passes: one graph with ~130 delayed audio inputs + the video once deadlocked near the end
+  // of a 21-min render (4 h frozen, no error). Audio alone is fast; then the video pass just muxes the finished mix.
+  const mix = path.join(tmp, 'mix.wav');
+  ff([...aIn, '-filter_complex', chains.join(';'), '-map', '[aout]', '-c:a', 'pcm_s16le', '-ar', '48000', '-t', clock.toFixed(3), mix]);
+  ff(['-i', joined, '-i', mix, '-filter_complex', `[0:v]${look.length ? look.join(',') : 'null'}[vout]`,
+    '-map', '[vout]', '-map', '1:a', ...ENC_V, '-c:a', 'aac', '-b:a', '256k', '-ar', '48000', '-movflags', '+faststart', '-t', clock.toFixed(3), final]);
   console.log(`\n✅ ${final} (${(clock / 60).toFixed(2)} min)`);
   if (!PREVIEW) {
     const note = opt('--note', V.changeNote ?? '');
