@@ -322,6 +322,13 @@ try {
 
   // MrBeast captions (from subs), placed off faces; then the Remotion graphics pass on pieces that have layers
   for (const t of timeline) t.layers = [...(t.seg.gfx ?? []), ...(V.captions === 'plain' ? [] : captionLayers(t))];
+  // props / bubbles / labels stick to a face: the piece's face boxes become anchor points (eyes, nose, mouth, head…)
+  for (const t of timeline) {
+    const att = t.layers.filter((l) => l.type === 'attach' && l.to !== 'screen');
+    if (!att.length || !only(t.seg)) continue;
+    const fb = faces(t);
+    for (const l of att) l.motion = faceMotion(fb, l.near);
+  }
   const withGfx = timeline.filter((t) => t.layers.length && only(t.seg));
   if (withGfx.length) {
     const {renderGfx} = await import('./lib/vlog-gfx.mjs');
@@ -484,6 +491,28 @@ function faces(t) {
   fs.writeFileSync(f + '.sig', stamp);
   return JSON.parse(fs.readFileSync(f, 'utf8'));
 }
+// Face boxes (one person, followed from sample to sample) → the sample format src/motion/Attach.tsx reads.
+// Points are estimated from the box: Vision boxes don't carry landmarks here, and props only need rough anchors.
+function faceMotion(fb, near) {
+  let prev = near ?? null;
+  const frames = [];
+  for (const smp of fb) {
+    if (!smp.b?.length) continue;
+    const c = (b) => [b[0] + b[2] / 2, b[1] + b[3] / 2];
+    const box = prev
+      ? smp.b.reduce((a, b) => (Math.hypot(...c(b).map((v, i) => v - prev[i])) < Math.hypot(...c(a).map((v, i) => v - prev[i])) ? b : a))
+      : smp.b.reduce((a, b) => (b[2] * b[3] > a[2] * a[3] ? b : a));
+    if (prev && Math.hypot(...c(box).map((v, i) => v - prev[i])) > 0.25) continue; // the person left: don't jump to someone else
+    prev = c(box);
+    const [x, y, w, h] = box, cx = x + w / 2;
+    frames.push({f: Math.round(smp.t * FPS), face: {box, roll: 0, pts: {
+      leye: [x + w * 0.32, y + h * 0.42], reye: [x + w * 0.68, y + h * 0.42], nose: [cx, y + h * 0.62],
+      mouth: [cx, y + h * 0.8], chin: [cx, y + h], top: [cx, y],
+    }}});
+  }
+  return {rate: 4, w: W, h: H, frames};
+}
+
 function captionLayers(t) {
   const SPOTS = {bottom: [0.2, 0.72, 0.8, 0.92], top: [0.2, 0.06, 0.8, 0.26], right: [0.68, 0.35, 0.99, 0.65], left: [0.01, 0.35, 0.32, 0.65]};
   const s = t.seg;

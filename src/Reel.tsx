@@ -12,6 +12,7 @@ import {EffectOverlay} from './layers/Effects';
 import {Cards} from './layers/Cards';
 import {style, applyStyleOverride} from './style';
 import {AttachLayer} from './motion/Attach';
+import {InsertsLayer, RoomFrame} from './layers/Inserts';
 
 export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
   applyStyleOverride(edit.styleOverride); // per-reel tweaks on top of the defaults
@@ -19,17 +20,22 @@ export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       <AbsoluteFill style={{transform: weave}}>
-        <VideoTrack edit={edit} behind={edit.hookBehind ? <Hook edit={edit} behind /> : null} />
+        <RoomFrame edit={edit}>
+          <VideoTrack edit={edit} behind={edit.hookBehind ? <Hook edit={edit} behind /> : null} />
+        </RoomFrame>
         <BrollLayer edit={edit} />
         <TransitionOverlay edit={edit} />
         <EffectOverlay edit={edit} />
         <FilmTreatment />
       </AbsoluteFill>
+      {/* Full-screen inserts (counter stage, before/after reveal, card stage) replace the picture; his voice goes on */}
+      <InsertsLayer edit={edit} layer="full" />
       {/* Text sits above the film look so it stays crisp */}
       <Cards edit={edit} />
       <Captions edit={edit} />
       <Popups edit={edit} />
       <MemeLayer edit={edit} />
+      <InsertsLayer edit={edit} layer="over" />
       <AttachLayer items={edit.attach} motion={edit.motion} layer="screen" />
       {!edit.hookBehind && <Hook edit={edit} />}
       <HookLines edit={edit} />

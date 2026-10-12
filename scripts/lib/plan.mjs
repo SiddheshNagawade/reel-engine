@@ -83,6 +83,13 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else pieces.push([...k]);
   }
   if (!pieces.length) pieces.push([0, duration]);
+  // Cold open (brain/hooks.md): the strongest line plays first, then the story from the top (that line plays again
+  // in its place). direction.coldOpen = {from: wordIndex, to: wordIndex}.
+  const co = direction?.coldOpen;
+  if (co && words[co.from] && words[co.to]) {
+    const a = Math.max(0, words[co.from].s - 0.08), b = Math.min(duration, words[co.to].e + 0.15);
+    pieces.unshift(Object.assign([a, b], {cold: true}));
+  }
   // Let the ending breathe: keep a little room tone after the last word instead of cutting dead on it.
   const lastPiece = pieces[pieces.length - 1];
   lastPiece[1] = Math.min(duration, lastPiece[1] + (e.endTail ?? 0.5));
@@ -110,14 +117,14 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const frames = p.freeze ? Math.round(p.freeze * fps) : Math.max(8, Math.round((b - a) * fps));
     // a freeze punches in a little on the held frame
     const zoom = p.freeze ? zooms[Math.max(0, zi - 1) % zooms.length] + 0.06 : zooms[zi++ % zooms.length];
-    const seg = {srcFrame: Math.round(a * fps), outFrame: out, frames, zoom, ...(p.freeze ? {freeze: true} : {})};
+    const seg = {srcFrame: Math.round(a * fps), outFrame: out, frames, zoom: p.cold ? zoom + 0.12 : zoom, ...(p.freeze ? {freeze: true} : {})};
     out += seg.frames;
-    return {...seg, a, b, beat: p.beat};
+    return {...seg, a, b, beat: p.beat, cold: p.cold};
   });
   const durationInFrames = out;
 
   const mapT = (t) => {
-    const s = segments.find((x) => t >= x.a && t < x.b);
+    const s = segments.find((x) => !x.cold && t >= x.a && t < x.b); // a cold-open copy never steals the original
     return s ? {f: s.outFrame + Math.round((t - s.a) * fps), seg: s} : null;
   };
 
@@ -136,6 +143,17 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const f1 = Math.min(m.seg.outFrame + m.seg.frames, f0 + Math.max(2, Math.round((w.e - w.s) * fps)));
     outWords.push({i, w: w.w, f0, f1, emph: emphSet.has(i)});
   });
+  // the cold-open copy gets its own captions (pushed first, so byIndex keeps pointing at the original)
+  const coldSeg = segments.find((x) => x.cold);
+  if (coldSeg) {
+    const extra = [];
+    words.forEach((w, i) => {
+      if (i < co.from || i > co.to || !w.w?.trim()) return;
+      const f0 = coldSeg.outFrame + Math.max(0, Math.round((w.s - coldSeg.a) * fps));
+      extra.push({i, w: w.w, f0, f1: Math.min(coldSeg.outFrame + coldSeg.frames, f0 + Math.max(2, Math.round((w.e - w.s) * fps))), emph: emphSet.has(i)});
+    });
+    outWords.unshift(...extra);
+  }
 
   // 5. Caption groups: short, punchy, broken at punctuation and pauses.
   const c = style.captions;
@@ -200,6 +218,8 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   // 8. Transitions ONLY where the picture really changes (a different clip). A slide on the same shot fakes a scene
   //    change that never comes. New sections in the same shot get a camera move instead (slow push-in / pull-out).
   const transitions = [];
+  // the cold open ends on a flash: "now, from the beginning"
+  if (coldSeg) transitions.push({f: coldSeg.outFrame + coldSeg.frames, type: 'flash'});
   segments.forEach((sg, i) => {
     if (i === 0 || sg.freeze || !clipAt) return;
     const prev = segments.slice(0, i).reverse().find((x) => !x.freeze);
@@ -213,11 +233,72 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   });
 
   // Text cards (minimal "expensive" inserts): direction.cards [{at: wordIndex, seconds, text, mode, bg, accentWord, glow}]
-  const cards = (direction?.cards ?? []).flatMap((c) => {
+  const cards = (direction?.cards ?? []).filter((c) => c.mode !== 'scatter').flatMap((c) => {
     const w = byIndex.get(c.at);
     const f = w ? w.f0 : c.frame;
     if (f == null) return [];
     return [{...c, at: undefined, frame: undefined, f, frames: Math.min(Math.round((c.seconds ?? 1.6) * fps), durationInFrames - f)}];
+  });
+
+  // 8a. Graphics on a word (src/layers/Inserts.tsx): counters, before/after reveals, card stages, UI mockups (chat,
+  //     notifications, button + cursor), connector arrows, light bursts, scatter text; plus the footage making room
+  //     (layouts) and captions moving aside (captionMoves). "at" = word index, "seconds" or "until" (word) = length,
+  //     times inside an item (message.at, beat.t, clickAt) are seconds from its start. "sound": null = silent.
+  const span = (x, def) => {
+    const w = byIndex.get(x.at);
+    if (!w) return null;
+    const end = x.until !== undefined ? byIndex.get(x.until)?.f1 : undefined;
+    const f = w.f0 + Math.round((x.delay ?? 0) * fps);
+    return {f, frames: Math.max(8, Math.min(durationInFrames - f, end !== undefined ? end - f : Math.round((x.seconds ?? def) * fps)))};
+  };
+  const sec = (v) => (v == null ? undefined : Math.round(v * fps));
+  // media: {word: i} or {t: s} = his own footage from that moment; {file: path} = a picture/clip (staged by reel.mjs)
+  const media = (m) => {
+    if (!m) return null;
+    if (m.file) return {file: m.file, video: m.video ?? /\.(mp4|mov|m4v|webm)$/i.test(m.file), trimBefore: sec(m.from) ?? 0, filter: m.filter, label: m.label};
+    // the rendered video is the cut itself, so "his footage at word i" = that word's place in the cut
+    const f = m.word !== undefined ? byIndex.get(m.word)?.f0 : m.t !== undefined ? mapT(m.t)?.f : undefined;
+    return f == null ? null : {src: video, video: true, trimBefore: f, filter: m.filter, label: m.label};
+  };
+  const inserts = [];
+  const put = (kind, x, def, extra = {}) => {
+    const sp = span(x, def);
+    if (!sp) return;
+    const {at, until, seconds, delay, sound, ...rest} = x;
+    inserts.push({...rest, kind, ...sp, ...extra, ...(sound === null ? {silent: true} : {})});
+  };
+  for (const x of direction?.counters ?? []) put('counter', x, 2.4);
+  for (const x of direction?.reveals ?? []) {
+    const before = media(x.before), after = media(x.after);
+    if (before && after) put('reveal', x, 2.5, {before, after});
+  }
+  for (const x of direction?.stages ?? []) {
+    const items = (x.items ?? []).map(media).filter(Boolean);
+    if (items.length) put('stage', x, 3, {items, beats: (x.beats ?? [{t: 0, layout: 'row'}]).map(({t, ...b}) => ({...b, at: sec(t ?? 0)}))});
+  }
+  for (const x of direction?.ui ?? []) {
+    const {kind, messages, items, clickAt, ...rest} = x;
+    if (kind === 'chat') put('chat', rest, 3.5, {messages: (messages ?? []).map((m) => ({...m, at: sec(m.at)}))});
+    else if (kind === 'notify') put('notify', rest, 3, {items: (items ?? []).map((n) => ({...n, at: sec(n.at)}))});
+    else if (kind === 'cursor') put('cursor', rest, 2, {clickAt: sec(clickAt)});
+  }
+  for (const x of direction?.connectors ?? []) put('connector', x, 1.8);
+  for (const x of direction?.planes ?? []) { const m = media(x.media); if (m) put('plane', x, 3, {media: m}); }
+  for (const x of direction?.pushes ?? []) put('push', x, 0.8, x.media ? {media: media(x.media)} : {});
+  for (const x of direction?.bursts ?? []) put('burst', x, 0.5);
+  for (const c of (direction?.cards ?? []).filter((c) => c.mode === 'scatter')) {
+    const {mode, bg, glow, ...rest} = c;
+    put('scatter', rest, 1.8);
+  }
+  const layouts = (direction?.layouts ?? []).flatMap((x) => {
+    const sp = span(x, 3);
+    const {at, until, seconds, delay, ...rest} = x;
+    return sp ? [{...rest, ...sp}] : [];
+  });
+  const captionMoves = (direction?.captionMoves ?? []).flatMap((x) => {
+    const sp = span(x, 3);
+    const {at, until, seconds, delay, ...rest} = x;
+    return sp ? [{...rest, ...sp}] : [];
   });
 
   // 8b. Screen effects: B&W/dark on beats, red burn on angry lines.
@@ -376,6 +457,18 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   }
   // Text cards get their own subtle sound: tick for typewriter, soft whoosh for wave, hit for a slam.
   for (const c of cards) add(c.mode === 'slam' ? 'hit' : c.mode === 'typewriter' ? 'tick' : 'soft-whoosh', c.f, vol * (c.mode === 'slam' ? 0.6 : 0.35));
+  // Inserts get small UI sounds that follow what moves (brain/expensive.md): pops for bubbles, ticks for notifications…
+  for (const x of inserts.filter((x) => !x.silent)) {
+    if (x.kind === 'chat') x.messages.forEach((m, i) => add('pop', x.f + (m.at ?? 8 + i * (x.gap ?? 22)), vol * 0.3));
+    else if (x.kind === 'notify') x.items.forEach((n, i) => add('tick', x.f + (n.at ?? i * (x.gap ?? 14)), vol * 0.35));
+    else if (x.kind === 'cursor') add('click', x.f + (x.clickAt ?? 22), vol * 0.5);
+    else if (x.kind === 'burst') add('hit', x.f, vol * 0.5);
+    else if (x.kind === 'counter') add('tick', x.f, vol * 0.3);
+    else if (x.kind === 'scatter') add('pop', x.f, vol * 0.35);
+    else if (x.kind === 'push') add('whoosh', x.f + x.frames - 10, vol * 0.45, 4);
+    else add('soft-whoosh', x.f - 4, vol * 0.3, 4);
+  }
+  for (const l of layouts) add('soft-whoosh', l.f - 4, vol * 0.3, 4);
   for (const t of transitions) {
     if (t.type === 'flash') add('hit', t.f, vol * 0.5);
     else if (t.type !== 'lightleak') add('whoosh', t.f - 8, vol * 0.45, 6);
@@ -395,12 +488,15 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     video,
     banner,
     cards,
+    inserts,
+    layouts,
+    captionMoves,
     hookBehind: !!(direction?.hookBehind && hookText),
     foreground,
     endFade: Math.round((style.edit.endFade ?? 0) * fps),
     fps,
     durationInFrames,
-    segments: segments.map(({a, b, ...s}) => s),
+    segments: segments.map(({a, b, cold, ...s}) => s),
     captions,
     emphasisFrames,
     speech: merge(outWords.map((w) => [w.f0, w.f1]), 4),

@@ -239,6 +239,19 @@ for (const [i, fg] of (edit.foreground ?? []).entries()) {
   tempFiles.push(path.resolve('public', rel));
   fg.src = rel;
 }
+// Pictures/clips used by inserts (reveals, card stages): {file} → copied into public/ only for the render.
+let mk = 0;
+for (const x of edit.inserts ?? []) {
+  for (const m of [x.before, x.after, x.media, ...(x.items ?? [])].filter((m) => m?.file)) {
+    const file = [m.file, path.join(work, m.file), path.join(libraryRoot(), m.file)].find((p) => fs.existsSync(p));
+    if (!file) { console.log(`  (insert media not found: ${m.file})`); continue; }
+    const rel = `input/${name}-m${mk++}${path.extname(file)}`;
+    fs.copyFileSync(file, path.resolve('public', rel));
+    tempFiles.push(path.resolve('public', rel));
+    m.src = rel;
+    delete m.file;
+  }
+}
 fs.mkdirSync('src/edits', {recursive: true});
 writeJson(`src/edits/${name}.json`, edit);
 writeJson('src/edits/latest.json', edit);

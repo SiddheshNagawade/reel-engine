@@ -1,3 +1,4 @@
+import {captionShift} from './Inserts';
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate} from 'remotion';
 import type {CSSProperties} from 'react';
@@ -25,6 +26,8 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
 
   // A text card owns the screen while it's up: never the same words twice.
   if ((edit.cards ?? []).some((c) => frame >= c.f && frame < c.f + c.frames)) return null;
+  // Scatter text is a text moment of its own: captions step aside while it's up.
+  if ((edit.inserts ?? []).some((x) => x.kind === 'scatter' && frame >= x.f && frame < x.f + x.frames)) return null;
   const g = edit.captions.find((x) => frame >= x.f0 && frame < x.f1);
   if (!g) return null;
   let current = -1;
@@ -42,12 +45,15 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
     bubble: Bubble,
   }[edit.theme?.captionStyle ?? 'bold-pop'] ?? BoldPop;
 
+  // A visual can own the caption spot for a while: captions glide to another height (direction.captionMoves).
+  const move = captionShift(edit, frame);
+  const top = move.top == null ? style.captions.top : style.captions.top + (move.top - style.captions.top) * move.e;
   return (
     <AbsoluteFill style={{perspective: 1000}}>
       <div
         style={{
           position: 'absolute',
-          top: `${style.captions.top * 100}%`,
+          top: `${top * 100}%`,
           left: '6%',
           width: '88%',
           display: 'flex',
@@ -55,7 +61,7 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
           justifyContent: 'center',
           alignItems: 'baseline',
           transformStyle: 'preserve-3d',
-          transform: `translateY(-50%) rotateX(${(1 - enter) * 35}deg)`,
+          transform: `translateY(-50%) rotateX(${(1 - enter) * 35}deg) scale(${move.scale})`,
           opacity: Math.min(1, enter * 1.8) * exit,
         }}
       >

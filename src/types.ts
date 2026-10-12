@@ -51,7 +51,30 @@ export type Attach = {
   behind?: boolean; // under the person cut-out
 };
 
+// Media for inserts: a file inside public/ (staged for the render), a video from a point (trimBefore, frames).
+export type MediaRef = {src: string; video?: boolean; trimBefore?: number; filter?: string; label?: string};
+type InsertBase = {f: number; frames: number};
+export type Insert = InsertBase & (
+  | {kind: 'counter'; values: (string | number)[]; label?: string; prefix?: string; suffix?: string; style?: 'full' | 'overlay'; x?: number; y?: number; bg?: string; ink?: string; accent?: string}
+  | {kind: 'reveal'; before: MediaRef; after: MediaRef; path?: [number, number][]}
+  | {kind: 'stage'; items: MediaRef[]; beats: {at: number; layout: 'single' | 'row' | 'grid' | 'stack' | 'focus'; focus?: number}[]; bg?: string}
+  | {kind: 'chat'; app?: 'whatsapp' | 'imessage' | 'instagram'; title?: string; messages: {from: 'me' | 'them'; text: string; at?: number}[]; x?: number; y?: number; gap?: number}
+  | {kind: 'notify'; items: {app?: string; title: string; text: string; color?: string; at?: number}[]; x?: number; y?: number; gap?: number; stack?: boolean}
+  | {kind: 'cursor'; label: string; doneLabel?: string; color?: string; doneColor?: string; x?: number; y?: number; clickAt?: number}
+  | {kind: 'connector'; from: [number, number]; to: [number, number]; curve?: number; dotted?: boolean; color?: string; label?: string}
+  | {kind: 'burst'; x?: number; y?: number; color?: string}
+  | {kind: 'plane'; media: MediaRef; tilt?: number; x?: number; y?: number; w?: number; scroll?: number}
+  | {kind: 'push'; text?: string; media?: MediaRef; color?: string}
+  | {kind: 'scatter'; text: string; accentWord?: string; accent?: string; color?: string; size?: number; y?: number; settleAt?: number}
+);
+// The footage makes room: scale (0.6 = 60 %), shift (fractions of the frame), rounded corners, what fills behind it.
+export type RoomLayout = {f: number; frames: number; scale?: number; x?: number; y?: number; radius?: number; fill?: 'blur' | 'color'; color?: string};
+export type CaptionMove = {f: number; frames: number; top?: number; scale?: number};
+
 export type Edit = {
+  inserts?: Insert[];
+  layouts?: RoomLayout[];
+  captionMoves?: CaptionMove[];
   attach?: Attach[];
   motion?: Motion;
   theme: Theme;

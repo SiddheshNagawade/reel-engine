@@ -4,12 +4,12 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-62 techniques · 48 built · 14 still to build: Cold open / result first; Props on face/hands (crown, sunglasses, sweat, anger, ?, bulb, tears, hearts); Speech/thought bubbles, labels + arrows, sticky notes; Number counter; Before/after circle reveal; Clips as cards on a stage (row, grid, stack, focus); UI mockups: chat, notifications, button + cursor; Vector illustration / icon; Footage makes room (shrinks/moves, blurred fill); Captions move aside for a visual; Arrow / line from the hero word to its visual; Scatter text; Light burst / glitch flash accent; Push-through / layout morph / 3D tilted plane / cascade
+62 techniques · 62 built · 0 still to build
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
 | story | Hook options checkpoint | reel, vlog, process | ✅ | AskUserQuestion / show_design_options | hooks.md |
-| story | Cold open / result first | reel, vlog, process | ❌ to build | reel: direction.coldOpen · vlog/process: segment order | hooks.md |
+| story | Cold open / result first | reel, vlog, process | ✅ | reel: direction.coldOpen · vlog/process: segment order | hooks.md |
 | story | 3-second visual hook | reel, vlog, process | ✅ | hookText, zooms, text slam, impact sfx | hooks.md |
 | story | Open loop / small loops | reel, vlog | ✅ | reel: direction.banner · vlog: tease line / counter gfx | hooks.md |
 | story | Interval twist | reel | ✅ | line order in the cut | craft.md |
@@ -33,33 +33,33 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | captions | The friends' real inside jokes | vlog | ✅ | ask him; pop / caps text | preferences.md |
 | captions | Never the same text twice on screen | reel, vlog, process | ✅ | captions hide under cards | preferences.md |
 | visuals | Show what he describes | reel, vlog, process | ✅ | chart / UI / image layers | preferences.md |
-| visuals | Props on face/hands (crown, sunglasses, sweat, anger, ?, bulb, tears, hearts) | reel, vlog | ❌ to build | reel: direction.attach · vlog: gfx "prop" | motion-graphics skill |
-| visuals | Speech/thought bubbles, labels + arrows, sticky notes | reel, vlog | ❌ to build | reel: attach bubble/thought/label/note · vlog: gfx bubble/label/note/arrow | motion-graphics skill |
+| visuals | Props on face/hands (crown, sunglasses, sweat, anger, ?, bulb, tears, hearts) | reel, vlog | ✅ | reel: direction.attach · vlog: gfx {type: "attach", what, near} | motion-graphics skill |
+| visuals | Speech/thought bubbles, labels + arrows, sticky notes | reel, vlog | ✅ | reel: attach bubble/thought/label/note · vlog: gfx {type: "attach", what: bubble/thought/label/note, text, near} / arrow | motion-graphics skill |
 | visuals | Meme stickers / GIFs by HIS attitude | reel, vlog | ✅ | direction.memes · vlog gfx sticker | preferences.md |
-| visuals | Number counter | reel, vlog, process | ❌ to build | reel: direction.counters (NumberRoll) · vlog: gfx counter | motion-design.md |
-| visuals | Before/after circle reveal | reel, process | ❌ to build | reel: direction.reveals (CircleReveal) | motion-design.md |
-| visuals | Clips as cards on a stage (row, grid, stack, focus) | reel | ❌ to build | direction.stages (CardStage) | motion-design.md |
-| visuals | UI mockups: chat, notifications, button + cursor | reel, vlog | ❌ to build | reel: direction.ui · vlog: gfx chat/notify | expensive.md |
+| visuals | Number counter | reel, vlog, process | ✅ | reel: direction.counters (style full/overlay) · vlog: gfx counter / {type: "insert", kind: "counter"} | motion-design.md |
+| visuals | Before/after circle reveal | reel, process | ✅ | reel: direction.reveals (CircleReveal) | motion-design.md |
+| visuals | Clips as cards on a stage (row, grid, stack, focus) | reel | ✅ | direction.stages (CardStage) | motion-design.md |
+| visuals | UI mockups: chat, notifications, button + cursor | reel, vlog | ✅ | reel: direction.ui [{kind: chat/notify/cursor}] · vlog: gfx {type: "insert", kind: chat/notify/cursor} | expensive.md |
 | visuals | Text card: typewriter / wave / slam | reel | ✅ | direction.cards | expensive.md |
 | visuals | Hero intros, name tags, hanging photos, map, stamps | vlog | ✅ | gfx hero / tag / hang / map / stamp | vlog.md |
 | visuals | Real numbers on screen | reel, vlog | ✅ | counter / pop | preferences.md |
 | visuals | Vector character in the footage | reel, vlog | ✅ | npm run char (character-overlay skill) | preferences.md |
-| visuals | Vector illustration / icon | reel, vlog | ❌ to build | Library/stickers *.svg (assets.mjs) · gfx sticker / attach image | preferences.md |
-| layout | Footage makes room (shrinks/moves, blurred fill) | reel | ❌ to build | direction.layouts | edit-layers.md |
+| visuals | Vector illustration / icon | reel, vlog | ✅ | Library/stickers *.svg/png (assets.mjs) · reel: attach {what: "image", src} · vlog: gfx sticker / attach image | preferences.md |
+| layout | Footage makes room (shrinks/moves, blurred fill) | reel | ✅ | direction.layouts {at, until, scale, x, y, fill: blur/color} | edit-layers.md |
 | layout | card / split / rotate → full | vlog | ✅ | segment layout | vlog.md |
 | layout | Floating practice cards over a running shot | process | ✅ | timeline cards | process-videos.md |
 | layout | Instagram safe zones | reel | ✅ | positions | skills.md |
-| connectors | Captions move aside for a visual | reel, vlog | ❌ to build | reel: direction.captionMoves · vlog: auto off faces / capPos | edit-layers.md |
-| connectors | Arrow / line from the hero word to its visual | reel, vlog | ❌ to build | reel: direction.connectors · vlog: gfx arrow | edit-layers.md |
+| connectors | Captions move aside for a visual | reel, vlog | ✅ | reel: direction.captionMoves {at, until, top} · vlog: auto off faces / capPos | edit-layers.md |
+| connectors | Arrow / line from the hero word to its visual | reel, vlog | ✅ | reel: direction.connectors {from, to, label} · vlog: gfx arrow / insert connector | edit-layers.md |
 | depth | Text behind him (magnetic mask) | reel | ✅ | hookBehind (personmask) | skills.md |
 | depth | Objects/effects behind him | reel | ✅ | attach {behind: true} | edit-layers.md |
 | depth | Person cut-outs (hero intros) | vlog | ✅ | scripts/herocut.py + gfx hero | vlog.md |
 | motion | Camera push on a new idea, punch on a hero word | reel, vlog, process | ✅ | reel: direction.sections · vlog/process: zoom/toZoom, gfx zoom | preferences.md |
 | motion | Transitions only where the picture really changes | reel, vlog, process | ✅ | checked automatically | preferences.md |
 | motion | Every element enters and leaves with motion | reel, vlog, process | ✅ | built into the layers | motion-design.md |
-| motion | Scatter text | reel, vlog | ❌ to build | reel: card mode "scatter" · vlog: gfx scatter | motion-design.md |
-| motion | Light burst / glitch flash accent | reel, vlog | ❌ to build | reel: transitions flash · vlog: zoom flash / gfx burst | motion-design.md |
-| motion | Push-through / layout morph / 3D tilted plane / cascade | reel | ❌ to build | direction.stages (CardStage morphs); push-through, 3D plane, cascade still to build | motion-design.md |
+| motion | Scatter text | reel, vlog | ✅ | reel: direction.cards mode "scatter" · vlog: gfx {type: "insert", kind: "scatter"} | motion-design.md |
+| motion | Light burst / glitch flash accent | reel, vlog | ✅ | reel: direction.bursts · vlog: gfx zoom flash / insert burst | motion-design.md |
+| motion | Push-through / 3D tilted plane / layout morph / cascade | reel, vlog | ✅ | reel: direction.pushes / planes / stages (morphs) / ui notify (cascade, stack: true) · vlog: insert push / plane | motion-design.md |
 | look | His original colours + grain (v1 look) | reel, vlog | ✅ | style.film / vlog look | color.md |
 | look | Grade per clip, then one shared look | process, vlog | ✅ | process: exposure per segment | preferences.md |
 | look | Scopes before any grade change | reel, vlog, process | ✅ | scripts/colorcheck.py | color.md |

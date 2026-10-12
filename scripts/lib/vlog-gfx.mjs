@@ -14,6 +14,10 @@ import {libraryRoot} from './paths.mjs';
 const STAGE = path.resolve('public/vlog-stage');
 const chromiumOptions = {gl: process.env.REEL_GL || 'angle'};
 
+// Any change to the drawing code (VlogPiece, Inserts, props…) re-renders the graphics: newest file time under src/.
+const newest = (d) => fs.readdirSync(d, {withFileTypes: true}).reduce((m, e) => Math.max(m, e.isDirectory() ? newest(path.join(d, e.name)) : fs.statSync(path.join(d, e.name)).mtimeMs), 0);
+const SRC_STAMP = newest(path.resolve('src'));
+
 export async function renderGfx(items, {W, H, FPS, preview, photoPath, work}) {
   // the folder itself stays (with .gitkeep) so the cached Remotion bundle links it; only its contents are temporary
   const clear = () => { fs.mkdirSync(STAGE, {recursive: true}); for (const f of fs.readdirSync(STAGE)) if (f !== '.gitkeep') fs.rmSync(path.join(STAGE, f), {force: true}); };
@@ -44,8 +48,14 @@ export async function renderGfx(items, {W, H, FPS, preview, photoPath, work}) {
           return {src: link(path.join(dir, file), g.sticker + path.extname(file))};
         })() : {}),
         ...(g.people ? {people: g.people.map((p) => ({...p, photo: link(photoPath(p.photo))}))} : {}),
+        // pictures/clips inside inserts (plane, push, reveal, stage): {file} → linked for the render
+        ...(g.type === 'insert' ? Object.fromEntries(['media', 'before', 'after'].filter((k) => g[k]?.file).map((k) => [k, {...g[k], file: undefined,
+          src: link([g[k].file, path.join(work, g[k].file), path.join(libraryRoot(), g[k].file)].find((p) => fs.existsSync(p)) ?? g[k].file),
+          video: g[k].video ?? /\.(mp4|mov|m4v|webm)$/i.test(g[k].file)}])) : {}),
+        // a picture on an attach (illustration / cut-out sticker): absolute, the work folder, or the Library
+        ...(g.type === 'attach' && g.src ? {src: link([g.src, path.join(work, g.src), path.join(libraryRoot(), g.src)].find((p) => fs.existsSync(p)) ?? g.src)} : {}),
       }));
-      const sig = JSON.stringify({layers: it.layers ?? s.gfx, base: fs.statSync(it.file).mtimeMs, v: fs.statSync(path.resolve('src/vlog/VlogPiece.tsx')).mtimeMs});
+      const sig = JSON.stringify({layers: it.layers ?? s.gfx, base: fs.statSync(it.file).mtimeMs, v: SRC_STAMP});
       const out = it.file.replace(/\.mov$/, `.gfx-${crypto.createHash('md5').update(sig).digest('hex').slice(0, 8)}.mov`);
       if (fs.existsSync(out) && fs.existsSync(out + '.sig') && fs.readFileSync(out + '.sig', 'utf8') === sig) { it.gfxFile = out; continue; }
       const inputProps = {base: link(it.file), frames, layers, size: [W, H], fps: FPS, stage: s.stage};

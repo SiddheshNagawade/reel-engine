@@ -1,6 +1,9 @@
 import React from 'react';
 import {AbsoluteFill, Easing, Img, OffthreadVideo, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {fonts} from '../layers/fonts';
+import {InsertView} from '../layers/Inserts';
+import {AttachLayer} from '../motion/Attach';
+import type {Attach, Insert, Motion} from '../types';
 
 // Long-form vlog graphics (scripts/vlog.mjs → scripts/lib/vlog-gfx.mjs). One piece of the vlog = its base footage
 // (already cut/coloured by ffmpeg, muted here) + calm, premium motion layers: one idea at a time, ease-out motion,
@@ -25,7 +28,12 @@ export type Gfx =
   | {type: 'tag'; at: number; dur: number; name: string; sub?: string; x: number; y: number; r?: number; side?: 'left' | 'right' | 'up' | 'down'}
   | {type: 'hang'; at: number; dur: number; photo: string; x: number; h?: number; tilt?: number; y?: number}
   | {type: 'sticker'; at: number; dur: number; src: string; x: number; y: number; h?: number; flip?: boolean}
-  | {type: 'hero'; at: number; dur: number; name: string; kicker?: string; role?: string; cut: string; bg: string; side?: 'left' | 'right'; tint?: string};
+  | {type: 'hero'; at: number; dur: number; name: string; kicker?: string; role?: string; cut: string; bg: string; side?: 'left' | 'right'; tint?: string}
+  // the reel's hand-drawn props/bubbles/labels/notes/images (src/motion), stuck to a face found by faceboxes.py
+  // ("near": [x, y] picks the person; vlog.mjs adds "motion" from the piece's face boxes)
+  | ({type: 'attach'; at: number; dur: number; near?: [number, number]; motion?: Motion} & Omit<Attach, 'f' | 'frames'>)
+  // chat / notify / cursor / counter / connector / burst / scatter (src/layers/Inserts.tsx)
+  | ({type: 'insert'; at: number; dur: number} & Omit<Insert, 'f' | 'frames'>);
 
 export type VlogPieceProps = {base: string | null; frames: number; layers: Gfx[]; stage?: string};
 
@@ -510,8 +518,18 @@ function baseTransform(layers: Gfx[], t: number): {scale: number; ox: number; oy
 }
 
 const Nothing: React.FC = () => null;
+// an Inserts graphic (chat, notifications, counter, connector, burst, scatter) on the piece's own clock
+const InsertLayer: React.FC<Extract<Gfx, {type: 'insert'}>> = ({type, at, dur, ...x}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const t = f - Math.round(at * fps);
+  if (t < 0 || t > dur * fps) return null;
+  return <InsertView x={{...x, f: 0, frames: Math.round(dur * fps)} as Insert} t={t} />;
+};
+
 const LAYERS: Record<Gfx['type'], React.FC<any>> = {title: Title, chapter: Chapter, stamp: Stamp, name: Name, map: RouteMap, photos: Photos, text: TextLine, cast: Cast,
-  caps: Caps, pop: Pop, arrow: Arrow, circle: Circle, emoji: Emoji, zoom: Nothing, counter: Counter, tag: Tag, hang: Hang, sticker: Sticker, hero: Hero};
+  caps: Caps, pop: Pop, arrow: Arrow, circle: Circle, emoji: Emoji, zoom: Nothing, counter: Counter, tag: Tag, hang: Hang, sticker: Sticker, hero: Hero,
+  attach: Nothing, insert: InsertLayer};
 
 export const VlogPiece: React.FC<VlogPieceProps> = ({base, layers, stage = '#111214'}) => {
   const {fps} = useVideoConfig();
@@ -525,7 +543,11 @@ export const VlogPiece: React.FC<VlogPieceProps> = ({base, layers, stage = '#111
         </AbsoluteFill>
       )}
       {z.flash > 0 && <AbsoluteFill style={{background: '#fff', opacity: z.flash}} />}
-      {layers.map((l, i) => {
+      {layers.filter((l) => l.type === 'attach').map((l, i) => {
+        const {type, at, dur, near, motion, ...rest} = l as Extract<Gfx, {type: 'attach'}>;
+        return <AttachLayer key={`a${i}`} items={[{...rest, f: Math.round(at * fps), frames: Math.round(dur * fps)} as Attach]} motion={motion} layer={rest.to === 'screen' ? 'screen' : 'front'} />;
+      })}
+      {layers.filter((l) => l.type !== 'attach').map((l, i) => {
         const C = LAYERS[l.type];
         // each layer lives in its own Sequence so it costs nothing outside its time
         return (
