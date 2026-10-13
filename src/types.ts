@@ -1,3 +1,4 @@
+import type {CanvasSpec} from './layers/Canvas';
 import type {SceneSpec} from './templates/Scene';
 import type {WordsSpec, StackSpec, PhotoSpec, CardSpec} from './layers/TitleText';
 // Everything is in output-timeline frames unless named src*.
@@ -92,7 +93,8 @@ export type Edit = {
   moves?: {f: number; type: 'push' | 'pull' | 'zoomout' | 'keypush'}[];
   banner?: {text: string; f0: number; f1: number} | null;
   hookBehind?: boolean;
-  foreground?: {f: number; frames: number; src?: string}[];
+  foreground?: {f: number; frames: number; src?: string; canvas?: boolean}[];
+  canvas?: CanvasSpec | null; // canvas mode: footage is one layer on a canvas under one camera (layers/Canvas.tsx)
   endFade?: number;
   styleOverride?: Record<string, unknown> | null;
   cards?: TextCard[];

@@ -13,6 +13,7 @@ import {Cards} from './layers/Cards';
 import {style, applyStyleOverride} from './style';
 import {AttachLayer} from './motion/Attach';
 import {BehindInserts, InsertsLayer, RoomFrame} from './layers/Inserts';
+import {CanvasWorld} from './layers/Canvas';
 
 export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
   applyStyleOverride(edit.styleOverride); // per-reel tweaks on top of the defaults
@@ -20,9 +21,15 @@ export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       <AbsoluteFill style={{transform: weave}}>
-        <RoomFrame edit={edit}>
-          <VideoTrack edit={edit} behind={<>{edit.hookBehind ? <Hook edit={edit} behind /> : null}<BehindInserts edit={edit} /></>} />
-        </RoomFrame>
+        {(() => {
+          const footage = (
+            <RoomFrame edit={edit}>
+              <VideoTrack edit={edit} behind={<>{edit.hookBehind ? <Hook edit={edit} behind /> : null}<BehindInserts edit={edit} /></>} />
+            </RoomFrame>
+          );
+          // canvas mode: the canvas is the base, the footage one layer on it, one camera over all (layers/Canvas.tsx)
+          return edit.canvas ? <CanvasWorld edit={edit} footage={footage} /> : footage;
+        })()}
         <BrollLayer edit={edit} />
         <TransitionOverlay edit={edit} />
         <EffectOverlay edit={edit} />

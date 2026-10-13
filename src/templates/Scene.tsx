@@ -67,7 +67,7 @@ function pointAlong(p: [number, number][], k: number): [number, number] {
   return pts[pts.length - 1];
 }
 
-function camAt(cam: SceneCam[], t: number) {
+export function camAt(cam: SceneCam[], t: number) {
   const ks = [...cam].sort((a, b) => a.at - b.at);
   if (!ks.length) return {x: 0.5, y: 0.5, zoom: 1, rot: 0};
   const v = (k: SceneCam) => ({x: k.x, y: k.y, zoom: k.zoom ?? 1, rot: k.rot ?? 0});
@@ -136,7 +136,9 @@ const Background: React.FC<{bg: NonNullable<SceneSpec['bg']>; cam: {x: number; y
   );
 };
 
-export const Scene: React.FC<SceneSpec> = (spec) => {
+// `under`: something placed IN the world below the items (the canvas puts his footage here, so the one camera moves
+// over him and the graphics together). `t0`: world time offset (the canvas runs on the reel's own frame count).
+export const Scene: React.FC<SceneSpec & {under?: React.ReactNode; noBg?: boolean}> = (spec) => {
   const t = useCurrentFrame();
   const {width: W, height: H} = useVideoConfig();
   const U = Math.min(W, H * 0.5625); // one size unit for 9:16 and 16:9
@@ -198,14 +200,16 @@ export const Scene: React.FC<SceneSpec> = (spec) => {
 
   return (
     <AbsoluteFill style={{overflow: 'hidden'}}>
-      <Background bg={spec.bg ?? {}} cam={cam} seed={(spec.frames % 97) + 1} />
+      {!spec.noBg && <Background bg={spec.bg ?? {}} cam={cam} seed={(spec.frames % 97) + 1} />}
       {boil && (
         <svg width={0} height={0} style={{position: 'absolute'}}>
           <filter id={id}><feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed={Math.floor(t / 3) % 50} /><feDisplacementMap in="SourceGraphic" scale={U * 0.006} /></filter>
         </svg>
       )}
-      <AbsoluteFill style={{transformOrigin: '0 0', filter: boil ? `url(#${id})` : undefined,
+      <AbsoluteFill style={{transformOrigin: '0 0',
         transform: `translate(${W / 2}px, ${H / 2}px) rotate(${cam.rot}deg) scale(${cam.zoom}) translate(${-cam.x * W}px, ${-cam.y * H}px)`}}>
+        {spec.under}
+        <AbsoluteFill style={{filter: boil ? `url(#${id})` : undefined}}>
         <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
           {spec.items.map((it, i) => {
             if (it.type !== 'line' || t < it.at) return null;
@@ -239,6 +243,7 @@ export const Scene: React.FC<SceneSpec> = (spec) => {
           }
           return draw(it, i);
         })}
+        </AbsoluteFill>
       </AbsoluteFill>
     </AbsoluteFill>
   );

@@ -67,3 +67,7 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
   grid/blinds + vignette + edge grain, camera keys, items text/box/image/line/num/badge/counter/follow, living wobble).
   `transitions` type leakwhite. Sounds auto from plan.mjs designSounds. Times inside: {word: i} or {s: seconds}.
 - Use: one designed hook / one scene / one inverted title where they help; NOT on every reel. Captions hide under them.
+
+## Canvas mode (2026-10-14, brain/canvas.md)
+- `direction.canvas` {bg, cam, footage keys (x, y, w, rot, shape, cut), items} → src/layers/Canvas.tsx: the canvas is the
+  base, his footage one layer, one camera over all. cut: true = just him (person cut-out made by reel.mjs).

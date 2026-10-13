@@ -243,6 +243,26 @@ if (edit.attach?.length) {
   // Props drawn behind him need the person cut out on top for those frames.
   for (const a of edit.attach.filter((x) => x.behind)) (edit.foreground ??= []).push({f: a.f, frames: a.frames});
 }
+// Canvas mode: where the footage key says cut (just him on the canvas), make his cut-out for that stretch.
+if (edit.canvas) {
+  const ks = [...(edit.canvas.footage ?? [])].sort((a, b) => a.at - b.at);
+  ks.forEach((k, i) => {
+    if (!k.cut) return;
+    const end = ks.slice(i + 1).find((n) => !n.cut)?.at ?? edit.durationInFrames;
+    (edit.foreground ??= []).push({f: k.at, frames: Math.max(1, end - k.at), canvas: true});
+  });
+  // pictures used by canvas items: {file} → staged like insert media
+  for (const [j, it] of (edit.canvas.items ?? []).entries()) {
+    if (!it.file) continue;
+    const file = [it.file, path.join(work, it.file), path.join(libraryRoot(), it.file)].find((p) => fs.existsSync(p));
+    if (!file) { console.log(`  (canvas picture not found: ${it.file})`); continue; }
+    const rel = `input/${name}-cv${j}${path.extname(file)}`;
+    fs.copyFileSync(file, path.resolve('public', rel));
+    tempFiles.push(path.resolve('public', rel));
+    it.src = rel;
+    delete it.file;
+  }
+}
 // Designed text / cards behind him (brain/pablo.md) need the same cut-out over them.
 for (const x of (edit.inserts ?? []).filter((x) => x.behind)) (edit.foreground ??= []).push({f: x.f, frames: x.frames});
 

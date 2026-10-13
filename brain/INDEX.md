@@ -25,6 +25,7 @@ Everything else is read at the moment it matters, through a briefing or a skill,
 | color.md | colour lessons, v1 targets, scopes | look briefing |
 | sounds.md | moment → sound by meaning | sound briefing |
 | memes.md | the video-meme library and how to present a meme (card / half / full / zoom) | visuals + sound briefings |
+| canvas.md | canvas mode: footage as one layer on a canvas, one camera over all | layout + motion briefings |
 | pablo.md | the designed-reel style (titles, inverted title, full-screen scenes, sound map) learned from a course | visuals + motion briefings |
 | vlog.md | long-form vlog playbook | briefings when the video is a vlog |
 | process-videos.md | drawing / making-of playbook | briefings when the video is a process video |

@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-84 techniques · 83 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
+85 techniques · 84 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -60,6 +60,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | visuals | Vector character in the footage | reel, vlog | ✅ | npm run char (character-overlay skill) | preferences.md |
 | visuals | Vector illustration / icon | reel, vlog | ✅ | Library/stickers *.svg/png (assets.mjs) · reel: attach {what: "image", src} · vlog: gfx sticker / attach image | preferences.md |
 | visuals | Title card: serif caps + glowing script word | reel | ✅ | direction.cards mode "title" + accentWord | expensive.md |
+| layout | Canvas mode: canvas is the base, his footage one layer (card / circle / just him cut out), one camera over all | reel | ✅ | direction.canvas {bg, cam, footage, items} (brain/canvas.md) | canvas.md |
 | layout | Footage makes room (shrinks/moves, blurred fill) | reel | ✅ | direction.layouts {at, until, scale, x, y, fill: blur/color} | edit-layers.md |
 | layout | card / split / rotate → full | vlog | ✅ | segment layout | vlog.md |
 | layout | Floating practice cards over a running shot | process | ✅ | timeline cards | process-videos.md |

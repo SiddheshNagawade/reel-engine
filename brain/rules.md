@@ -62,6 +62,8 @@ sections at the moment of the decision.
 - Ask him every video for memes/GIFs/pictures he can Google (asset requests); they build the Library.
 - The designed-reel style (brain/pablo.md: mixed-font titles, inverted stacked title, full-screen scenes with a moving
   camera, white light-leak) is ONE more option to mix in where an explaining reel needs it, never the default (2026-10-14).
+- His footage doesn't have to be the base: canvas mode (brain/canvas.md) puts it on a designed canvas as one layer
+  under one moving camera. Consider it in every layout pass for explaining reels (2026-10-14).
 - Screens on camera: private info (numbers, emails, UPI, OTPs, keys) is always blurred.
 
 ## Motion {motion}

@@ -317,6 +317,12 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   // a picture of who/what he names rises in beside him; a screen recording / page floats behind him
   for (const x of direction?.photos ?? []) { const m = media(x.media); if (m) put('photo', x, 2.5, {media: m}); }
   for (const x of direction?.floats ?? []) { const m = media(x.media); if (m) put('card', x, 3, {media: m}); }
+  // CANVAS MODE (layers/Canvas.tsx): the canvas is the base, his footage one layer, one camera over all. Times are
+  // word indexes / seconds from the start of the reel. direction.canvas = {bg, cam: [{word|s, x, y, zoom}],
+  // footage: [{word|s, x, y, w, rot, shape: rect|round|circle, cut}], items: [scene items with word|s]}
+  const canvas = direction?.canvas
+    ? (() => { const L = local(0); const c = direction.canvas; return {bg: c.bg, cam: (c.cam ?? []).map(L), footage: (c.footage ?? []).map(L), items: (c.items ?? []).map(L)}; })()
+    : null;
   for (const x of direction?.titles ?? []) {
     const sp = span(x, 2.5);
     if (!sp) continue;
@@ -628,6 +634,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     speech: merge(outWords.map((w) => [w.f0, w.f1]), 4),
     effects,
     moves,
+    canvas,
     popups,
     broll,
     sfx,
