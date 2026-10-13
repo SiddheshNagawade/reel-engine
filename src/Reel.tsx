@@ -12,7 +12,7 @@ import {EffectOverlay} from './layers/Effects';
 import {Cards} from './layers/Cards';
 import {style, applyStyleOverride} from './style';
 import {AttachLayer} from './motion/Attach';
-import {InsertsLayer, RoomFrame} from './layers/Inserts';
+import {BehindInserts, InsertsLayer, RoomFrame} from './layers/Inserts';
 
 export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
   applyStyleOverride(edit.styleOverride); // per-reel tweaks on top of the defaults
@@ -21,7 +21,7 @@ export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
     <AbsoluteFill style={{backgroundColor: '#000'}}>
       <AbsoluteFill style={{transform: weave}}>
         <RoomFrame edit={edit}>
-          <VideoTrack edit={edit} behind={edit.hookBehind ? <Hook edit={edit} behind /> : null} />
+          <VideoTrack edit={edit} behind={<>{edit.hookBehind ? <Hook edit={edit} behind /> : null}<BehindInserts edit={edit} /></>} />
         </RoomFrame>
         <BrollLayer edit={edit} />
         <TransitionOverlay edit={edit} />

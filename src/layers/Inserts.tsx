@@ -23,7 +23,7 @@ import {NumberRoll} from '../templates/NumberRoll';
 import {CircleReveal} from '../templates/CircleReveal';
 import {CardStage} from '../templates/CardStage';
 import {Scene} from '../templates/Scene';
-import {Words, Stack} from './TitleText';
+import {Words, Stack, Photo, FloatCard} from './TitleText';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const easeOut = Easing.bezier(0.16, 1, 0.3, 1);
@@ -328,6 +328,8 @@ const Overlay: React.FC<{x: Insert; t: number}> = ({x, t}) => {
     case 'counter': return <CounterCard x={x} t={t} />;
     case 'words': return <Words {...x} t={t} frames={x.frames} />;
     case 'stack': return <Stack {...x} t={t} frames={x.frames} />;
+    case 'photo': return <Photo {...x} t={t} frames={x.frames} />;
+    case 'card': return <FloatCard {...x} t={t} frames={x.frames} />;
     default: return null;
   }
 };
@@ -348,7 +350,7 @@ export const InsertView: React.FC<{x: Insert; t: number}> = ({x, t}) => (isFull(
 // Templates run inside a Sequence so they count from 0; overlays are drawn only while they're live.
 export const InsertsLayer: React.FC<{edit: Edit; layer: 'full' | 'over'}> = ({edit, layer}) => {
   const frame = useCurrentFrame();
-  const list = (edit.inserts ?? []).filter((x) => (layer === 'full') === isFull(x));
+  const list = (edit.inserts ?? []).filter((x) => (layer === 'full') === isFull(x) && !(x as {behind?: boolean}).behind);
   if (!list.length) return null;
   return (
     <>
@@ -359,6 +361,19 @@ export const InsertsLayer: React.FC<{edit: Edit; layer: 'full' | 'over'}> = ({ed
           <AbsoluteFill key={i} style={{pointerEvents: 'none'}}><Overlay x={x} t={frame - x.f} /></AbsoluteFill>
         ) : null,
       )}
+    </>
+  );
+};
+
+// Inserts marked behind: drawn inside the footage layer, under the person cut-out (text/cards behind his head). Being
+// inside the footage they also ride every zoom, like his text "parented" to the video.
+export const BehindInserts: React.FC<{edit: Edit}> = ({edit}) => {
+  const frame = useCurrentFrame();
+  return (
+    <>
+      {(edit.inserts ?? []).filter((x) => (x as {behind?: boolean}).behind && frame >= x.f && frame < x.f + x.frames).map((x, i) => (
+        <AbsoluteFill key={i} style={{pointerEvents: 'none'}}><Overlay x={x} t={frame - x.f} /></AbsoluteFill>
+      ))}
     </>
   );
 };

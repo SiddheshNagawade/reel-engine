@@ -243,6 +243,8 @@ if (edit.attach?.length) {
   // Props drawn behind him need the person cut out on top for those frames.
   for (const a of edit.attach.filter((x) => x.behind)) (edit.foreground ??= []).push({f: a.f, frames: a.frames});
 }
+// Designed text / cards behind him (brain/pablo.md) need the same cut-out over them.
+for (const x of (edit.inserts ?? []).filter((x) => x.behind)) (edit.foreground ??= []).push({f: x.f, frames: x.frames});
 
 // Person cut-outs (for text behind the speaker): made once per range, kept on the drive, copied in only for rendering.
 for (const [i, fg] of (edit.foreground ?? []).entries()) {

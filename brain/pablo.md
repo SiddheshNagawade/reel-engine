@@ -48,8 +48,18 @@ The source video is deleted; full raw notes + frames of the finished reel stay o
     circle photo riding it (`follow`), icons dropping in one by one, then the camera pushes in on the result + badge;
   * steps: numbered circles 1-2-3 on a dashed S-path, a badge travels the path while the camera pulls out, the word
     ("Original") types on at the end; blinds background.
-- Scene change: `transitions: [{f, type: "leakwhite"}]` (white light-leak bloom; covers the cut, so no exits needed).
+- Scene change: `direction.leaks: [wordIndex, {at: i, end: true}]` → white light-leak bloom (covers the change, so no
+  exits needed there). Only at the few big changes.
+- Intro zoom-out from tight (zoom grows from his face, so the eyes stay put): `direction.camera: [{at: 0, type:
+  "zoomout"}]`; small push-in that lands on a key word and holds: `{at: i, type: "keypush"}`.
+- A picture of who/what he names rises from the bottom beside him: `direction.photos: [{at, until, media: {file},
+  x, w, from: bottom|left|right, dots: true}]` (dots = his halftone texture). A screen recording / web page floating
+  behind his head: `direction.floats: [{at, until, media: {file}, x, y, w, crop: [t, r, b, l], tilt, behind: true}]`.
+- Anything with `behind: true` (titles, stack, photos, floats) sits under his cut-out (his head/mic overlaps the
+  letters) and rides the camera zoom like his text "parented" to the video. Good for the key word at the top behind
+  his head ("Essence"), and the inverted stacked title behind the mic.
+- His caption look: `themeOverride.captionStyle: "glow-grad"` (heavy grotesk, white→grey gradient, soft glow, no
+  punctuation, ~2 words at a time; same size as the other styles).
 - Sounds are added automatically from his map (plan.mjs designSounds); `sound: null` on an insert silences it.
-- Still missing (do by hand / build when needed): a cut-out photo rising from the bottom while he stays (use
-  `attach` image or a scene `image`), text behind him for any title (hookBehind covers the hook only), a screen-
-  recording card floating behind him.
+- Demo of everything together on img-1391: output/zz-pablo-demo (direction in _work/zz-pablo-demo/direction.json).
+- Not built (Adobe-only niceties, low value): 3D extruded camera orbits around flat layers, icon-swap boxes.

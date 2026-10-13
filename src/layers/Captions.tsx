@@ -45,6 +45,7 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
     'condensed-stack': CondensedStack,
     'highlight-box': HighlightBox,
     bubble: Bubble,
+    'glow-grad': GlowGrad,
   }[edit.theme?.captionStyle ?? 'bold-pop'] ?? BoldPop;
 
   // A visual can own the caption spot for a while: captions glide to another height (direction.captionMoves).
@@ -74,6 +75,26 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
 };
 
 type P = {words: CapWord[]; current: number; frame: number; fps: number; theme: Theme};
+
+// His caption look (Pablo Quesada course, brain/pablo.md): heavy grotesk, no outline, a subtle white→grey gradient
+// fill, a soft white glow, no punctuation, a few words at a time, each word fading up as it's spoken. Same size as
+// the other styles (sizes are his and stay).
+const GlowGrad: React.FC<P> = ({words, frame, fps}) => (
+  <>
+    {words.map((w, i) => {
+      const t = spring({frame: frame - w.f0 + 1, fps, config: {damping: 16, stiffness: 190, mass: 0.6}});
+      return (
+        <span key={i} style={{fontFamily: fonts.inter, fontWeight: 900, fontSize: style.captions.size * 0.92, lineHeight: 1.1, margin: `0 ${style.captions.size * 0.16}px`,
+          letterSpacing: '-0.01em', display: 'inline-block', opacity: interpolate(t, [0, 0.5], [0, 1], clamp), transform: `translateY(${(1 - t) * 14}px)`,
+          filter: 'drop-shadow(0 0 14px rgba(255,255,255,0.35)) drop-shadow(0 6px 14px rgba(0,0,0,0.5))'}}>
+          <span style={{backgroundImage: 'linear-gradient(180deg, #ffffff 35%, #cfcfd4 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent'}}>
+            {w.w.replace(/[.,!?;:]+$/g, '').toLowerCase()}
+          </span>
+        </span>
+      );
+    })}
+  </>
+);
 
 // Per-word 3D reveal as it's spoken.
 const reveal = (frame: number, f0: number, fps: number, axis: 'X' | 'Y' = 'X'): CSSProperties => {

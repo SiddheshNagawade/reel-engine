@@ -1,5 +1,5 @@
 import type {SceneSpec} from './templates/Scene';
-import type {WordsSpec, StackSpec} from './layers/TitleText';
+import type {WordsSpec, StackSpec, PhotoSpec, CardSpec} from './layers/TitleText';
 // Everything is in output-timeline frames unless named src*.
 export type Segment = {srcFrame: number; outFrame: number; frames: number; zoom: number; freeze?: boolean};
 export type CapWord = {w: string; f0: number; f1: number; emph: boolean};
@@ -12,7 +12,7 @@ export type Meme = {f: number; frames: number; sound: string | null; visual: str
 export type Effect = {f: number; frames: number; type: 'mono' | 'dark' | 'rage'; end: 'fade' | 'cut'};
 
 export type TextCard = {f: number; frames: number; text: string; mode: 'typewriter' | 'wave' | 'slam' | 'title'; bg?: 'white' | 'black' | 'accent' | 'blur'; accentWord?: string; size?: number; speed?: number; color?: string; glow?: boolean};
-export type CaptionStyle = 'bold-pop' | 'editorial' | 'script-accent' | 'condensed-stack' | 'highlight-box' | 'bubble';
+export type CaptionStyle = 'bold-pop' | 'editorial' | 'script-accent' | 'condensed-stack' | 'highlight-box' | 'bubble' | 'glow-grad';
 export type TransitionType = 'whip' | 'zoomblur' | 'flash' | 'lightleak' | 'tilt3d' | 'leakwhite';
 export type Theme = {
   topic: string;
@@ -72,6 +72,8 @@ export type Insert = InsertBase & (
   | ({kind: 'scene'} & Omit<SceneSpec, 'frames'>)
   | ({kind: 'words'} & WordsSpec)
   | ({kind: 'stack'} & StackSpec)
+  | ({kind: 'photo'} & PhotoSpec)
+  | ({kind: 'card'} & CardSpec)
 );
 // The footage makes room: scale (0.6 = 60 %), shift (fractions of the frame), rounded corners, what fills behind it.
 export type RoomLayout = {f: number; frames: number; scale?: number; x?: number; y?: number; radius?: number; fill?: 'blur' | 'color'; color?: string};
@@ -87,7 +89,7 @@ export type Edit = {
   transitions: Transition[];
   memes?: Meme[];
   effects?: Effect[];
-  moves?: {f: number; type: 'push' | 'pull'}[];
+  moves?: {f: number; type: 'push' | 'pull' | 'zoomout' | 'keypush'}[];
   banner?: {text: string; f0: number; f1: number} | null;
   hookBehind?: boolean;
   foreground?: {f: number; frames: number; src?: string}[];

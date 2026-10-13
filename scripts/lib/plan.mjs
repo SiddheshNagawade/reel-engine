@@ -160,7 +160,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
 
   // 5. Caption groups: short, punchy, broken at punctuation and pauses.
   const c = style.captions;
-  const maxWords = {'highlight-box': 5, 'editorial': 4, 'script-accent': 4, 'condensed-stack': 4}[theme.captionStyle] ?? c.maxWords;
+  const maxWords = {'glow-grad': 2, 'highlight-box': 5, 'editorial': 4, 'script-accent': 4, 'condensed-stack': 4}[theme.captionStyle] ?? c.maxWords;
   const maxChars = maxWords > 3 ? 26 : c.maxChars;
   const captions = [];
   let cur = [];
@@ -228,12 +228,24 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const prev = segments.slice(0, i).reverse().find((x) => !x.freeze);
     if (prev && clipAt(sg.a) !== clipAt(prev.a)) transitions.push({f: sg.outFrame, type: theme.transitions[transitions.length % theme.transitions.length]});
   });
+  // white light-leaks at the few big scene changes (brain/pablo.md): direction.leaks [wordIndex…] (or {at, end: true}
+  // = at the end of that word, for the way back from a full-screen scene)
+  for (const l of direction?.leaks ?? []) {
+    const w = byIndex.get(typeof l === 'number' ? l : l.at);
+    if (w) transitions.push({f: typeof l === 'object' && l.end ? w.f1 : w.f0, type: 'leakwhite'});
+  }
   const moves = [];
   (direction?.sections ?? []).forEach((i, k) => {
     const w = byIndex.get(i);
     if (!w || w.f0 < fps || transitions.some((t) => Math.abs(t.f - w.f0) < fps)) return;
     moves.push({f: w.f0, type: k % 2 ? 'pull' : 'push'});
   });
+  // Chosen camera moves (brain/pablo.md): zoomout = the intro pull from tight to normal (eyes stay put: the zoom grows
+  // from his face), keypush = a small push-in that lands on a key word and holds, pull/push as above.
+  for (const c of direction?.camera ?? []) {
+    const w = byIndex.get(c.at);
+    if (w) moves.push({f: Math.max(0, w.f0 - (c.type === 'zoomout' ? 2 : 4)), type: c.type});
+  }
 
   // Text cards (minimal "expensive" inserts): direction.cards [{at: wordIndex, seconds, text, mode, bg, accentWord, glow}]
   const cards = (direction?.cards ?? []).filter((c) => c.mode !== 'scatter').flatMap((c) => {
@@ -302,6 +314,9 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const {at, until, seconds, delay, sound, cam, items, ...rest} = x;
     inserts.push({...rest, kind: 'scene', ...sp, cam: (cam ?? [{s: 0, x: 0.5, y: 0.5}]).map(L), items: (items ?? []).map(L), ...(sound === null ? {silent: true} : {})});
   }
+  // a picture of who/what he names rises in beside him; a screen recording / page floats behind him
+  for (const x of direction?.photos ?? []) { const m = media(x.media); if (m) put('photo', x, 2.5, {media: m}); }
+  for (const x of direction?.floats ?? []) { const m = media(x.media); if (m) put('card', x, 3, {media: m}); }
   for (const x of direction?.titles ?? []) {
     const sp = span(x, 2.5);
     if (!sp) continue;

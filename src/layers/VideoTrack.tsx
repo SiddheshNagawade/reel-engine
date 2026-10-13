@@ -62,6 +62,8 @@ export const VideoTrack: React.FC<{edit: Edit; behind?: React.ReactNode}> = ({ed
   for (const mv of edit.moves ?? []) {
     const d = frame - mv.f;
     if (d < 0 || d > 200) continue;
+    if (mv.type === 'zoomout') { if (d <= 60) move += interpolate(d, [0, 42], [0.85, 0], {...clamp, easing: Easing.bezier(0.16, 1, 0.3, 1)}); continue; }
+    if (mv.type === 'keypush') { move += interpolate(d, [0, 14, 110, 150], [0, 0.07, 0.085, 0], {...clamp, easing: Easing.bezier(0.16, 1, 0.3, 1)}); continue; }
     if (mv.type === 'push') move += interpolate(d, [0, 28, 140, 200], [0, 0.08, 0.08, 0], {...clamp, easing: Easing.inOut(Easing.cubic)});
     else move += interpolate(d, [0, 10, 70], [0, 0.07, 0], {...clamp, easing: Easing.out(Easing.cubic)});
   }
