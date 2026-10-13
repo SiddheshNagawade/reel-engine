@@ -12,7 +12,12 @@ Read first, in this order:
    "The 4 hook mistakes check": no delay, no confusion, relevant to the viewer, contrast).
 3. `brain/content-plan.md` → the live planner docs (current series, pillars, what's already posted).
 
-## Steps
+## Steps — ONE AT A TIME, each written down before the next (never all at once)
+Each step is its own piece of thinking with its own output: STORY (facts + shape + beats, no wording yet) → SCRIPT
+(the spoken lines + "we see", for the locked story) → HOOKS (3–4 options for the locked script, each through the
+4 checks) → CHECK. Write each step's result under its own heading before starting the next; don't draft hooks while
+building the story or wording while choosing beats. If a later step shows the story is wrong, go back and redo that
+step on its own, then continue.
 1. **Facts first.** List what he actually did/said (from his message, the planner, the footage transcript). Missing a
    fact a beat needs → ask him; never fill it in.
 2. **Pick the shape by length:** reel 30–45 s = 5 beats (content-brief §3) · two-part series = part 1 ends on the moment it

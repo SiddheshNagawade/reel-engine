@@ -119,7 +119,8 @@ if (cmd === 'brief') {
   }
   const lib = libraryFor(pass);
   if (lib) out.push(`\n──── LIBRARY (T7) ────\n${lib}`);
-  out.push(`\nThen: write the decisions under this pass in ${planFile(work)}, mark every technique, close it with Status.`);
+  out.push(`\nDecide ONLY this pass now. Don't plan later passes yet; they get their own briefing and their own thinking.`);
+  out.push(`Then: write the decisions under this pass in ${planFile(work)}, mark every technique, close it with Status.`);
   console.log(out.join('\n'));
   if (plan) { // the render gate checks that every required pass was briefed before it was closed
     const bf = path.join(work, 'briefs.json');
