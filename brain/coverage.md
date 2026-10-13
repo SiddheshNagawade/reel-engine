@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-75 techniques · 74 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
+79 techniques · 78 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -43,6 +43,9 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | visuals | Props on face/hands (crown, sunglasses, sweat, anger, ?, bulb, tears, hearts) | reel, vlog | ✅ | reel: direction.attach · vlog: gfx {type: "attach", what, near} | motion-graphics skill |
 | visuals | Speech/thought bubbles, labels + arrows, sticky notes | reel, vlog | ✅ | reel: attach bubble/thought/label/note · vlog: gfx {type: "attach", what: bubble/thought/label/note, text, near} / arrow | motion-graphics skill |
 | visuals | Meme stickers / GIFs by HIS attitude | reel, vlog | ✅ | direction.memes · vlog gfx sticker | preferences.md |
+| visuals | Designed title: mixed fonts on the beat (heavy rise, script typed, brush highlight) | reel | ✅ | direction.titles [{kind: "words", lines: [[{word, text, font, enter, highlight}]]}] | pablo.md |
+| visuals | Inverted stacked title (exclusion blend) | reel | ✅ | direction.titles [{kind: "stack", lines, words}] | pablo.md |
+| visuals | Full-screen designed scene with a moving camera (mind-map, journey counter, steps on a path) | reel | ✅ | direction.scenes [{bg, cam, items}] (templates/Scene.tsx) | pablo.md |
 | visuals | Number counter | reel, vlog, process | ✅ | reel: direction.counters (style full/overlay) · vlog: gfx counter / {type: "insert", kind: "counter"} | motion-design.md |
 | visuals | Before/after circle reveal | reel, process | ✅ | reel: direction.reveals (CircleReveal) | motion-design.md |
 | visuals | Clips as cards on a stage (row, grid, stack, focus) | reel | ✅ | direction.stages (CardStage) | motion-design.md |
@@ -64,6 +67,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | depth | Text behind him (magnetic mask) | reel | ✅ | hookBehind (personmask) | skills.md |
 | depth | Objects/effects behind him | reel | ✅ | attach {behind: true} | edit-layers.md |
 | depth | Person cut-outs (hero intros) | vlog | ✅ | scripts/herocut.py + gfx hero | vlog.md |
+| motion | White light-leak between speaker and a full-screen scene | reel | ✅ | transitions [{f, type: "leakwhite"}] | pablo.md |
 | motion | Camera push on a new idea, punch on a hero word | reel, vlog, process | ✅ | reel: direction.sections · vlog/process: zoom/toZoom, gfx zoom | preferences.md |
 | motion | Transitions only where the picture really changes | reel, vlog, process | ✅ | checked automatically | preferences.md |
 | motion | Every element enters and leaves with motion | reel, vlog, process | ✅ | built into the layers | motion-design.md |

@@ -60,3 +60,10 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 - Instagram UI covers roughly the top 8% and bottom 20% plus the right edge (buttons): keep key text out of those zones.
 - Script/thin fonts only for the ONE emphasised word, big; body words in a bold sans.
 - After rendering, check stills at every text/sticker moment before calling it done.
+
+## Designed-reel kit (2026-10-14, brain/pablo.md)
+- `direction.titles` kind words (mixed-font tokens with rise/type/blur/cut + brush highlight + bottom shade) and kind
+  stack (inverted exclusion title) → src/layers/TitleText.tsx. `direction.scenes` → src/templates/Scene.tsx (bg radial/
+  grid/blinds + vignette + edge grain, camera keys, items text/box/image/line/num/badge/counter/follow, living wobble).
+  `transitions` type leakwhite. Sounds auto from plan.mjs designSounds. Times inside: {word: i} or {s: seconds}.
+- Use: one designed hook / one scene / one inverted title where they help; NOT on every reel. Captions hide under them.

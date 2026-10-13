@@ -11,6 +11,8 @@
 //   scatter   words land at different spots and sizes, then settle into a line
 //   plane     a screen recording / picture on a 3D-tilted card that slowly turns and scrolls (apps, websites)
 //   push      a word or picture flies INTO the lens and fills the frame: a transition between two ideas
+//   scene     a full-screen motion-graphics board with a moving camera (templates/Scene.tsx)
+//   words     designed mixed-font title tokens on the beat · stack: inverted (exclusion) stacked title (TitleText.tsx)
 // Also here: RoomFrame (the footage shrinks/moves to make room, blurred copy behind) and captionShift (captions
 // move aside while a visual owns their spot).
 import React from 'react';
@@ -20,6 +22,8 @@ import {fonts} from './fonts';
 import {NumberRoll} from '../templates/NumberRoll';
 import {CircleReveal} from '../templates/CircleReveal';
 import {CardStage} from '../templates/CardStage';
+import {Scene} from '../templates/Scene';
+import {Words, Stack} from './TitleText';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const easeOut = Easing.bezier(0.16, 1, 0.3, 1);
@@ -30,7 +34,9 @@ const rnd = (seed: number, i: number) => {
 // in/out envelope of an insert: soft entrance, soft exit
 const life = (t: number, n: number, inF = 8, outF = 8) => Math.min(interpolate(t, [0, inF], [0, 1], clamp), interpolate(t, [n - outF, n], [1, 0], clamp));
 
-export const FULL_KINDS = new Set(['reveal', 'stage']);
+export const FULL_KINDS = new Set(['reveal', 'stage', 'scene']);
+// inserts that carry the words themselves: captions step aside while they show
+export const TEXT_KINDS = new Set(['scatter', 'scene', 'words', 'stack']);
 // One size unit that works in 9:16 (= width) and 16:9 (= a phone-width column of the height), so the same
 // graphics serve reels and vlogs.
 const unitOf = (W: number, H: number) => Math.min(W, H * 0.5625);
@@ -320,6 +326,8 @@ const Overlay: React.FC<{x: Insert; t: number}> = ({x, t}) => {
     case 'blur': return <Blur x={x} t={t} />;
     case 'push': return <Push x={x} t={t} />;
     case 'counter': return <CounterCard x={x} t={t} />;
+    case 'words': return <Words {...x} t={t} frames={x.frames} />;
+    case 'stack': return <Stack {...x} t={t} frames={x.frames} />;
     default: return null;
   }
 };
@@ -329,6 +337,7 @@ const Full: React.FC<{x: Insert}> = ({x}) => {
     case 'counter': return <NumberRoll values={x.values} label={x.label} prefix={x.prefix} suffix={x.suffix} frames={x.frames} bg={x.bg} ink={x.ink} accent={x.accent} />;
     case 'reveal': return <CircleReveal before={x.before} after={x.after} frames={x.frames} path={x.path} />;
     case 'stage': return <CardStage items={x.items} beats={x.beats} frames={x.frames} bg={x.bg} />;
+    case 'scene': return <Scene {...x} frames={x.frames} />;
     default: return null;
   }
 };

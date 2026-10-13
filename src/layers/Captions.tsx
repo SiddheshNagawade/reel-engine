@@ -1,4 +1,4 @@
-import {captionShift} from './Inserts';
+import {captionShift, TEXT_KINDS} from './Inserts';
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate} from 'remotion';
 import type {CSSProperties} from 'react';
@@ -29,7 +29,7 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
   // A full-screen / zoomed video meme owns the screen for a moment: captions step aside.
   if ((edit.memes ?? []).some((m) => m.clip && (m.placement === 'full' || m.placement === 'zoom') && frame >= m.f && frame < m.f + m.frames)) return null;
   // Scatter text is a text moment of its own: captions step aside while it's up.
-  if ((edit.inserts ?? []).some((x) => x.kind === 'scatter' && frame >= x.f && frame < x.f + x.frames)) return null;
+  if ((edit.inserts ?? []).some((x) => TEXT_KINDS.has(x.kind) && frame >= x.f && frame < x.f + x.frames)) return null;
   const g = edit.captions.find((x) => frame >= x.f0 && frame < x.f1);
   if (!g) return null;
   let current = -1;

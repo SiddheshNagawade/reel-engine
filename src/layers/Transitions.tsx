@@ -29,12 +29,25 @@ export function transitionMotion(edit: Edit, frame: number) {
 }
 
 // Light-based transitions drawn over the footage.
-export const TransitionOverlay: React.FC<{edit: Edit}> = ({edit}) => {
+// top: only the white leak, drawn above full-screen scenes (it is what hides the change between speaker and scene)
+export const TransitionOverlay: React.FC<{edit: Edit; top?: boolean}> = ({edit, top}) => {
   const frame = useCurrentFrame();
   return (
     <>
-      {(edit.transitions ?? []).map((t, i) => {
+      {(edit.transitions ?? []).filter((t) => (t.type === 'leakwhite') === !!top).map((t, i) => {
         const d = frame - t.f;
+        // his overlay transition (Pablo Quesada): a white light-leak bloom sweeps in from one side, peaks to almost
+        // pure white on the cut, then clears (~0.5 s). Used only at a few scene changes, never on every cut.
+        if (t.type === 'leakwhite' && d >= -7 && d <= 10) {
+          const p = interpolate(d, [-7, 10], [0, 1], clamp);
+          const o = interpolate(d, [-7, -1, 1, 10], [0, 1, 1, 0], clamp);
+          return (
+            <AbsoluteFill key={i} style={{opacity: o, mixBlendMode: 'screen',
+              background: `radial-gradient(55% 70% at ${-25 + p * 90}% ${55 - p * 15}%, rgba(255,255,255,1) 0%, rgba(255,250,245,0.9) 35%, rgba(255,255,255,0) 75%),
+                radial-gradient(35% 30% at ${80 - p * 30}% ${15 + p * 20}%, rgba(255,255,255,0.85), rgba(255,255,255,0) 70%),
+                rgba(255,255,255,${interpolate(d, [-3, 0, 3], [0, 0.9, 0], clamp)})`}} />
+          );
+        }
         if (t.type === 'flash' && d >= -2 && d <= 9) {
           const o = interpolate(d, [-2, 0, 9], [0, 0.95, 0], clamp);
           return <AbsoluteFill key={i} style={{background: '#fff', opacity: o}} />;

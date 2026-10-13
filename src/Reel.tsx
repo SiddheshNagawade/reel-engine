@@ -30,6 +30,7 @@ export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
       </AbsoluteFill>
       {/* Full-screen inserts (counter stage, before/after reveal, card stage) replace the picture; his voice goes on */}
       <InsertsLayer edit={edit} layer="full" />
+      <TransitionOverlay edit={edit} top />
       {/* Text sits above the film look so it stays crisp */}
       <Cards edit={edit} />
       <Captions edit={edit} />

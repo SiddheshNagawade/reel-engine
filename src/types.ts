@@ -1,3 +1,5 @@
+import type {SceneSpec} from './templates/Scene';
+import type {WordsSpec, StackSpec} from './layers/TitleText';
 // Everything is in output-timeline frames unless named src*.
 export type Segment = {srcFrame: number; outFrame: number; frames: number; zoom: number; freeze?: boolean};
 export type CapWord = {w: string; f0: number; f1: number; emph: boolean};
@@ -11,7 +13,7 @@ export type Effect = {f: number; frames: number; type: 'mono' | 'dark' | 'rage';
 
 export type TextCard = {f: number; frames: number; text: string; mode: 'typewriter' | 'wave' | 'slam' | 'title'; bg?: 'white' | 'black' | 'accent' | 'blur'; accentWord?: string; size?: number; speed?: number; color?: string; glow?: boolean};
 export type CaptionStyle = 'bold-pop' | 'editorial' | 'script-accent' | 'condensed-stack' | 'highlight-box' | 'bubble';
-export type TransitionType = 'whip' | 'zoomblur' | 'flash' | 'lightleak' | 'tilt3d';
+export type TransitionType = 'whip' | 'zoomblur' | 'flash' | 'lightleak' | 'tilt3d' | 'leakwhite';
 export type Theme = {
   topic: string;
   pace: string;
@@ -67,6 +69,9 @@ export type Insert = InsertBase & (
   | {kind: 'plane'; media: MediaRef; tilt?: number; x?: number; y?: number; w?: number; scroll?: number}
   | {kind: 'push'; text?: string; media?: MediaRef; color?: string}
   | {kind: 'scatter'; text: string; accentWord?: string; accent?: string; color?: string; size?: number; y?: number; settleAt?: number}
+  | ({kind: 'scene'} & Omit<SceneSpec, 'frames'>)
+  | ({kind: 'words'} & WordsSpec)
+  | ({kind: 'stack'} & StackSpec)
 );
 // The footage makes room: scale (0.6 = 60 %), shift (fractions of the frame), rounded corners, what fills behind it.
 export type RoomLayout = {f: number; frames: number; scale?: number; x?: number; y?: number; radius?: number; fill?: 'blur' | 'color'; color?: string};

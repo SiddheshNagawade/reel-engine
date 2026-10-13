@@ -286,6 +286,30 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else if (kind === 'cursor') put('cursor', rest, 2, {clickAt: sec(clickAt)});
   }
   for (const x of direction?.connectors ?? []) put('connector', x, 1.8);
+  // Pablo-style designed graphics (brain/pablo.md): times inside are WORD indexes ({word: i}) or seconds from the
+  // start of the insert ({s: 1.2}); both become frames from the insert start, so everything lands on his words.
+  //   direction.scenes [{at, until, bg, cam: [{word|s, x, y, zoom}], items: [{word|s, type, …}]}]
+  //   direction.titles [{at, until, kind: 'words', lines: [[{word|s, text, font, enter, highlight}]]} | {kind: 'stack', lines, words: [i…]}]
+  const local = (f0) => (o) => {
+    const {word, s, ...rest} = o;
+    const at = word != null ? (byIndex.get(word)?.f0 ?? f0) - f0 : s != null ? Math.round(s * fps) : rest.at ?? 0;
+    return {...rest, at, ...(rest.out != null ? {out: Math.round(rest.out * fps)} : {})};
+  };
+  for (const x of direction?.scenes ?? []) {
+    const sp = span(x, 4);
+    if (!sp) continue;
+    const L = local(sp.f);
+    const {at, until, seconds, delay, sound, cam, items, ...rest} = x;
+    inserts.push({...rest, kind: 'scene', ...sp, cam: (cam ?? [{s: 0, x: 0.5, y: 0.5}]).map(L), items: (items ?? []).map(L), ...(sound === null ? {silent: true} : {})});
+  }
+  for (const x of direction?.titles ?? []) {
+    const sp = span(x, 2.5);
+    if (!sp) continue;
+    const L = local(sp.f);
+    const {at, until, seconds, delay, sound, kind = 'words', lines, words, ...rest} = x;
+    if (kind === 'stack') inserts.push({...rest, kind, ...sp, lines, at: (words ?? []).map((w) => L({word: w}).at), ...(sound === null ? {silent: true} : {})});
+    else inserts.push({...rest, kind: 'words', ...sp, lines: lines.map((ln) => ln.map(L)), ...(sound === null ? {silent: true} : {})});
+  }
   // blurs: private things on screens. Tracks from scripts/secrets.py run on the cut (selects.mp4): key times are
   // seconds on the output timeline. reel.mjs fills direction.blurs itself when direction.blurSecrets is on.
   for (const tr of direction?.blurs ?? []) {
@@ -473,6 +497,57 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const src = pick(sfxLib(type), `${name}-${type}-${f}`);
     if (src && !sfx.some((x) => Math.abs(x.f - f) < 10) && !memes.some((m) => Math.abs(m.f - f) < 15)) sfx.push({src, f: Math.max(0, f), volume: v, fade});
   };
+  // His sound map for designed graphics (Pablo Quesada, brain/pablo.md): every movement gets its own sound, chosen by
+  // what moves, never the same one twice in a row. Families come from the Library (Library/sounds, catalog `family`).
+  const PQ = {
+    typing: ['typing', 'camera'], // typed text: a short keyboard burst (or a soft camera click)
+    rise: ['whoosh-short'], drop: ['whoosh-short'], slide: ['whoosh-short'], blur: ['whoosh-short'], fade: ['whoosh-short'],
+    long: ['whoosh-long'], // the hook's first move, starts a little before it
+    line: ['tech-ui'], count: ['tech-ui'], // dashed line drawing / number counting: digital ticks
+    land: ['money'], // a count lands on its number
+    reward: ['success'], // a badge / gem / icon of a win arrives
+    pop: ['pop', 'click'], negative: ['fail', 'tech-ui'], // highlight on a bad word
+  };
+  const lastLib = {};
+  const libSound = (type, f, v, fade = 0) => {
+    const fams = PQ[type] ?? [type];
+    let pool = catalog.filter((m) => m.kind === 'sound' && fams.includes(m.family) && m.seconds <= (type === 'count' ? 6 : 3.5));
+    if (type === 'count') { const c = pool.filter((m) => /count|digit/.test(m.id)); if (c.length) pool = c; }
+    if (!pool.length) return;
+    const fresh = pool.filter((m) => m.id !== lastLib[type]);
+    const m = pick(fresh.length ? fresh : pool, `${name}-pq-${type}-${f}`);
+    lastLib[type] = m.id;
+    if (!sfx.some((x) => Math.abs(x.f - f) < 6)) sfx.push({src: `assets/library/${m.dir}/sound.mp3`, f: Math.max(0, f), volume: v * (m.volume ?? 1), fade});
+  };
+  function designSounds(x) {
+    const q = vol * 0.4;
+    if (x.kind === 'stack') { libSound('rise', x.f - 3, q, 3); return; }
+    if (x.kind === 'words') {
+      x.lines.flat().forEach((tk, i) => {
+        const f = x.f + tk.at;
+        if (tk.enter === 'type') libSound('typing', f, q * 0.8);
+        else if (tk.enter !== 'cut') libSound(i === 0 && x.f < 30 ? 'long' : tk.enter ?? 'rise', f - (i === 0 ? 6 : 3), q, 3);
+        if (tk.highlight) libSound('negative', f + 4, q * 0.7);
+      });
+      return;
+    }
+    for (const it of x.items) {
+      const f = x.f + it.at;
+      if (it.type === 'line') libSound('line', f, q * 0.6);
+      else if (it.type === 'counter') { libSound('count', f, q * 0.6); libSound('land', f + (it.dur ?? 40), q); }
+      else if (it.type === 'badge' || (it.type === 'image' && it.reward)) libSound('reward', f, q);
+      else if (it.type === 'num') libSound('pop', f, q * 0.6);
+      else if (it.enter === 'type') libSound('typing', f, q * 0.7);
+      else if (it.enter !== 'cut') libSound(it.enter ?? 'rise', f - 3, q * 0.8, 3);
+    }
+    // camera travels get a soft whoosh when they really move (a pan to the next box, a push-in on the payoff)
+    const cam = [...(x.cam ?? [])].sort((a, b) => a.at - b.at);
+    cam.slice(1).forEach((k, i) => {
+      const a = cam[i];
+      const far = Math.hypot(k.x - a.x, k.y - a.y) > 0.2 || Math.abs(Math.log((k.zoom ?? 1) / (a.zoom ?? 1))) > 0.25;
+      if (far && a.at >= 0) libSound('rise', x.f + a.at, q * 0.7, 4);
+    });
+  }
   const hookText = style.hook.enabled ? direction?.hookText?.trim() || null : null;
   if (hookText) add('pop', 3, vol * 0.5);
   for (const p of popups) add('pop', p.f, vol * 0.5);
@@ -494,6 +569,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else if (x.kind === 'counter') add('tick', x.f, vol * 0.3);
     else if (x.kind === 'scatter') add('pop', x.f, vol * 0.35);
     else if (x.kind === 'push') add('whoosh', x.f + x.frames - 10, vol * 0.45, 4);
+    else if (x.kind === 'scene' || x.kind === 'words' || x.kind === 'stack') designSounds(x);
     else add('soft-whoosh', x.f - 4, vol * 0.3, 4);
   }
   for (const l of layouts.filter((l) => !memes.some((m) => m.clip && m.f === l.f))) add('soft-whoosh', l.f - 4, vol * 0.3, 4);
