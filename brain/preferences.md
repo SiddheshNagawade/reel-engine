@@ -1,6 +1,7 @@
-# Siddhesh's editing preferences (learned from feedback)
+# Siddhesh's editing preferences: HISTORY (learned from feedback)
 
-Newest at the bottom. Every rule here overrides defaults. Add to this file after every round of feedback.
+The dated story behind every rule, newest at the bottom. The CURRENT rules live in brain/rules.md (sorted by topic,
+contradictions resolved). After every round of feedback: add the dated note here AND update the rule in rules.md.
 
 ## Language & captions
 - Captions and transcripts in **Hinglish**: Hindi in Roman script the way people type it, English words in normal spelling. Never Devanagari, never translate Hindi into English.

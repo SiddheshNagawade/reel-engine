@@ -10,8 +10,10 @@ The Chandigarh vlog was decided in one go: it got 37 pop texts and 18 hanging ph
 no vector illustrations, no props or bubbles, and 66% of it sat in 6 s+ stretches where nothing new was added. Nobody
 asked him for a single meme. This skill is the fix: **one pass at a time, written down, checked by code.**
 
-Read before starting: `brain/preferences.md` (his verdicts, newest at the bottom), `brain/edit-layers.md` (the passes),
-and the playbook for the kind of video (`brain/vlog.md`, `brain/process-videos.md`, `brain/hooks.md`).
+Read before starting: `brain/rules.md` (every current rule) is already loaded. Then run
+`node scripts/editplan.mjs <name> brief start` once, and `… brief <pass>` before EVERY pass: it prints that pass's rules,
+the playbook sections that matter (hooks, craft, sounds, vlog/process…), the technique checklist and what the Library
+holds. That is how nothing in brain/ is skipped; a pass closed without its briefing blocks the render.
 
 ## Step 0: set up and tell him the route
 1. Find the footage (CLAUDE.md "When he says edit the new video"). Decide the kind: `reel` · `vlog` · `process`.
@@ -49,7 +51,7 @@ brain/coverage.md shows the whole map.
 
 ## Step 3: passes 1–8, ONE AT A TIME
 For each pass, in order:
-1. Re-read that pass's question in plan.md.
+1. `node scripts/editplan.mjs <name> brief <pass>`: read all of it (rules, playbook, checklist, Library).
 2. Walk the WHOLE timeline for that one layer only. Write bullets under the pass: `time / beat → what → why`.
 3. Close it: `Status: done`, or `Status: none: <real reason>`. Then `node scripts/editplan.mjs <name>` shows the next one.
 4. Only then start the next pass. Never fill several passes in one go: that is exactly how layers got skipped.

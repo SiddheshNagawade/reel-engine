@@ -4,13 +4,16 @@
 //   node scripts/editplan.mjs <name> check [--edit vlog.json] [--gap 6]
 //        the rules a computer can check (fast-forward, emoji, repeated meme sounds, transitions inside a shot, short shots…)
 //        + every stretch where nothing new is added (vlog). Cuts alone don't count: that was the Chandigarh problem.
+//   node scripts/editplan.mjs <name> brief <pass|start>              → READ THIS before the pass: its question, the rules
+//        tagged for it (brain/rules.md), the playbook sections that matter, its technique checklist, the Library inventory
 //   node scripts/editplan.mjs --coverage                             → brain/coverage.md (every technique he taught, its status)
 import fs from 'node:fs';
 import path from 'node:path';
 import {workRoot} from './lib/paths.mjs';
 import {PASSES, planFile, problems, readPlan, template} from './lib/editplan.mjs';
 import {lint, vlogGaps, editFile} from './lib/lint.mjs';
-import {TECHNIQUES} from './lib/techniques.mjs';
+import {TECHNIQUES, passTechniques} from './lib/techniques.mjs';
+import {READS, section, rulesFor, libraryFor} from './lib/brief.mjs';
 
 const args = process.argv.slice(2);
 const opt = (f, d) => (args.includes(f) ? args[args.indexOf(f) + 1] : d);
@@ -77,6 +80,44 @@ if (cmd === 'status') {
   const list = problems(plan);
   console.log(next ? `\nNext pass: ${next}` : '');
   console.log(list.length ? `Render blocked by:\n${list.map((l) => `  - ${l}`).join('\n')}` : '✅ All required passes closed. (`check` runs the automatic rules too.)');
+  process.exit(0);
+}
+
+if (cmd === 'brief') {
+  const pass = args.filter((a) => !a.startsWith('--'))[2] ?? 'start';
+  const plan = readPlan(work);
+  const kind = plan?.kind ?? opt('--kind', 'reel');
+  const p = PASSES.find((x) => x.id === pass);
+  if (!p && pass !== 'start') {
+    console.error(`Unknown pass "${pass}". Passes: start, ${PASSES.map((x) => x.id).join(', ')}`);
+    process.exit(1);
+  }
+  const out = [];
+  out.push(`════ BRIEFING: ${pass === 'start' ? `start of ${name} (${kind})` : `pass ${PASSES.indexOf(p)} · ${p.title}`} ════`);
+  if (p) out.push(`QUESTION: ${p.ask}`);
+  const rules = rulesFor(pass, kind);
+  if (rules) out.push(`\n──── RULES (brain/rules.md) ────\n${rules}`);
+  const reads = (READS[pass] ?? []).filter(([, , kinds]) => !kinds || kinds.includes(kind)).map(([f, h]) => {
+    const t = section(f, h);
+    return t ? `[${f}]\n${t}` : '';
+  }).filter(Boolean);
+  if (reads.length) out.push(`\n──── PLAYBOOK ────\n${reads.join('\n\n')}`);
+  if (p) {
+    const list = passTechniques(pass, kind);
+    const state = plan?.passes[pass];
+    if (list.length) out.push(`\n──── TECHNIQUES TO CONSIDER (mark each in plan.md) ────\n${list.map((t) => `- ${t.name}: ${t.when}\n    how: ${t.how}`).join('\n')}` +
+      (state?.unchecked?.length ? `\n  still unmarked: ${state.unchecked.join(' · ')}` : ''));
+  }
+  const lib = libraryFor(pass);
+  if (lib) out.push(`\n──── LIBRARY (T7) ────\n${lib}`);
+  out.push(`\nThen: write the decisions under this pass in ${planFile(work)}, mark every technique, close it with Status.`);
+  console.log(out.join('\n'));
+  if (plan) { // the render gate checks that every required pass was briefed before it was closed
+    const bf = path.join(work, 'briefs.json');
+    const log = fs.existsSync(bf) ? JSON.parse(fs.readFileSync(bf, 'utf8')) : {};
+    log[pass] = new Date().toISOString();
+    fs.writeFileSync(bf, JSON.stringify(log, null, 1));
+  }
   process.exit(0);
 }
 

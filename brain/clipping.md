@@ -1,3 +1,5 @@
+> ARCHIVE (2026-10-11): he stopped clipping. Kept for the podcast/16:9 pipeline notes (vcrop, avsync, subocr).
+
 # Clipping for Whop Content Rewards: playbook
 
 Started 2026-10-11. Goal: first income (~$100/month) by editing other creators' footage, no face/story needed from him.

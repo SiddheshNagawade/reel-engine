@@ -57,7 +57,7 @@ export function template(name, kind) {
     'Your own decisions go below the checklist as plain bullets (`- 0:12 → what → why`).',
     ''];
   PASSES.forEach((p, i) => {
-    parts.push(`## ${i}. ${p.title} {#${p.id}}`, `> ${p.ask}`, '');
+    parts.push(`## ${i}. ${p.title} {#${p.id}}`, `> ${p.ask}`, `> First: \`node scripts/editplan.mjs ${name} brief ${p.id}\` (rules, playbook, checklist, Library for this pass)`, '');
     const list = passTechniques(p.id, kind);
     if (list.length) {
       parts.push(...list.map((t) => `- [ ] ${t.name}: ${t.when} (how: ${t.how})${t.built ? '' : ' ⚠️ NOT BUILT YET: build it if this video needs it'}`), '');
@@ -101,6 +101,8 @@ export function problems(plan) {
     if (!p.need.includes(kind)) continue;
     const got = passes[p.id];
     if (!got || got.status === 'todo') { list.push(`${p.id}: not done yet (${p.title})`); continue; }
+    // closing a pass without reading its briefing = deciding without the rules: not allowed
+    if (plan.briefs && !plan.briefs[p.id]) list.push(`${p.id}: closed without reading its briefing (node scripts/editplan.mjs <name> brief ${p.id})`);
     if (got.status === 'none' && got.reason.length < 10) list.push(`${p.id}: "none" needs a real reason`);
     if (got.unchecked?.length) list.push(`${p.id}: techniques not considered yet: ${got.unchecked.join(' · ')}`);
     if (got.badSkips?.length) list.push(`${p.id}: say WHY these don't fit: ${got.badSkips.join(' · ')}`);
@@ -116,7 +118,12 @@ export function problems(plan) {
 
 export function readPlan(work) {
   const f = planFile(work);
-  return fs.existsSync(f) ? parse(fs.readFileSync(f, 'utf8')) : null;
+  if (!fs.existsSync(f)) return null;
+  const plan = parse(fs.readFileSync(f, 'utf8'));
+  // which pass briefings were actually read (scripts/editplan.mjs <name> brief <pass> logs them)
+  const bf = path.join(work, 'briefs.json');
+  plan.briefs = fs.existsSync(bf) ? JSON.parse(fs.readFileSync(bf, 'utf8')) : {};
+  return plan;
 }
 
 // Called by every render script before a final render. Returns a note for the CHANGELOG.
