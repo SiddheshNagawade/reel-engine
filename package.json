@@ -6,6 +6,7 @@
     "reel": "node scripts/reel.mjs",
     "watch": "node scripts/watch.mjs",
     "studio": "remotion studio src/index.ts",
+    "editor": "node scripts/editor.mjs",
     "render": "node scripts/render.mjs",
     "setup-sfx": "node scripts/make-sfx.mjs",
     "typecheck": "tsc --noEmit",

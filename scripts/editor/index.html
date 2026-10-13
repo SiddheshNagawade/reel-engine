@@ -1,0 +1,102 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Timeline · __NAME__</title>
+<style>
+:root{--bg:#16171b;--panel:#1f2026;--line:#2c2e36;--text:#e8e8ec;--dim:#8a8d99;--acc:#ffcf3f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:13px -apple-system,system-ui,sans-serif}
+header{display:flex;gap:8px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+header b{font-size:15px;margin-right:8px}button,select,input{background:#2a2c34;color:var(--text);border:1px solid #3a3d47;border-radius:6px;padding:5px 9px;font:inherit}
+button:hover{border-color:var(--acc)}button.main{background:var(--acc);color:#111;border-color:var(--acc);font-weight:600}
+#status{color:var(--dim);margin-left:auto}
+#wrap{display:flex;height:calc(100vh - 52px)}
+#tl{flex:1;overflow:auto;position:relative}
+#side{width:340px;border-left:1px solid var(--line);background:var(--panel);overflow:auto;padding:12px}
+.row{display:flex;border-bottom:1px solid var(--line);height:44px;position:relative}
+.lab{position:sticky;left:0;z-index:3;width:110px;min-width:110px;background:var(--panel);padding:6px 8px;color:var(--dim);border-right:1px solid var(--line);font-size:12px}
+.lane{position:relative;flex:none}
+.blk{position:absolute;top:6px;height:32px;border-radius:5px;padding:2px 6px;font-size:11px;white-space:nowrap;overflow:hidden;cursor:grab;color:#111;border:1px solid rgba(0,0,0,.3);user-select:none}
+.blk.sel{outline:2px solid #fff;z-index:2}.blk .h{position:absolute;right:0;top:0;bottom:0;width:7px;cursor:ew-resize;background:rgba(0,0,0,.2)}
+#ruler{height:26px;position:sticky;top:0;z-index:4;background:var(--bg);border-bottom:1px solid var(--line);display:flex}
+#ruler .lane{cursor:pointer}.tick{position:absolute;top:0;font-size:10px;color:var(--dim);border-left:1px solid var(--line);padding-left:3px;height:26px}
+#play{position:absolute;top:0;bottom:0;width:2px;background:var(--acc);z-index:5;pointer-events:none}
+#side h3{margin:4px 0 10px}#side label{display:block;color:var(--dim);margin:8px 0 3px}#side input,#side select,#side textarea{width:100%}
+#side textarea{background:#2a2c34;color:var(--text);border:1px solid #3a3d47;border-radius:6px;min-height:60px;font:inherit;padding:6px}
+.lib{max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:6px;margin-top:6px}.lib div{padding:5px 8px;border-bottom:1px solid var(--line);cursor:pointer}.lib div:hover{background:#2a2c34}
+.hint{color:var(--dim);font-size:12px;line-height:1.5}
+</style></head><body>
+<header><b>✋ __NAME__</b>
+<button onclick="undo()">↶ Undo</button>
+<label class="hint">Zoom <input type="range" id="zoom" min="2" max="30" value="8" oninput="draw()"></label>
+<button onclick="addPanel('meme')">+ Meme</button><button onclick="addPanel('sound')">+ Sound</button><button onclick="addPanel('sticker')">+ Sticker</button><button onclick="addPopup()">+ Pop text</button>
+<button onclick="resetAll()">Back to my plan</button>
+<button class="main" onclick="save()">Save → preview</button><span id="status"></span></header>
+<div id="wrap"><div id="tl"></div><div id="side"><div id="insp"></div></div></div>
+<script>
+const FPS=30;let E,hist=[],sel=null,play=0,lib=[];
+const TRACKS=[
+ ['segments','Clips',s=>`zoom ${s.zoom}${s.freeze?' · freeze':''}`,'#7fb3ff',{fixed:true,start:'outFrame'}],
+ ['captions','Captions',c=>c.words.map(w=>w.w).join(' '),'#e8e8ec',{start:'f0',end:'f1'}],
+ ['memes','Memes',m=>`${m.id||'meme'} · ${m.placement}`,'#ffcf3f',{}],
+ ['popups','Pop text',p=>p.text,'#ff8fb1',{}],
+ ['cards','Text cards',c=>c.text,'#c7a0ff',{}],
+ ['inserts','Graphics',x=>x.kind,'#8ef0c4',{}],
+ ['effects','Effects',x=>x.type,'#ff9d5c',{}],
+ ['sfx','Sounds',x=>x.src.split('/').slice(-2).join('/'),'#9be15d',{len:18}],
+ ['transitions','Transitions',x=>x.type,'#5ce1e6',{len:8}],
+ ['moves','Camera',x=>x.type,'#b0b4c0',{len:8}],
+];
+const $=s=>document.querySelector(s),pps=()=>+$('#zoom').value/ FPS*30; // pixels per frame
+const t=f=>`${Math.floor(f/FPS/60)}:${(f/FPS%60).toFixed(1).padStart(4,'0')}`;
+const span=(x,o)=>{const a=x[o.start||'f'];const b=o.end?x[o.end]:(o.fixed?a+x.frames:a+(x.frames??o.len??10));return[a,b]};
+function snap(){hist.push(JSON.stringify(E));if(hist.length>80)hist.shift();$('#status').textContent='unsaved changes'}
+function undo(){if(!hist.length)return;E=JSON.parse(hist.pop());sel=null;draw();insp()}
+async function init(){const r=await (await fetch('/api/edit')).json();E=r.edit;lib=await (await fetch('/api/library')).json();
+ $('#status').textContent=r.hand?'your saved adjustments loaded':'the plan (nothing adjusted yet)';draw();insp()}
+function draw(){const k=pps(),W=E.durationInFrames*k+40;let h=`<div id="ruler"><div class="lab">${t(E.durationInFrames)}</div><div class="lane" style="width:${W}px" onclick="seek(event)">`;
+ for(let s=0;s<=E.durationInFrames/FPS;s+=(k<5?5:1))h+=`<div class="tick" style="left:${s*FPS*k}px">${s}s</div>`;h+=`<div id="play" style="left:${play*k}px"></div></div></div>`;
+ for(const [key,lab,txt,col,o] of TRACKS){const items=E[key]||[];if(!items.length&&['transitions','moves','effects','cards','inserts'].includes(key))continue;
+  h+=`<div class="row"><div class="lab">${lab}</div><div class="lane" style="width:${W}px">`;
+  items.forEach((x,i)=>{const[a,b]=span(x,o);const s=sel&&sel[0]===key&&sel[1]===i;
+   h+=`<div class="blk${s?' sel':''}" style="left:${a*k}px;width:${Math.max(6,(b-a)*k)}px;background:${col}" onmousedown="grab(event,'${key}',${i})" title="${t(a)}">${esc(txt(x))}${o.fixed||o.len?'':'<div class="h"></div>'}</div>`});
+  h+='</div></div>'}
+ $('#tl').innerHTML=h}
+const esc=s=>String(s??'').replace(/[&<"]/g,c=>({'&':'&amp;','<':'&lt;','"':'&quot;'})[c]);
+function seek(e){play=Math.max(0,Math.round(e.offsetX/pps()));draw()}
+function grab(e,key,i){e.preventDefault();sel=[key,i];const o=TRACKS.find(x=>x[0]===key)[4],x=E[key][i],k=pps(),x0=e.clientX,resize=e.target.classList.contains('h');
+ const[a,b]=span(x,o);let moved=false;
+ const mv=ev=>{const d=Math.round((ev.clientX-x0)/k);if(!d&&!moved)return;if(!moved){snap();moved=true}if(o.fixed)return;
+  if(resize){const len=Math.max(3,b-a+d);if(o.end)x[o.end]=x[o.start]+len;else x.frames=len}
+  else{const na=Math.max(0,Math.min(E.durationInFrames-1,a+d));if(o.end){x[o.end]=na+(b-a);if(x.words){const sh=na-x[o.start];x.words.forEach(w=>{w.f0+=sh;w.f1+=sh})}x[o.start]=na}else x[o.start||'f']=na}
+  draw()};
+ const up=()=>{removeEventListener('mousemove',mv);removeEventListener('mouseup',up);draw();insp()};addEventListener('mousemove',mv);addEventListener('mouseup',up);draw();insp()}
+const PLACES=['card','half','full','zoom','corner-left','corner-right','peek-left','peek-right','drop-top'];
+function field(k,v){const id=`f_${k}`;
+ if(k==='placement')return`<label>How it shows</label><select id="${id}" onchange="setf('${k}',this.value)">${PLACES.map(p=>`<option${p===v?' selected':''}>${p}</option>`).join('')}</select>`;
+ if(typeof v==='number')return`<label>${k}${['f','frames','f0','f1','outFrame','srcFrame'].includes(k)?` <span class="hint">(${(v/FPS).toFixed(2)} s)</span>`:''}</label><input type="number" step="${Number.isInteger(v)?1:0.05}" value="${v}" onchange="setf('${k}',+this.value)">`;
+ if(typeof v==='boolean')return`<label><input type="checkbox" style="width:auto" ${v?'checked':''} onchange="setf('${k}',this.checked)"> ${k}</label>`;
+ if(typeof v==='string')return`<label>${k}</label><input value="${esc(v)}" onchange="setf('${k}',this.value)">`;return''}
+function insp(){if(!sel){$('#insp').innerHTML=`<h3>How to use</h3><p class="hint">• Drag a block to move it, drag its right edge to make it longer or shorter.<br>• Click a block to change its words, size, or how a meme shows (card / half / full / zoom).<br>• Click the time ruler to set where “+ Meme / Sound / Pop text” go.<br>• <b>Save → preview</b> updates the Studio preview (other tab) in a second. Nothing renders until you tell Claude “render”.<br>• Every save is kept; “Back to my plan” drops your changes.</p><p class="hint">Playhead: ${t(play)}</p>`;return}
+ const[key,i]=sel,x=E[key][i];let h=`<h3>${TRACKS.find(r=>r[0]===key)[1]} #${i+1}</h3>`;
+ if(key==='captions')h+=`<label>Words</label><textarea onchange="setWords(this.value)">${esc(x.words.map(w=>w.w).join(' '))}</textarea><p class="hint">Same number of words keeps the timing; *star* a word to highlight it.</p>`;
+ for(const[k,v]of Object.entries(x))if(!['words','src','visual','sound','keys','items','messages','values','beats','before','after','media','path'].includes(k))h+=field(k,v);
+ if(key!=='segments')h+=`<p style="margin-top:14px"><button onclick="dup()">Duplicate</button> <button onclick="del()">Delete</button></p>`;
+ $('#insp').innerHTML=h}
+function setf(k,v){snap();const x=E[sel[0]][sel[1]];x[k]=v;if(k==='placement'&&x.clip){}draw()}
+function setWords(s){snap();const x=E[sel[0]][sel[1]],ws=s.trim().split(/\s+/);
+ if(ws.length===x.words.length)ws.forEach((w,j)=>{x.words[j].emph=/^\*.*\*$/.test(w)||x.words[j].emph;x.words[j].w=w.replace(/^\*|\*$/g,'')});
+ else{const per=(x.f1-x.f0)/ws.length;x.words=ws.map((w,j)=>({w:w.replace(/^\*|\*$/g,''),f0:Math.round(x.f0+j*per),f1:Math.round(x.f0+(j+1)*per),emph:/^\*.*\*$/.test(w)}))}draw();insp()}
+function del(){snap();E[sel[0]].splice(sel[1],1);sel=null;draw();insp()}
+function dup(){snap();const x=structuredClone(E[sel[0]][sel[1]]);const o=TRACKS.find(r=>r[0]===sel[0])[4];x[o.start||'f']=Math.min(E.durationInFrames-10,(x[o.start||'f'])+45);if(x.words){x.f1+=45;x.words.forEach(w=>{w.f0+=45;w.f1+=45})}E[sel[0]].push(x);sel=[sel[0],E[sel[0]].length-1];draw();insp()}
+function addPopup(){snap();(E.popups=E.popups||[]).push({text:'new text',f:play,frames:45});sel=['popups',E.popups.length-1];draw();insp()}
+function addPanel(kind){sel=null;const items=lib.filter(m=>kind==='meme'?m.kind==='clip':kind==='sound'?m.kind==='sound':m.kind==='sticker');
+ $('#insp').innerHTML=`<h3>Add ${kind} at ${t(play)}</h3><input placeholder="search meaning / tag" oninput="filt(this.value)"><div class="lib" id="libl">${items.map(m=>`<div data-s="${esc((m.id+' '+(m.tags||[]).join(' ')+' '+(m.meaning||'')).toLowerCase())}" onclick="addItem('${kind}','${m.id}')"><b>${esc(m.id)}</b><br><span class="hint">${esc(m.meaning||(m.tags||[]).join(', '))}</span></div>`).join('')||'<div class="hint">Library not found: is the T7 plugged in?</div>'}</div>`}
+function filt(q){document.querySelectorAll('#libl div').forEach(d=>d.style.display=d.dataset.s?.includes(q.toLowerCase())?'':'none')}
+function addItem(kind,id){const m=lib.find(x=>x.id===id),base=`assets/library/${m.dir}/`;snap();
+ const audio=m.files.find(f=>/\.(mp3|wav|m4a)$/.test(f)),pic=m.files.find(f=>/^clip\.mp4$/.test(f))||m.files.find(f=>/\.(png|webp|gif|mp4|webm)$/.test(f)&&!/poster|full/.test(f));
+ if(kind==='sound'){(E.sfx=E.sfx||[]).push({src:base+audio,f:play,volume:0.8});sel=['sfx',E.sfx.length-1]}
+ else{(E.memes=E.memes||[]).push({f:play,frames:Math.round((m.seconds||2)*FPS),sound:audio?base+audio:null,visual:pic?base+pic:null,isVideo:/\.(mp4|webm)$/.test(pic||''),volume:0.9,sticker:kind==='sticker',placement:kind==='sticker'?'corner-right':(m.show||'card'),id:m.id,...(kind==='meme'?{clip:true,w:m.w,h:m.h}:{})});sel=['memes',E.memes.length-1]}
+ draw();insp()}
+async function save(){$('#status').textContent='saving…';await fetch('/api/edit',{method:'POST',body:JSON.stringify(E)});$('#status').textContent='saved ✓ preview updating'}
+async function resetAll(){if(!confirm('Drop your adjustments and go back to the plan? (a copy is kept)'))return;await fetch('/api/reset',{method:'POST'});hist=[];sel=null;init()}
+addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;if((e.metaKey||e.ctrlKey)&&e.key==='z'){e.preventDefault();undo()}if((e.key==='Backspace'||e.key==='Delete')&&sel&&sel[0]!=='segments')del();if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();save()}});
+init();
+</script></body></html>

@@ -274,6 +274,14 @@ for (const x of edit.inserts ?? []) {
     delete m.file;
   }
 }
+// His own adjustments from the timeline editor (npm run editor -- <name>) win over the plan: _work/<name>/edited.json.
+const handFile = path.join(work, 'edited.json');
+if (fs.existsSync(handFile) && !flag('--ignore-hand')) {
+  const hand = readJson(handFile);
+  for (const k of ['captions', 'memes', 'popups', 'sfx', 'cards', 'inserts', 'effects', 'transitions', 'moves', 'layouts', 'captionMoves', 'attach', 'banner', 'hookText', 'segments', 'durationInFrames'])
+    if (k in hand) edit[k] = hand[k];
+  console.log('  ✋ his timeline-editor adjustments applied (edited.json; --ignore-hand to skip)');
+}
 fs.mkdirSync('src/edits', {recursive: true});
 writeJson(`src/edits/${name}.json`, edit);
 writeJson('src/edits/latest.json', edit);
