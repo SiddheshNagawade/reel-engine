@@ -70,6 +70,10 @@ minute). Reach across the whole toolbox, not only text:
 - **Missing?** Anything still not in that list: BUILD it as a reusable layer (CLAUDE.md "Freedom to create": component +
   data field + brain/skills.md row + a line in scripts/lib/techniques.mjs). "We don't have it" is never the reason to
   leave a beat empty.
+- **Meme card** (classic captioned template for a choice/comparison/irony beat): `node scripts/memecard.mjs suggest
+  "<moment>"`, then render it into the Library. His current Indian memes (asset requests) come first.
+- **Screens on camera** (phone, laptop, screen recording): reel `direction.blurSecrets: true`; vlog `scripts/secrets.py`
+  on the piece → `censor`. Never publish a number, email, UPI ID, OTP or key.
 - **Needs an asset the Library lacks** (an expression meme, a reaction GIF, a logo, a photo) → it goes in the Asset
   requests table (pass 9), with the beat it's for.
 
@@ -96,6 +100,8 @@ He is happy to Google memes and pictures for you; that's how the Library grows. 
   the CHANGELOG.
 - Viewer check: watch it at 1x like a stranger; stills (ffmpeg frame grabs) at the hook, every graphic, every layout
   change, the ending. Write what you found under pass 10.
+- Cover / thumbnail: `.venv/bin/python scripts/heroframe.py <final.mp4> <output dir>` picks the best frames (sharp,
+  eyes open); YouTube uploads render with `--yt4k`.
 
 ## Step 6: tell him, then learn
 Brief and plain: what you made, why (one line per big choice), what's waiting on him. After his feedback: v2 = a new

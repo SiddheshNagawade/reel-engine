@@ -63,6 +63,7 @@ export type Insert = InsertBase & (
   | {kind: 'cursor'; label: string; doneLabel?: string; color?: string; doneColor?: string; x?: number; y?: number; clickAt?: number}
   | {kind: 'connector'; from: [number, number]; to: [number, number]; curve?: number; dotted?: boolean; color?: string; label?: string}
   | {kind: 'burst'; x?: number; y?: number; color?: string}
+  | {kind: 'blur'; keys: [number, number, number, number, number][]} // [frame from start, x, y, w, h] (fractions, top-left)
   | {kind: 'plane'; media: MediaRef; tilt?: number; x?: number; y?: number; w?: number; scroll?: number}
   | {kind: 'push'; text?: string; media?: MediaRef; color?: string}
   | {kind: 'scatter'; text: string; accentWord?: string; accent?: string; color?: string; size?: number; y?: number; settleAt?: number}

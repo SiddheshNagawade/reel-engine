@@ -20,6 +20,7 @@ export const TECHNIQUES = [
   {id: 'visual-beats', pass: 'story', kinds: ALL, name: 'Visual-first beats', when: 'every beat has a "we see" line (shot, screen, number, graphic); feelings shown as actions; subtext over stated lessons', how: 'content-brief.md §10 → seeds the visuals pass', src: 'scriptwriter skill (adapted)', built: true},
   {id: 'story-spine', pass: 'story', kinds: [V], name: '3-act spine, ~9 beats on real clips', when: 'vlogs / long-form: inciting event 10–15 %, midpoint ~50 %, low point, climax, new normal; chapters on act turns', how: 'content-brief.md §10', src: 'scriptwriter skill (adapted)', built: true},
   {id: 'series-continuity', pass: 'story', kinds: [R], name: 'Series continuity', when: 'two-part / series episodes: part 1 ends on the moment it broke, part 2 pays it in 10 s; same running-number phrasing; stranger rule', how: 'content-brief.md §5 + §10, series log in the planner', src: 'content-brief.md + scriptwriter skill', built: true},
+  {id: 'secrets', pass: 'story', kinds: ALL, name: 'Private info on screens blurred', when: 'a phone/laptop/screen recording is visible: numbers, emails, UPI IDs, OTPs, keys, addresses', how: 'reel: direction.blurSecrets (auto sweep) / blurs · vlog: scripts/secrets.py on the piece → censor', src: 'AI-editing blueprint (Jason Cooperson)', built: true},
   {id: 'ending', pass: 'story', kinds: ALL, name: 'Ending: loop or hard cut on the payoff, never a fade', when: 'loop the last line into the first, or cut on the payoff; a question people want to answer in comments', how: 'last segment / last line', src: 'preferences.md', built: true},
   {id: 'honesty', pass: 'story', kinds: ALL, name: 'Honest claims', when: 'clickbait only as far as the video delivers; references (Pinterest) said out loud; never name an unverified person', how: 'hook text, VO, name tags from people.json', src: 'preferences.md', built: true},
 
@@ -33,6 +34,7 @@ export const TECHNIQUES = [
   {id: 'smash-cut', pass: 'cuts', kinds: [R, V], name: 'Smash cut', when: 'punchline: loud/busy → instant silence and stillness', how: 'vlog: "smash": s · reel: direction.beats', src: 'craft.md', built: true},
   {id: 'cross-cut', pass: 'cuts', kinds: [V], name: 'Cross-cutting', when: 'two things happening at once, or expectation vs reality', how: 'interleave segments', src: 'craft.md', built: true},
   {id: 'dissolve', pass: 'cuts', kinds: [V, P], name: 'Dissolve / dip to white', when: 'only for time passing or memory, only where the picture really changes', how: '"transition": {type: dissolve|white|black, d}', src: 'craft.md', built: true},
+  {id: 'cut-audit', pass: 'cuts', kinds: [R], name: 'No clipped words at cuts', when: 'every plan run measures 25 ms around each cut; a flagged cut gets a wider gap or keeps the word', how: 'automatic (cut-audit.json) → editplan check', src: 'AI-editing blueprint (Jason Cooperson)', built: true},
   {id: 'readable-pace', pass: 'cuts', kinds: ALL, name: 'Readable pace (shots ≳ 1 s)', when: 'always: 0.45 s cuts confused him; energy comes from zoom, slam, sound', how: 'checked automatically', src: 'preferences.md', built: true},
 
   // ── captions & hero words ──
@@ -51,6 +53,7 @@ export const TECHNIQUES = [
   {id: 'before-after', pass: 'visuals', kinds: [R, P], name: 'Before/after circle reveal', when: 'sketch → final, old → new', how: 'reel: direction.reveals (CircleReveal)', src: 'motion-design.md', built: true},
   {id: 'card-stage', pass: 'visuals', kinds: [R], name: 'Clips as cards on a stage (row, grid, stack, focus)', when: 'several clips/stages/options at once', how: 'direction.stages (CardStage)', src: 'motion-design.md', built: true},
   {id: 'ui-mockup', pass: 'visuals', kinds: [R, V], name: 'UI mockups: chat, notifications, button + cursor', when: 'messages, DMs, apps, websites, "they texted me"', how: 'reel: direction.ui [{kind: chat|notify|cursor}] · vlog: gfx {type: "insert", kind: chat|notify|cursor}', src: 'expensive.md', built: true},
+  {id: 'meme-card', pass: 'visuals', kinds: [R, V], name: 'Meme card (captioned classic template)', when: 'a choice / comparison / irony beat in his story (Drake, Two Buttons, This Is Fine…); his current Indian memes come first; ~1 per video', how: 'node scripts/memecard.mjs suggest|<template> → Library sticker.svg → attach image / gfx sticker', src: 'meme-maker skill', built: true},
   {id: 'text-card', pass: 'visuals', kinds: [R], name: 'Text card: typewriter / wave / slam', when: 'one key line deserves its own moment (1–2 per reel)', how: 'direction.cards', src: 'expensive.md', built: true},
   {id: 'vlog-cast', pass: 'visuals', kinds: [V], name: 'Hero intros, name tags, hanging photos, map, stamps', when: 'a friends trip: who is who, where, when', how: 'gfx hero / tag / hang / map / stamp', src: 'vlog.md', built: true},
   {id: 'real-numbers', pass: 'visuals', kinds: [R, V], name: 'Real numbers on screen', when: 'scores, counts, prices that really exist in the footage or his words', how: 'counter / pop', src: 'preferences.md', built: true},
@@ -98,6 +101,9 @@ export const TECHNIQUES = [
   {id: 'title-card', pass: 'visuals', kinds: [R], name: 'Title card: serif caps + glowing script word', when: 'a chapter or the big idea gets a premium title moment', how: 'direction.cards mode "title" + accentWord', src: 'expensive.md', built: true},
   {id: 'activity', pass: 'story', kinds: [P, V], name: 'Find active vs idle stretches in hours of footage', when: 'long drawing / making-of recordings before choosing moments', how: 'cutfinder.py activity <clip>', src: 'process-videos.md', built: true},
   {id: 'voice-final', pass: 'story', kinds: [P], name: 'Final stage: his VO + captions, hook, sound, graphics', when: 'after he records the VO: picture stays, layers go on top', how: 'timeline "voice" → npm run reel -- <output> with direction.keepTimeline', src: 'process-videos.md', built: true},
+
+  {id: 'cover', pass: 'viewer', kinds: ALL, name: 'Cover / thumbnail from the best frame', when: 'every post: sharp, eyes open, expressive; check the 4:5 grid crop', how: '.venv/bin/python scripts/heroframe.py <video> <dir> (+ herocut.py for a thumbnail cut-out)', src: 'AI-editing blueprint (Jason Cooperson)', built: true},
+  {id: 'yt4k', pass: 'viewer', kinds: [V], name: 'YouTube upload in 4K', when: 'every YouTube upload: 4K gets YouTube\'s better codec, cleaner even from 1080p', how: 'node scripts/vlog.mjs <name> --yt4k', src: 'AI-editing blueprint (Jason Cooperson)', built: true},
 
   // ── density ──
   {id: 'density', pass: 'density', kinds: ALL, name: 'Something new every 2–3 s; one idea at a time', when: 'walk the timeline; fill boring stretches, thin overloaded ones', how: 'node scripts/editplan.mjs <name> check', src: 'preferences.md', built: true},

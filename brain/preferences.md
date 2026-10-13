@@ -203,3 +203,15 @@ Newest at the bottom. Every rule here overrides defaults. Add to this file after
   lives in scripts/lib/techniques.mjs → a checklist in every plan.md (mark used / not used with a reason) +
   brain/coverage.md (66 techniques: 65 built, 1 parked on purpose: subject separation, because he chose the v1 look).
   Rule for the future: a new lesson from him = a line in techniques.mjs (+ a lint rule if a computer can check it).
+
+## Learned 2026-10-14 (ready-made skills he collects)
+- He brings ready-made skills/pages other people made ("so that you can use it"). My job: read each fully, keep what
+  makes HIS videos better, adapt it into brain/ + techniques.mjs (so every new chat uses it), and say plainly what I
+  skipped and why. Never install something that would hijack the edit route.
+- scriptwriter-skill (fiction series, Chinese screenplay format): adapted → brain/content-brief.md §10 + write-script skill.
+- meme-maker (20 classic templates): integrated as meme cards (scripts/memecard.mjs); his current Indian memes first.
+- video-editing skill (generic FFmpeg/Remotion/ElevenLabs pipeline, Downloads): NOT installed. ReelEngine already does it
+  in more depth; it pushes AI voiceovers and CapCut hand-finishing, and would take over "edit the video".
+- Jason Cooperson's "Claude Video Editor" blueprint: adopted the parts that beat ours: cut audit (no clipped words),
+  two-pass loudness (no pumping), secrets sweep (blur private info on screens), hero-frame cover picker, YouTube 4K
+  upload. The rest is Premiere/Resolve/CapCut plumbing he doesn't need.

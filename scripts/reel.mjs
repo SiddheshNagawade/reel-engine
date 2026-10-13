@@ -22,6 +22,7 @@ import {requirePlan} from './lib/editplan.mjs';
 import os from 'node:os';
 import {renderEdit} from './render.mjs';
 import {writeRenderedFcpxml} from './lib/fcpxml.mjs';
+import {auditCuts} from './lib/cutaudit.mjs';
 
 const FPS = 30;
 const GAP = 1.0; // virtual silence between clips, so every clip boundary is a clean cut
@@ -191,7 +192,28 @@ const frames = await analyzeFrames(selects, provisional.durationInFrames / FPS);
 const theme = pickTheme({topic: direction.topic, pace: direction.pace, frames, override: {...style.theme, ...direction.themeOverride}});
 console.log(`  topic ${theme.topic} (${theme.pace}) → ${theme.captionStyle} captions, accent ${theme.accent}, transitions: ${theme.transitions.join('/')}`);
 
+// Secrets sweep (opt-in for videos with screens on camera): private text on screens gets blurred boxes.
+if (direction.blurSecrets) {
+  const sf = path.join(work, `secrets-${segKey.slice(0, 8)}.json`);
+  if (!fs.existsSync(sf)) {
+    step('Looking for private text on screens (secrets sweep)…');
+    const r = spawnSync('.venv/bin/python', ['scripts/secrets.py', selects, '--fps', '2', '--out', sf], {stdio: ['ignore', 'inherit', 'pipe']});
+    if (r.status !== 0) console.log(`  (secrets sweep failed: ${String(r.stderr).slice(-200)})`);
+  }
+  if (fs.existsSync(sf)) direction.blurs = [...(direction.blurs ?? []), ...readJson(sf)];
+}
 const {stats, wordFrames, ...edit} = plan(theme);
+
+// Cut audit: every cut measured on the audio. A cut on sound = a clipped word start/tail (fix: widen the gap in
+// removeRanges or let the word stay). Saved for the plan's automatic checks.
+{
+  const audit = auditCuts(selects, edit.segments, FPS, edit.captions.flatMap((g) => g.words));
+  writeJson(path.join(work, 'cut-audit.json'), audit);
+  if (audit.flagged.length) {
+    console.log(`  ⚠️ ${audit.flagged.length} of ${audit.cuts} cuts land on sound:`);
+    for (const c of audit.flagged) console.log(`     ${c.t}s (f${c.frame}) ${c.what}${c.near ? `: "${c.near}"` : ''}`);
+  } else console.log(`  cut audit: all ${audit.cuts} cuts land in pauses ✓`);
+}
 edit.styleOverride = direction.styleOverride ?? null;
 const virtSegs = edit.segments.map((s) => ({...s})); // positions in the ORIGINAL recordings (for Final Cut)
 edit.segments = edit.segments.map((s) => ({...s, srcFrame: s.outFrame}));

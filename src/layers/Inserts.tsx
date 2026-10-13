@@ -292,6 +292,21 @@ const Push: React.FC<{x: Extract<Insert, {kind: 'push'}>; t: number}> = ({x, t})
   );
 };
 
+// ── blur over a private thing on a screen (scripts/secrets.py boxes, followed between samples) ─────────────────────
+const Blur: React.FC<{x: Extract<Insert, {kind: 'blur'}>; t: number}> = ({x, t}) => {
+  const {width: W, height: H} = useVideoConfig();
+  const ks = x.keys;
+  let i = ks.findIndex((k) => k[0] > t);
+  if (i === -1) i = ks.length;
+  const a = ks[Math.max(0, i - 1)], b = ks[Math.min(ks.length - 1, i)];
+  const p = b[0] > a[0] ? Math.min(1, Math.max(0, (t - a[0]) / (b[0] - a[0]))) : 0;
+  const v = (j: number) => a[j] + (b[j] - a[j]) * p;
+  return (
+    <div style={{position: 'absolute', left: v(1) * W, top: v(2) * H, width: v(3) * W, height: v(4) * H, borderRadius: 12,
+      backdropFilter: 'blur(22px) saturate(0.6)', WebkitBackdropFilter: 'blur(22px) saturate(0.6)', background: 'rgba(30,30,30,0.25)'}} />
+  );
+};
+
 const Overlay: React.FC<{x: Insert; t: number}> = ({x, t}) => {
   const {width: W, height: H} = useVideoConfig();
   switch (x.kind) {
@@ -302,6 +317,7 @@ const Overlay: React.FC<{x: Insert; t: number}> = ({x, t}) => {
     case 'burst': return <Burst x={x} t={t} />;
     case 'scatter': return <Scatter x={x} t={t} />;
     case 'plane': return <Plane x={x} t={t} />;
+    case 'blur': return <Blur x={x} t={t} />;
     case 'push': return <Push x={x} t={t} />;
     case 'counter': return <CounterCard x={x} t={t} />;
     default: return null;

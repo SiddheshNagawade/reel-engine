@@ -45,6 +45,12 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 | Process final stage | timeline `"voice"` + `npm run reel -- <output.mp4>` with direction `keepTimeline` | after he records the VO of a drawing video | before the picture is locked |
 | Active/idle finder | `cutfinder.py activity <clip> [--min 20]` | hours of drawing footage | n/a |
 | Script / story writing | `write-script` skill → brain/content-brief.md (5 beats for reels, §10: visual-first beats, 3-act spine for vlogs, two-part series continuity) | before he records; story lock of every edit | inventing facts he didn't report |
+| Meme cards | `node scripts/memecard.mjs suggest "<moment>"` → `node scripts/memecard.mjs <template> --text … --id … --tags …` (meme-maker skill, 20 classic templates; image cache on the T7) → Library sticker.svg | a choice / comparison / irony beat in his story | instead of his current Indian memes; more than ~1 per video |
+| Two-pass loudness (automatic) | scripts/lib/media.mjs `measuredLoudnorm`: measure once, one steady gain (reels -14, VO -14, vlog natural sound -16 LUFS) | always (no pumping in pauses) | n/a |
+| Cut audit (automatic) | every reel plan: 25 ms each side of every cut vs his voice level → `_work/<name>/cut-audit.json`, shown by `editplan check` | a flagged cut = widen the gap in removeRanges or keep the word | n/a |
+| Secrets sweep | `.venv/bin/python scripts/secrets.py <video> [--from --to --rotate] --out f.json` (Apple Vision OCR: emails, UPI, phones, OTPs, cards, Aadhaar, keys, + never.txt) · reel `direction.blurSecrets: true` (auto) or `blurs` · vlog: run on the rendered piece → segment `censor` | any screen visible on camera, screen recordings | n/a |
+| Hero frame (cover / thumbnail) | `.venv/bin/python scripts/heroframe.py <video> <dir> [--n 4]` → hero-1.jpg… (sharp, eyes open, expression; blinks and blur never picked) | every post's cover; YouTube thumbnail base (+ herocut.py) | n/a |
+| YouTube 4K upload | `node scripts/vlog.mjs <name> --yt4k` (3840×2160, 50 Mbps) | every YouTube upload | reels (Instagram is 1080×1920 anyway) |
 | Final Cut project export | output/<reel>/<reel>-vN.fcpxml | by default, so he can tweak cuts in FCP | n/a |
 
 ## Legibility & framing checklist (learned from v2)

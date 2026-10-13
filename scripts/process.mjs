@@ -39,6 +39,7 @@ import {spawnSync} from 'node:child_process';
 import ffmpegPath from 'ffmpeg-static';
 import {outputRoot, workRoot} from './lib/paths.mjs';
 import {syncToDrive} from './lib/sync.mjs';
+import {measuredLoudnorm} from './lib/media.mjs';
 import {requirePlan} from './lib/editplan.mjs';
 syncToDrive(); // work made on the Mac while the T7 was unplugged → drive
 
@@ -242,8 +243,10 @@ try {
   const vo = tl.voice?.file ? [tl.voice.file, path.join(work, tl.voice.file)].find((f) => fs.existsSync(f)) : null;
   if (tl.voice?.file && !vo) console.log(`  ⚠️ voice-over not found: ${tl.voice.file}`);
   const vi = cards.length + 1;
+  // measured once, applied as one steady gain (no pumping between his sentences)
+  const voLevel = vo ? await measuredLoudnorm(vo, 'highpass=f=80,afftdn=nf=-25', {extra: ['-ss', String(tl.voice.trim ?? 0)]}) : '';
   const audio = vo
-    ? `[${vi}:a]atrim=start=${tl.voice.trim ?? 0},asetpts=PTS-STARTPTS,highpass=f=80,afftdn=nf=-25,loudnorm=I=-14:TP=-1.5:LRA=11,volume=${tl.voice.volume ?? 1},` +
+    ? `[${vi}:a]atrim=start=${tl.voice.trim ?? 0},asetpts=PTS-STARTPTS,${voLevel},volume=${tl.voice.volume ?? 1},` +
       `adelay=${Math.round((tl.voice.offset ?? 0) * 1000)}:all=1,apad,asplit=2[vo][vokey];[0:a][vokey]sidechaincompress=threshold=0.02:ratio=10:attack=20:release=400[nat];` +
       `[nat][vo]amix=inputs=2:normalize=0:duration=first[a]`
     : '[0:a]anull[a]';

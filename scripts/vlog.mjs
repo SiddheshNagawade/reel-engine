@@ -2,7 +2,7 @@
 // subtitles and motion graphics. The edit lives in _work/<name>/vlog.json (Claude writes it after watching contact
 // sheets + transcripts). Playbook: brain/vlog.md.
 //
-//   node scripts/vlog.mjs <name> [--note "- what changed"] [--only id1,id2 --preview]   (preview = low-res, stills check)
+//   node scripts/vlog.mjs <name> [--note "- what changed"] [--only id1,id2 --preview] [--yt4k]   (preview = low-res, stills check; yt4k = 4K upload file)
 //
 // vlog.json
 // {
@@ -43,7 +43,7 @@ import {spawnSync} from 'node:child_process';
 import crypto from 'node:crypto';
 import ffmpegPath from 'ffmpeg-static';
 import {outputRoot, workRoot, libraryRoot} from './lib/paths.mjs';
-import {TONEMAP} from './lib/media.mjs';
+import {TONEMAP, measuredLoudnorm} from './lib/media.mjs';
 import {requirePlan} from './lib/editplan.mjs';
 import {expandSegments} from './lib/vlog-cuts.mjs';
 
@@ -392,9 +392,12 @@ try {
       env.push(`if(between(t,${b.toFixed(3)},${(b + d).toFixed(3)}),(t-${b.toFixed(3)})/${d},1)`);
     }
   });
+  // the natural sound is measured once and levelled with one steady gain (no pumping in quiet stretches)
+  const NAT_PRE = 'highpass=f=70,acompressor=threshold=-20dB:ratio=3:attack=5:release=120';
+  const natLevel = (await measuredLoudnorm(joined, NAT_PRE, {I: -16, TP: -2, LRA: 9})).slice(NAT_PRE.length + 1);
   const envExpr = env.length ? `volume=eval=frame:volume='${env.join('*')}',` : '';
   chains.push(`[0:a]${envExpr}anull[n0]`);
-  chains.push(`[n0]${jl.join('')}${jl.length ? `amix=inputs=${jl.length + 1}:normalize=0:duration=first,` : ''}highpass=f=70,acompressor=threshold=-20dB:ratio=3:attack=5:release=120,loudnorm=I=-16:TP=-2:LRA=9,asplit=2[nat][key]`);
+  chains.push(`[n0]${jl.join('')}${jl.length ? `amix=inputs=${jl.length + 1}:normalize=0:duration=first,` : ''}${NAT_PRE},${natLevel},asplit=2[nat][key]`);
   const mixes = ['[nat]'];
   for (const [j, m] of (V.music ?? []).entries()) {
     const file = path.join(libraryRoot(), '..', m.file.startsWith('Library') ? m.file : path.join('Library', m.file));
@@ -466,8 +469,15 @@ try {
   // of a 21-min render (4 h frozen, no error). Audio alone is fast; then the video pass just muxes the finished mix.
   const mix = path.join(tmp, 'mix.wav');
   ff([...aIn, '-filter_complex', chains.join(';'), '-map', '[aout]', '-c:a', 'pcm_s16le', '-ar', '48000', '-t', clock.toFixed(3), mix]);
+  // --yt4k: the upload is upscaled to 3840×2160 at 50 Mbps. YouTube gives 4K uploads its better codec (VP9/AV1) and
+  // much more bitrate, so even 1080p footage looks visibly cleaner after YouTube's compression (from the AI-editing
+  // blueprint he shared). Reels stay 1080×1920 (Instagram recompresses everything to that anyway).
+  const YT4K = args.includes('--yt4k') && !PREVIEW;
+  if (YT4K) look.push('scale=3840:2160:flags=lanczos');
+  const encFinal = YT4K ? ['-c:v', 'h264_videotoolbox', '-b:v', '50M', '-maxrate', '60M', '-profile:v', 'high', '-allow_sw', '1', '-pix_fmt', 'yuv420p', '-r', String(FPS),
+    '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv'] : ENC_V;
   ff(['-i', joined, '-i', mix, '-filter_complex', `[0:v]${look.length ? look.join(',') : 'null'}[vout]`,
-    '-map', '[vout]', '-map', '1:a', ...ENC_V, '-c:a', 'aac', '-b:a', '256k', '-ar', '48000', '-movflags', '+faststart', '-t', clock.toFixed(3), final]);
+    '-map', '[vout]', '-map', '1:a', ...encFinal, '-c:a', 'aac', '-b:a', '256k', '-ar', '48000', '-movflags', '+faststart', '-t', clock.toFixed(3), final]);
   console.log(`\n✅ ${final} (${(clock / 60).toFixed(2)} min)`);
   if (!PREVIEW) {
     const note = opt('--note', V.changeNote ?? '');

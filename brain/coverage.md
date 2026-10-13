@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-69 techniques · 68 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
+74 techniques · 73 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -18,6 +18,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | story | Visual-first beats | reel, vlog, process | ✅ | content-brief.md §10 → seeds the visuals pass | scriptwriter skill (adapted) |
 | story | 3-act spine, ~9 beats on real clips | vlog | ✅ | content-brief.md §10 | scriptwriter skill (adapted) |
 | story | Series continuity | reel | ✅ | content-brief.md §5 + §10, series log in the planner | content-brief.md + scriptwriter skill |
+| story | Private info on screens blurred | reel, vlog, process | ✅ | reel: direction.blurSecrets (auto sweep) / blurs · vlog: scripts/secrets.py on the piece → censor | AI-editing blueprint (Jason Cooperson) |
 | story | Ending: loop or hard cut on the payoff, never a fade | reel, vlog, process | ✅ | last segment / last line | preferences.md |
 | story | Honest claims | reel, vlog, process | ✅ | hook text, VO, name tags from people.json | preferences.md |
 | story | Find active vs idle stretches in hours of footage | process, vlog | ✅ | cutfinder.py activity <clip> | process-videos.md |
@@ -31,6 +32,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | cuts | Smash cut | reel, vlog | ✅ | vlog: "smash": s · reel: direction.beats | craft.md |
 | cuts | Cross-cutting | vlog | ✅ | interleave segments | craft.md |
 | cuts | Dissolve / dip to white | vlog, process | ✅ | "transition": {type: dissolve/white/black, d} | craft.md |
+| cuts | No clipped words at cuts | reel | ✅ | automatic (cut-audit.json) → editplan check | AI-editing blueprint (Jason Cooperson) |
 | cuts | Readable pace (shots ≳ 1 s) | reel, vlog, process | ✅ | checked automatically | preferences.md |
 | captions | Caption look for this video | reel, vlog | ✅ | theme.captionStyle · vlog subs + word times | preferences.md |
 | captions | Hero words exaggerated | reel, vlog | ✅ | direction.emphasis · *word* in subs | edit-layers.md |
@@ -45,6 +47,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | visuals | Before/after circle reveal | reel, process | ✅ | reel: direction.reveals (CircleReveal) | motion-design.md |
 | visuals | Clips as cards on a stage (row, grid, stack, focus) | reel | ✅ | direction.stages (CardStage) | motion-design.md |
 | visuals | UI mockups: chat, notifications, button + cursor | reel, vlog | ✅ | reel: direction.ui [{kind: chat/notify/cursor}] · vlog: gfx {type: "insert", kind: chat/notify/cursor} | expensive.md |
+| visuals | Meme card (captioned classic template) | reel, vlog | ✅ | node scripts/memecard.mjs suggest/<template> → Library sticker.svg → attach image / gfx sticker | meme-maker skill |
 | visuals | Text card: typewriter / wave / slam | reel | ✅ | direction.cards | expensive.md |
 | visuals | Hero intros, name tags, hanging photos, map, stamps | vlog | ✅ | gfx hero / tag / hang / map / stamp | vlog.md |
 | visuals | Real numbers on screen | reel, vlog | ✅ | counter / pop | preferences.md |
@@ -77,3 +80,5 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | sound | Music in beat-synced sections, out under conversations | vlog | ✅ | vlog music runs | vlog.md |
 | sound | Tension / riser under a build-up | reel, vlog | ✅ | sfx tension-*, riser → impact | preferences.md |
 | density | Something new every 2–3 s; one idea at a time | reel, vlog, process | ✅ | node scripts/editplan.mjs <name> check | preferences.md |
+| viewer | Cover / thumbnail from the best frame | reel, vlog, process | ✅ | .venv/bin/python scripts/heroframe.py <video> <dir> (+ herocut.py for a thumbnail cut-out) | AI-editing blueprint (Jason Cooperson) |
+| viewer | YouTube upload in 4K | vlog | ✅ | node scripts/vlog.mjs <name> --yt4k | AI-editing blueprint (Jason Cooperson) |

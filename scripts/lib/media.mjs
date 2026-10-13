@@ -25,13 +25,29 @@ export async function probe(file) {
   };
 }
 
+// Loudness in two passes: measure the whole file first, then apply ONE steady gain (linear). Single-pass loudnorm
+// adjusts as it goes and "breathes" in the pauses (a pumping voice); that's the trap the AI-editing blueprint he shared
+// warned about. Returns the loudnorm filter to use (falls back to single-pass if the measure fails).
+export async function measuredLoudnorm(input, pre, {I = -14, TP = -1.5, LRA = 11, extra = []} = {}) {
+  const chain = `${pre ? `${pre},` : ''}loudnorm=I=${I}:TP=${TP}:LRA=${LRA}`;
+  try {
+    const err = await ffmpeg(['-hide_banner', ...extra, '-i', input, '-vn', '-af', `${chain}:print_format=json`, '-f', 'null', '-']);
+    const m = JSON.parse(err.slice(err.lastIndexOf('{'), err.lastIndexOf('}') + 1));
+    if (!isFinite(+m.input_i)) return chain;
+    return `${chain}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true`;
+  } catch {
+    return chain;
+  }
+}
+
 // Voice chain: cleaned + loudness-normalised (-14 LUFS, the reels standard) for his phone recordings.
 // Already-mastered audio (podcasts, other creators' footage) must NOT be processed: the denoiser makes voices sound
 // artificial. Set REEL_VOICE_AF=anull for those (or any other ffmpeg audio filter).
-const VOICE_AF = process.env.REEL_VOICE_AF || 'highpass=f=80,afftdn=nf=-25,loudnorm=I=-14:TP=-1.5:LRA=11';
+const VOICE_PRE = 'highpass=f=80,afftdn=nf=-25';
 
-// Constant 30fps H.264, sized to cover 1080x1920, voice chain applied (see VOICE_AF).
+// Constant 30fps H.264, sized to cover 1080x1920, voice chain applied (VOICE_PRE + measured loudness).
 export async function normalize(input, output) {
+  const VOICE_AF = process.env.REEL_VOICE_AF || (await measuredLoudnorm(input, VOICE_PRE));
   await ffmpeg([
     '-y', '-i', input,
     '-vf', "fps=30,scale='if(gt(a,9/16),-2,1080)':'if(gt(a,9/16),1920,-2)':flags=lanczos,format=yuv420p",
@@ -104,6 +120,8 @@ export async function joinPieces(pieces, out, workDir) {
   fs.writeFileSync(list, pieces.map((p) => `file '${p.replace(/'/g, "'\\''")}'`).join('\n'));
   const raw = `${workDir}/joined.mov`;
   await ffmpeg(['-y', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', raw]);
+  // the whole cut is measured once, then levelled with one steady gain (REEL_VOICE_AF overrides, e.g. anull)
+  const VOICE_AF = process.env.REEL_VOICE_AF || (await measuredLoudnorm(raw, VOICE_PRE));
   await ffmpeg([
     '-y', '-i', raw, '-c:v', 'copy',
     '-af', VOICE_AF,

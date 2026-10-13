@@ -286,6 +286,15 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else if (kind === 'cursor') put('cursor', rest, 2, {clickAt: sec(clickAt)});
   }
   for (const x of direction?.connectors ?? []) put('connector', x, 1.8);
+  // blurs: private things on screens. Tracks from scripts/secrets.py run on the cut (selects.mp4): key times are
+  // seconds on the output timeline. reel.mjs fills direction.blurs itself when direction.blurSecrets is on.
+  for (const tr of direction?.blurs ?? []) {
+    const ks = tr.keys ?? [];
+    if (!ks.length) continue;
+    const f = Math.round(ks[0][0] * fps);
+    const frames = Math.max(2, Math.round((ks[ks.length - 1][0] - ks[0][0]) * fps) + 1);
+    inserts.push({kind: 'blur', f, frames, keys: ks.map(([t, ...b]) => [Math.round(t * fps) - f, ...b]), silent: true});
+  }
   for (const x of direction?.planes ?? []) { const m = media(x.media); if (m) put('plane', x, 3, {media: m}); }
   for (const x of direction?.pushes ?? []) put('push', x, 0.8, x.media ? {media: media(x.media)} : {});
   for (const x of direction?.bursts ?? []) put('burst', x, 0.5);

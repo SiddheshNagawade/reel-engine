@@ -126,6 +126,9 @@ function lintReel(direction, style, work) {
   if ((direction.cards ?? []).length > 2) warnings.push(`${direction.cards.length} text cards: 1–2 per reel, they stop the story`);
   const memes = [...(direction.memes ?? [])].sort((a, b) => a.at - b.at);
   for (let i = 1; i < memes.length; i++) if (memes[i].id && memes[i].id === memes[i - 1].id) errors.push(`meme ${memes[i].id} twice in a row`);
+  // cuts that land on sound (scripts/lib/cutaudit.mjs, written by the last plan run)
+  const audit = read(path.join(work, 'cut-audit.json'));
+  for (const c of audit?.flagged ?? []) warnings.push(`cut at ${c.t}s: ${c.what}${c.near ? ` ("${c.near}")` : ''}. Widen the gap in removeRanges or keep the word`);
   const visuals = ['attach', 'memes', 'cards', 'counters', 'reveals', 'stages', 'ui', 'connectors', 'layouts', 'broll'].reduce((n, k) => n + (direction[k]?.length ?? 0), 0);
   if (visuals < 3) warnings.push(`only ${visuals} visual elements in direction.json: captions alone are not editing`);
   return {errors, warnings};
