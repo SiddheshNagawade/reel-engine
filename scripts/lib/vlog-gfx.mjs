@@ -52,6 +52,11 @@ export async function renderGfx(items, {W, H, FPS, preview, photoPath, work}) {
         ...(g.type === 'insert' ? Object.fromEntries(['media', 'before', 'after'].filter((k) => g[k]?.file).map((k) => [k, {...g[k], file: undefined,
           src: link([g[k].file, path.join(work, g[k].file), path.join(libraryRoot(), g[k].file)].find((p) => fs.existsSync(p)) ?? g[k].file),
           video: g[k].video ?? /\.(mp4|mov|m4v|webm)$/i.test(g[k].file)}])) : {}),
+        // a video meme (Library/clips/<id>): its punch clip + size, so the meme layer can frame it
+        ...(g.type === 'meme' && g.clip ? (() => {
+          const cat = JSON.parse(fs.readFileSync(path.join(libraryRoot(), 'catalog.json'), 'utf8')).memes.find((m) => m.id === g.clip) ?? {};
+          return {src: link(path.join(libraryRoot(), 'clips', g.clip, 'clip.mp4'), `${g.clip}.mp4`), w: cat.w, h: cat.h, show: g.show ?? cat.show ?? 'card', dur: g.dur ?? cat.seconds ?? 2};
+        })() : {}),
         // a picture on an attach (illustration / cut-out sticker): absolute, the work folder, or the Library
         ...(g.type === 'attach' && g.src ? {src: link([g.src, path.join(work, g.src), path.join(libraryRoot(), g.src)].find((p) => fs.existsSync(p)) ?? g.src)} : {}),
       }));

@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-74 techniques · 73 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
+75 techniques · 74 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -47,6 +47,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | visuals | Before/after circle reveal | reel, process | ✅ | reel: direction.reveals (CircleReveal) | motion-design.md |
 | visuals | Clips as cards on a stage (row, grid, stack, focus) | reel | ✅ | direction.stages (CardStage) | motion-design.md |
 | visuals | UI mockups: chat, notifications, button + cursor | reel, vlog | ✅ | reel: direction.ui [{kind: chat/notify/cursor}] · vlog: gfx {type: "insert", kind: chat/notify/cursor} | expensive.md |
+| visuals | Video meme, shown as card / half / full / zoom | reel, vlog | ✅ | reel: direction.memes {at, id: "vm-…", show} · vlog: gfx {type: "meme", clip, show} + sfx {clip} · brain/memes.md | brain/memes.md |
 | visuals | Meme card (captioned classic template) | reel, vlog | ✅ | node scripts/memecard.mjs suggest/<template> → Library sticker.svg → attach image / gfx sticker | meme-maker skill |
 | visuals | Text card: typewriter / wave / slam | reel | ✅ | direction.cards | expensive.md |
 | visuals | Hero intros, name tags, hanging photos, map, stamps | vlog | ✅ | gfx hero / tag / hang / map / stamp | vlog.md |

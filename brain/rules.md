@@ -53,6 +53,7 @@ sections at the moment of the decision.
   sleepy on late night). Current Indian memes preferred; classic meme cards (memecard.mjs) ~1 per video at most.
 - Meme presentation is a choice per moment (floating card, half screen, full-screen cut, zoom into it), with an entry
   sound (slam / whoosh); trim to the punch (1–3 s); never sloppy, never two at once, never the same one twice in a row.
+  73 video memes in Library/clips; the how-to is brain/memes.md (read in the visuals briefing).
 - Stickers fully inside the frame, never over his face (corner stickers sit above his head). Variety of entrances.
 - No emoji graphics ("so low effort"). Pop text only with a real joke.
 - Never tag/name a person he hasn't confirmed (people.json from his who-is-who sheet).

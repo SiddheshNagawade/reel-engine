@@ -5,8 +5,8 @@ export type CaptionGroup = {f0: number; f1: number; words: CapWord[]};
 export type Popup = {text: string; f: number; frames: number};
 export type Broll = {src: string; f: number; frames: number; isVideo: boolean};
 export type Sfx = {src: string; f: number; volume: number; fade?: number};
-export type MemePlacement = 'peek-left' | 'peek-right' | 'corner-left' | 'corner-right' | 'drop-top';
-export type Meme = {f: number; frames: number; sound: string | null; visual: string | null; isVideo: boolean; volume: number; sticker: boolean; placement: MemePlacement; fadeOut?: number; id?: string; scale?: number; lift?: number; tilt?: number};
+export type MemePlacement = 'peek-left' | 'peek-right' | 'corner-left' | 'corner-right' | 'drop-top' | 'card' | 'half' | 'full' | 'zoom';
+export type Meme = {f: number; frames: number; sound: string | null; visual: string | null; isVideo: boolean; volume: number; sticker: boolean; placement: MemePlacement; fadeOut?: number; id?: string; scale?: number; lift?: number; tilt?: number; clip?: boolean; w?: number; h?: number; side?: 'left' | 'right'};
 export type Effect = {f: number; frames: number; type: 'mono' | 'dark' | 'rage'; end: 'fade' | 'cut'};
 
 export type TextCard = {f: number; frames: number; text: string; mode: 'typewriter' | 'wave' | 'slam' | 'title'; bg?: 'white' | 'black' | 'accent' | 'blur'; accentWord?: string; size?: number; speed?: number; color?: string; glow?: boolean};

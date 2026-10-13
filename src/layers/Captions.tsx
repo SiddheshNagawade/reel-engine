@@ -26,6 +26,8 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
 
   // A text card owns the screen while it's up: never the same words twice.
   if ((edit.cards ?? []).some((c) => frame >= c.f && frame < c.f + c.frames)) return null;
+  // A full-screen / zoomed video meme owns the screen for a moment: captions step aside.
+  if ((edit.memes ?? []).some((m) => m.clip && (m.placement === 'full' || m.placement === 'zoom') && frame >= m.f && frame < m.f + m.frames)) return null;
   // Scatter text is a text moment of its own: captions step aside while it's up.
   if ((edit.inserts ?? []).some((x) => x.kind === 'scatter' && frame >= x.f && frame < x.f + x.frames)) return null;
   const g = edit.captions.find((x) => frame >= x.f0 && frame < x.f1);

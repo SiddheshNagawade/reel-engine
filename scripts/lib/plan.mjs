@@ -329,7 +329,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
       const dir = path.join(libraryRoot(), m.dir ?? m.id);
       const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => !f.startsWith('.')) : [];
       const sound = files.find((f) => AUDIO_EXT.test(f));
-      const visual = files.find((f) => /^sticker\./.test(f)) ?? files.find((f) => MEDIA_EXT.test(f) && !/^poster\./.test(f));
+      const visual = files.find((f) => /^sticker\./.test(f)) ?? files.find((f) => f === 'clip.mp4') ?? files.find((f) => MEDIA_EXT.test(f) && !/^(poster|full)\./.test(f));
       const rel = m.dir ?? m.id;
       return {...m, sound: sound && `${rel}/${sound}`, visual: visual && `${rel}/${visual}`};
     })
@@ -373,8 +373,22 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     }
     return byIndex.get(i)?.f1 ?? null;
   };
-  const place = (m, f, volumeScale = 1) => {
+  const place = (m, f, volumeScale = 1, show = null) => {
     used.add(m.id);
+    // video memes (Library/clips): shown as card / half / full / zoom, cut to their punch (brain/memes.md)
+    if (m.kind === 'clip') {
+      const placement = show ?? m.show ?? 'card';
+      const frames = Math.min(Math.round((m.seconds ?? 2) * fps), durationInFrames - f);
+      memes.push({f, frames, sound: m.sound ? path.posix.join('assets', 'library', m.sound) : null, fadeOut: 3,
+        visual: path.posix.join('assets', 'library', m.visual), isVideo: true, sticker: false, clip: true, placement, w: m.w, h: m.h,
+        volume: (m.volume ?? 0.9) * volumeScale, id: m.id, tilt: (hash(`${name}-${f}-r`) % 13) - 6});
+      if (placement === 'half') {
+        // his footage glides to the bottom half (blurred fill around it); captions sit just under the meme
+        layouts.push({f, frames, scale: 0.5, y: 0.24, radius: 36});
+        captionMoves.push({f, frames, top: 0.55});
+      }
+      return;
+    }
     // Peeking cats always peek from their own side; others rotate through entrance styles for variety.
     const options = PLACE_BY_TAG[m.tags.find((t) => PLACE_BY_TAG[t])] ?? VARIANTS;
     const lastPlacement = memes[memes.length - 1]?.placement;
@@ -408,7 +422,9 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const m = cue.id ? catalog.find((x) => x.id === cue.id) : w && choose(cue.tag, `${name}-${cue.at}`);
     if (!w || !m) continue;
     const f = m.soundOnly || m.sound ? nextPause(cue.at) ?? w.f0 : w.f0;
-    if (free(f, Math.round((m.seconds ?? 1.8) * fps))) place(m, f);
+    if (free(f, Math.round((m.seconds ?? 1.8) * fps))) place(m, f, 1, cue.show ?? null);
+    // a cue I chose that the restraint rules drop (budget, too close to another meme, hook, a transition) is reported
+    else console.log(`  ⚠️ meme ${m.id} at word ${cue.at} dropped (budget ${budget} for this length, or too close to another event)`);
   }
   // Boring stretches: if nothing visual happens for a while, an idle cat peeks in from a corner (sound turned down).
   const fill = (style.memes?.fillGapSeconds ?? 8) * fps;
@@ -480,7 +496,14 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else if (x.kind === 'push') add('whoosh', x.f + x.frames - 10, vol * 0.45, 4);
     else add('soft-whoosh', x.f - 4, vol * 0.3, 4);
   }
-  for (const l of layouts) add('soft-whoosh', l.f - 4, vol * 0.3, 4);
+  for (const l of layouts.filter((l) => !memes.some((m) => m.clip && m.f === l.f))) add('soft-whoosh', l.f - 4, vol * 0.3, 4);
+  // video memes get their entry sound: a slam (hit) for a card, a whoosh for half/zoom; a full cut needs none (the meme
+  // itself is the sound). Pushed directly: add() keeps clear of memes on purpose.
+  for (const m of memes.filter((x) => x.clip)) {
+    const type = m.placement === 'card' ? 'hit' : m.placement === 'full' ? null : 'whoosh';
+    const src = type && pick(sfxLib(type), `${name}-${type}-meme-${m.f}`);
+    if (src) sfx.push({src, f: Math.max(0, m.f - (type === 'whoosh' ? 5 : 0)), volume: vol * (type === 'hit' ? 0.55 : 0.4), fade: type === 'whoosh' ? 4 : 0});
+  }
   for (const t of transitions) {
     if (t.type === 'flash') add('hit', t.f, vol * 0.5);
     else if (t.type !== 'lightleak') add('whoosh', t.f - 8, vol * 0.45, 6);

@@ -101,8 +101,9 @@ function lintVlog(edit, work) {
   });
   // meme / expression sounds: never the same one twice in a row
   const order = new Map(parts.map((s, i) => [s.parent ?? s.id, i]));
-  const meme = (edit.sfx ?? []).filter((x) => isExpression(x.sticker ?? x.id)).sort((a, b) => (order.get(a.at) ?? 0) - (order.get(b.at) ?? 0) || (a.t ?? 0) - (b.t ?? 0));
-  for (let i = 1; i < meme.length; i++) if (meme[i].id === meme[i - 1].id) errors.push(`sfx ${meme[i].id} twice in a row (${meme[i - 1].at} → ${meme[i].at}). Vary the meme sounds`);
+  const key = (x) => x.clip ?? x.sticker ?? x.id; // video memes (clips) always count as expression sounds
+  const meme = (edit.sfx ?? []).filter((x) => x.clip || isExpression(key(x))).sort((a, b) => (order.get(a.at) ?? 0) - (order.get(b.at) ?? 0) || (a.t ?? 0) - (b.t ?? 0));
+  for (let i = 1; i < meme.length; i++) if (key(meme[i]) === key(meme[i - 1])) errors.push(`sfx ${key(meme[i])} twice in a row (${meme[i - 1].at} → ${meme[i].at}). Vary the meme sounds`);
   const {gaps, clock} = vlogGaps(edit);
   const empty = gaps.reduce((a, g) => a + g.b - g.a, 0);
   if (gaps.length) warnings.push(`${gaps.length} stretches over 6 s with nothing new (${Math.round((100 * empty) / clock)}% of the video): ${gaps.slice(0, 12).map((g) => `${fmt(g.a)}–${fmt(g.b)} ${g.from}`).join(', ')}${gaps.length > 12 ? ' …' : ''}`);

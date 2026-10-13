@@ -20,7 +20,7 @@ export const MemeLayer: React.FC<{edit: Edit}> = ({edit}) => (
             }}
           />
         )}
-        {m.visual && (m.sticker ? <Sticker m={m} headTop={headTopAt(edit, m.f)} /> : <Card m={m} accent={edit.theme?.accent ?? '#fff'} />)}
+        {m.visual && (m.clip ? <ClipMeme m={m} headTop={headTopAt(edit, m.f)} /> : m.sticker ? <Sticker m={m} headTop={headTopAt(edit, m.f)} /> : <Card m={m} accent={edit.theme?.accent ?? '#fff'} />)}
       </Sequence>
     ))}
   </>
@@ -120,6 +120,89 @@ const Card: React.FC<{m: Meme; accent: string}> = ({m, accent}) => {
         }}
       >
         <Media m={m} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ── Video memes (Library/clips), shown four ways (brain/memes.md). Each is a choice for the moment:
+//   card  a framed clip SLAMS in (overshoot + small shake), tilted, beside his head, never over his face
+//   half  the meme owns the top half; his footage glides to the bottom half (RoomFrame layout added by the planner)
+//   full  hard cut to the meme full screen: 2-frame flash, slight punch-in; captions step aside
+//   zoom  the meme appears as a small card, then the camera zooms INTO it until it fills the screen
+// Exits are quick (≤ 6 frames): the story goes on.
+export const ClipMeme: React.FC<{m: Meme; headTop: {top: number; x: number} | null}> = ({m, headTop}) => {
+  const frame = useCurrentFrame();
+  const {fps, width: W, height: H} = useVideoConfig();
+  const n = m.frames;
+  const out = interpolate(frame, [n - 6, n], [1, 0], clamp);
+  const ar = m.w && m.h ? m.w / m.h : 1;
+  const video = <OffthreadVideo src={staticFile(m.visual!)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />;
+
+  if (m.placement === 'full') {
+    const flash = interpolate(frame, [0, 1, 4], [0.9, 0.6, 0], clamp);
+    const push = interpolate(frame, [0, n], [1.0, 1.08]);
+    return (
+      <AbsoluteFill style={{background: '#000'}}>
+        <AbsoluteFill style={{transform: `scale(${push})`}}>{video}</AbsoluteFill>
+        <AbsoluteFill style={{background: '#fff', opacity: flash}} />
+      </AbsoluteFill>
+    );
+  }
+  if (m.placement === 'zoom') {
+    // card → full screen over ~0.35 s (ease in-out), hold, quick cut out
+    const z = interpolate(frame, [4, 4 + Math.round(fps * 0.35)], [0, 1], {...clamp, easing: (t) => t * t * (3 - 2 * t)});
+    const pop = spring({frame, fps, config: {damping: 12, stiffness: 200, mass: 0.6}});
+    const cw = W * 0.46, ch = cw / ar;
+    const w = cw + (W - cw) * z, h = ch + (H - ch) * z;
+    const x = (W - w) / 2, y = H * 0.12 * (1 - z) + 0 * z;
+    return (
+      <AbsoluteFill style={{background: `rgba(0,0,0,${0.55 * z})`}}>
+        <div style={{position: 'absolute', left: x, top: y, width: w, height: z > 0.98 ? H : h, borderRadius: 28 * (1 - z), overflow: 'hidden',
+          border: `${8 * (1 - z)}px solid #fff`, boxShadow: '0 30px 70px rgba(0,0,0,0.5)', transform: `scale(${(0.7 + 0.3 * pop) * out + (1 - out) * 0.9})`, opacity: out}}>
+          {video}
+        </div>
+      </AbsoluteFill>
+    );
+  }
+  if (m.placement === 'half' && W > H) {
+    // 16:9 (vlog): side by side, the meme slides into the right half
+    const inn = interpolate(frame, [0, 8], [0, 1], {...clamp, easing: (t) => 1 - Math.pow(1 - t, 3)});
+    const x = W * 0.5 + W * 0.5 * (1 - inn) + W * 0.5 * (1 - out);
+    return (
+      <AbsoluteFill>
+        <div style={{position: 'absolute', left: x, top: 0, width: W * 0.5, height: H, overflow: 'hidden', borderLeft: '6px solid #fff', boxShadow: '-20px 0 50px rgba(0,0,0,0.55)'}}>
+          {video}
+        </div>
+      </AbsoluteFill>
+    );
+  }
+  if (m.placement === 'half') {
+    const inn = interpolate(frame, [0, 8], [0, 1], {...clamp, easing: (t) => 1 - Math.pow(1 - t, 3)});
+    const y = -H * 0.5 * (1 - inn) - H * 0.5 * (1 - out);
+    return (
+      <AbsoluteFill>
+        <div style={{position: 'absolute', left: 0, top: y, width: W, height: H * 0.5, overflow: 'hidden', borderBottom: '6px solid #fff', boxShadow: '0 20px 50px rgba(0,0,0,0.55)'}}>
+          {video}
+        </div>
+      </AbsoluteFill>
+    );
+  }
+  // card (default): slam
+  const slam = spring({frame, fps, config: {damping: 9, stiffness: 320, mass: 0.7}});
+  const shake = frame < 9 ? Math.sin(frame * 2.6) * (9 - frame) * 1.6 : 0;
+  const cw = Math.min(W * 0.6, (H * 0.3) * ar), ch = cw / ar;
+  // above his head when there's room, else beside it on the emptier side
+  const room = headTop ? headTop.top * H - 40 : H * 0.3;
+  const side = m.side ?? (headTop && headTop.x > 0.5 ? 'left' : 'right');
+  const top = room >= ch + 90 ? Math.max(H * 0.07, room - ch - 60) : H * 0.1; // clear of his hair, not just his face
+  const left = room >= ch + 90 ? (W - cw) / 2 : side === 'left' ? W * 0.05 : W * 0.95 - cw;
+  const tilt = (m.tilt ?? 0) * 0.6 + (side === 'left' ? -3 : 3);
+  return (
+    <AbsoluteFill>
+      <div style={{position: 'absolute', left: left + shake, top, width: cw, height: ch, borderRadius: 26, overflow: 'hidden', border: '9px solid #fff',
+        boxShadow: '0 28px 60px rgba(0,0,0,0.55)', transform: `scale(${(1.35 - 0.35 * slam) * (0.6 + 0.4 * out)}) rotate(${tilt}deg)`, opacity: Math.min(1, slam * 3) * out}}>
+        {video}
       </div>
     </AbsoluteFill>
   );

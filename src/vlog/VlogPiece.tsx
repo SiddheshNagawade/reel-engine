@@ -3,6 +3,7 @@ import {AbsoluteFill, Easing, Img, OffthreadVideo, Sequence, interpolate, spring
 import {fonts} from '../layers/fonts';
 import {InsertView} from '../layers/Inserts';
 import {AttachLayer} from '../motion/Attach';
+import {ClipMeme} from '../layers/Memes';
 import type {Attach, Insert, Motion} from '../types';
 
 // Long-form vlog graphics (scripts/vlog.mjs → scripts/lib/vlog-gfx.mjs). One piece of the vlog = its base footage
@@ -32,6 +33,8 @@ export type Gfx =
   // the reel's hand-drawn props/bubbles/labels/notes/images (src/motion), stuck to a face found by faceboxes.py
   // ("near": [x, y] picks the person; vlog.mjs adds "motion" from the piece's face boxes)
   | ({type: 'attach'; at: number; dur: number; near?: [number, number]; motion?: Motion} & Omit<Attach, 'f' | 'frames'>)
+  // a video meme from Library/clips shown as card / half / full / zoom (its sound goes in vlog.json sfx: {clip: id})
+  | {type: 'meme'; at: number; dur: number; clip: string; show?: 'card' | 'half' | 'full' | 'zoom'; src?: string; w?: number; h?: number; side?: 'left' | 'right'}
   // chat / notify / cursor / counter / connector / burst / scatter (src/layers/Inserts.tsx)
   | ({type: 'insert'; at: number; dur: number} & Omit<Insert, 'f' | 'frames'>);
 
@@ -527,9 +530,21 @@ const InsertLayer: React.FC<Extract<Gfx, {type: 'insert'}>> = ({type, at, dur, .
   return <InsertView x={{...x, f: 0, frames: Math.round(dur * fps)} as Insert} t={t} />;
 };
 
+const MemeLayerV: React.FC<Extract<Gfx, {type: 'meme'}>> = ({at, dur, src, show, w, h, side}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const t0 = Math.round(at * fps);
+  if (!src || f < t0 || f > t0 + dur * fps) return null;
+  return (
+    <Sequence from={t0} durationInFrames={Math.round(dur * fps)} layout="none">
+      <ClipMeme m={{f: 0, frames: Math.round(dur * fps), sound: null, visual: src, isVideo: true, volume: 0, sticker: false, clip: true, placement: show ?? 'card', w, h, side}} headTop={null} />
+    </Sequence>
+  );
+};
+
 const LAYERS: Record<Gfx['type'], React.FC<any>> = {title: Title, chapter: Chapter, stamp: Stamp, name: Name, map: RouteMap, photos: Photos, text: TextLine, cast: Cast,
   caps: Caps, pop: Pop, arrow: Arrow, circle: Circle, emoji: Emoji, zoom: Nothing, counter: Counter, tag: Tag, hang: Hang, sticker: Sticker, hero: Hero,
-  attach: Nothing, insert: InsertLayer};
+  attach: Nothing, insert: InsertLayer, meme: MemeLayerV};
 
 export const VlogPiece: React.FC<VlogPieceProps> = ({base, layers, stage = '#111214'}) => {
   const {fps} = useVideoConfig();

@@ -415,7 +415,7 @@ try {
   const dips = [];
   for (const x of V.sfx ?? []) {
     if (ANIM.test(x.id) || x.duck === false) continue;
-    const dir = path.join(libraryRoot(), x.sticker ? 'stickers' : 'sounds', x.sticker ?? x.id);
+    const dir = path.join(libraryRoot(), x.clip ? 'clips' : x.sticker ? 'stickers' : 'sounds', x.clip ?? x.sticker ?? x.id);
     const file = ['sound.mp3', 'sound.wav'].map((f) => path.join(dir, f)).find((f) => fs.existsSync(f));
     if (!file) continue;
     const d = /Duration: (\d+):(\d+):([\d.]+)/.exec(ffInfo(file));
@@ -436,7 +436,7 @@ try {
   } else chains.push('[key]anullsink');
   const sfxLabels = [];
   for (const [j, x] of (V.sfx ?? []).entries()) {
-    const dir = path.join(libraryRoot(), x.sticker ? 'stickers' : 'sounds', x.sticker ?? x.id);
+    const dir = path.join(libraryRoot(), x.clip ? 'clips' : x.sticker ? 'stickers' : 'sounds', x.clip ?? x.sticker ?? x.id);
     const file = ['sound.mp3', 'sound.wav'].map((f) => path.join(dir, f)).find((f) => fs.existsSync(f)) ?? path.join(dir, 'sound.mp3');
     if (!fs.existsSync(file)) { console.log(`  ⚠️ sfx ${x.id} not found, skipped`); continue; }
     aIn.push('-i', file);

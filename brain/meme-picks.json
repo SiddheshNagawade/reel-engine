@@ -1,0 +1,792 @@
+[
+ {
+  "file": "ezgif.com-crop_online-video-cutter.com_mario_thumbs_up_YAAAAAYYY.mp4",
+  "id": "vm-mario-yay",
+  "tags": [
+   "yay",
+   "celebrate",
+   "success",
+   "win"
+  ],
+  "meaning": "Mario thumbs up YAAAY: a win, it worked",
+  "show": "card"
+ },
+ {
+  "file": "horse-fall.mp4",
+  "id": "vm-horse-fall",
+  "tags": [
+   "fail",
+   "fall"
+  ],
+  "meaning": "horse goes down: instant fail",
+  "show": "card"
+ },
+ {
+  "file": "chromebook-durability-test.mp4",
+  "id": "vm-laptop-throw",
+  "tags": [
+   "tech-rage",
+   "frustration",
+   "laptop"
+  ],
+  "meaning": "throws the laptop: done with tech",
+  "show": "half"
+ },
+ {
+  "file": "huh_dies.mp4",
+  "id": "vm-huh-dies",
+  "tags": [
+   "shock",
+   "dead",
+   "huh"
+  ],
+  "meaning": "shocked emoji turns to a skull",
+  "show": "card"
+ },
+ {
+  "file": "INCORRECT_WRONG_LIE.mp4",
+  "id": "vm-lie-detector",
+  "tags": [
+   "lie",
+   "cap",
+   "wrong"
+  ],
+  "meaning": "lie detector needle swings to LIE",
+  "show": "card"
+ },
+ {
+  "file": "WHAT_IS_THAT.mp4",
+  "id": "vm-what-is-that",
+  "tags": [
+   "confused",
+   "what",
+   "weird"
+  ],
+  "meaning": "\"WHAT IS THAT\": something weird appears",
+  "show": "card"
+ },
+ {
+  "file": "hell-yea-eagle.mp4",
+  "id": "vm-hell-yeah",
+  "tags": [
+   "hell-yeah",
+   "hype",
+   "proud"
+  ],
+  "meaning": "\"HELL YEAH\": proud hype",
+  "show": "card"
+ },
+ {
+  "file": "hoppingBOOOM.mp4",
+  "id": "vm-boom",
+  "tags": [
+   "boom",
+   "explosion",
+   "chaos"
+  ],
+  "meaning": "sudden BOOM explosion",
+  "show": "full"
+ },
+ {
+  "file": "amogus.mp4",
+  "id": "vm-amogus",
+  "tags": [
+   "sus",
+   "suspicious",
+   "caught"
+  ],
+  "meaning": "Among Us: something's sus",
+  "show": "card"
+ },
+ {
+  "file": "mario-break.mp4",
+  "id": "vm-mario-rage",
+  "tags": [
+   "rage",
+   "angry",
+   "destroy"
+  ],
+  "meaning": "Mario wrecks everything in rage",
+  "show": "half"
+ },
+ {
+  "file": "whoops fail scream.mp4",
+  "id": "vm-fail-scream",
+  "tags": [
+   "fail",
+   "scream",
+   "oops"
+  ],
+  "meaning": "oops → scream",
+  "show": "card"
+ },
+ {
+  "file": "false_advertising.mp4",
+  "id": "vm-false-advertising",
+  "tags": [
+   "expectation-vs-reality",
+   "scam",
+   "disappointed"
+  ],
+  "meaning": "false advertising: not what was promised",
+  "show": "half"
+ },
+ {
+  "file": "yeah-yeah-yeah.mp4",
+  "id": "vm-yeah-yeah-yeah",
+  "tags": [
+   "hype",
+   "excited",
+   "cheering"
+  ],
+  "meaning": "crowd goes yeah yeah yeah",
+  "show": "card"
+ },
+ {
+  "file": "matress-fall.mp4",
+  "id": "vm-mattress-fall",
+  "tags": [
+   "fail",
+   "fall"
+  ],
+  "meaning": "mattress jump fails",
+  "show": "card"
+ },
+ {
+  "file": "big-slap.mp4",
+  "id": "vm-big-slap",
+  "tags": [
+   "reality-check",
+   "slap",
+   "wake-up"
+  ],
+  "meaning": "a big slap: reality hits",
+  "show": "full"
+ },
+ {
+  "file": "bike-break.mp4",
+  "id": "vm-bike-break",
+  "tags": [
+   "fail",
+   "broke"
+  ],
+  "meaning": "bike breaks mid-ride",
+  "show": "card"
+ },
+ {
+  "file": "imsorry.mp4",
+  "id": "vm-im-sorry",
+  "tags": [
+   "sorry",
+   "apology"
+  ],
+  "meaning": "crying SORRY emoji",
+  "show": "card"
+ },
+ {
+  "file": "skull-emoji.mp4",
+  "id": "vm-skull",
+  "tags": [
+   "dead",
+   "im-dead",
+   "lol"
+  ],
+  "meaning": "skull emoji: I'm dead (laughing)",
+  "show": "card"
+ },
+ {
+  "file": "basketball.mp4",
+  "id": "vm-trickshot",
+  "tags": [
+   "nailed-it",
+   "success",
+   "trickshot"
+  ],
+  "meaning": "impossible trickshot lands: nailed it",
+  "show": "half"
+ },
+ {
+  "file": "luigi-oh-no.mp4",
+  "id": "vm-luigi-oh-no",
+  "tags": [
+   "oh-no",
+   "panic",
+   "worried"
+  ],
+  "meaning": "Luigi: oh no",
+  "show": "card"
+ },
+ {
+  "file": "pot-break.mp4",
+  "id": "vm-pot-break",
+  "tags": [
+   "fail",
+   "cooking",
+   "broke"
+  ],
+  "meaning": "cooking pot breaks",
+  "show": "card"
+ },
+ {
+  "file": "parking-tutorial.mp4",
+  "id": "vm-parking-fail",
+  "tags": [
+   "fail",
+   "skill-issue"
+  ],
+  "meaning": "\"parking tutorial\": total fail",
+  "show": "half"
+ },
+ {
+  "file": "cs2-rage.mp4",
+  "id": "vm-gamer-rage",
+  "tags": [
+   "rage",
+   "gaming",
+   "frustration"
+  ],
+  "meaning": "gamer rage",
+  "show": "card"
+ },
+ {
+  "file": "cat-pop.mp4",
+  "id": "vm-cat-pop",
+  "tags": [
+   "startled",
+   "shock",
+   "jumpscare"
+  ],
+  "meaning": "balloon pops, cat jumps",
+  "show": "card"
+ },
+ {
+  "file": "laugh-spring.mp4",
+  "id": "vm-troll-laugh",
+  "tags": [
+   "troll",
+   "laugh",
+   "smug"
+  ],
+  "meaning": "trollface laugh",
+  "show": "card"
+ },
+ {
+  "file": "7000_Dollars_for_this_car_but_i_got_a_slight_dent.mp4",
+  "id": "vm-expensive-dent",
+  "tags": [
+   "expensive-mistake",
+   "money",
+   "regret"
+  ],
+  "meaning": "7000 dollar car gets a dent",
+  "show": "half"
+ },
+ {
+  "file": "im-a-huge-fan.mp4",
+  "id": "vm-huge-fan",
+  "tags": [
+   "fan",
+   "admirer",
+   "pun"
+  ],
+  "meaning": "\"I'm a huge fan\" (holds a fan)",
+  "show": "card"
+ },
+ {
+  "file": "zoom-call-slow-internet.mp4",
+  "id": "vm-slow-internet",
+  "tags": [
+   "lag",
+   "slow",
+   "internet"
+  ],
+  "meaning": "zoom call on slow internet",
+  "show": "half"
+ },
+ {
+  "file": "slipped-on-a-banana.mp4",
+  "id": "vm-banana-slip",
+  "tags": [
+   "fail",
+   "slip"
+  ],
+  "meaning": "slipped on a banana",
+  "show": "card"
+ },
+ {
+  "file": "miau.mp4",
+  "id": "vm-miau",
+  "tags": [
+   "cute",
+   "cat",
+   "soft"
+  ],
+  "meaning": "cat says miau",
+  "show": "card"
+ },
+ {
+  "file": "adhd-3am.mp4",
+  "id": "vm-adhd-3am",
+  "tags": [
+   "3am",
+   "chaos",
+   "late-night",
+   "adhd"
+  ],
+  "meaning": "me at 3 am: chaos",
+  "show": "half"
+ },
+ {
+  "file": "cat-fall.mp4",
+  "id": "vm-cat-fall",
+  "tags": [
+   "fail",
+   "fall"
+  ],
+  "meaning": "cat falls",
+  "show": "card"
+ },
+ {
+  "file": "motherboard-overclocking.mp4",
+  "id": "vm-pc-explode",
+  "tags": [
+   "tech-fail",
+   "explode",
+   "pc",
+   "overclock"
+  ],
+  "meaning": "overclocked motherboard explodes",
+  "show": "half"
+ },
+ {
+  "file": "mario-woah.mp4",
+  "id": "vm-mario-woah",
+  "tags": [
+   "woah",
+   "impressed",
+   "wow"
+  ],
+  "meaning": "Mario: WOAH",
+  "show": "card"
+ },
+ {
+  "file": "oh-yeah-mrkrabs.mp4",
+  "id": "vm-oh-yeah",
+  "tags": [
+   "oh-yeah",
+   "smug",
+   "yes"
+  ],
+  "meaning": "Mr Krabs oh yeah",
+  "show": "card"
+ },
+ {
+  "file": "cat-stuck-in-a-cup.mp4",
+  "id": "vm-cat-stuck",
+  "tags": [
+   "stuck",
+   "fail",
+   "trapped"
+  ],
+  "meaning": "cat stuck in a cup",
+  "show": "card"
+ },
+ {
+  "file": "i-wonder-whats-in-there.mp4",
+  "id": "vm-i-wonder",
+  "tags": [
+   "curious",
+   "wonder",
+   "mystery"
+  ],
+  "meaning": "\"I wonder what's in there\"",
+  "show": "card"
+ },
+ {
+  "file": "Bro_dropped_all_of_his_life_savings_memes.mp4",
+  "id": "vm-life-savings",
+  "tags": [
+   "money-gone",
+   "broke",
+   "wasted-money"
+  ],
+  "meaning": "bro dropped all his life savings",
+  "show": "half"
+ },
+ {
+  "file": "video-frozen.mp4",
+  "id": "vm-video-frozen",
+  "tags": [
+   "freeze",
+   "lag",
+   "stuck"
+  ],
+  "meaning": "video freezes mid-action",
+  "show": "full"
+ },
+ {
+  "file": "cat-fall-stairs.mp4",
+  "id": "vm-cat-stairs",
+  "tags": [
+   "fail",
+   "fall"
+  ],
+  "meaning": "cat falls down the stairs",
+  "show": "card"
+ },
+ {
+  "file": "watch-yo-tone.mp4",
+  "id": "vm-watch-yo-tone",
+  "tags": [
+   "warning",
+   "attitude",
+   "threat"
+  ],
+  "meaning": "\"watch yo tone\"",
+  "show": "card"
+ },
+ {
+  "file": "I_hope_this_really_heavy_beach_ball_doesnt_break_my_leg..mp4",
+  "id": "vm-heavy-beach-ball",
+  "tags": [
+   "expectation",
+   "fail",
+   "overconfident"
+  ],
+  "meaning": "\"hope this heavy ball doesn't break my leg\"",
+  "show": "half"
+ },
+ {
+  "file": "least-dramatic-sd-card-eject.mp4",
+  "id": "vm-dramatic-eject",
+  "tags": [
+   "overdramatic",
+   "dramatic"
+  ],
+  "meaning": "least dramatic SD card eject",
+  "show": "card"
+ },
+ {
+  "file": "last-time-buying-things-online.mp4",
+  "id": "vm-bought-online",
+  "tags": [
+   "expectation-vs-reality",
+   "scam",
+   "disappointed"
+  ],
+  "meaning": "last time buying things online",
+  "show": "half"
+ },
+ {
+  "file": "stubbing-your-toe.mp4",
+  "id": "vm-toe-stub",
+  "tags": [
+   "pain",
+   "ouch"
+  ],
+  "meaning": "stubbing your toe",
+  "show": "card"
+ },
+ {
+  "file": "phonecall-intrusive-thoughts.mp4",
+  "id": "vm-intrusive-thoughts",
+  "tags": [
+   "intrusive-thoughts",
+   "impulse",
+   "bad-idea"
+  ],
+  "meaning": "his intrusive thoughts won",
+  "show": "card"
+ },
+ {
+  "file": "birdsat5am.mp4",
+  "id": "vm-birds-5am",
+  "tags": [
+   "5am",
+   "morning",
+   "no-sleep"
+  ],
+  "meaning": "nobody: the birds at 5 am",
+  "show": "half"
+ },
+ {
+  "file": "falling-onto-bed.mp4",
+  "id": "vm-bed-flop",
+  "tags": [
+   "tired",
+   "exhausted",
+   "flop"
+  ],
+  "meaning": "falling onto bed",
+  "show": "card"
+ },
+ {
+  "file": "parents-who-drink-20-cups-of-coffee.mp4",
+  "id": "vm-coffee-20",
+  "tags": [
+   "caffeine",
+   "hyper",
+   "coffee"
+  ],
+  "meaning": "parents on 20 cups of coffee",
+  "show": "card"
+ },
+ {
+  "file": "infinite-water-glitch.mp4",
+  "id": "vm-water-glitch",
+  "tags": [
+   "hack",
+   "glitch",
+   "cheat",
+   "life-hack"
+  ],
+  "meaning": "infinite water glitch (use before patched)",
+  "show": "card"
+ },
+ {
+  "file": "flirt.mp4",
+  "id": "vm-flirt",
+  "tags": [
+   "rizz",
+   "flirt"
+  ],
+  "meaning": "\"I can rizz up any girl\": how bro flirts",
+  "show": "card"
+ },
+ {
+  "file": "chicken-wake-up.mp4",
+  "id": "vm-chicken-alarm",
+  "tags": [
+   "wake-up",
+   "alarm",
+   "loud"
+  ],
+  "meaning": "chicken alarm wakes him",
+  "show": "card"
+ },
+ {
+  "file": "piggy-bank-sound.mp4",
+  "id": "vm-piggy-bank",
+  "tags": [
+   "money",
+   "savings",
+   "cha-ching"
+  ],
+  "meaning": "piggy bank coins",
+  "show": "card"
+ },
+ {
+  "file": "bubble-tea-glass-break.mp4",
+  "id": "vm-glass-break",
+  "tags": [
+   "fail",
+   "break",
+   "shock"
+  ],
+  "meaning": "bubble tea glass shatters",
+  "show": "card"
+ },
+ {
+  "file": "cat-charging.mp4",
+  "id": "vm-cat-charging",
+  "tags": [
+   "loading",
+   "thinking",
+   "charging"
+  ],
+  "meaning": "\"he's charging up, give him a sec\"",
+  "show": "card"
+ },
+ {
+  "file": "time-to-griddy.mp4",
+  "id": "vm-griddy",
+  "tags": [
+   "celebrate",
+   "dance",
+   "win"
+  ],
+  "meaning": "time to griddy",
+  "show": "card"
+ },
+ {
+  "file": "car-dent-fix.mp4",
+  "id": "vm-it-worked",
+  "tags": [
+   "diy",
+   "it-worked",
+   "success"
+  ],
+  "meaning": "DIY dent fix: it worked",
+  "show": "half"
+ },
+ {
+  "file": "new-filter.mp4",
+  "id": "vm-jumpscared",
+  "tags": [
+   "scared",
+   "startled",
+   "jumpscare"
+  ],
+  "meaning": "friends get jumpscared",
+  "show": "card"
+ },
+ {
+  "file": "ihavetwosides.mp4",
+  "id": "vm-two-sides",
+  "tags": [
+   "two-sides",
+   "mood-swing"
+  ],
+  "meaning": "I have two sides",
+  "show": "card"
+ },
+ {
+  "file": "chills-my-heart-i-loved-her.mp4",
+  "id": "vm-heartbreak",
+  "tags": [
+   "heartbreak",
+   "sad",
+   "emotional"
+  ],
+  "meaning": "\"my heart, I loved her\"",
+  "show": "card"
+ },
+ {
+  "file": "cat-ambush.mp4",
+  "id": "vm-cat-ambush",
+  "tags": [
+   "ambush",
+   "surprise"
+  ],
+  "meaning": "cat ambush",
+  "show": "card"
+ },
+ {
+  "file": "camera-lag.mp4",
+  "id": "vm-camera-lag",
+  "tags": [
+   "lag",
+   "glitch"
+  ],
+  "meaning": "camera lags",
+  "show": "card"
+ },
+ {
+  "file": "nicocado-mosquito.mp4",
+  "id": "vm-mosquito-3am",
+  "tags": [
+   "3am",
+   "annoyed",
+   "mosquito"
+  ],
+  "meaning": "the mosquito in my room at 3 am",
+  "show": "half"
+ },
+ {
+  "file": "piano-fall.mp4",
+  "id": "vm-piano-fall",
+  "tags": [
+   "fail",
+   "fall"
+  ],
+  "meaning": "falls on the piano stairs",
+  "show": "card"
+ },
+ {
+  "file": "homer.mp4",
+  "id": "vm-homer-stare",
+  "tags": [
+   "blank-stare",
+   "awkward",
+   "speechless"
+  ],
+  "meaning": "Homer: blank stare",
+  "show": "card"
+ },
+ {
+  "file": "we-need-to-discuss-your-internet-activities.mp4",
+  "id": "vm-internet-activities",
+  "tags": [
+   "busted",
+   "caught",
+   "sus"
+  ],
+  "meaning": "\"we need to discuss your internet activities\"",
+  "show": "card"
+ },
+ {
+  "file": "einstein-math.mp4",
+  "id": "vm-next-einstein",
+  "tags": [
+   "genius",
+   "wrong-math",
+   "dumb"
+  ],
+  "meaning": "bro the next Einstein (15 - 8 = wrong)",
+  "show": "card"
+ },
+ {
+  "file": "important-stuff.mp4",
+  "id": "vm-important-stuff",
+  "tags": [
+   "panic",
+   "priorities"
+  ],
+  "meaning": "\"I panicked and grabbed the important stuff\"",
+  "show": "half"
+ },
+ {
+  "file": "nice-man-fixes-computer.mp4",
+  "id": "vm-pc-smash",
+  "tags": [
+   "tech-rage",
+   "smash",
+   "angry"
+  ],
+  "meaning": "\"nice man fixes computer\" (smashes it)",
+  "show": "half"
+ },
+ {
+  "file": "a-mimir.mp4",
+  "id": "vm-mimir",
+  "tags": [
+   "sleep",
+   "tired",
+   "done"
+  ],
+  "meaning": "a mimir (I sleep)",
+  "show": "card"
+ },
+ {
+  "file": "sisyphus.mp4",
+  "id": "vm-sisyphus",
+  "tags": [
+   "grind",
+   "struggle",
+   "endless"
+  ],
+  "meaning": "Sisyphus: the endless grind",
+  "show": "half"
+ },
+ {
+  "file": "overreacting.mp4",
+  "id": "vm-overreacting",
+  "tags": [
+   "overreact",
+   "dramatic"
+  ],
+  "meaning": "bro is overreacting",
+  "show": "card"
+ },
+ {
+  "file": "garfield-monday.mp4",
+  "id": "vm-garfield-monday",
+  "tags": [
+   "monday",
+   "tired",
+   "again"
+  ],
+  "meaning": "Garfield: it's Monday already??",
+  "show": "card"
+ }
+]
