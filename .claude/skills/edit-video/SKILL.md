@@ -13,7 +13,8 @@ asked him for a single meme. This skill is the fix: **one pass at a time, writte
 Read before starting: `brain/rules.md` (every current rule) is already loaded. Then run
 `node scripts/editplan.mjs <name> brief start` once, and `… brief <pass>` before EVERY pass: it prints that pass's rules,
 the playbook sections that matter (hooks, craft, sounds, vlog/process…), the technique checklist and what the Library
-holds. That is how nothing in brain/ is skipped; a pass closed without its briefing blocks the render.
+holds. That is how nothing in brain/ is skipped; a pass closed without its briefing blocks the render, and a pass's
+briefing refuses to open until every earlier pass is closed (one step at a time, never everything at once).
 
 ## Step 0: set up and tell him the route
 1. Find the footage (CLAUDE.md "When he says edit the new video"). Decide the kind: `reel` · `vlog` · `process`.

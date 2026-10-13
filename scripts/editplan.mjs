@@ -92,6 +92,15 @@ if (cmd === 'brief') {
     console.error(`Unknown pass "${pass}". Passes: start, ${PASSES.map((x) => x.id).join(', ')}`);
     process.exit(1);
   }
+  // Step by step, not all at once (his ask 2026-10-14): a pass's briefing only opens once every earlier pass is closed,
+  // so no pass can be decided before the one it builds on.
+  if (p && plan) {
+    const open = PASSES.slice(0, PASSES.indexOf(p)).filter((x) => x.need.includes(kind) && (plan.passes[x.id]?.status ?? 'todo') === 'todo');
+    if (open.length) {
+      console.error(`Not yet: finish ${open.map((x) => x.id).join(', ')} first (one pass at a time, in order). Next: brief ${open[0].id}`);
+      process.exit(2);
+    }
+  }
   const out = [];
   out.push(`════ BRIEFING: ${pass === 'start' ? `start of ${name} (${kind})` : `pass ${PASSES.indexOf(p)} · ${p.title}`} ════`);
   if (p) out.push(`QUESTION: ${p.ask}`);
