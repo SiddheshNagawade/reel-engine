@@ -10,7 +10,8 @@ Two shared Claude Docs (he and I both edit; read them with the docs tools before
   the script I write once his story is in. Points, not sentences. When he says "made changes": read sinceRev, update
   Work days + scripts, reply with what changed.
 - BRAND PLAN (strategy, content bank, rhythm, reviews): https://claude.ai/code/artifact/e0b1f621-2e02-4aea-88df-87e18568c35f
-Script rules: brain/content-brief.md (still valid for hooks, 5 beats, open loops, stranger rule; pillars/CaptionKaro parts are void).
+Script rules: brain/content-brief.md (still valid for hooks, 5 beats, open loops, stranger rule, §10 story craft: visual-first
+beats, 3-act spine, two-part continuity; pillars/CaptionKaro parts are void). Write scripts with the `write-script` skill.
 
 ## Decisions (2026-10-11, latest)
 - Personal brand Instagram: IIT design student who builds real things + gym. Arts account stays separate.

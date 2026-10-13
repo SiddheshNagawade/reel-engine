@@ -116,3 +116,36 @@ stages of the same experiment (set-up → first responses → what broke → ver
 - Gym Day 1 baseline: photos (same angle), weight, three lift numbers.
 Daily log (2 min, voice-to-text fine): Built/worked on · Gym · College · Win or problem · Thought · Footage I have.
 Footage habit: 3–4 short clips every gym session, meals 1–2×/week, campus on the walk to class. Build the library, then choose.
+
+## 10. Story craft by length (adapted 2026-10-14 from the scriptwriter skill he added; its screenplay format is NOT used)
+Why: the 5 beats above are right for 30–45 s reels, but vlogs had no structure, two-part series had no continuity
+check, and scripts said what he SAYS but rarely what we SEE (so the edit had to invent visuals later).
+
+### Visual-first beats (every script, every length)
+- Every beat gets a "we see" line next to the spoken line: the prototype breaking, the screen, the number, his face
+  when it failed, the gym clip. Concrete, filmable, present tense ("the app shows 0 users", not "it was disappointing").
+- Feelings become visible actions: not "I was nervous" → hands, the refresh button clicked 6 times, the 2 AM timestamp.
+- If a beat has no visual, either find one he can film/screen-record, or mark it for a graphic (counter, chat mockup,
+  UI frame: brain/skills.md). That list goes straight into the edit plan's visuals pass.
+- Subtext beats statement: show the result and let the viewer conclude ("I opened the dashboard. Zero."), instead of
+  announcing the lesson ("and that taught me consistency matters").
+
+### Long-form spine (vlogs, YouTube, anything over ~3 min): 3 acts, ~9 beats
+| Act | Beats | Where | Chandigarh example |
+|---|---|---|---|
+| 1 Setup ~25 % | opening image (the trailer of the best moments) · ordinary world · inciting event (10–15 %) | who, where, what's at stake | mooch dilemma the night before → the shave |
+| 2 Confrontation ~50 % | first attempt · complications rise · midpoint turn (~50 %) · low point | the trip's chaos, a reveal, the worst moment | day 1 games → night 2 → the money gone ("PAISA BARBAD") |
+| 3 Resolution ~25 % | climax · new normal (+ a thread for the next video) | the payoff, what changed | last day, the lesson line he said on camera |
+- Every beat must be a VISIBLE moment in the footage (a clip id), not an idea. A beat with no footage is a hole: cut
+  it, cover it with narration + graphics, or ask him for a photo/clip.
+- The cold open/trailer pulls from beats 6–8 (midpoint, low point, climax), never from the ending itself.
+- Chapters land on act turns; music runs restart on them (brain/vlog.md).
+
+### Two-part series ("I've built 10 things. Most failed.")
+- Part 1 = setup + attempt + rising problems, and it ENDS ON THE LOW POINT: the moment it broke (open loop).
+  Part 2 = the midpoint reveal (what actually went wrong) + resolution (the lesson as HIS conclusion) + plant the next project.
+- Continuity check before writing any episode: read the previous episode's script; same project name and running
+  number phrasing; the open loop from last time is paid in the first 10 s; callback by content, not by number; stranger
+  rule still holds (one orienting sentence).
+- Keep a series log in the content planner (episode → open loop planted → paid where → running number). Never invent
+  facts to bridge parts: ask him.

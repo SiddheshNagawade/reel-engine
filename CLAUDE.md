@@ -13,6 +13,8 @@ He is not an editor; he shares ideas, and you decide what works and explain why.
 - Nothing fits → build something new, the way a human editor would try new possibilities. Make it reusable (see "Freedom to create").
 - Never copy the previous reel's choices by default. Each reel should feel made for its own story.
 
+Scripts, hooks, stories, VO lines (before he records): use the `write-script` skill (brain/content-brief.md).
+
 ## When he says "edit the new video" (ANY video: reel, vlog, drawing): use the `edit-video` skill. Always.
 It is the step-by-step route and nothing in it is optional. The short version:
 1. Find it: `/Volumes/T7 Shield/ReelEngine/inbox/` (single video = one reel) or `/Volumes/T7 Shield/ReelEngine/projects/<folder>/` (many clips = one reel).

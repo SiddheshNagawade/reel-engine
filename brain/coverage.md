@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-66 techniques · 65 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
+69 techniques · 68 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -15,6 +15,9 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | story | Interval twist | reel | ✅ | line order in the cut | craft.md |
 | story | Cut warm-ups, retakes, re-explaining, fillers | reel, vlog | ✅ | removeRanges / segment in-out | principles.md |
 | story | His story + a common problem | process | ✅ | VO script, present tense | hooks.md |
+| story | Visual-first beats | reel, vlog, process | ✅ | content-brief.md §10 → seeds the visuals pass | scriptwriter skill (adapted) |
+| story | 3-act spine, ~9 beats on real clips | vlog | ✅ | content-brief.md §10 | scriptwriter skill (adapted) |
+| story | Series continuity | reel | ✅ | content-brief.md §5 + §10, series log in the planner | content-brief.md + scriptwriter skill |
 | story | Ending: loop or hard cut on the payoff, never a fade | reel, vlog, process | ✅ | last segment / last line | preferences.md |
 | story | Honest claims | reel, vlog, process | ✅ | hook text, VO, name tags from people.json | preferences.md |
 | story | Find active vs idle stretches in hours of footage | process, vlog | ✅ | cutfinder.py activity <clip> | process-videos.md |

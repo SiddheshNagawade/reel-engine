@@ -25,7 +25,10 @@ and the playbook for the kind of video (`brain/vlog.md`, `brain/process-videos.m
 - process: contact sheets (`scripts/sheet.mjs`), orientation check on every range (brain/process-videos.md).
 
 ## Step 2: pass 0, story lock → CHECKPOINT 1 (ask him)
-Cut, order, hook, ending. Give him 3–4 hook options (English text + what the first 3 s look like) and the cut direction.
+Cut, order, hook, ending. Shape it with the story craft in `brain/content-brief.md` §10 (write-script skill): a reel =
+5 beats; a vlog = the 3-act spine with ~9 beats, each tied to a real clip; a series episode = continuity with the last
+part (pay its open loop early, end part 1 on the moment it broke). Write a "we see" line per beat: it seeds the visuals
+pass. Give him 3–4 hook options (English text + what the first 3 s look like) and the cut direction.
 Use AskUserQuestion, or `show_design_options` (design-picker mod) when the choice is visual. Write his pick into the
 plan, close the pass with `Status: done`.
 

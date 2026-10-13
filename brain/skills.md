@@ -44,6 +44,7 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 | Props + inserts in vlogs | vlog gfx `{type: "attach", what, text, near: [x, y]}` (face boxes → anchors) and `{type: "insert", kind, …}` (same kinds as the reel) | friends' reactions, inside jokes, messages, scores in the vlog | on a person you can't name/see clearly |
 | Process final stage | timeline `"voice"` + `npm run reel -- <output.mp4>` with direction `keepTimeline` | after he records the VO of a drawing video | before the picture is locked |
 | Active/idle finder | `cutfinder.py activity <clip> [--min 20]` | hours of drawing footage | n/a |
+| Script / story writing | `write-script` skill → brain/content-brief.md (5 beats for reels, §10: visual-first beats, 3-act spine for vlogs, two-part series continuity) | before he records; story lock of every edit | inventing facts he didn't report |
 | Final Cut project export | output/<reel>/<reel>-vN.fcpxml | by default, so he can tweak cuts in FCP | n/a |
 
 ## Legibility & framing checklist (learned from v2)
