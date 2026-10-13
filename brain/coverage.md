@@ -4,13 +4,14 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-83 techniques · 82 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
+84 techniques · 83 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
 | story | Hook options checkpoint | reel, vlog, process | ✅ | AskUserQuestion / show_design_options | hooks.md |
 | story | Cold open / result first | reel, vlog, process | ✅ | reel: direction.coldOpen · vlog/process: segment order | hooks.md |
 | story | 3-second visual hook | reel, vlog, process | ✅ | hookText, zooms, text slam, impact sfx | hooks.md |
+| story | Hook passes the 4 checks: no delay, no confusion, relevant to the viewer, contrast/curiosity | reel, vlog | ✅ | brain/hooks.md "The 4 hook mistakes check"; write the verdict per option in plan.md | hooks.md |
 | story | Open loop / small loops | reel, vlog | ✅ | reel: direction.banner · vlog: tease line / counter gfx | hooks.md |
 | story | Interval twist | reel | ✅ | line order in the cut | craft.md |
 | story | Cut warm-ups, retakes, re-explaining, fillers | reel, vlog | ✅ | removeRanges / segment in-out | principles.md |

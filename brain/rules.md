@@ -23,6 +23,8 @@ sections at the moment of the decision.
 - First 1–3 s: motion + curiosity + clarity; heaviest editing of the video sits in the hook (zoom, slam, sound), but
   shots stay ≳ 1 s (0.45 s cuts confused him).
 - Cold open from the middle (result first) works for him; push it.
+- Every hook option passes the 4 checks (hooks.md): topic clear in 1–2 s, impossible to misread, the viewer's own
+  pain, contrast A vs B for curiosity (2026-10-14). Story stays first person; the hook points at the viewer's problem.
 - His story + a COMMON problem ("I couldn't draw trees"), first person, present tense for journeys. Not a tutorial.
 - Shorter is better: cut warm-ups, re-explaining, trailing "and yeah…", fillers.
 - Endings: NEVER a fade, any video. A loop back into the first line, or a hard cut on the payoff. Keep his concluding

@@ -21,6 +21,25 @@ Headlines can sit at the edge of clickbait: a bit exaggerated to grab attention,
 
 Pick 1–2 techniques per video. Never all of them: the story comes first.
 
+## The 4 hook mistakes check (from a hooks video he shared, 2026-10-14; my notes, in my words)
+A hook has one job: make the viewer decide to stay. It needs two things: TOPIC CLARITY (they know what the video is about)
+and ON-TARGET CURIOSITY (they believe it's for them and want what comes next). Run every hook option through 4 checks:
+1. **Delay**: is the topic clear within the first 1–2 s? Cut any opening line that gives no context ("guys this is the
+   craziest thing…"). On existing footage: start on the first line that says what it's about; move it to the front.
+2. **Confusion**: could anyone misread it? Fewer, simpler words (a 12-year-old gets it), active voice, the key idea
+   early in the sentence. Read the hook alone: is there more than one way to understand it? Rewrite until there's one.
+   Hinglish helps here: say it the way he'd say it to a friend.
+3. **Irrelevance**: will the viewer feel it's for THEM? Name a pain they already have ("if you can't draw trees…") and
+   promise a need-to-have, not a nice-to-have ("trends in skincare" < "if you have acne, try these 3").
+   His own rule still stands: his story is told first person, but about a COMMON problem. So: keep "main" for the
+   story, and let the hook text or first line point at the viewer's version of the problem. Offer one "you" hook
+   among the 3–4 options.
+4. **Disinterest**: is there a curiosity gap? Build CONTRAST: A = what they believe / usually do, B = his different,
+   faster, cheaper or surprising answer. Stated ("most people do X, I did Y") or implied (only B, A is obvious).
+   Clarity usually in line 1, contrast in lines 2–3: a hook can be 2–3 lines, not one punchline.
+Vague open hooks only survive on a strong face/emotion or on-screen text; never rely on the spoken words being vague.
+When writing scripts AND when cutting a story from existing clips, every hook option must pass all 4 before he sees it.
+
 ## 1. Pinned open-loop headline ("My cat died" technique)
 - A short, intriguing line pinned at the top for most of the video, while the video talks about something that seems unrelated at first. The answer comes late.
 - Works when: the story genuinely builds to a reveal. Not for simple tips.

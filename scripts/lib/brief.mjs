@@ -10,7 +10,7 @@ import {libraryRoot} from './paths.mjs';
 // pass → playbook sections ([file, heading starts with], optional kinds)
 export const READS = {
   start: [['brain/edit-layers.md', 'Enforced'], ['brain/principles.md', '8. Checklist']],
-  story: [['brain/hooks.md', 'His hook rules'], ['brain/hooks.md', 'The 3-second formula'], ['brain/hooks.md', '3. Cold open'],
+  story: [['brain/hooks.md', 'His hook rules'], ['brain/hooks.md', 'The 4 hook mistakes check'], ['brain/hooks.md', 'The 3-second formula'], ['brain/hooks.md', '3. Cold open'],
     ['brain/content-brief.md', '3. Five-beat', ['reel']], ['brain/content-brief.md', '10. Story craft'],
     ['brain/vlog.md', 'His notes on the first look', ['vlog']], ['brain/process-videos.md', 'The process that worked', ['process']]],
   cuts: [['brain/craft.md', 'The cut vocabulary'], ['brain/craft.md', 'Built 2026-10-12'], ['brain/process-videos.md', 'Craft rules', ['process']],

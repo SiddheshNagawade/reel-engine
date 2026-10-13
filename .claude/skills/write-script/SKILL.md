@@ -8,7 +8,8 @@ description: Write or improve a script / story for one of Siddhesh's videos (ree
 Read first, in this order:
 1. `brain/content-brief.md`: positioning, the 5-beat reel structure, six hook patterns, carrying a story across videos,
    agent rules (never invent an event/number/reaction he didn't report), the pre-record checklist, and §10 story craft.
-2. `brain/hooks.md` (his hook rules: English title-like hook text, 3–4 options, he picks).
+2. `brain/hooks.md` (his hook rules: English title-like hook text, 3–4 options, he picks; every option passes
+   "The 4 hook mistakes check": no delay, no confusion, relevant to the viewer, contrast).
 3. `brain/content-plan.md` → the live planner docs (current series, pillars, what's already posted).
 
 ## Steps
