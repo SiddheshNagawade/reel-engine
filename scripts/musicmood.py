@@ -72,12 +72,13 @@ def main():
         roll = np.convolve(e, np.ones(win) / win, mode='valid') if len(e) > win else e
         drop = round(float(np.argmax(roll) * sec_per_patch), 1)
         try:
-            bpm = round(float(es.RhythmExtractor2013(method='multifeature')(es.MonoLoader(filename=f, sampleRate=44100)())[0]))
+            r = es.RhythmExtractor2013(method='multifeature')(es.MonoLoader(filename=f, sampleRate=44100)())
+            bpm, beat0 = round(float(r[0])), round(float(r[1][0]), 3) if len(r[1]) else 0.0  # beat0 = first beat (bar grid)
         except Exception:
-            bpm = None
+            bpm, beat0 = None, 0.0
         if m.get('moodsGuessed'):
             m['titleMoods'] = m.get('moods', [])
-        m.update(moods=moods, moodScores=scores, bpm=bpm, drop=drop, energy=curve, seconds=round(len(audio) / 16000, 1), moodsGuessed=False, moodsBy='essentia')
+        m.update(moods=moods, moodScores=scores, bpm=bpm, beat0=beat0, drop=drop, energy=curve, seconds=round(len(audio) / 16000, 1), moodsGuessed=False, moodsBy='essentia')
         n += 1
         print(f"{m['id']:<44} {bpm or '?':>4} bpm  drop {drop:>5}s  {', '.join(moods)}", flush=True)
     for m in cat['memes']:

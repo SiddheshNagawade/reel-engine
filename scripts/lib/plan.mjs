@@ -615,24 +615,50 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   const hookFrames = Math.round(style.hook.seconds * fps);
   const foreground = direction?.hookBehind && hookText ? [{f: 0, frames: Math.min(hookFrames, durationInFrames)}] : [];
 
-  // Music by section (brain/sounds.md "Music by mood"): direction.music = [{at, until, mood | id, from (s into the track),
-  // vol}] → a different track per part of the story, cross-faded (each cue starts 8 frames early, fades over the overlap).
-  // Tracks live in Library/music/<id>/track.mp3 with catalog `moods` tags.
+  // Music by section (brain/sounds.md "Music by mood" + "Silence and transitions"): direction.music = [{at, until,
+  // mood | id, from (s into the track), vol, silence, stop}] → a different track per part of the story.
+  //   transitions: the new track overlaps the old one ~1 s with equal-power fades (no dip to silence, no jump), the new
+  //   track starts on one of ITS bars (drop snapped to its beat grid) and the switch lands on a beat of the old one.
+  //   silence: {at, until, silence: true} = no music there (a joke landing, a dumb moment, a serious line);
+  //   stop: "hard" = the music cuts out dead on that word (the failed-joke / awkward beat), else it fades out.
+  // Tracks live in Library/music/<id>/track.mp3 (catalog: moods, moodScores, bpm, beat0, drop from scripts/musicmood.py).
   const musicCues = [];
+  const XF = Math.round(fps * 1.0); // crossfade length
+  const beatLen = (m) => (m?.bpm ? 60 / m.bpm : 0);
+  const snapToBar = (m, t) => { const b = beatLen(m) * 4; return b ? (m.beat0 ?? 0) + Math.max(0, Math.round((t - (m.beat0 ?? 0)) / b)) * b : t; };
   for (const [i, c] of (direction?.music ?? []).entries()) {
     const w = byIndex.get(c.at);
     if (!w) continue;
     const end = c.until !== undefined ? byIndex.get(c.until)?.f1 ?? durationInFrames : durationInFrames;
+    const prevCue = musicCues.at(-1);
+    if (c.silence) { // end whatever plays: dead stop on the word, or a short fade
+      if (prevCue && prevCue.f + prevCue.frames > w.f0) { prevCue.frames = Math.max(10, w.f0 - prevCue.f + (c.stop === 'hard' ? 1 : 10)); prevCue.fadeOut = c.stop === 'hard' ? 1 : 10; }
+      continue;
+    }
     let pool = catalog.filter((m) => m.kind === 'music' && !m.sting && (c.id ? m.id === c.id : (m.moods ?? []).includes(c.mood)));
     // no exact tag: the tracks whose LISTENED score for that mood is highest (scripts/musicmood.py)
     if (!pool.length && c.mood) pool = catalog.filter((m) => m.kind === 'music' && !m.sting && m.moodScores?.[c.mood] != null).sort((a, b) => b.moodScores[c.mood] - a.moodScores[c.mood]).slice(0, 3);
-    const prev = musicCues.at(-1)?.id;
-    const fresh = pool.filter((m) => m.id !== prev);
+    const fresh = pool.filter((m) => m.id !== prevCue?.id);
     const m = pick(fresh.length ? fresh : pool, `${name}-music-${i}-${c.mood ?? c.id}`);
     if (!m) { console.log(`  ⚠️ no music for mood "${c.mood ?? c.id}" in the Library (tag tracks with moods, or ask him)`); continue; }
-    const f = Math.max(0, (i === 0 ? 0 : w.f0) - (i === 0 ? 0 : 8));
-    musicCues.push({id: m.id, mood: c.mood, src: `assets/library/${m.dir}/track.mp3`, f, frames: Math.max(15, end - f + 10), volume: c.vol ?? 1,
-      trimBefore: Math.round((c.from ?? (c.drop === false ? 0 : m.drop) ?? 0) * fps), fadeIn: i === 0 ? 6 : 14, fadeOut: 18});
+    let f = i === 0 && !prevCue ? 0 : w.f0;
+    const touching = prevCue && prevCue.fadeOut !== 1 && prevCue.f + prevCue.frames >= f - fps * 1.5; // old track (nearly) still playing → crossfade, never a gap
+    if (touching) {
+      // land the switch on a beat of the old track (±0.25 s), then overlap XF frames
+      const pm = catalog.find((x) => x.id === prevCue.id);
+      const bl = beatLen(pm) * fps;
+      if (bl) {
+        const into = (f - prevCue.f) + prevCue.trimBefore - (pm.beat0 ?? 0) * fps;
+        const shift = Math.round(Math.round(into / bl) * bl - into);
+        if (Math.abs(shift) <= fps * 0.25) f += shift;
+      }
+      f = Math.max(prevCue.f + 10, f - Math.round(XF / 2));
+      prevCue.frames = Math.max(10, f - prevCue.f + XF);
+      prevCue.fadeOut = XF;
+    }
+    const from = c.from ?? (c.drop === false ? 0 : snapToBar(m, m.drop ?? 0));
+    musicCues.push({id: m.id, mood: c.mood, src: `assets/library/${m.dir}/track.mp3`, f, frames: Math.max(15, Math.min(durationInFrames, end) - f), volume: c.vol ?? 1,
+      trimBefore: Math.round(from * fps), fadeIn: touching ? XF : prevCue ? 18 : 6, fadeOut: 18, curve: 'eq'});
   }
   return {
     name,

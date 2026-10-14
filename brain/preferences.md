@@ -216,3 +216,5 @@ contradictions resolved). After every round of feedback: add the dated note here
 - Jason Cooperson's "Claude Video Editor" blueprint: adopted the parts that beat ours: cut audit (no clipped words),
   two-pass loudness (no pumping), secrets sweep (blur private info on screens), hero-frame cover picker, YouTube 4K
   upload. The rest is Premiere/Resolve/CapCut plumbing he doesn't need.
+
+- 2026-10-14: music must follow the story by mood, not one bed; silences where a joke lands or fails; transitions between tracks overlap with proper fades / on the beat, never abrupt (his words: "it should not sound bad").

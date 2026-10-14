@@ -111,6 +111,6 @@ export type Edit = {
   broll: Broll[];
   sfx: Sfx[];
   music: string | null;
-  musicCues?: {src: string; f: number; frames: number; volume?: number; trimBefore?: number; fadeIn?: number; fadeOut?: number; mood?: string}[];
+  musicCues?: {src: string; f: number; frames: number; volume?: number; trimBefore?: number; fadeIn?: number; fadeOut?: number; mood?: string; curve?: 'eq'}[];
   hookText: string | null;
 };

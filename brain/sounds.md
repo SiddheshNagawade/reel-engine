@@ -57,6 +57,15 @@ music changes where the story turns (problem → tension/sad, turn → build, pa
 - Popular songs: Spotify can't be downloaded (locked + copyright) and Instagram mutes copyrighted songs added in the edit.
   For a trending song, he adds it in Instagram's own music picker at upload; our edit then carries only his voice + sfx
   (or a quiet mood bed he turns down). Free-licence tracks (Pixabay Music, YouTube Audio Library, Mixkit) are safe.
+## Silence and transitions (his rule, 2026-10-14)
+- Not every moment gets music. SILENCE is a tool: right after a joke lands (let it breathe), a failed joke or a dumb
+  moment (music cuts out DEAD on the word: `{at, silence: true, stop: "hard"}`, the awkward beat), a serious or honest
+  line, the second before a big reveal. `{at, until, silence: true}` without stop = a short fade out.
+- Between two tracks: NEVER an abrupt switch and never a dip to silence then a slow rise. The new track overlaps the old
+  one ~1 s with equal-power fades (loudness stays even), starts on one of its own bars, and the switch lands on a beat
+  of the old track (done automatically by the planner from each track's bpm + beat grid). Gaps under ~1.5 s between
+  two music sections are closed with this crossfade.
+- Choose where music changes from the story (a turn) and his voice (voicefeel ▲ / ▽), not from a timer.
 - His VOICE's feeling (2026-10-14, the two-step route): `.venv/bin/python scripts/voicefeel.py <name>` measures every line's
   loudness, pitch and speed against HIS OWN average → ▲ intense / · normal / ▽ calm (voicefeel.json). The words'
   emotion I read myself from the fixed transcript. Together: music turns, drops and silences go where his feeling

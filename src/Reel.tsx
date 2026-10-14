@@ -76,8 +76,11 @@ const SoundDesign: React.FC<{edit: Edit}> = ({edit}) => {
               const g = m.f + f;
               const talking = edit.speech.some(([a, b]) => g >= a - 6 && g <= b + 6);
               const base = (talking ? musicDuckedVolume : musicVolume) * (m.volume ?? 1);
-              const fade = interpolate(f, [0, m.fadeIn ?? 12, m.frames - (m.fadeOut ?? 18), m.frames], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-              return base * fade;
+              // equal-power fades: during a crossfade the two tracks sum to the same loudness (no dip, no bump)
+              const inP = interpolate(f, [0, Math.max(1, m.fadeIn ?? 12)], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+              const outP = interpolate(f, [m.frames - Math.max(1, m.fadeOut ?? 18), m.frames], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+              const eq = (p: number) => (m.curve === 'eq' ? Math.sin((p * Math.PI) / 2) : p);
+              return base * eq(inP) * eq(outP);
             }} />
         </Sequence>
       ))}

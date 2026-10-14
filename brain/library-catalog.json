@@ -6290,7 +6290,8 @@
         "relaxing",
         "background",
         "deep"
-      ]
+      ],
+      "beat0": 0.72
     },
     {
       "id": "pop-pop-1",
@@ -9223,7 +9224,8 @@
         "slow",
         "love",
         "energetic"
-      ]
+      ],
+      "beat0": 0.453
     },
     {
       "id": "whoosh-short-arrow-whoosh",
@@ -9644,7 +9646,8 @@
         "film",
         "epic",
         "action"
-      ]
+      ],
+      "beat0": 0.534
     },
     {
       "id": "energy-electricity-static-power-up",
@@ -9808,7 +9811,8 @@
         "energetic",
         "film",
         "happy"
-      ]
+      ],
+      "beat0": 0.395
     },
     {
       "id": "time-fast-tape-rewind-cinematic-transition",
@@ -10124,7 +10128,8 @@
         "danceable",
         "energetic",
         "happy"
-      ]
+      ],
+      "beat0": 0.522
     },
     {
       "id": "impact-space-impact",
@@ -10285,7 +10290,8 @@
         "slow",
         "energetic",
         "melodic"
-      ]
+      ],
+      "beat0": 0.395
     },
     {
       "id": "time-warping-slide",
@@ -10448,7 +10454,8 @@
       "heard": [
         "danceable",
         "relaxing"
-      ]
+      ],
+      "beat0": 0.546
     },
     {
       "id": "music-zay-zay",
@@ -10578,7 +10585,8 @@
         "relaxing",
         "slow",
         "happy"
-      ]
+      ],
+      "beat0": 0.43
     },
     {
       "id": "click-mouse-click-3",
@@ -13824,7 +13832,8 @@
       "heard": [
         "danceable",
         "energetic"
-      ]
+      ],
+      "beat0": 0.464
     },
     {
       "id": "synthet7-1-million",
@@ -13956,7 +13965,8 @@
         "energetic",
         "happy",
         "upbeat"
-      ]
+      ],
+      "beat0": 0.476
     },
     {
       "id": "synthet7-a-bit-odd",
@@ -14078,7 +14088,8 @@
         "melodic",
         "deep",
         "energetic"
-      ]
+      ],
+      "beat0": 0.406
     },
     {
       "id": "synthet7-a-christmas-video",
@@ -14224,7 +14235,8 @@
         "energetic",
         "positive",
         "corporate"
-      ]
+      ],
+      "beat0": 0.464
     },
     {
       "id": "synthet7-air-horn",
@@ -14361,7 +14373,8 @@
         "energetic",
         "summer",
         "happy"
-      ]
+      ],
+      "beat0": 0.627
     },
     {
       "id": "synthet7-amen-broke",
@@ -14498,7 +14511,8 @@
         "energetic",
         "melodic",
         "slow"
-      ]
+      ],
+      "beat0": 0.43
     },
     {
       "id": "synthet7-another-bistro",
@@ -14652,7 +14666,8 @@
         "summer",
         "happy",
         "background"
-      ]
+      ],
+      "beat0": 0.604
     },
     {
       "id": "synthet7-better-off-unmastered",
@@ -14815,7 +14830,8 @@
         "danceable",
         "summer",
         "deep"
-      ]
+      ],
+      "beat0": 0.395
     },
     {
       "id": "synthet7-better-off-unmixed",
@@ -14936,7 +14952,8 @@
         "danceable",
         "deep",
         "energetic"
-      ]
+      ],
+      "beat0": 0.58
     },
     {
       "id": "synthet7-count-along",
@@ -15076,7 +15093,8 @@
         "energetic",
         "melodic",
         "deep"
-      ]
+      ],
+      "beat0": 0.418
     },
     {
       "id": "synthet7-cow-song",
@@ -15200,7 +15218,8 @@
         "energetic",
         "happy",
         "slow"
-      ]
+      ],
+      "beat0": 0.441
     },
     {
       "id": "synthet7-ctrl-delete",
@@ -15330,7 +15349,8 @@
       "heard": [
         "danceable",
         "deep"
-      ]
+      ],
+      "beat0": 0.58
     },
     {
       "id": "synthet7-cut-itself",
@@ -15449,7 +15469,8 @@
         "danceable",
         "slow",
         "happy"
-      ]
+      ],
+      "beat0": 0.418
     },
     {
       "id": "synthet7-despabeato",
@@ -15569,7 +15590,8 @@
         "deep",
         "summer",
         "happy"
-      ]
+      ],
+      "beat0": 0.615
     },
     {
       "id": "synthet7-fah",
@@ -15691,7 +15713,8 @@
         "summer",
         "happy",
         "energetic"
-      ]
+      ],
+      "beat0": 0.476
     },
     {
       "id": "synthet7-funky-bg",
@@ -15826,7 +15849,8 @@
         "energetic",
         "background",
         "film"
-      ]
+      ],
+      "beat0": 0.58
     },
     {
       "id": "synthet7-goon-instrumental",
@@ -15968,7 +15992,8 @@
         "happy",
         "energetic",
         "funny"
-      ]
+      ],
+      "beat0": 0.476
     },
     {
       "id": "synthet7-happy-go-lucky",
@@ -16105,7 +16130,8 @@
         "happy",
         "deep",
         "energetic"
-      ]
+      ],
+      "beat0": 0.488
     },
     {
       "id": "synthet7-high-pitched-sounds",
@@ -16239,7 +16265,8 @@
         "danceable",
         "deep",
         "summer"
-      ]
+      ],
+      "beat0": 0.534
     },
     {
       "id": "synthet7-how-to-bass",
@@ -16372,7 +16399,8 @@
         "happy",
         "corporate",
         "summer"
-      ]
+      ],
+      "beat0": 0.511
     },
     {
       "id": "synthet7-how-to-guitar",
@@ -16503,7 +16531,8 @@
         "happy",
         "deep",
         "corporate"
-      ]
+      ],
+      "beat0": 0.464
     },
     {
       "id": "synthet7-how-to-make-love-music",
@@ -16642,7 +16671,8 @@
         "summer",
         "deep",
         "happy"
-      ]
+      ],
+      "beat0": 0.488
     },
     {
       "id": "synthet7-im-in-a-house",
@@ -16776,7 +16806,8 @@
         "happy",
         "energetic",
         "melodic"
-      ]
+      ],
+      "beat0": 0.511
     },
     {
       "id": "synthet7-make-it-pretty",
@@ -16901,7 +16932,8 @@
         "happy",
         "deep",
         "melodic"
-      ]
+      ],
+      "beat0": 0.464
     },
     {
       "id": "synthet7-miku-song",
@@ -17023,7 +17055,8 @@
         "energetic",
         "happy",
         "melodic"
-      ]
+      ],
+      "beat0": 0.453
     },
     {
       "id": "synthet7-nintendomuseet-i-halland",
@@ -17164,7 +17197,8 @@
         "danceable",
         "slow",
         "happy"
-      ]
+      ],
+      "beat0": 0.464
     },
     {
       "id": "synthet7-orchestra-hit-music",
@@ -17296,7 +17330,8 @@
         "happy",
         "deep",
         "slow"
-      ]
+      ],
+      "beat0": 0.453
     },
     {
       "id": "synthet7-rat-beat",
@@ -17415,7 +17450,8 @@
         "danceable",
         "deep",
         "summer"
-      ]
+      ],
+      "beat0": 0.383
     },
     {
       "id": "synthet7-reverses",
@@ -17545,7 +17581,8 @@
         "deep",
         "summer",
         "happy"
-      ]
+      ],
+      "beat0": 0.476
     },
     {
       "id": "synthet7-rizz-and-vine",
@@ -17670,7 +17707,8 @@
         "danceable",
         "deep",
         "summer"
-      ]
+      ],
+      "beat0": 0.604
     },
     {
       "id": "synthet7-rounded-notes",
@@ -17783,7 +17821,8 @@
         "summer",
         "happy",
         "melodic"
-      ]
+      ],
+      "beat0": 0.464
     },
     {
       "id": "synthet7-sad-trombone",
@@ -17929,7 +17968,8 @@
         "energetic",
         "corporate",
         "melodic"
-      ]
+      ],
+      "beat0": 0.511
     },
     {
       "id": "synthet7-sidechain",
@@ -18068,7 +18108,8 @@
         "danceable",
         "deep",
         "summer"
-      ]
+      ],
+      "beat0": 0.522
     },
     {
       "id": "synthet7-sus2",
@@ -18194,7 +18235,8 @@
         "summer",
         "happy",
         "energetic"
-      ]
+      ],
+      "beat0": 0.464
     },
     {
       "id": "synthet7-swing",
@@ -18320,7 +18362,8 @@
         "danceable",
         "happy",
         "corporate"
-      ]
+      ],
+      "beat0": 0.395
     },
     {
       "id": "synthet7-syncopation",
@@ -18451,7 +18494,8 @@
         "summer",
         "deep",
         "happy"
-      ]
+      ],
+      "beat0": 0.488
     },
     {
       "id": "synthet7-synthette",
@@ -18596,7 +18640,8 @@
         "happy",
         "energetic",
         "corporate"
-      ]
+      ],
+      "beat0": 0.36
     },
     {
       "id": "synthet7-talk-box",
@@ -18720,7 +18765,8 @@
         "deep",
         "summer",
         "happy"
-      ]
+      ],
+      "beat0": 0.546
     },
     {
       "id": "synthet7-thank-you",
@@ -18851,7 +18897,8 @@
         "slow",
         "melodic",
         "upbeat"
-      ]
+      ],
+      "beat0": 0.406
     },
     {
       "id": "synthet7-the-best-chord",
@@ -18974,7 +19021,8 @@
         "danceable",
         "deep",
         "summer"
-      ]
+      ],
+      "beat0": 0.488
     },
     {
       "id": "synthet7-the-billie",
@@ -19102,7 +19150,8 @@
         "summer",
         "energetic",
         "corporate"
-      ]
+      ],
+      "beat0": 0.522
     },
     {
       "id": "synthet7-the-juciest-chord",
@@ -19230,7 +19279,8 @@
         "happy",
         "background",
         "melodic"
-      ]
+      ],
+      "beat0": 0.615
     },
     {
       "id": "synthet7-the-project-got-corrupted",
@@ -19360,7 +19410,8 @@
         "slow",
         "corporate",
         "summer"
-      ]
+      ],
+      "beat0": 0.453
     },
     {
       "id": "synthet7-thought-break",
@@ -19490,7 +19541,8 @@
         "danceable",
         "deep",
         "summer"
-      ]
+      ],
+      "beat0": 0.488
     },
     {
       "id": "synthet7-tiny-tiny-tiny",
@@ -19612,7 +19664,8 @@
         "danceable",
         "energetic",
         "happy"
-      ]
+      ],
+      "beat0": 0.464
     },
     {
       "id": "synthet7-transitions",
@@ -19749,7 +19802,8 @@
         "happy",
         "summer",
         "motivational"
-      ]
+      ],
+      "beat0": 0.43
     },
     {
       "id": "synthet7-vocoder",
@@ -19877,7 +19931,8 @@
         "danceable",
         "deep",
         "summer"
-      ]
+      ],
+      "beat0": 0.488
     },
     {
       "id": "synthet7-wow",
@@ -20022,7 +20077,8 @@
         "melodic",
         "background",
         "deep"
-      ]
+      ],
+      "beat0": 0.569
     }
   ]
 }
