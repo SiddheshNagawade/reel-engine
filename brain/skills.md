@@ -95,3 +95,10 @@ GIPHY (reaction GIFs; free beta key in gitignored secrets.local.json, 100 calls/
 assets.mjs import (catalog tag `found`). Needs the T7. Search words: exact names + "logo"/"png"/"transparent" for things
 that float; GIFs: the reaction ("facepalm", "shocked"). Prefer what's free to use; credit CC-BY images in the post text.
 Doesn't replace him for current Indian memes and inside jokes.
+
+## HD upscale (2026-10-15)
+`node scripts/upscale.mjs <in> <out> [--anime]`: Real-ESRGAN (trained model, Mac GPU) for small pictures/GIFs, capped at
+1080 px. realesrgan-x4plus for real people/photos (natural skin; ~8 s per frame, a 3 s GIF ≈ 6 min, done once per Library
+item); --anime = realesr-animevideov3 (fast, but waxy on real faces: cartoons only). findimg.mjs pick runs it automatically
+under 1000 px (pictures) / 720 px (GIFs); SVG logos are vector = already perfect. Library webms now keep up to 1080 px.
+Models: models/esrgan/ (gitignored; github.com/xinntao/Real-ESRGAN releases, macos zip).

@@ -18,6 +18,7 @@ import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import ffmpegPath from 'ffmpeg-static';
 import {libraryRoot, workRoot, driveAttached} from './lib/paths.mjs';
+import {upscale, upscalerReady, size} from './upscale.mjs';
 
 const UA = 'ReelEngine/1.0 (personal video editing tool; contact via github.com/SiddheshNagawade/reel-engine)';
 const args = process.argv.slice(2);
@@ -78,7 +79,7 @@ if (cmd === 'search') {
   for (const s of srcs) {
     try { cands.push(...(await SOURCES[s](q, n))); } catch (e) { console.log(`  (${s} failed: ${e.message})`); }
   }
-  cands = cands.filter((c) => c.thumb && c.full).slice(0, 16);
+  cands = cands.filter((c) => c.thumb && c.full).slice(0, 16); // relevance order; sizes are printed on every tile
   if (!cands.length) { console.log('Nothing found. Try other words, another source, or ask him (pass 9).'); process.exit(1); }
   // one numbered contact sheet: 4 per row, each tile 240×240 with its number, source and size
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'findimg-'));
@@ -118,7 +119,19 @@ if (cmd === 'search') {
   const dir = path.join(libraryRoot(), 'wanted', id);
   fs.mkdirSync(dir, {recursive: true});
   const ext = c.moving ? '.mp4' : (path.extname(new URL(c.full).pathname).toLowerCase() || '.jpg');
-  await download(c.full, path.join(dir, `found${ext}`));
+  const file = path.join(dir, `found${ext}`);
+  await download(c.full, file);
+  // HD: anything small gets upscaled by Real-ESRGAN before it enters the Library (pictures < 1000 px, GIFs < 720 px)
+  if (ext !== '.svg' && upscalerReady()) {
+    const [w, h] = size(file);
+    if (Math.max(w, h) < (c.moving ? 720 : 1000)) {
+      console.log(`  ${w}x${h} is small → AI upscale${c.moving ? ' (a few minutes for a GIF)' : ''}…`);
+      const up = path.join(dir, `found-hd${c.moving ? '.mp4' : '.png'}`);
+      const r = upscale(file, up, {anime: args.includes('--anime')});
+      fs.rmSync(file); // keep only the HD file
+      console.log(`  → ${r.to.join('x')}`);
+    }
+  }
   const kind = opt('--kind', c.moving ? 'gif' : 'image');
   fs.writeFileSync(path.join(dir, 'about.txt'), [
     `Found for ${reel}: ${opt('--what', query)}`,

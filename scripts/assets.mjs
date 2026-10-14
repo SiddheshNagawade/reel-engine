@@ -107,7 +107,7 @@ async function importOne(id) {
     Object.assign(entry, {kind: 'sound', soundOnly: true, seconds: Math.min(p.duration || 2, 3), length: +p.duration.toFixed(2), volume: 0.7});
   } else if (MOVING.test(file)) {
     const p = await probe(src);
-    await ffmpeg(['-y', '-i', src, '-an', '-vf', "fps=30,scale=-2:'min(ih,720)',format=yuva420p",
+    await ffmpeg(['-y', '-i', src, '-an', '-vf', "fps=30,scale=-2:'min(ih,1080)',format=yuva420p",
       '-c:v', 'libvpx-vp9', '-pix_fmt', 'yuva420p', '-b:v', '0', '-crf', '30', '-row-mt', '1', '-deadline', 'good', '-cpu-used', '4',
       path.join(dir, 'sticker.webm')]);
     await ffmpeg(['-y', '-i', src, '-frames:v', '1', path.join(dir, 'poster.png')]);

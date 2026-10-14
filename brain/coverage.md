@@ -43,7 +43,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | visuals | Show what he describes | reel, vlog, process | ✅ | chart / UI / image layers | preferences.md |
 | visuals | Props on face/hands (crown, sunglasses, sweat, anger, ?, bulb, tears, hearts) | reel, vlog | ✅ | reel: direction.attach · vlog: gfx {type: "attach", what, near} | motion-graphics skill |
 | visuals | Speech/thought bubbles, labels + arrows, sticky notes | reel, vlog | ✅ | reel: attach bubble/thought/label/note · vlog: gfx {type: "attach", what: bubble/thought/label/note, text, near} / arrow | motion-graphics skill |
-| visuals | Find real pictures myself: logos, brands, places, objects, people, reaction GIFs | reel, vlog, process | ✅ | node scripts/findimg.mjs search <name> <id> "<words>" → look at the ONE sheet → pick <name> <id> <n> --kind --tags | skills.md |
+| visuals | Find real pictures myself: logos, brands, places, objects, people, reaction GIFs | reel, vlog, process | ✅ | node scripts/findimg.mjs search <name> <id> "<words>" → look at the ONE sheet (prefer SVG / big sizes) → pick <name> <id> <n> --kind --tags (small ones are AI-upscaled to HD automatically) | skills.md |
 | visuals | Meme stickers / GIFs by HIS attitude | reel, vlog | ✅ | direction.memes · vlog gfx sticker | preferences.md |
 | visuals | Designed title: mixed fonts on the beat (heavy rise, script typed, brush highlight) | reel | ✅ | direction.titles [{kind: "words", lines: [[{word, text, font, enter, highlight}]]}] | pablo.md |
 | visuals | Inverted stacked title (exclusion blend) | reel | ✅ | direction.titles [{kind: "stack", lines, words}] | pablo.md |
