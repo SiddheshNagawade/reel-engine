@@ -44,6 +44,17 @@ Post when HIS audience is online (Instagram Insights → Followers → Most acti
 viewers are on YouTube). Until he shares those: Indian students ≈ 7–10 pm IST. Same reel on both platforms, IG first.
 After posting: reply to every comment in the first hour (counts as engagement on both platforms).
 
+## Brand-new account (his situation, 2026-10-14: zero history, no analytics yet)
+- Instagram: Professional → Creator account (unlocks Insights + Trial Reels). Use **Trial Reels** for the first posts:
+  they go to non-followers only, so a small follower count doesn't cap the test.
+- The first ~10 posts teach both platforms WHO he is: same topics every time (building things / IIT design / gym),
+  same keywords in captions, name field ("Siddhesh | builds apps + gym") and bio. No off-topic posts in this phase.
+- No follow-for-follow, no engagement groups, no bought views: they teach the algorithm the wrong audience.
+- Times until Insights has data (~2 weeks, needs some followers): 7–9 pm IST weekdays, 11 am–1 pm Sundays; vary a bit
+  and note views per slot in Verdicts.
+- Judge a post after 48 h (IG) / 7 days (YT), not in the first hour. 200 views on IG and ~1k on a new YT channel are
+  normal starts; watch % and sends matter more than views now.
+
 ## Don't
 - Don't mention ReelEngine / "AI edits my videos" (content-plan.md decision).
 - No engagement bait the video doesn't earn, no fake numbers, no tags of unconfirmed people.
