@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-87 techniques · 86 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
+88 techniques · 87 built · 0 still to build · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -94,4 +94,5 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | sound | Tension / riser under a build-up | reel, vlog | ✅ | sfx tension-*, riser → impact | preferences.md |
 | density | Something new every 2–3 s; one idea at a time | reel, vlog, process | ✅ | node scripts/editplan.mjs <name> check | preferences.md |
 | viewer | Cover / thumbnail from the best frame | reel, vlog, process | ✅ | .venv/bin/python scripts/heroframe.py <video> <dir> (+ herocut.py for a thumbnail cut-out) | AI-editing blueprint (Jason Cooperson) |
+| viewer | Posting kit: IG caption + YT title/description/tags, cover, audio note, credit, time | reel, vlog, process | ✅ | node scripts/postkit.mjs <name> → output/<name>/<name>-vN.post.md (brain/posting.md) | posting.md |
 | viewer | YouTube upload in 4K | vlog | ✅ | node scripts/vlog.mjs <name> --yt4k | AI-editing blueprint (Jason Cooperson) |

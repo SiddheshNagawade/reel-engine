@@ -26,7 +26,7 @@ export const READS = {
   sound: [['brain/edit-layers.md', 'Pass 7'], ['brain/memes.md', 'When a meme belongs'], ['brain/sounds.md', 'Moment → sound'], ['brain/sounds.md', 'Rules'], ['brain/sounds.md', 'Music by mood'], ['brain/sounds.md', 'Silence and transitions']],
   density: [['brain/edit-layers.md', 'Pass 8'], ['brain/principles.md', '3. Pattern interrupts']],
   asks: [['brain/edit-layers.md', 'Pass 9']],
-  viewer: [['brain/edit-layers.md', 'Pass 10'], ['brain/principles.md', '8. Checklist']],
+  viewer: [['brain/edit-layers.md', 'Pass 10'], ['brain/principles.md', '8. Checklist'], ['brain/posting.md', 'Instagram caption'], ['brain/posting.md', 'YouTube Shorts']],
 };
 
 // One markdown section: from the heading that starts with `start` to the next heading of the same or higher level.

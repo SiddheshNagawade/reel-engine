@@ -105,6 +105,8 @@ He is happy to Google memes and pictures for you; that's how the Library grows. 
   change, the ending. Write what you found under pass 10.
 - Cover / thumbnail: `.venv/bin/python scripts/heroframe.py <final.mp4> <output dir>` picks the best frames (sharp,
   eyes open); YouTube uploads render with `--yt4k`.
+- Posting kit (every final version): `node scripts/postkit.mjs <name>` → write `<name>-vN.post.md` next to the mp4
+  with brain/posting.md (IG caption, YT title/description/tags, cover, audio note, credit, time). Mention it in the hand-off.
 
 ## Step 6: tell him, then learn
 Brief and plain: what you made, why (one line per big choice), what's waiting on him. After his feedback: v2 = a new

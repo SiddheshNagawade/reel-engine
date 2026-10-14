@@ -27,6 +27,7 @@ Everything else is read at the moment it matters, through a briefing or a skill,
 | memes.md | the video-meme library and how to present a meme (card / half / full / zoom) | visuals + sound briefings |
 | canvas.md | canvas mode: footage as one layer on a canvas, one camera over all | layout + motion briefings |
 | pablo.md | the designed-reel style (titles, inverted title, full-screen scenes, sound map) learned from a course | visuals + motion briefings |
+| posting.md | how to write the IG caption / YT title etc. for each video (posting kit) + analytics verdicts | viewer briefing, edit-video step 5 |
 | vlog.md | long-form vlog playbook | briefings when the video is a vlog |
 | process-videos.md | drawing / making-of playbook | briefings when the video is a process video |
 | clipping.md | ARCHIVE: Whop clipping (he stopped, 2026-10-11); the pipeline notes stay for podcast clips | only if he clips again |

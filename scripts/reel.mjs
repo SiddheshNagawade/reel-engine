@@ -18,6 +18,7 @@ import {analyzeFrames, pickTheme} from './lib/themes.mjs';
 import {buildEdit, buildTranscript, brollTags} from './lib/plan.mjs';
 import {mediaRoots, outputRoot, workRoot, listVideos, libraryRoot} from './lib/paths.mjs';
 import {syncToDrive} from './lib/sync.mjs';
+import {writePostFacts} from './postkit.mjs';
 import {requirePlan} from './lib/editplan.mjs';
 import os from 'node:os';
 import {renderEdit} from './render.mjs';
@@ -361,9 +362,11 @@ if (!flag('--no-render')) {
     path.join(reelDir, 'CHANGELOG.md'),
     `\n## v${version} (${new Date().toLocaleString('en-IN', {hour12: false})})\n${note || '- (no notes)'}${planNote ? `\n${planNote}` : ''}\n- Length ${(edit.durationInFrames / FPS).toFixed(1)}s · memes: ${(edit.memes ?? []).map((m) => m.id).filter(Boolean).join(', ') || 'none'} · captions: ${edit.theme.captionStyle}\n`,
   );
+  writePostFacts({reelDir, vName, edit, direction, transcriptMd: transcript, fps: FPS}); // posting kit facts (brain/posting.md)
   step('Writing Final Cut project…');
   await exportFcp(vName);
   console.log(`\n✅ ${vName}.mp4 + ${vName}.fcpxml saved in ${reelDir}`);
+  console.log(`📝 Posting kit: node scripts/postkit.mjs ${name} v${version} → write ${vName}.post.md (brain/posting.md)`);
   // Remember what this reel used, so the next reels don't repeat the same jokes.
   const usageFile = path.resolve('brain', 'usage.json');
   const usage = fs.existsSync(usageFile) ? readJson(usageFile) : {reels: []};

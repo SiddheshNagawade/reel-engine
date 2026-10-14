@@ -76,3 +76,8 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 - `.venv/bin/python scripts/musicmood.py [--only ids]`: listens to every Library music track with Essentia models
   (models/essentia, free/local) → moods, moodScores, bpm, drop, energy in the catalog. Run after adding music.
 - `.venv/bin/python scripts/voicefeel.py <name>`: his voice intensity per line (loudness + pitch + speed vs his own average) → _work/<name>/voicefeel.json. Run in the sound pass.
+
+## Posting kit (2026-10-14)
+`node scripts/postkit.mjs <name> [vN]` prints the facts of a version (hook, spoken lines, length, music credits; reel renders
+save them as `<name>-vN.post.json`) + the template; I write `<name>-vN.post.md` (IG caption, YT title/description/tags,
+cover, audio note, time) following brain/posting.md. Upload stays manual (IG music picker; unreviewed YT API = private only).
