@@ -623,14 +623,16 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const w = byIndex.get(c.at);
     if (!w) continue;
     const end = c.until !== undefined ? byIndex.get(c.until)?.f1 ?? durationInFrames : durationInFrames;
-    const pool = catalog.filter((m) => m.kind === 'music' && (c.id ? m.id === c.id : (m.moods ?? []).includes(c.mood)));
+    let pool = catalog.filter((m) => m.kind === 'music' && !m.sting && (c.id ? m.id === c.id : (m.moods ?? []).includes(c.mood)));
+    // no exact tag: the tracks whose LISTENED score for that mood is highest (scripts/musicmood.py)
+    if (!pool.length && c.mood) pool = catalog.filter((m) => m.kind === 'music' && !m.sting && m.moodScores?.[c.mood] != null).sort((a, b) => b.moodScores[c.mood] - a.moodScores[c.mood]).slice(0, 3);
     const prev = musicCues.at(-1)?.id;
     const fresh = pool.filter((m) => m.id !== prev);
     const m = pick(fresh.length ? fresh : pool, `${name}-music-${i}-${c.mood ?? c.id}`);
     if (!m) { console.log(`  ⚠️ no music for mood "${c.mood ?? c.id}" in the Library (tag tracks with moods, or ask him)`); continue; }
     const f = Math.max(0, (i === 0 ? 0 : w.f0) - (i === 0 ? 0 : 8));
     musicCues.push({id: m.id, mood: c.mood, src: `assets/library/${m.dir}/track.mp3`, f, frames: Math.max(15, end - f + 10), volume: c.vol ?? 1,
-      trimBefore: Math.round((c.from ?? m.drop ?? 0) * fps), fadeIn: i === 0 ? 6 : 14, fadeOut: 18});
+      trimBefore: Math.round((c.from ?? (c.drop === false ? 0 : m.drop) ?? 0) * fps), fadeIn: i === 0 ? 6 : 14, fadeOut: 18});
   }
   return {
     name,

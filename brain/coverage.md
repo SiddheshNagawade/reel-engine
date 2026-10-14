@@ -85,7 +85,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | look | Scopes before any grade change | reel, vlog, process | ✅ | scripts/colorcheck.py | color.md |
 | look | Orientation of every range | vlog, process | ✅ | contact sheets → rotate | preferences.md |
 | look | Subject/background separation grade | reel | ⏸ parked: he chose the v1 look ("just perfect"); his rule is not to improve it unasked. Build only if he asks. | scripts/personmask.py (mask edge must be shrunk + feathered: the first try left a halo) | color.md |
-| sound | Music changes by story section (mood per part, cross-faded), never one bed | reel, vlog | ✅ | direction.music [{at, until, mood/id, from}] (brain/sounds.md) | sounds.md |
+| sound | Music changes by story section (mood per part, cross-faded), never one bed | reel, vlog | ✅ | direction.music [{at, until, mood/id, from}] (brain/sounds.md); tracks are listened to by scripts/musicmood.py (moods, bpm, drop, energy) | sounds.md |
 | sound | Sound by meaning | reel, vlog, process | ✅ | direction.memes tags / vlog sfx | sounds.md |
 | sound | Soft whoosh for real movement, tick/click for text/UI | reel, vlog, process | ✅ | sfx | expensive.md |
 | sound | Meme voices after the line, never over his words | reel, vlog | ✅ | memes / sfx (checked automatically) | preferences.md |

@@ -57,6 +57,14 @@ music changes where the story turns (problem → tension/sad, turn → build, pa
 - Popular songs: Spotify can't be downloaded (locked + copyright) and Instagram mutes copyrighted songs added in the edit.
   For a trending song, he adds it in Instagram's own music picker at upload; our edit then carries only his voice + sfx
   (or a quiet mood bed he turns down). Free-licence tracks (Pixabay Music, YouTube Audio Library, Mixkit) are safe.
+- The music has EARS now (scripts/musicmood.py, Essentia models, free + local, 2026-10-14): every track was listened to
+  → catalog `moods` (title moods + distinctive heard tags), `moodScores` (happy/sad/aggressive/calm/party/danceable +
+  56 Jamendo mood/theme scores), `bpm`, `drop` (second where its most energetic stretch starts; cues start there unless
+  `from` is set) and `energy` (curve per ~3 s: quiet intro, build, peak). If no track has the exact mood tag, the
+  planner takes the highest listened score for it. Honest limit: these models were trained on mainstream songs; on his
+  game-style instrumentals they mostly hear "danceable/happy" (those tags are dropped as meaningless), so tempo,
+  energy and drop are the most reliable parts. Still: listen to the chosen part before trusting a mood.
+  New tracks: put them in Library/music/<id>/track.mp3 + catalog entry (kind music), then run the script.
 - Synthet7 pack (Newgrounds, his pick 2026-10-14): ~50 short game-style tracks in Library/music/synthet7-*, mood-tagged
   (guessed from titles: listen and correct). Licence per track in about.txt + catalog `licence`; most are Creative
   Commons BY-NC-SA: CREDIT "Music: Synthet7" in the caption/description, and NOT for paid/sponsored posts. Tracks under

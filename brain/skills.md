@@ -71,3 +71,7 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 ## Canvas mode (2026-10-14, brain/canvas.md)
 - `direction.canvas` {bg, cam, footage keys (x, y, w, rot, shape, cut), items} → src/layers/Canvas.tsx: the canvas is the
   base, his footage one layer, one camera over all. cut: true = just him (person cut-out made by reel.mjs).
+
+## Music ears (2026-10-14)
+- `.venv/bin/python scripts/musicmood.py [--only ids]`: listens to every Library music track with Essentia models
+  (models/essentia, free/local) → moods, moodScores, bpm, drop, energy in the catalog. Run after adding music.

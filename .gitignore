@@ -21,3 +21,4 @@ src/edits/*.json
 # Media library lives on the T7 (Library/); only the fonts (program files) stay in the repo.
 public/assets/library/*
 !public/assets/library/fonts/
+models/
