@@ -52,6 +52,10 @@ sections at the moment of the decision.
 ## Visuals, memes, props {visuals,layout,depth,asks}
 - He describes something visual → SHOW it (chart, UI frame, object). Missing asset → find it myself first
   (scripts/findimg.mjs: one numbered sheet, I choose for the moment), else build it, else ask him (pass 9) (2026-10-15).
+- Found memes/GIFs must feel UNIVERSAL and relatable to his Indian audience (internet creators like IShowSpeed, cartoons,
+  meme faces, viral/Indian clips), not obscure foreign TV shots; GIPHY is searched as "<reaction> meme" (giphy.com/search/
+  memes). Memes keep the quality they come in (no upscaling); pictures (logos, products, places) = full-size originals,
+  SVG or ≥ 1000 px (2026-10-15).
 - Memes show HIS attitude at that moment; keyword matches alone are wrong. Good matches are welcome (huh on confused,
   sleepy on late night). Current Indian memes preferred; classic meme cards (memecard.mjs) ~1 per video at most.
 - Meme presentation is a choice per moment (floating card, half screen, full-screen cut, zoom into it), with an entry

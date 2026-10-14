@@ -10,7 +10,7 @@
 // Sources (brain/skills.md "Find pictures"):
 //   wiki      Wikimedia Commons: logos, brands, places, famous people, objects (often transparent PNG/SVG)
 //   openverse Openverse: openly licensed photos/illustrations (CC), no key
-//   giphy     GIPHY: reaction GIFs / memes; needs a free key in secrets.local.json {"giphyKey": "…"} (gitignored)
+//   giphy     GIPHY: reaction memes (searched as "<words> meme" first); key in secrets.local.json (gitignored)
 // Current Indian memes and inside jokes still come from him (pass 9): these sites don't have them.
 import fs from 'node:fs';
 import os from 'node:os';
@@ -18,7 +18,6 @@ import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import ffmpegPath from 'ffmpeg-static';
 import {libraryRoot, workRoot, driveAttached} from './lib/paths.mjs';
-import {upscale, upscalerReady, size} from './upscale.mjs';
 
 const UA = 'ReelEngine/1.0 (personal video editing tool; contact via github.com/SiddheshNagawade/reel-engine)';
 const args = process.argv.slice(2);
@@ -58,8 +57,15 @@ const SOURCES = {
   },
   async giphy(q, n) {
     if (!giphyKey) { console.log('  (giphy skipped: no key in secrets.local.json)'); return []; }
-    const d = await getJson(`https://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=${encodeURIComponent(q)}&limit=${n}&rating=pg-13`);
-    return (d.data ?? []).map((g) => ({src: 'giphy', title: g.title, thumb: g.images?.fixed_width_still?.url, full: g.images?.original?.mp4 || g.images?.original?.url,
+    // "<words> meme" first: GIPHY's meme side (giphy.com/search/memes) = universal, relatable reactions (internet
+    // creators, cartoons, viral clips) instead of random foreign TV shots; then the plain words; duplicates dropped
+    const seen = new Set();
+    const data = [];
+    for (const qq of [/\bmemes?\b/i.test(q) ? q : `${q} meme`, q]) {
+      const d = await getJson(`https://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=${encodeURIComponent(qq)}&limit=${n}&rating=pg-13`);
+      for (const g of d.data ?? []) if (!seen.has(g.id)) { seen.add(g.id); data.push(g); }
+    }
+    return data.slice(0, n).map((g) => ({src: 'giphy', title: g.title, thumb: g.images?.fixed_width_still?.url, full: g.images?.original?.mp4 || g.images?.original?.url,
       w: +g.images?.original?.width, h: +g.images?.original?.height, licence: 'GIPHY', credit: g.username || 'GIPHY', page: g.url, moving: true}));
   },
 };
@@ -79,7 +85,11 @@ if (cmd === 'search') {
   for (const s of srcs) {
     try { cands.push(...(await SOURCES[s](q, n))); } catch (e) { console.log(`  (${s} failed: ${e.message})`); }
   }
-  cands = cands.filter((c) => c.thumb && c.full).slice(0, 16); // relevance order; sizes are printed on every tile
+  cands = cands.filter((c) => c.thumb && c.full);
+  // pictures must be proper quality: SVG or ≥ 1000 px on the long side; small ones only when nothing big exists
+  const big = (c) => c.moving || /\.svg$/i.test(c.full.split('?')[0]) || Math.max(c.w || 0, c.h || 0) >= 1000;
+  if (cands.filter(big).length >= 3) cands = cands.filter(big);
+  cands = cands.slice(0, 16); // relevance order; sizes are printed on every tile
   if (!cands.length) { console.log('Nothing found. Try other words, another source, or ask him (pass 9).'); process.exit(1); }
   // one numbered contact sheet: 4 per row, each tile 240×240 with its number, source and size
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'findimg-'));
@@ -121,17 +131,7 @@ if (cmd === 'search') {
   const ext = c.moving ? '.mp4' : (path.extname(new URL(c.full).pathname).toLowerCase() || '.jpg');
   const file = path.join(dir, `found${ext}`);
   await download(c.full, file);
-  // HD: anything small gets upscaled by Real-ESRGAN before it enters the Library (pictures < 1000 px, GIFs < 720 px)
-  if (ext !== '.svg' && upscalerReady()) {
-    const [w, h] = size(file);
-    if (Math.max(w, h) < (c.moving ? 720 : 1000)) {
-      console.log(`  ${w}x${h} is small → AI upscale${c.moving ? ' (a few minutes for a GIF)' : ''}…`);
-      const up = path.join(dir, `found-hd${c.moving ? '.mp4' : '.png'}`);
-      const r = upscale(file, up, {anime: args.includes('--anime')});
-      fs.rmSync(file); // keep only the HD file
-      console.log(`  → ${r.to.join('x')}`);
-    }
-  }
+  // quality as it comes: memes/GIFs are never upscaled (his verdict 2026-10-15); pictures are the full-size originals
   const kind = opt('--kind', c.moving ? 'gif' : 'image');
   fs.writeFileSync(path.join(dir, 'about.txt'), [
     `Found for ${reel}: ${opt('--what', query)}`,

@@ -22,6 +22,13 @@ don't make it too sloppy".
 5. Variety: never the same meme or the same display mode twice in a row; check brain/usage.json for recent reels.
 6. Current Indian memes he sends beat these international ones when both fit.
 
+## Finding new memes online (2026-10-15)
+- `node scripts/findimg.mjs search <reel> <id> "<reaction>" --src giphy` searches "<reaction> meme" first (GIPHY's meme
+  side), then the plain words. Choose what his Indian audience instantly recognises: meme faces (soyjak, cat memes),
+  cartoons, internet creators (IShowSpeed-type), viral or Indian clips. Skip obscure foreign TV/film shots (a Star Trek
+  facepalm is "foreign", nobody here feels it), stock-photo people, watermarks.
+- Keep memes in the quality they come in: no upscaling (his verdict). Pictures of things are a different rule: full-size.
+
 ## How to show it: pick per moment (direction.memes `{at, id, show}` · vlog gfx `{type: "meme", clip, show}`)
 | show | Looks like | Use for | Sound |
 |---|---|---|---|
