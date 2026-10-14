@@ -85,3 +85,13 @@ cover, audio note, time) following brain/posting.md. Upload stays manual (IG mus
 ## Skin balance (2026-10-14)
 `.venv/bin/python scripts/skinbalance.py <video> <out.json> [every_s]` measures skin hue per moment and gives white-balance
 gains; reel renders run it automatically and apply per-shot gains (brain/color.md "Skin balance"). Measure anything with it.
+
+## Find pictures (2026-10-15)
+`node scripts/findimg.mjs search <reel> <id> "<exact words>" [--src wiki,openverse,giphy] [--n 8]` → free APIs (no
+scraping): Wikimedia Commons (logos/brands/places/people, often transparent PNG/SVG), Openverse (CC photos/illustrations),
+GIPHY (reaction GIFs; key in gitignored secrets.local.json {"giphyKey": "…"}). Makes ONE numbered contact sheet
+(_work/<reel>/finds/<id>.jpg): I look once and choose for the moment. `pick <reel> <id> <n> --kind sticker|image|gif
+--tags "…" --what "…"` downloads the original into Library/wanted/<id>/ (about.txt: source, licence, credit) and runs
+assets.mjs import (catalog tag `found`). Needs the T7. Search words: exact names + "logo"/"png"/"transparent" for things
+that float; GIFs: the reaction ("facepalm", "shocked"). Prefer what's free to use; credit CC-BY images in the post text.
+Doesn't replace him for current Indian memes and inside jokes.

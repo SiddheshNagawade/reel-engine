@@ -22,3 +22,6 @@ src/edits/*.json
 public/assets/library/*
 !public/assets/library/fonts/
 models/
+
+# local API keys (GIPHY etc.), never in git
+secrets.local.json

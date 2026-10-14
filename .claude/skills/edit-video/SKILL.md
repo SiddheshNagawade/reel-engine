@@ -77,8 +77,11 @@ minute). Reach across the whole toolbox, not only text:
   "<moment>"`, then render it into the Library. His current Indian memes (asset requests) come first.
 - **Screens on camera** (phone, laptop, screen recording): reel `direction.blurSecrets: true`; vlog `scripts/secrets.py`
   on the piece → `censor`. Never publish a number, email, UPI ID, OTP or key.
-- **Needs an asset the Library lacks** (an expression meme, a reaction GIF, a logo, a photo) → it goes in the Asset
-  requests table (pass 9), with the beat it's for.
+- **Needs an asset the Library lacks** → FIRST find it yourself: `node scripts/findimg.mjs search <name> <id> "<exact
+  words>"` (logos, brands, places, objects, famous people, reaction GIFs) → look at the ONE numbered sheet → choose for
+  THIS moment (right feeling, clean, high-res, transparent if it floats; reject clip art/blur/watermarks) → `pick <name>
+  <id> <n> --kind … --tags …` (lands in the Library with source + licence). Nothing fits → better words once, then the
+  Asset requests table (pass 9). Current Indian memes and inside jokes always go to him (these sites don't have them).
 
 ### Pass 8: density walk
 `node scripts/editplan.mjs <name> check` runs the automatic rules (fast-forward, emoji, repeated meme sounds,

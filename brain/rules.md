@@ -50,7 +50,8 @@ sections at the moment of the decision.
 - Top half = memes/reactions, bottom = captions. Keep Instagram safe zones (top 8 %, bottom 20 %, right edge).
 
 ## Visuals, memes, props {visuals,layout,depth,asks}
-- He describes something visual → SHOW it (chart, UI frame, object). Missing asset → build it or ask him (pass 9).
+- He describes something visual → SHOW it (chart, UI frame, object). Missing asset → find it myself first
+  (scripts/findimg.mjs: one numbered sheet, I choose for the moment), else build it, else ask him (pass 9) (2026-10-15).
 - Memes show HIS attitude at that moment; keyword matches alone are wrong. Good matches are welcome (huh on confused,
   sleepy on late night). Current Indian memes preferred; classic meme cards (memecard.mjs) ~1 per video at most.
 - Meme presentation is a choice per moment (floating card, half screen, full-screen cut, zoom into it), with an entry

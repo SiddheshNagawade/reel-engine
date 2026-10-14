@@ -97,7 +97,9 @@ async function importOne(id) {
   const isSound = AUDIO.test(file);
   const dir = path.join(LIB, isSound ? 'sounds' : 'stickers', id);
   fs.mkdirSync(dir, {recursive: true});
-  const entry = {id, dir: `${isSound ? 'sounds' : 'stickers'}/${id}`, tags: [...new Set([...tags, 'his-pick'])], note, source: 'Siddhesh', placement: 'any'};
+  const found = field(about, 'Source'); // findimg.mjs downloads carry their source + licence
+  const entry = {id, dir: `${isSound ? 'sounds' : 'stickers'}/${id}`, tags: [...new Set([...tags, found ? 'found' : 'his-pick'])], note,
+    source: found || 'Siddhesh', ...(found ? {licence: field(about, 'Licence'), credit: field(about, 'Credit')} : {}), placement: 'any'};
 
   if (isSound) {
     await soundFrom(src, path.join(dir, 'sound.mp3'));
