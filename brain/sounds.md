@@ -57,6 +57,10 @@ music changes where the story turns (problem → tension/sad, turn → build, pa
 - Popular songs: Spotify can't be downloaded (locked + copyright) and Instagram mutes copyrighted songs added in the edit.
   For a trending song, he adds it in Instagram's own music picker at upload; our edit then carries only his voice + sfx
   (or a quiet mood bed he turns down). Free-licence tracks (Pixabay Music, YouTube Audio Library, Mixkit) are safe.
+- His VOICE's feeling (2026-10-14, the two-step route): `.venv/bin/python scripts/voicefeel.py <name>` measures every line's
+  loudness, pitch and speed against HIS OWN average → ▲ intense / · normal / ▽ calm (voicefeel.json). The words'
+  emotion I read myself from the fixed transcript. Together: music turns, drops and silences go where his feeling
+  really turns (a ▲ line after calm lines = the place for the drop; a ▽ serious line = music out or soft).
 - The music has EARS now (scripts/musicmood.py, Essentia models, free + local, 2026-10-14): every track was listened to
   → catalog `moods` (title moods + distinctive heard tags), `moodScores` (happy/sad/aggressive/calm/party/danceable +
   56 Jamendo mood/theme scores), `bpm`, `drop` (second where its most energetic stretch starts; cues start there unless
