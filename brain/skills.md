@@ -89,7 +89,7 @@ gains; reel renders run it automatically and apply per-shot gains (brain/color.m
 ## Find pictures (2026-10-15)
 `node scripts/findimg.mjs search <reel> <id> "<exact words>" [--src wiki,openverse,giphy] [--n 8]` → free APIs (no
 scraping): Wikimedia Commons (logos/brands/places/people, often transparent PNG/SVG), Openverse (CC photos/illustrations),
-GIPHY (reaction GIFs; key in gitignored secrets.local.json {"giphyKey": "…"}). Makes ONE numbered contact sheet
+GIPHY (reaction GIFs; free beta key in gitignored secrets.local.json, 100 calls/hour = 1 per search, plenty). Makes ONE numbered contact sheet
 (_work/<reel>/finds/<id>.jpg): I look once and choose for the moment. `pick <reel> <id> <n> --kind sticker|image|gif
 --tags "…" --what "…"` downloads the original into Library/wanted/<id>/ (about.txt: source, licence, credit) and runs
 assets.mjs import (catalog tag `found`). Needs the T7. Search words: exact names + "logo"/"png"/"transparent" for things
