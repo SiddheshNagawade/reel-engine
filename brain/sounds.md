@@ -57,3 +57,7 @@ music changes where the story turns (problem → tension/sad, turn → build, pa
 - Popular songs: Spotify can't be downloaded (locked + copyright) and Instagram mutes copyrighted songs added in the edit.
   For a trending song, he adds it in Instagram's own music picker at upload; our edit then carries only his voice + sfx
   (or a quiet mood bed he turns down). Free-licence tracks (Pixabay Music, YouTube Audio Library, Mixkit) are safe.
+- Synthet7 pack (Newgrounds, his pick 2026-10-14): ~50 short game-style tracks in Library/music/synthet7-*, mood-tagged
+  (guessed from titles: listen and correct). Licence per track in about.txt + catalog `licence`; most are Creative
+  Commons BY-NC-SA: CREDIT "Music: Synthet7" in the caption/description, and NOT for paid/sponsored posts. Tracks under
+  12 s are `sting: true`: a jingle moment (thought break, sad trombone, wow, air horn), not a bed.

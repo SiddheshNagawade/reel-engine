@@ -77,6 +77,7 @@ sections at the moment of the decision.
 - Trim repetitive meme audio to one punchy hit; don't chop natural fade tails.
 - Never one music bed under a whole reel: music changes with the story by mood (direction.music, sounds.md), silence
   is allowed. Popular songs go in via Instagram's music picker at upload, not in the edit (2026-10-14).
+- Credit music that needs it (Synthet7: "Music: Synthet7" in the post text; never in sponsored posts). Tell him in the hand-off.
 - Vlog music = his song as the backbone, beat-synced sections, OUT under real conversations, back on a beat.
 
 ## Colour & look {look}
