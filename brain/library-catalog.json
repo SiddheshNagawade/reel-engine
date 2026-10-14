@@ -12720,6 +12720,24 @@
       "note": "his song (copyrighted: Instagram may mute it on upload)"
     },
     {
+      "id": "synthet7-1-million",
+      "dir": "music/synthet7-1-million",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "celebration",
+        "win"
+      ],
+      "moodsGuessed": true,
+      "seconds": 113.1,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"1 million\" by Synthet7 (Newgrounds)"
+    },
+    {
       "id": "synthet7-a-bit-odd",
       "dir": "music/synthet7-a-bit-odd",
       "kind": "music",
@@ -12773,6 +12791,24 @@
       "note": "\"air horn\" by Synthet7 (Newgrounds)"
     },
     {
+      "id": "synthet7-amen-broke",
+      "dir": "music/synthet7-amen-broke",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "breakbeat",
+        "hype"
+      ],
+      "moodsGuessed": true,
+      "seconds": 120.9,
+      "licence": "CC BY-NC 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"amen broke\" by Synthet7 (Newgrounds)"
+    },
+    {
       "id": "synthet7-another-bistro",
       "dir": "music/synthet7-another-bistro",
       "kind": "music",
@@ -12809,6 +12845,24 @@
       "note": "\"better off unmastered\" by Synthet7 (Newgrounds)"
     },
     {
+      "id": "synthet7-better-off-unmixed",
+      "dir": "music/synthet7-better-off-unmixed",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "chill",
+        "night"
+      ],
+      "moodsGuessed": true,
+      "seconds": 88.3,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"better off unmixed\" by Synthet7 (Newgrounds)"
+    },
+    {
       "id": "synthet7-count-along",
       "dir": "music/synthet7-count-along",
       "kind": "music",
@@ -12825,6 +12879,24 @@
       "licence": "CC BY-NC-SA 3.0",
       "credit": "Music: Synthet7",
       "note": "\"count along!\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-cow-song",
+      "dir": "music/synthet7-cow-song",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "quirky",
+        "fun"
+      ],
+      "moodsGuessed": true,
+      "seconds": 90.5,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"cow song\" by Synthet7 (Newgrounds)"
     },
     {
       "id": "synthet7-ctrl-delete",
@@ -12845,6 +12917,42 @@
       "note": "\"ctrl delete\" by Synthet7 (Newgrounds)"
     },
     {
+      "id": "synthet7-cut-itself",
+      "dir": "music/synthet7-cut-itself",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "beat",
+        "groove"
+      ],
+      "moodsGuessed": true,
+      "seconds": 78.7,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"cut itself\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-despabeato",
+      "dir": "music/synthet7-despabeato",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "fun",
+        "latin"
+      ],
+      "moodsGuessed": true,
+      "seconds": 81.6,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"despabeato\" by Synthet7 (Newgrounds)"
+    },
+    {
       "id": "synthet7-fah",
       "dir": "music/synthet7-fah",
       "kind": "music",
@@ -12861,6 +12969,78 @@
       "licence": "CC BY-NC-SA 3.0",
       "credit": "Music: Synthet7",
       "note": "\"fah\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-funky-bg",
+      "dir": "music/synthet7-funky-bg",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "funky",
+        "upbeat"
+      ],
+      "moodsGuessed": true,
+      "seconds": 109.6,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"funky bg\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-goon-instrumental",
+      "dir": "music/synthet7-goon-instrumental",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "chill",
+        "beat"
+      ],
+      "moodsGuessed": true,
+      "seconds": 136.0,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"goon instrumental\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-happy-go-lucky",
+      "dir": "music/synthet7-happy-go-lucky",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "happy",
+        "upbeat"
+      ],
+      "moodsGuessed": true,
+      "seconds": 87.1,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"happy go lucky\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-high-pitched-sounds",
+      "dir": "music/synthet7-high-pitched-sounds",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "weird",
+        "glitchy"
+      ],
+      "moodsGuessed": true,
+      "seconds": 84.2,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"high pitched sounds\" by Synthet7 (Newgrounds)"
     },
     {
       "id": "synthet7-how-to-bass",
@@ -12899,6 +13079,132 @@
       "note": "\"how to guitar\" by Synthet7 (Newgrounds)"
     },
     {
+      "id": "synthet7-how-to-make-love-music",
+      "dir": "music/synthet7-how-to-make-love-music",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "romantic",
+        "chill"
+      ],
+      "moodsGuessed": true,
+      "seconds": 137.8,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"how to make love music\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-im-in-a-house",
+      "dir": "music/synthet7-im-in-a-house",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "house",
+        "upbeat"
+      ],
+      "moodsGuessed": true,
+      "seconds": 119.0,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"im in a house\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-make-it-pretty",
+      "dir": "music/synthet7-make-it-pretty",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "calm",
+        "emotional"
+      ],
+      "moodsGuessed": true,
+      "seconds": 83.0,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"make it pretty\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-miku-song",
+      "dir": "music/synthet7-miku-song",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "happy",
+        "pop"
+      ],
+      "moodsGuessed": true,
+      "seconds": 84.8,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"miku song\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-nintendomuseet-i-halland",
+      "dir": "music/synthet7-nintendomuseet-i-halland",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "retro",
+        "game"
+      ],
+      "moodsGuessed": true,
+      "seconds": 144.7,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"nintendomuseet i halland\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-orchestra-hit-music",
+      "dir": "music/synthet7-orchestra-hit-music",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "hype",
+        "funky"
+      ],
+      "moodsGuessed": true,
+      "seconds": 110.5,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"orchestra hit music\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-rat-beat",
+      "dir": "music/synthet7-rat-beat",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "fun",
+        "beat"
+      ],
+      "moodsGuessed": true,
+      "seconds": 81.8,
+      "licence": "CC BY-NC 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"rat beat\" by Synthet7 (Newgrounds)"
+    },
+    {
       "id": "synthet7-reverses",
       "dir": "music/synthet7-reverses",
       "kind": "music",
@@ -12915,6 +13221,24 @@
       "licence": "CC BY-NC-SA 3.0",
       "credit": "Music: Synthet7",
       "note": "\"reverses\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-rizz-and-vine",
+      "dir": "music/synthet7-rizz-and-vine",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "meme",
+        "rizz"
+      ],
+      "moodsGuessed": true,
+      "seconds": 98.2,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"rizz and vine\" by Synthet7 (Newgrounds)"
     },
     {
       "id": "synthet7-rounded-notes",
@@ -12935,6 +13259,96 @@
       "note": "\"rounded notes\" by Synthet7 (Newgrounds)"
     },
     {
+      "id": "synthet7-sad-trombone",
+      "dir": "music/synthet7-sad-trombone",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "fail",
+        "sad-comic"
+      ],
+      "moodsGuessed": true,
+      "seconds": 96.0,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"sad trombone\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-sidechain",
+      "dir": "music/synthet7-sidechain",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "ambient",
+        "calm"
+      ],
+      "moodsGuessed": true,
+      "seconds": 140.0,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"sidechain\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-sus2",
+      "dir": "music/synthet7-sus2",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "suspense",
+        "sus"
+      ],
+      "moodsGuessed": true,
+      "seconds": 95.7,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"sus2\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-swing",
+      "dir": "music/synthet7-swing",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "bouncy",
+        "fun"
+      ],
+      "moodsGuessed": true,
+      "seconds": 99.6,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"swing\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-syncopation",
+      "dir": "music/synthet7-syncopation",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "groove",
+        "fun"
+      ],
+      "moodsGuessed": true,
+      "seconds": 114.7,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"syncopation\" by Synthet7 (Newgrounds)"
+    },
+    {
       "id": "synthet7-synthette",
       "dir": "music/synthet7-synthette",
       "kind": "music",
@@ -12951,6 +13365,24 @@
       "licence": "CC BY-NC-SA 3.0",
       "credit": "Music: Synthet7",
       "note": "\"synthette\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-talk-box",
+      "dir": "music/synthet7-talk-box",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "funky",
+        "groove"
+      ],
+      "moodsGuessed": true,
+      "seconds": 92.9,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"talk box\" by Synthet7 (Newgrounds)"
     },
     {
       "id": "synthet7-thank-you",
@@ -12971,6 +13403,42 @@
       "note": "\"thank you\" by Synthet7 (Newgrounds)"
     },
     {
+      "id": "synthet7-the-best-chord",
+      "dir": "music/synthet7-the-best-chord",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "jazzy",
+        "chill"
+      ],
+      "moodsGuessed": true,
+      "seconds": 92.7,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"the best chord\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-the-billie",
+      "dir": "music/synthet7-the-billie",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "moody",
+        "dark"
+      ],
+      "moodsGuessed": true,
+      "seconds": 95.2,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"the billie\" by Synthet7 (Newgrounds)"
+    },
+    {
       "id": "synthet7-the-juciest-chord",
       "dir": "music/synthet7-the-juciest-chord",
       "kind": "music",
@@ -12987,6 +13455,24 @@
       "licence": "CC BY-NC-SA 3.0",
       "credit": "Music: Synthet7",
       "note": "\"the juciest chord\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-the-project-got-corrupted",
+      "dir": "music/synthet7-the-project-got-corrupted",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "sad",
+        "fail"
+      ],
+      "moodsGuessed": true,
+      "seconds": 97.9,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"the project got corrupted\" by Synthet7 (Newgrounds)"
     },
     {
       "id": "synthet7-thought-break",
@@ -13041,6 +13527,42 @@
       "licence": "CC BY-NC-SA 3.0",
       "credit": "Music: Synthet7",
       "note": "\"transitions\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-vocoder",
+      "dir": "music/synthet7-vocoder",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "chill",
+        "tech"
+      ],
+      "moodsGuessed": true,
+      "seconds": 108.7,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"vocoder\" by Synthet7 (Newgrounds)"
+    },
+    {
+      "id": "synthet7-wow",
+      "dir": "music/synthet7-wow",
+      "kind": "music",
+      "tags": [
+        "music",
+        "synthet7"
+      ],
+      "moods": [
+        "wow",
+        "surprise"
+      ],
+      "moodsGuessed": true,
+      "seconds": 143.4,
+      "licence": "CC BY-NC-SA 3.0",
+      "credit": "Music: Synthet7",
+      "note": "\"wow!\" by Synthet7 (Newgrounds)"
     }
   ]
 }
