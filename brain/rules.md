@@ -57,7 +57,9 @@ sections at the moment of the decision.
   memes). Memes keep the quality they come in (no upscaling); pictures (logos, products, places) = full-size originals,
   SVG or ≥ 1000 px (2026-10-15).
 - Memes show HIS attitude at that moment; keyword matches alone are wrong. Good matches are welcome (huh on confused,
-  sleepy on late night). Current Indian memes preferred; classic meme cards (memecard.mjs) ~1 per video at most.
+  sleepy on late night). Current Indian memes preferred.
+- NEVER still-image memes (no PNG memes, no meme cards/memecard.mjs): only GIFs or video memes, ideally with their own
+  sound; a silent GIF gets a meme sound from the Library chosen by meaning (2026-10-15, blocked by the check).
 - Meme presentation is a choice per moment (floating card, half screen, full-screen cut, zoom into it), with an entry
   sound (slam / whoosh); trim to the punch (1–3 s); never sloppy, never two at once, never the same one twice in a row.
   73 video memes in Library/clips; the how-to is brain/memes.md (read in the visuals briefing).

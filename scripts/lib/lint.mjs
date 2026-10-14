@@ -127,6 +127,16 @@ function lintReel(direction, style, work) {
   if ((direction.cards ?? []).length > 2) warnings.push(`${direction.cards.length} text cards: 1–2 per reel, they stop the story`);
   const memes = [...(direction.memes ?? [])].sort((a, b) => a.at - b.at);
   for (let i = 1; i < memes.length; i++) if (memes[i].id && memes[i].id === memes[i - 1].id) errors.push(`meme ${memes[i].id} twice in a row`);
+  // memes must MOVE (GIF / video, ideally with sound): a still-image meme is blocked (his verdict 2026-10-15)
+  try {
+    const cat = JSON.parse(fs.readFileSync(path.join(libraryRoot(), 'catalog.json'), 'utf8')).memes;
+    for (const m of memes) {
+      const e = cat.find((x) => x.id === m.id);
+      if (!e || e.kind === 'sound' || e.kind === 'clip' || (e.tags ?? []).includes('logo')) continue;
+      const files = fs.existsSync(path.join(libraryRoot(), e.dir)) ? fs.readdirSync(path.join(libraryRoot(), e.dir)) : [];
+      if (!files.some((f) => /^sticker\.(webm|mp4)$/.test(f))) errors.push(`meme ${m.id} is a still image: memes must be GIFs or videos (with sound if possible)`);
+    }
+  } catch {}
   // cuts that land on sound (scripts/lib/cutaudit.mjs, written by the last plan run)
   const audit = read(path.join(work, 'cut-audit.json'));
   for (const c of audit?.flagged ?? []) warnings.push(`cut at ${c.t}s: ${c.what}${c.near ? ` ("${c.near}")` : ''}. Widen the gap in removeRanges or keep the word`);

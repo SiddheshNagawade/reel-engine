@@ -44,7 +44,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | visuals | Props on face/hands (crown, sunglasses, sweat, anger, ?, bulb, tears, hearts) | reel, vlog | ✅ | reel: direction.attach · vlog: gfx {type: "attach", what, near} | motion-graphics skill |
 | visuals | Speech/thought bubbles, labels + arrows, sticky notes | reel, vlog | ✅ | reel: attach bubble/thought/label/note · vlog: gfx {type: "attach", what: bubble/thought/label/note, text, near} / arrow | motion-graphics skill |
 | visuals | Find real pictures myself: logos, brands, places, objects, people, reaction GIFs | reel, vlog, process | ✅ | node scripts/findimg.mjs search <name> <id> "<words>" → look at the ONE sheet (prefer SVG / big sizes) → pick <name> <id> <n> --kind --tags (small ones are AI-upscaled to HD automatically) | skills.md |
-| visuals | Meme stickers / GIFs by HIS attitude | reel, vlog | ✅ | direction.memes · vlog gfx sticker | preferences.md |
+| visuals | Meme GIFs / video memes by HIS attitude (moving only, sound: own or a Library sound by meaning) | reel, vlog | ✅ | direction.memes · vlog gfx sticker | preferences.md |
 | visuals | Designed title: mixed fonts on the beat (heavy rise, script typed, brush highlight) | reel | ✅ | direction.titles [{kind: "words", lines: [[{word, text, font, enter, highlight}]]}] | pablo.md |
 | visuals | Inverted stacked title (exclusion blend) | reel | ✅ | direction.titles [{kind: "stack", lines, words}] | pablo.md |
 | visuals | Full-screen designed scene with a moving camera (mind-map, journey counter, steps on a path) | reel | ✅ | direction.scenes [{bg, cam, items}] (templates/Scene.tsx) | pablo.md |
@@ -54,7 +54,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | visuals | Clips as cards on a stage (row, grid, stack, focus) | reel | ✅ | direction.stages (CardStage) | motion-design.md |
 | visuals | UI mockups: chat, notifications, button + cursor | reel, vlog | ✅ | reel: direction.ui [{kind: chat/notify/cursor}] · vlog: gfx {type: "insert", kind: chat/notify/cursor} | expensive.md |
 | visuals | Video meme, shown as card / half / full / zoom | reel, vlog | ✅ | reel: direction.memes {at, id: "vm-…", show} · vlog: gfx {type: "meme", clip, show} + sfx {clip} · brain/memes.md | brain/memes.md |
-| visuals | Meme card (captioned classic template) | reel, vlog | ✅ | node scripts/memecard.mjs suggest/<template> → Library sticker.svg → attach image / gfx sticker | meme-maker skill |
+| visuals | BANNED 2026-10-15 (still-image meme): Meme card (captioned classic template) |  | ✅ | node scripts/memecard.mjs suggest/<template> → Library sticker.svg → attach image / gfx sticker | meme-maker skill |
 | visuals | Text card: typewriter / wave / slam | reel | ✅ | direction.cards | expensive.md |
 | visuals | Hero intros, name tags, hanging photos, map, stamps | vlog | ✅ | gfx hero / tag / hang / map / stamp | vlog.md |
 | visuals | Real numbers on screen | reel, vlog | ✅ | counter / pop | preferences.md |

@@ -73,8 +73,8 @@ minute). Reach across the whole toolbox, not only text:
 - **Missing?** Anything still not in that list: BUILD it as a reusable layer (CLAUDE.md "Freedom to create": component +
   data field + brain/skills.md row + a line in scripts/lib/techniques.mjs). "We don't have it" is never the reason to
   leave a beat empty.
-- **Meme card** (classic captioned template for a choice/comparison/irony beat): `node scripts/memecard.mjs suggest
-  "<moment>"`, then render it into the Library. His current Indian memes (asset requests) come first.
+- **Memes move:** only GIFs or video memes (Library clips have their own sound; a silent GIF gets a meme sound by
+  meaning). Never a still-image meme or a meme card (his verdict 2026-10-15; the check blocks it).
 - **Screens on camera** (phone, laptop, screen recording): reel `direction.blurSecrets: true`; vlog `scripts/secrets.py`
   on the piece → `censor`. Never publish a number, email, UPI ID, OTP or key.
 - **Needs an asset the Library lacks** → FIRST find it yourself: `node scripts/findimg.mjs search <name> <id> "<exact

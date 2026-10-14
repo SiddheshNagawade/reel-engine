@@ -14,7 +14,7 @@ Study notes. Goal of every edit: **the viewer never has a reason to scroll.** Ev
 - Target length: the shortest version that keeps the full payoff. 20–45s is the sweet spot for talking-head; longer only if every beat is strong.
 
 ## 3. Pattern interrupts every 2–4 seconds
-- Something visual changes regularly: zoom level on jump cuts, a punch-in on the key word, a caption style beat, a meme card, a B-roll, a transition at a new section.
+- Something visual changes regularly: zoom level on jump cuts, a punch-in on the key word, a caption style beat, a meme GIF, a B-roll, a transition at a new section.
 - But **restraint**: one main effect per moment. Too many effects = noise, and the viewer stops reading.
 
 ## 4. Open loops and payoff

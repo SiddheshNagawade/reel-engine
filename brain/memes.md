@@ -8,7 +8,7 @@ don't make it too sloppy".
 - Video memes: Library/clips/<id>/ (73 from github.com/fgetcat/my-meme-folder, chosen after a content filter and a look
   at every clip; list + meanings in brain/meme-picks.json). Each: clip.mp4 = the PUNCH (0.7–3.3 s), sound.mp3, full.mp4
   (whole clip), poster.png, tags + meaning + a default way to show it. `editplan brief visuals` lists them by meaning.
-- Cat stickers (transparent), meme sounds (Library/sounds, by meaning: brain/sounds.md), meme cards (memecard.mjs),
+- Cat stickers (transparent), meme sounds (Library/sounds, by meaning: brain/sounds.md), (meme cards: BANNED, still images),
   and whatever he Googles for a video (asset requests → assets.mjs import).
 - Add more: a picks file like brain/meme-picks.json → `node scripts/memeclips.mjs <picks.json> --src <folder>`.
 
@@ -23,6 +23,8 @@ don't make it too sloppy".
 6. Current Indian memes he sends beat these international ones when both fit.
 
 ## Finding new memes online (2026-10-15)
+- Memes MOVE: GIFs or video memes only, never still images. GIPHY's clips-with-sound need a paid key (403 on the free
+  one), so a GIPHY GIF is silent: pair it with a Library meme sound by meaning (sounds.md), landing after his line.
 - `node scripts/findimg.mjs search <reel> <id> "<reaction>" --src giphy` searches "<reaction> meme" first (GIPHY's meme
   side), then the plain words. Choose what his Indian audience instantly recognises: meme faces (soyjak, cat memes),
   cartoons, internet creators (IShowSpeed-type), viral or Indian clips. Skip obscure foreign TV/film shots (a Star Trek
