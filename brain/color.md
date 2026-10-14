@@ -74,3 +74,14 @@ guard, smoothing between shots, validation) and browser-use/video-use (fixed pre
 - Test (dad clip yellowed on purpose): skin 5.9° toward yellow, chroma 41.8 → on the line, chroma 37.5; looked like the
   original again. His own reels measured so far (img-1391, perfect, equity…) sit within ~3° → mostly untouched.
 - Not yet in vlog.mjs / process.mjs (todo when a vlog shows the problem). Waiting for his verdict on a real yellow clip.
+
+## Correction (2026-10-14, his verdict on skin balance): don't "naturalise", GRADE
+His words: an orange light can be the mood, don't undo it; his footage is often flat/grey and NEEDS grading (saturation,
+contrast, tint); use already-trained models from GitHub instead of inventing; be efficient (no frame-by-frame checking
+with my eyes). → skin balance is now OFF by default (styleOverride.film.skinBalance=true to use it on purpose).
+New: `scripts/autograde.py` = trained Image-Adaptive 3D LUT (HuiZeng, Apache-2.0, trained on 5,000 photos graded by a
+pro retoucher, MIT-Adobe FiveK expert C). A tiny CNN picks the grade per range → one .cube LUT (averaged over frames, no
+flicker) → ffmpeg lut3d. ~1 s per video on the Mac, no tokens. Weights in models/autograde/ (gitignored; re-download:
+github.com/HuiZeng/Image-Adaptive-3DLUT pretrained_models/sRGB/{LUTs,classifier}.pth). Test (dad clip): flat/grey input
+→ brighter, richer; orange-mood input keeps its warmth and gets brighter; normal input → brighter, slightly richer.
+Not wired into renders yet: waiting for his verdict on references/autograde-test.jpg (strength 0.8).

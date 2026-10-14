@@ -232,7 +232,7 @@ edit.styleOverride = direction.styleOverride ?? null;
 const virtSegs = edit.segments.map((s) => ({...s})); // positions in the ORIGINAL recordings (for Final Cut)
 edit.segments = edit.segments.map((s) => ({...s, srcFrame: s.outFrame}));
 edit.faces = faces.map((p) => [p.f, +p.x.toFixed(3), +p.y.toFixed(3), +p.h.toFixed(3)]);
-if ((direction.styleOverride?.film?.skinBalance ?? true) !== false) {
+if (direction.styleOverride?.film?.skinBalance === true) { // OFF by default (his verdict 2026-10-14: a warm light can be the mood)
   edit.segments = skinBalanceSegments(edit.segments, skin);
   const fixed = edit.segments.filter((s) => s.wb);
   if (fixed.length) console.log(`  skin balance: ${fixed.length}/${edit.segments.length} shots corrected (max ${Math.max(...fixed.flatMap((s) => s.wb.map((g) => Math.abs(g - 1) * 100))).toFixed(0)} %)`);
