@@ -67,7 +67,21 @@ const SoundDesign: React.FC<{edit: Edit}> = ({edit}) => {
           />
         </Sequence>
       ))}
-      {edit.music && (
+      {/* Music by section (brain/sounds.md "Music by mood"): each part of the story gets its own track, cross-faded,
+          ducked under his voice. Replaces the single bed when present. */}
+      {(edit.musicCues ?? []).map((m, i) => (
+        <Sequence key={`mc${i}`} from={m.f} durationInFrames={m.frames} layout="none">
+          <Audio src={staticFile(m.src)} trimBefore={m.trimBefore ?? 0} loop
+            volume={(f) => {
+              const g = m.f + f;
+              const talking = edit.speech.some(([a, b]) => g >= a - 6 && g <= b + 6);
+              const base = (talking ? musicDuckedVolume : musicVolume) * (m.volume ?? 1);
+              const fade = interpolate(f, [0, m.fadeIn ?? 12, m.frames - (m.fadeOut ?? 18), m.frames], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+              return base * fade;
+            }} />
+        </Sequence>
+      ))}
+      {edit.music && !(edit.musicCues ?? []).length && (
         <Audio
           src={staticFile(edit.music)}
           loop

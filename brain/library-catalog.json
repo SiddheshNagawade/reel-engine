@@ -281,7 +281,7 @@
       "beat": false,
       "volume": 0.7,
       "length": 10.65,
-      "note": "Dexter meme theme: sinister plan / villain moment. Long → trim + fade",
+      "note": "Dexter meme theme: sinister plan / villain moment. Long \u2192 trim + fade",
       "dir": "sounds/dexter",
       "kind": "sound"
     },
@@ -414,7 +414,7 @@
       "beat": false,
       "volume": 0.7,
       "length": 5.81,
-      "note": "romantic swell: love/crush/blush moment. Long → trim + fade",
+      "note": "romantic swell: love/crush/blush moment. Long \u2192 trim + fade",
       "dir": "sounds/romance",
       "kind": "sound"
     },
@@ -508,7 +508,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -539,7 +539,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -570,7 +570,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -601,7 +601,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -632,7 +632,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -663,7 +663,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -694,7 +694,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -725,7 +725,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -756,7 +756,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -817,7 +817,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -843,7 +843,7 @@
       ],
       "meanings": [
         "a motivation boost / power-up",
-        "a glow-up or transformation (before → after)",
+        "a glow-up or transformation (before \u2192 after)",
         "something shiny/premium",
         "an epic moment / trailer feel"
       ],
@@ -871,7 +871,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -901,7 +901,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -960,7 +960,7 @@
         "nostalgia"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -971,7 +971,7 @@
       "volume": 0.5,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "dial-up modem: old-internet nostalgia, slow loading, \"connecting…\""
+      "note": "dial-up modem: old-internet nostalgia, slow loading, \"connecting\u2026\""
     },
     {
       "id": "sub-drop-02-evolve-brassy-drop-2",
@@ -1017,7 +1017,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1044,7 +1044,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1071,7 +1071,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -1102,7 +1102,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -1133,7 +1133,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1160,7 +1160,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1187,7 +1187,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1214,7 +1214,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1267,9 +1267,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 3,
       "length": 4.75,
@@ -1295,7 +1295,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1320,7 +1320,7 @@
         "story-time"
       ],
       "meanings": [
-        "flashback / \"back in first year…\"",
+        "flashback / \"back in first year\u2026\"",
         "rewinding a mistake (\"let me rewind\")",
         "fast-forwarding through a boring part",
         "time skip (\"a few hours later\")",
@@ -1351,7 +1351,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -1407,7 +1407,7 @@
         "story-time"
       ],
       "meanings": [
-        "flashback / \"back in first year…\"",
+        "flashback / \"back in first year\u2026\"",
         "rewinding a mistake (\"let me rewind\")",
         "fast-forwarding through a boring part",
         "time skip (\"a few hours later\")",
@@ -1465,7 +1465,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -1495,7 +1495,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1574,9 +1574,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 3,
       "length": 11.04,
@@ -1630,7 +1630,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1657,7 +1657,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1684,7 +1684,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -1715,7 +1715,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1742,7 +1742,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -1770,7 +1770,7 @@
         "start-over"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -1800,7 +1800,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -1827,9 +1827,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 3,
       "length": 16,
@@ -1853,7 +1853,7 @@
         "story-time"
       ],
       "meanings": [
-        "flashback / \"back in first year…\"",
+        "flashback / \"back in first year\u2026\"",
         "rewinding a mistake (\"let me rewind\")",
         "fast-forwarding through a boring part",
         "time skip (\"a few hours later\")",
@@ -1884,7 +1884,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -1915,7 +1915,7 @@
         "zone-out"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -1945,7 +1945,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -1976,7 +1976,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -2448,7 +2448,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -2479,7 +2479,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -2506,7 +2506,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -2533,7 +2533,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -2557,9 +2557,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 3,
       "length": 5.95,
@@ -2613,7 +2613,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 0.7000000000000028,
@@ -3377,9 +3377,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 1.92,
       "length": 1.92,
@@ -3571,7 +3571,7 @@
         "bleeping a swear word (his or a quoted one)",
         "hiding a secret / \"I won't say who\"",
         "spoiler",
-        "the thing he almost said (\"I was about to say…\")"
+        "the thing he almost said (\"I was about to say\u2026\")"
       ],
       "seconds": 0.65,
       "length": 0.65,
@@ -3597,7 +3597,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -3609,7 +3609,7 @@
       "volume": 0.6,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "glitch → riser → hit transition"
+      "note": "glitch \u2192 riser \u2192 hit transition"
     },
     {
       "id": "cine-whoosh-long-02",
@@ -3678,7 +3678,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -3705,7 +3705,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -3756,9 +3756,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 3,
       "length": 15.05,
@@ -3865,7 +3865,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -3892,7 +3892,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -3919,7 +3919,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -3947,9 +3947,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 3,
       "length": 6.15,
@@ -3975,7 +3975,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -3999,9 +3999,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 3,
       "length": 12.15,
@@ -4132,7 +4132,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -4188,7 +4188,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -4215,7 +4215,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -4243,9 +4243,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 3,
       "length": 8.96,
@@ -4427,7 +4427,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -4451,9 +4451,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 3,
       "length": 4.62,
@@ -4554,7 +4554,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -4578,9 +4578,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 2.829999999999984,
       "length": 2.83,
@@ -4633,7 +4633,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -4660,7 +4660,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -4854,7 +4854,7 @@
         "counting"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -4995,7 +4995,7 @@
         "counting"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -5026,7 +5026,7 @@
         "counting"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -5057,7 +5057,7 @@
         "counting"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -5088,7 +5088,7 @@
         "counting"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -5168,9 +5168,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 2.93,
       "length": 2.93,
@@ -5220,7 +5220,7 @@
         "story-time"
       ],
       "meanings": [
-        "flashback / \"back in first year…\"",
+        "flashback / \"back in first year\u2026\"",
         "rewinding a mistake (\"let me rewind\")",
         "fast-forwarding through a boring part",
         "time skip (\"a few hours later\")",
@@ -5277,7 +5277,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -5334,7 +5334,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -5507,7 +5507,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -5590,7 +5590,7 @@
       ],
       "meanings": [
         "a motivation boost / power-up",
-        "a glow-up or transformation (before → after)",
+        "a glow-up or transformation (before \u2192 after)",
         "something shiny/premium",
         "an epic moment / trailer feel"
       ],
@@ -5866,7 +5866,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -6106,7 +6106,12 @@
       "volume": 0.7,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "calm podcast bed for talking"
+      "note": "calm podcast bed for talking",
+      "moods": [
+        "calm",
+        "talking"
+      ],
+      "moodsGuessed": true
     },
     {
       "id": "pop-pop-1",
@@ -6410,9 +6415,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 3,
       "length": 5.88,
@@ -6490,7 +6495,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -6521,7 +6526,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.34,
@@ -6548,7 +6553,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -6632,7 +6637,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -6663,7 +6668,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -6693,7 +6698,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -6723,7 +6728,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -6753,7 +6758,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -6783,7 +6788,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -6813,7 +6818,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -6843,7 +6848,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -6873,7 +6878,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -6903,7 +6908,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -6933,7 +6938,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -6963,7 +6968,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -6993,7 +6998,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -7023,7 +7028,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -7053,7 +7058,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -7083,7 +7088,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -7113,7 +7118,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -7143,7 +7148,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -7281,7 +7286,7 @@
       ],
       "meanings": [
         "my brain glitched / I zoned out / lost my train of thought",
-        "I said something rubbish → snap to the next topic",
+        "I said something rubbish \u2192 snap to the next topic",
         "abrupt topic switch (better than a whoosh when the switch is awkward or funny)",
         "a plan or expectation breaking",
         "plot twist / reality check",
@@ -7350,7 +7355,7 @@
       "volume": 0.6,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "sudden suspense stinger: \"wait…\", shocking realization"
+      "note": "sudden suspense stinger: \"wait\u2026\", shocking realization"
     },
     {
       "id": "swish-01",
@@ -7632,7 +7637,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -8274,7 +8279,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.32,
@@ -8301,7 +8306,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -8548,7 +8553,7 @@
         "bleeping a swear word (his or a quoted one)",
         "hiding a secret / \"I won't say who\"",
         "spoiler",
-        "the thing he almost said (\"I was about to say…\")"
+        "the thing he almost said (\"I was about to say\u2026\")"
       ],
       "seconds": 0.8,
       "length": 1.5,
@@ -8926,7 +8931,11 @@
       "volume": 0.7,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "music bed (rate it)"
+      "note": "music bed (rate it)",
+      "moods": [
+        "chill"
+      ],
+      "moodsGuessed": true
     },
     {
       "id": "whoosh-short-arrow-whoosh",
@@ -8971,7 +8980,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -8996,7 +9005,7 @@
         "story-time"
       ],
       "meanings": [
-        "flashback / \"back in first year…\"",
+        "flashback / \"back in first year\u2026\"",
         "rewinding a mistake (\"let me rewind\")",
         "fast-forwarding through a boring part",
         "time skip (\"a few hours later\")",
@@ -9214,7 +9223,12 @@
       "volume": 0.7,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "motivational bed (by name; rate it)"
+      "note": "motivational bed (by name; rate it)",
+      "moods": [
+        "motivational",
+        "journey"
+      ],
+      "moodsGuessed": true
     },
     {
       "id": "energy-electricity-static-power-up",
@@ -9232,7 +9246,7 @@
       ],
       "meanings": [
         "a motivation boost / power-up",
-        "a glow-up or transformation (before → after)",
+        "a glow-up or transformation (before \u2192 after)",
         "something shiny/premium",
         "an epic moment / trailer feel"
       ],
@@ -9257,7 +9271,12 @@
       "volume": 0.7,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "music bed (rate it)"
+      "note": "music bed (rate it)",
+      "moods": [
+        "sad",
+        "emotional"
+      ],
+      "moodsGuessed": true
     },
     {
       "id": "time-fast-tape-rewind-cinematic-transition",
@@ -9274,7 +9293,7 @@
         "story-time"
       ],
       "meanings": [
-        "flashback / \"back in first year…\"",
+        "flashback / \"back in first year\u2026\"",
         "rewinding a mistake (\"let me rewind\")",
         "fast-forwarding through a boring part",
         "time skip (\"a few hours later\")",
@@ -9411,7 +9430,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 0.48,
@@ -9463,7 +9482,12 @@
       "volume": 0.7,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "music bed (rate it)"
+      "note": "music bed (rate it)",
+      "moods": [
+        "chill",
+        "night"
+      ],
+      "moodsGuessed": true
     },
     {
       "id": "impact-space-impact",
@@ -9482,7 +9506,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -9506,7 +9530,12 @@
       "volume": 0.7,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "trap beat (rate it)"
+      "note": "trap beat (rate it)",
+      "moods": [
+        "hype",
+        "swag"
+      ],
+      "moodsGuessed": true
     },
     {
       "id": "time-warping-slide",
@@ -9523,7 +9552,7 @@
         "story-time"
       ],
       "meanings": [
-        "flashback / \"back in first year…\"",
+        "flashback / \"back in first year\u2026\"",
         "rewinding a mistake (\"let me rewind\")",
         "fast-forwarding through a boring part",
         "time skip (\"a few hours later\")",
@@ -9551,7 +9580,12 @@
       "volume": 0.7,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "energetic night bed (by name; rate it)"
+      "note": "energetic night bed (by name; rate it)",
+      "moods": [
+        "hype",
+        "night"
+      ],
+      "moodsGuessed": true
     },
     {
       "id": "music-zay-zay",
@@ -9567,7 +9601,12 @@
       "volume": 0.7,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "music bed (rate it)"
+      "note": "music bed (rate it)",
+      "moods": [
+        "fun",
+        "upbeat"
+      ],
+      "moodsGuessed": true
     },
     {
       "id": "click-mouse-click-3",
@@ -9665,7 +9704,7 @@
         "story-time"
       ],
       "meanings": [
-        "flashback / \"back in first year…\"",
+        "flashback / \"back in first year\u2026\"",
         "rewinding a mistake (\"let me rewind\")",
         "fast-forwarding through a boring part",
         "time skip (\"a few hours later\")",
@@ -9696,7 +9735,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 0.82,
@@ -9857,7 +9896,7 @@
       ],
       "meanings": [
         "a motivation boost / power-up",
-        "a glow-up or transformation (before → after)",
+        "a glow-up or transformation (before \u2192 after)",
         "something shiny/premium",
         "an epic moment / trailer feel"
       ],
@@ -10195,9 +10234,9 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 2.59,
       "length": 2.59,
@@ -10517,7 +10556,7 @@
         "tech-ui"
       ],
       "meanings": [
-        "thinking / processing information (\"loading…\")",
+        "thinking / processing information (\"loading\u2026\")",
         "his brain connecting the dots (connect) or losing focus (disconnect)",
         "tech, apps, websites (CaptionKaro!)",
         "downloading knowledge / learning",
@@ -10596,7 +10635,7 @@
         "story-time"
       ],
       "meanings": [
-        "flashback / \"back in first year…\"",
+        "flashback / \"back in first year\u2026\"",
         "rewinding a mistake (\"let me rewind\")",
         "fast-forwarding through a boring part",
         "time skip (\"a few hours later\")",
@@ -10719,16 +10758,16 @@
       ],
       "meanings": [
         "building anticipation right before a reveal, result, number or punchline",
-        "\"wait for it…\"",
+        "\"wait for it\u2026\"",
         "tension rising as he gets to the point",
-        "lead-in to a hook slam (riser → impact)"
+        "lead-in to a hook slam (riser \u2192 impact)"
       ],
       "seconds": 3,
       "length": 15.1,
       "volume": 0.5,
       "beat": false,
       "pack": "sfx-pack-1",
-      "note": "reveal: build → reveal of the result"
+      "note": "reveal: build \u2192 reveal of the result"
     },
     {
       "id": "meme-voice-rizz",
@@ -10916,7 +10955,7 @@
         "a reveal / result / big number landing",
         "a hard truth or bold statement",
         "title or text slam",
-        "a decision made (\"and that's when I decided…\")",
+        "a decision made (\"and that's when I decided\u2026\")",
         "a punch-in on the key word"
       ],
       "seconds": 1.8,
@@ -11177,7 +11216,7 @@
         "oops",
         "clip"
       ],
-      "meaning": "oops → scream",
+      "meaning": "oops \u2192 scream",
       "show": "card",
       "seconds": 2.47,
       "length": 2.47,
@@ -11188,7 +11227,7 @@
       "volume": 0.9,
       "placement": "card",
       "source": "my-meme-folder",
-      "note": "oops → scream"
+      "note": "oops \u2192 scream"
     },
     {
       "id": "vm-false-advertising",
@@ -12664,6 +12703,21 @@
       "placement": "card",
       "source": "my-meme-folder",
       "note": "Garfield: it's Monday already??"
+    },
+    {
+      "id": "ritviz-udd-gaye",
+      "dir": "music/ritviz-udd-gaye",
+      "kind": "music",
+      "tags": [
+        "music"
+      ],
+      "moods": [
+        "happy",
+        "travel",
+        "indian-pop"
+      ],
+      "moodsGuessed": true,
+      "note": "his song (copyrighted: Instagram may mute it on upload)"
     }
   ]
 }

@@ -75,6 +75,8 @@ sections at the moment of the decision.
 - Sounds by MEANING, not literally (zone-out → glitch, gives up → Discord leave…, brain/sounds.md).
 - Whoosh only on real movement, quiet, faded in. Tick/click for text/UI. Variety: never the same meme sound twice in a row.
 - Trim repetitive meme audio to one punchy hit; don't chop natural fade tails.
+- Never one music bed under a whole reel: music changes with the story by mood (direction.music, sounds.md), silence
+  is allowed. Popular songs go in via Instagram's music picker at upload, not in the edit (2026-10-14).
 - Vlog music = his song as the backbone, beat-synced sections, OUT under real conversations, back on a beat.
 
 ## Colour & look {look}

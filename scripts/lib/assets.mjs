@@ -23,6 +23,7 @@ export function stageLibrary(edit) {
   const before = (edit.memes?.length ?? 0) + (edit.sfx?.length ?? 0);
   edit.memes = (edit.memes ?? []).filter((m) => ok(m.sound) && ok(m.visual));
   edit.sfx = (edit.sfx ?? []).filter((x) => ok(x.src));
+  edit.musicCues = (edit.musicCues ?? []).filter((x) => ok(x.src));
   const dropped = before - edit.memes.length - edit.sfx.length;
   if (dropped) console.log(`  ⚠️ ${dropped} sound/sticker(s) skipped: library not found (is the T7 plugged in?)`);
   return () => {

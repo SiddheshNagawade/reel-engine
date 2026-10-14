@@ -45,3 +45,15 @@ Use: `direction.memes: [{at: wordIndex, id: 'glitch-004'}]` (exact sound) or `{a
 - One sound per moment. A sound + a sticker for the same moment is fine; two sounds stacked is not.
 - Meme voices (bruh, nope, OMG, rizz, YEET…) are strongest; use them only when HIS attitude matches.
 - 8 music beds were imported to `Library/music/` but need his rating before use (names only, I can't hear mood).
+
+## Music by mood (his rule, 2026-10-14: never one bed under the whole video)
+One track looping under everything creates no feeling. Music follows the STORY: each part gets the mood it needs, and the
+music changes where the story turns (problem → tension/sad, turn → build, payoff → hype/happy, late night → chill/night).
+- `direction.music: [{at, until, mood | id, from: seconds into the track (start on its best part), vol}]` → a different
+  track per section, cross-faded, ducked under his voice. Silence is also a choice (a serious line with no music hits harder).
+- Moods in the Library (catalog `moods`): hype, swag, night, motivational, journey, sad, emotional, calm, talking, chill,
+  fun, upbeat, happy, travel, indian-pop. Tags on the first 9 tracks are GUESSED from names: listen and correct.
+- Place the track's dramatic part on the problem / big moment (as Pablo does); cut music at a story turn, not mid-phrase.
+- Popular songs: Spotify can't be downloaded (locked + copyright) and Instagram mutes copyrighted songs added in the edit.
+  For a trending song, he adds it in Instagram's own music picker at upload; our edit then carries only his voice + sfx
+  (or a quiet mood bed he turns down). Free-licence tracks (Pixabay Music, YouTube Audio Library, Mixkit) are safe.
