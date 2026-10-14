@@ -83,7 +83,8 @@ sections at the moment of the decision.
 - Vlog music = his song as the backbone, beat-synced sections, OUT under real conversations, back on a beat.
 
 ## Colour & look {look}
-- His original colours + grain (img-1391 v1 look) is the default; don't "improve" it unasked (subject separation parked).
+- The look = "our earlier look" (contrast, colour, warm glow, vignette, grain), chosen again 2026-10-15 over raw, a
+  trained model and raw+grain. It is LOGIC, not numbers: each knob adapts to the scene (scripts/lib/look.mjs, color.md).
 - Judge colour with scopes (colorcheck.py) against v1 targets, on the full look, at 2+ moments.
 - Paper/drawing footage: per-clip exposure to a shared paper white, then a light shared look (contrast, VIBRANCE, grain).
 - Vlogs: original colours + rich grain, a touch more contrast and vibrance, slightly deeper mids, no vignette.

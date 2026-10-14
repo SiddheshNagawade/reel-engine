@@ -85,3 +85,18 @@ flicker) → ffmpeg lut3d. ~1 s per video on the Mac, no tokens. Weights in mode
 github.com/HuiZeng/Image-Adaptive-3DLUT pretrained_models/sRGB/{LUTs,classifier}.pth). Test (dad clip): flat/grey input
 → brighter, richer; orange-mood input keeps its warmth and gets brighter; normal input → brighter, slightly richer.
 Not wired into renders yet: waiting for his verdict on references/autograde-test.jpg (strength 0.8).
+
+## The look = LOGIC, not numbers (his final pick 2026-10-15)
+He compared raw / trained model / softer model / our earlier look / raw+grain / raw+vignette on 3 of his raw scenes and
+chose **our earlier look**. The trained model (autograde.py) lost to raw everywhere (brighter, washed out): parked.
+His instruction: remember WHY each part exists, because his scenes, light and clothes change. scripts/lib/look.mjs
+measures every reel's footage (keyframes, ~2 s, no tokens) and moves each knob from style.json (= the look on the
+img-1391 reference scene) by its reason; the render prints one line per decision:
+- contrast = depth → flatter footage gets more, punchy footage less (1.0–1.2)
+- saturate = life → grey/washed footage more, vivid footage less, never neon skin (0.98–1.25)
+- warmth = friendly skin glow → cooler light gets more; an already-warm scene (orange light = HIS mood) gets less so
+  it isn't doubled but is never neutralised; big white walls keep it low (they go yellow first) (0.03–0.24)
+- vignette = eye to the centre → dark scenes get less (no crushed corners)
+- grain = film texture → dark/noisy footage gets less (it already has texture)
+Manual styleOverride.film values always win. Measured: dad (flat, dark) → contrast 1.17, vignette 0.37; vector test
+(grey, white walls, cool) → saturate 1.17, warmth 0.24; chandigarh → a bit more colour + warmth; img-1391 → base.

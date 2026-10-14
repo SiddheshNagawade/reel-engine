@@ -20,6 +20,7 @@ import {mediaRoots, outputRoot, workRoot, listVideos, libraryRoot} from './lib/p
 import {syncToDrive} from './lib/sync.mjs';
 import {writePostFacts} from './postkit.mjs';
 import {skinBalanceSegments} from './lib/skin.mjs';
+import {measureLook, adaptFilm} from './lib/look.mjs';
 import {requirePlan} from './lib/editplan.mjs';
 import os from 'node:os';
 import {renderEdit} from './render.mjs';
@@ -227,6 +228,15 @@ const {stats, wordFrames, ...edit} = plan(theme);
     console.log(`  ⚠️ ${audit.flagged.length} of ${audit.cuts} cuts land on sound:`);
     for (const c of audit.flagged) console.log(`     ${c.t}s (f${c.frame}) ${c.what}${c.near ? `: "${c.near}"` : ''}`);
   } else console.log(`  cut audit: all ${audit.cuts} cuts land in pauses ✓`);
+}
+// The film look as logic (scripts/lib/look.mjs): measured on this footage, each knob moved for its reason; manual
+// styleOverride.film values win. His pick 2026-10-15: "remember the logic, not the numbers".
+{
+  const hlg = /arib-std-b67/.test(spawnSync(ffmpegPath, ['-hide_banner', '-i', selects], {encoding: 'utf8'}).stderr ?? '');
+  const {film, why} = adaptFilm(style.film, await measureLook(selects, {hlg}));
+  console.log('  look: ' + why.join(' · '));
+  const manual = direction.styleOverride?.film ?? {};
+  direction.styleOverride = {...(direction.styleOverride ?? {}), film: {...film, ...manual}};
 }
 edit.styleOverride = direction.styleOverride ?? null;
 const virtSegs = edit.segments.map((s) => ({...s})); // positions in the ORIGINAL recordings (for Final Cut)

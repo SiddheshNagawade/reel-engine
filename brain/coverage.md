@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-90 techniques · 88 built · 1 still to build: Auto grade with a trained model (Image-Adaptive 3D LUT, pro retoucher style) · 1 parked on purpose (Subject/background separation grade)
+91 techniques · 89 built · 1 still to build: Auto grade with a trained model (Image-Adaptive 3D LUT): PARKED, lost to raw on his footage · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -86,7 +86,8 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | look | Orientation of every range | vlog, process | ✅ | contact sheets → rotate | preferences.md |
 | look | Subject/background separation grade | reel | ⏸ parked: he chose the v1 look ("just perfect"); his rule is not to improve it unasked. Build only if he asks. | scripts/personmask.py (mask edge must be shrunk + feathered: the first try left a halo) | color.md |
 | look | Skin balance: per-shot white balance anchored on his skin | reel | ✅ | styleOverride.film.skinBalance=true → scripts/skinbalance.py → segments[].wb | color.md |
-| look | Auto grade with a trained model (Image-Adaptive 3D LUT, pro retoucher style) | reel, vlog, process | ❌ to build | .venv/bin/python scripts/autograde.py <video> <out.cube> [--strength 0.8] [--apply out.mp4] | color.md |
+| look | Film look adapted to the scene (contrast/colour/warmth/vignette/grain by their reasons) | reel | ✅ | scripts/lib/look.mjs (measureLook + adaptFilm); manual styleOverride.film wins | color.md |
+| look | Auto grade with a trained model (Image-Adaptive 3D LUT): PARKED, lost to raw on his footage | reel, vlog, process | ❌ to build | .venv/bin/python scripts/autograde.py <video> <out.cube> [--strength 0.8] [--apply out.mp4] | color.md |
 | sound | Music follows his voice: intensity per line (loud/high/fast vs his average) | reel, vlog | ✅ | .venv/bin/python scripts/voicefeel.py <name> + read the transcript for the words' emotion | sounds.md |
 | sound | Music changes by story section (mood per part, cross-faded), never one bed | reel, vlog | ✅ | direction.music [{at, until, mood/id, from}] (brain/sounds.md); tracks are listened to by scripts/musicmood.py (moods, bpm, drop, energy) | sounds.md |
 | sound | Sound by meaning | reel, vlog, process | ✅ | direction.memes tags / vlog sfx | sounds.md |
