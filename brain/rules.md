@@ -88,6 +88,8 @@ sections at the moment of the decision.
 - Paper/drawing footage: per-clip exposure to a shared paper white, then a light shared look (contrast, VIBRANCE, grain).
 - Vlogs: original colours + rich grain, a touch more contrast and vibrance, slightly deeper mids, no vignette.
 - Check orientation of every range used (he rotates the phone mid-recording).
+- Skin balance is automatic on reels: skin pulled back to the skin-tone line per shot when a warm/yellow light pushed
+  it off; his real skin colour is never changed (2026-10-14, color.md). Learn from existing tools before inventing.
 
 ## Vlog specifics {story,visuals,sound;vlog}
 - Friends vlog = funny + poppy + beat-synced; photos hang over footage; hero intros for each friend; inside jokes.

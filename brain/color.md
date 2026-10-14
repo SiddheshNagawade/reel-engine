@@ -58,3 +58,19 @@ with Apple Vision). Measured on img-1391 (same moments):
 | black clipping | ~3% | 6–8% |
 **Targets for his indoor footage (from v1):** skin within ~4° of the line, skin chroma ≥ ~33, skin luma ~130–145, black clip < ~4%.
 Every grade change must be measured against v1 with this tool BEFORE showing him anything.
+
+## Skin balance (2026-10-14): automatic, per shot, anchored on HIS skin
+His complaint: sometimes his face turns yellow / the image feels hot and warm; colour should fit his skin, not change it,
+and adapt to every clip's light. Built after studying AKMessi/vex (shot-aware auto grade: neutral-pixel mask, skin
+guard, smoothing between shots, validation) and browser-use/video-use (fixed presets per segment: NOT our way).
+- `scripts/skinbalance.py <video> <out.json>` every 0.5 s: face → skin hue vs the line. Within 3° = his real colour,
+  untouched. Further off → white-balance gains that bring skin back to the line (85 %) and calm an over-rich
+  yellow/orange glow to chroma 38 (his v1 skin = 37–39; dull skin is never boosted here). Neutral areas (vex mask) that
+  agree add a grey-world fix as far as the skin stays in the band; walls that disagree halve the fix. Cap ±15 %, luma kept.
+  HLG footage is tone-mapped before measuring.
+- `scripts/lib/skin.mjs`: per-shot median, neighbouring shots with the same light share one value (no flicker on jump
+  cuts), fixes < 1.5 % dropped. Applied in VideoTrack.tsx as a per-shot SVG colour matrix, under the film look.
+- Reel renders run it automatically (cached in _work/<name>/skin.json). Off for a video: styleOverride.film.skinBalance=false.
+- Test (dad clip yellowed on purpose): skin 5.9° toward yellow, chroma 41.8 → on the line, chroma 37.5; looked like the
+  original again. His own reels measured so far (img-1391, perfect, equity…) sit within ~3° → mostly untouched.
+- Not yet in vlog.mjs / process.mjs (todo when a vlog shows the problem). Waiting for his verdict on a real yellow clip.

@@ -81,3 +81,7 @@ Pick by what the moment needs. Most reels need only 2–4 of these.
 `node scripts/postkit.mjs <name> [vN]` prints the facts of a version (hook, spoken lines, length, music credits; reel renders
 save them as `<name>-vN.post.json`) + the template; I write `<name>-vN.post.md` (IG caption, YT title/description/tags,
 cover, audio note, time) following brain/posting.md. Upload stays manual (IG music picker; unreviewed YT API = private only).
+
+## Skin balance (2026-10-14)
+`.venv/bin/python scripts/skinbalance.py <video> <out.json> [every_s]` measures skin hue per moment and gives white-balance
+gains; reel renders run it automatically and apply per-shot gains (brain/color.md "Skin balance"). Measure anything with it.

@@ -2,7 +2,7 @@ import type {CanvasSpec} from './layers/Canvas';
 import type {SceneSpec} from './templates/Scene';
 import type {WordsSpec, StackSpec, PhotoSpec, CardSpec} from './layers/TitleText';
 // Everything is in output-timeline frames unless named src*.
-export type Segment = {srcFrame: number; outFrame: number; frames: number; zoom: number; freeze?: boolean};
+export type Segment = {srcFrame: number; outFrame: number; frames: number; zoom: number; freeze?: boolean; wb?: [number, number, number]};
 export type CapWord = {w: string; f0: number; f1: number; emph: boolean};
 export type CaptionGroup = {f0: number; f1: number; words: CapWord[]};
 export type Popup = {text: string; f: number; frames: number};

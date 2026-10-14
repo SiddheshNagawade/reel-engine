@@ -19,6 +19,7 @@ import {buildEdit, buildTranscript, brollTags} from './lib/plan.mjs';
 import {mediaRoots, outputRoot, workRoot, listVideos, libraryRoot} from './lib/paths.mjs';
 import {syncToDrive} from './lib/sync.mjs';
 import {writePostFacts} from './postkit.mjs';
+import {skinBalanceSegments} from './lib/skin.mjs';
 import {requirePlan} from './lib/editplan.mjs';
 import os from 'node:os';
 import {renderEdit} from './render.mjs';
@@ -180,6 +181,18 @@ if (!fs.existsSync(facesFile) || !fs.existsSync(facesKey) || fs.readFileSync(fac
 }
 const faces = fs.existsSync(facesFile) ? readJson(facesFile) : [];
 
+// Skin balance (scripts/skinbalance.py, brain/color.md): measures HIS skin every 0.5 s; where a warm/yellow (or pink)
+// light pushed it off the skin-tone line, a small per-shot white-balance fix brings it back. Off: style film.skinBalance=false.
+const skinFile = path.join(work, 'skin.json');
+const skinKey = path.join(work, 'skin.key');
+if (!fs.existsSync(skinFile) || !fs.existsSync(skinKey) || fs.readFileSync(skinKey, 'utf8') !== segKey) {
+  step('Measuring skin tones…');
+  const r = spawnSync('.venv/bin/python', ['scripts/skinbalance.py', selects, skinFile, '0.5'], {stdio: ['ignore', 'inherit', 'pipe']});
+  if (r.status === 0) fs.writeFileSync(skinKey, segKey);
+  else console.log('  (skin balance failed, original colours kept)');
+}
+const skin = fs.existsSync(skinFile) ? readJson(skinFile) : [];
+
 // Expose only this reel's selects to Remotion.
 fs.mkdirSync('public/input', {recursive: true});
 // Only clear THIS reel's old temp files: another chat may be rendering a different reel at the same time.
@@ -219,6 +232,11 @@ edit.styleOverride = direction.styleOverride ?? null;
 const virtSegs = edit.segments.map((s) => ({...s})); // positions in the ORIGINAL recordings (for Final Cut)
 edit.segments = edit.segments.map((s) => ({...s, srcFrame: s.outFrame}));
 edit.faces = faces.map((p) => [p.f, +p.x.toFixed(3), +p.y.toFixed(3), +p.h.toFixed(3)]);
+if ((direction.styleOverride?.film?.skinBalance ?? true) !== false) {
+  edit.segments = skinBalanceSegments(edit.segments, skin);
+  const fixed = edit.segments.filter((s) => s.wb);
+  if (fixed.length) console.log(`  skin balance: ${fixed.length}/${edit.segments.length} shots corrected (max ${Math.max(...fixed.flatMap((s) => s.wb.map((g) => Math.abs(g - 1) * 100))).toFixed(0)} %)`);
+}
 
 const tempFiles = [tempInput];
 // Things stuck onto the speaker (direction.attach): track face / hands / body once per cut (cached on the drive).

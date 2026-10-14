@@ -91,6 +91,14 @@ export const VideoTrack: React.FC<{edit: Edit; behind?: React.ReactNode}> = ({ed
     >
       {edit.segments.map((s, i) => (
         <Sequence key={i} from={s.outFrame} durationInFrames={s.frames} premountFor={30}>
+          {s.wb && (
+            // skin balance: per-shot white-balance gains (scripts/lib/skin.mjs)
+            <svg width={0} height={0} style={{position: 'absolute'}}>
+              <filter id={`wb-${i}`} colorInterpolationFilters="sRGB">
+                <feColorMatrix type="matrix" values={`${s.wb[0]} 0 0 0 0  0 ${s.wb[1]} 0 0 0  0 0 ${s.wb[2]} 0 0  0 0 0 1 0`} />
+              </filter>
+            </svg>
+          )}
           <OffthreadVideo
             src={staticFile(edit.video)}
             trimBefore={s.srcFrame}
@@ -101,7 +109,7 @@ export const VideoTrack: React.FC<{edit: Edit; behind?: React.ReactNode}> = ({ed
               const end = endF ? interpolate(s.outFrame + vf, [edit.durationInFrames - endF, edit.durationInFrames], [1, 0], clamp) : 1;
               return ramp * end;
             }}
-            style={{width: '100%', height: '100%', objectFit: 'cover'}}
+            style={{width: '100%', height: '100%', objectFit: 'cover', ...(s.wb ? {filter: `url(#wb-${i})`} : {})}}
           />
         </Sequence>
       ))}

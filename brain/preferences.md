@@ -218,3 +218,4 @@ contradictions resolved). After every round of feedback: add the dated note here
   upload. The rest is Premiere/Resolve/CapCut plumbing he doesn't need.
 
 - 2026-10-14: music must follow the story by mood, not one bed; silences where a joke lands or fails; transitions between tracks overlap with proper fades / on the beat, never abrupt (his words: "it should not sound bad").
+- 2026-10-14: "sometimes my face is yellow / things too warm, like a hot environment": colour must complement his skin tone, not change it, and adapt per clip and light. Also: learn from existing tools (GitHub repos, his resources) instead of only trial and error. → skin balance (method borrowed from AKMessi/vex), automatic on reels.
