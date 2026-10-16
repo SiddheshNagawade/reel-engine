@@ -1,12 +1,16 @@
 // Download reference videos (Instagram reels, YouTube, etc.) to the drive and study them.
 // Usage: node scripts/refs.mjs add <url> [<url>…] [--cookies chrome] [--no-study]
 //        node scripts/refs.mjs list
+//        node scripts/refs.mjs clip <reel> <url> --from 1:23 --to 1:28 [--id name] [--cookies chrome]
+//          EVIDENCE CLIP: downloads ONLY those seconds (yt-dlp --download-sections, keyframe-exact cut) into
+//          <drive>/_work/<reel>/clips/<id>.mp4 + <id>.json (title, channel, url, from/to) for direction.evidence look "clip"
+//          (name tag + "Source:" credit come from the json). Keep it short (2–8 s) and always credit the creator.
 // Each video lands in <drive>/references/library/<site>-<id>/ : video.mp4, info.json, transcript.txt, frames/ (stills), notes.md
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import ffmpegPath from 'ffmpeg-static';
-import {DRIVE_ROOT, driveAttached, LOCAL_ROOT} from './lib/paths.mjs';
+import {DRIVE_ROOT, driveAttached, LOCAL_ROOT, workRoot} from './lib/paths.mjs';
 
 const root = path.join(driveAttached() ? DRIVE_ROOT : LOCAL_ROOT, 'references', 'library');
 fs.mkdirSync(root, {recursive: true});
@@ -37,6 +41,38 @@ if (cmd === 'study') {
   // (re)study folders already downloaded: node scripts/refs.mjs study [<folder name>…] (default: all without a transcript)
   const names = args.length ? args : fs.readdirSync(root).filter((d) => !d.startsWith('.') && !fs.existsSync(path.join(root, d, 'transcript.txt')));
   for (const n of names) studyDir(path.join(root, n), JSON.parse(fs.readFileSync(path.join(root, n, 'info.json'), 'utf8')).webpage_url);
+  process.exit(0);
+}
+if (cmd === 'clip') {
+  const from = flag('--from'), to = flag('--to'), idFlag = flag('--id');
+  const [reel] = args.filter((a) => !a.startsWith('http'));
+  if (!reel || !urls[0] || !from || !to) {
+    console.log('Usage: node scripts/refs.mjs clip <reel> <url> --from 1:23 --to 1:28 [--id name] [--cookies chrome]');
+    process.exit(1);
+  }
+  const dir = path.join(workRoot(), reel, 'clips');
+  const tmp = path.join(dir, `.tmp-${Date.now()}`);
+  fs.mkdirSync(tmp, {recursive: true});
+  const ytArgs = ['--js-runtimes', `node:${process.execPath}`, '-f', 'bv*[height<=1080][vcodec!^=av01]+ba/b[height<=1080]/b', '--merge-output-format', 'mp4',
+    '--ffmpeg-location', ffmpegPath, '--download-sections', `*${from}-${to}`, '--force-keyframes-at-cuts', '--write-info-json', '--no-playlist', '-o', path.join(tmp, 'clip.%(ext)s'), urls[0]];
+  if (cookies) ytArgs.unshift('--cookies-from-browser', cookies);
+  console.log(`Fetching ${from}–${to} of ${urls[0]} …`);
+  const r = run('.venv/bin/yt-dlp', ytArgs, {stdio: ['ignore', 'inherit', 'inherit']});
+  const got = fs.existsSync(tmp) ? fs.readdirSync(tmp).find((f) => /^clip\.(mp4|mkv|webm)$/.test(f)) : null;
+  if (r.status !== 0 || !got) {
+    fs.rmSync(tmp, {recursive: true, force: true});
+    console.error('FAILED (age/sign-in walls need --cookies chrome)');
+    process.exit(1);
+  }
+  const info = JSON.parse(fs.readFileSync(fs.readdirSync(tmp).filter((f) => f.endsWith('.info.json') && !f.startsWith('._')).map((f) => path.join(tmp, f))[0], 'utf8'));
+  const id = idFlag ?? `${(info.uploader || 'clip').toLowerCase().replace(/\W+/g, '-').slice(0, 20)}-${info.id}`;
+  // re-encode to a plain H.264/AAC mp4 so Remotion seeks it frame-exactly
+  const out = path.join(dir, `${id}.mp4`);
+  run(ffmpegPath, ['-y', '-loglevel', 'error', '-i', path.join(tmp, got), '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', out]);
+  const meta = {url: info.webpage_url, title: info.title, channel: info.channel || info.uploader, handle: info.uploader_id, site: info.extractor_key, from, to, fetched: new Date().toLocaleDateString('en-CA')};
+  fs.writeFileSync(path.join(dir, `${id}.json`), JSON.stringify(meta, null, 1));
+  fs.rmSync(tmp, {recursive: true, force: true});
+  console.log(`→ ${out}\n  "${meta.title}" by ${meta.channel}\nUse it: direction.evidence [{at, until, look: "clip", clip: "clips/${id}", name: "${meta.channel}", volume: 1}]`);
   process.exit(0);
 }
 if (cmd !== 'add' || !urls.length) {

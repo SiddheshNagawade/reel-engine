@@ -2,7 +2,8 @@
 return blur boxes. From the AI-editing blueprint he shared ("on-screen secrets are found and blurred"); important for
 his building-in-public videos (dashboards, DMs, payment screens).
 
-Usage: .venv/bin/python scripts/secretsweep.py <video> [--from s] [--to s] [--fps 2] [--rotate 90] [--never "<a,b>"] [--out f.json]
+Usage: .venv/bin/python scripts/secretsweep.py --image <picture> [--never "<a,b>"] [--out f.json]   (stills, website captures)
+       .venv/bin/python scripts/secretsweep.py <video> [--from s] [--to s] [--fps 2] [--rotate 90] [--never "<a,b>"] [--out f.json]
   Reads every line of text (Apple Vision) on sampled frames and flags: emails, UPI IDs, Indian phone numbers, OTP codes,
   card / Aadhaar numbers, API keys / tokens, and anything in --never or in a never.txt next to the output (names,
   addresses, his friends' numbers…).
@@ -53,7 +54,51 @@ def lines_in(path):
     return out
 
 
+def flagged(text, never):
+    kinds = [k for k, rx in PATTERNS if rx.search(text)] + (["never"] if any(n in text.lower() for n in never) else [])
+    return kinds[0] if kinds else None
+
+
+def sweep_image(path, never):
+    """A still (a website capture, a screenshot): tall pages are read in overlapping square-ish tiles so small text
+    stays readable for Vision. Returns [{kind, text, box: [x, y, w, h]}] as fractions of the whole picture, padded."""
+    ffmpeg = os.path.join(os.path.dirname(__file__), "..", "node_modules", "ffmpeg-static", "ffmpeg")
+    probe = subprocess.run([ffmpeg, "-i", path], capture_output=True, text=True).stderr
+    W, H = map(int, re.search(r", (\d{2,5})x(\d{2,5})", probe).groups())
+    tile = int(W * 1.2)
+    hits = []
+    with tempfile.TemporaryDirectory() as tmp:
+        y = 0
+        while y < H:
+            th = min(tile, H - y)
+            f = f"{tmp}/{y}.png"
+            subprocess.run([ffmpeg, "-y", "-loglevel", "error", "-i", path, "-vf", f"crop={W}:{th}:0:{y}", f], check=True)
+            for text, (bx, by, bw, bh) in lines_in(f):
+                kind = flagged(text, never)
+                if kind:
+                    box = [bx, (y + by * th) / H, bw, bh * th / H]
+                    pad = 0.006
+                    hits.append({"kind": kind, "text": text, "box": [max(0, box[0] - pad), max(0, box[1] - pad * W / H), min(1, box[2] + 2 * pad), box[3] + 2 * pad * W / H]})
+            if y + th >= H:
+                break
+            y += tile - 80  # overlap so no line is cut in half
+    return hits
+
+
 def main():
+    if "--image" in sys.argv:
+        never = [w.strip().lower() for w in (opt("--never", "") or "").split(",") if w.strip()]
+        out = opt("--out")
+        if out and os.path.exists(os.path.join(os.path.dirname(out), "never.txt")):
+            never += [l.strip().lower() for l in open(os.path.join(os.path.dirname(out), "never.txt")) if l.strip()]
+        hits = sweep_image(opt("--image"), never)
+        if out:
+            json.dump(hits, open(out, "w"), indent=1, ensure_ascii=False)
+        for h in hits:
+            print(f'{h["kind"]:8s} {h["text"][:60]}')
+        if not hits:
+            print("no secrets found")
+        return
     video = sys.argv[1]
     start, end = float(opt("--from", 0)), opt("--to")
     fps = float(opt("--fps", 2))
