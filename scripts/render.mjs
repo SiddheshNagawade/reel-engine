@@ -22,8 +22,15 @@ export async function cachedBundle() {
   walk('src');
   h.update(fs.readFileSync('style.json'));
   const dir = path.join(os.tmpdir(), 'reelengine-bundle', h.digest('hex'));
-  if (fs.existsSync(path.join(dir, 'index.html'))) return dir;
-  fs.rmSync(path.join(os.tmpdir(), 'reelengine-bundle'), {recursive: true, force: true});
+  if (fs.existsSync(path.join(dir, 'index.html'))) { const now = new Date(); fs.utimesSync(dir, now, now); return dir; }
+  // old bundles go, but only ones untouched for 3 hours (a long vlog render keeps using its bundle): another chat may be rendering from its own bundle right now
+  // (wiping the whole folder crashed parallel renders with EEXIST / "completed without emitting bundle.js")
+  const root = path.join(os.tmpdir(), 'reelengine-bundle');
+  for (const d of fs.existsSync(root) ? fs.readdirSync(root) : []) {
+    const p = path.join(root, d);
+    try { if (Date.now() - fs.statSync(p).mtimeMs > 3 * 3600e3) fs.rmSync(p, {recursive: true, force: true}); } catch {}
+  }
+  fs.rmSync(dir, {recursive: true, force: true}); // a half-written bundle of this same hash
   // symlinkPublicDir: media is linked into the bundle, never copied.
   return bundle({entryPoint: path.resolve('src/index.ts'), symlinkPublicDir: true, outDir: dir});
 }

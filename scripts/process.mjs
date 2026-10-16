@@ -32,6 +32,7 @@
 //   }]
 // }
 // Output: <drive>/output/<name>/<name>-vN.mp4 (+ -vN-vo-guide.mp4 when lines exist) + CHANGELOG.md. Versions never overwrite.
+import {reviewVersion} from './lib/review.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -254,6 +255,10 @@ try {
     '-filter_complex', `${chain.join(';')};${audio}`, '-map', '[v]', '-map', '[a]',
     ...ENC, '-movflags', '+faststart', final]);
   console.log(`\n✅ ${final} (${clock.toFixed(1)}s)`);
+  { // Pass 10 starts with the automatic review: contact sheet, loudness, dead stretches (scripts/lib/review.mjs)
+    const rv = await reviewVersion({edit: {fps: FPS}, mp4: final, outBase: final.replace(/\.mp4$/, ''), probeOn: false});
+    console.log(`  frame review: ${rv.warns} warn → ${rv.file}`);
+  }
 
   // voice-over guide: the line to say, burned in at the right time (a teleprompter for recording)
   if (voLines.length) {

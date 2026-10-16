@@ -194,3 +194,20 @@ every tool refuses to run with the T7 unplugged (`--out <dir>` = a scratch test)
 | Brand logo (SVG) | `node scripts/logo.mjs <brand> [--dark] [--wordmark] [--slug x]` → svgl.app, else simple-icons (brand colour painted) → Library/stickers/logo-<brand>/sticker.svg. Show: `direction.evidence {look: "logo", logo: "stickers/logo-zomato/sticker.svg", title, bg, brandBg: true}` or illos obj "svg". Idea from howseen-ai/claude-motion-design svgl_logos.py (MIT) | he names a brand, a chapter about one company, a logo before/after | brands not in either set (findimg.mjs "<brand> logo svg") |
 | Evidence clip from YouTube | `node scripts/refs.mjs clip <reel> <url> --from 1:23 --to 1:28 [--id x] [--cookies chrome]` → only those seconds (yt-dlp --download-sections) → `_work/<reel>/clips/<id>.mp4` + `.json` (title, channel). Show: `direction.evidence {look: "clip", clip: "clips/<id>", volume: 1, from?}`: video card + creator name tag + "Source: <channel> / YouTube" | a real quote, ad, interview or speech that proves the point (cold opens) | more than ~8 s of someone else's video; without the credit |
 | Source credit only | `direction.credits [{at, seconds, name, role, source}]` (Moves.tsx) | over his footage / a chart / a picture whose facts come from somewhere | (evidence cards already carry their credit) |
+
+## Automatic frame review (scripts/lib/review.mjs), 2026-10-17
+From cth9191/animate tools/review.mjs + textcheck.mjs (MIT). Runs by itself after every render (reel: full; vlog/process:
+contact sheet + sound + dead stretches) and writes `<version>.review.md` + `.review.jpg` next to the version. Rerun:
+`node scripts/review.mjs <name> [vN]` (needs the footage still staged for the measuring part, else `--no-probe` mode).
+Reel checks: the render is measured again in small frames with `probe: true` (src/layers/Probe.tsx logs every text
+block, picture and solid card on screen, after transforms and clipping) every 6th frame; only things AT REST are judged
+(a graphic flying in from outside is meant to be cut off): text cut off by the frame edge, text overlapping text, the
+same text twice, a card/picture/text over his face (Apple Vision on the render, face carried through a moment where
+something hides it; full-screen scenes skipped), text in the Instagram UI zones (warn). Sound: LUFS (-16..-14), true
+peak (<= -1), loudest moment. Dead stretches > 3 s (warn). Costs ~10–20 s on a short reel. FAIL = fix before he sees it.
+
+## Motion blur on fast graphics (direction.motionBlur → Inserts.tsx), 2026-10-17
+From howseen-ai/claude-motion-design (MIT): 6 sub-frames blended over half a frame (180° shutter) via
+@remotion/motion-blur, only on full-screen chart/illo/iso/board scenes (no footage inside). Measured: 8 s of pure
+graphics rendered in 35.5 s with blur vs 32.7 s without (~+10 %). `true` or `{kinds, samples, shutter}`; `--no-blur`
+skips it for drafts. Fast exits show slight stepping at 6 samples: use 8 there. Not for footage or reading text.

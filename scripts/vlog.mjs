@@ -36,6 +36,7 @@
 //   "sfx": [{"id": "whoosh-short-03", "at": "seg-id", "t": 0, "volume": 0.5}]   // Library/sounds/<id>/sound.mp3
 // }
 // Output: <drive>/output/<name>/<name>-vN.mp4 + CHANGELOG.md + vlog copy. Versions never overwrite. No fade at the end, ever.
+import {reviewVersion} from './lib/review.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -479,6 +480,10 @@ try {
   ff(['-i', joined, '-i', mix, '-filter_complex', `[0:v]${look.length ? look.join(',') : 'null'}[vout]`,
     '-map', '[vout]', '-map', '1:a', ...encFinal, '-c:a', 'aac', '-b:a', '256k', '-ar', '48000', '-movflags', '+faststart', '-t', clock.toFixed(3), final]);
   console.log(`\n✅ ${final} (${(clock / 60).toFixed(2)} min)`);
+  { // Pass 10 starts with the automatic review: contact sheet, loudness, dead stretches (scripts/lib/review.mjs)
+    const rv = await reviewVersion({edit: {fps: FPS}, mp4: final, outBase: final.replace(/\.mp4$/, ''), probeOn: false});
+    console.log(`  frame review: ${rv.warns} warn → ${rv.file}`);
+  }
   if (!PREVIEW) {
     const note = opt('--note', V.changeNote ?? '');
     fs.appendFileSync(path.join(outDir, 'CHANGELOG.md'), `\n## ${name_} v${v} (${new Date().toISOString().slice(0, 10)}): ${(clock / 60).toFixed(2)} min\n${note}${PLAN_NOTE ? `\n${PLAN_NOTE}` : ''}\n`);

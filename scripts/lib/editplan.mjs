@@ -34,7 +34,7 @@ export const PASSES = [
   {id: 'asks', title: 'Asset requests to Siddhesh (CHECKPOINT: ask him)', need: ['reel', 'vlog', 'process'],
     ask: 'What would make this land harder that the Library lacks? Expression memes, reaction GIFs, stickers, illustrations, photos, names, inside jokes. One row each with Google search words; he finds them, drops them in Library/wanted/<id>/, `node scripts/assets.mjs import` adds them to the Library for good. Status per row: asked → received / declined / have.'},
   {id: 'viewer', title: 'Viewer check (after the render)', need: [],
-    ask: 'Watch at 1x with sound like a stranger: hook in 1 s? still watching at 6 s? Stills at every graphic, layout change and the ending.'},
+    ask: 'First read the automatic frame review the render wrote (<version>.review.md + .review.jpg contact sheet; rerun: node scripts/review.mjs <name> vN): fix every FAIL (text cut off / overlapping / twice, something over his face) or say here why it is deliberate; check loudness and dead stretches. Then watch at 1x with sound like a stranger: hook in 1 s? still watching at 6 s? Stills at every graphic, layout change and the ending.'},
 ];
 
 // One row per request. tags = when the Library should offer it again in future videos.

@@ -25,6 +25,7 @@ import {measureLook, adaptFilm} from './lib/look.mjs';
 import {requirePlan} from './lib/editplan.mjs';
 import os from 'node:os';
 import {renderEdit} from './render.mjs';
+import {reviewVersion} from './lib/review.mjs';
 import {writeRenderedFcpxml} from './lib/fcpxml.mjs';
 import {auditCuts} from './lib/cutaudit.mjs';
 
@@ -241,6 +242,8 @@ const {stats, wordFrames, ...edit} = plan(theme);
   direction.styleOverride = {...(direction.styleOverride ?? {}), film: {...film, ...manual}};
 }
 edit.styleOverride = direction.styleOverride ?? null;
+// motion blur on fast graphics (layers/Inserts.tsx): direction.motionBlur true | {kinds, samples, shutter}; --no-blur for quick drafts
+edit.motionBlur = flag('--no-blur') || !direction.motionBlur ? null : direction.motionBlur === true ? {} : direction.motionBlur;
 const virtSegs = edit.segments.map((s) => ({...s})); // positions in the ORIGINAL recordings (for Final Cut)
 edit.segments = edit.segments.map((s) => ({...s, srcFrame: s.outFrame}));
 edit.faces = faces.map((p) => [p.f, +p.x.toFixed(3), +p.y.toFixed(3), +p.h.toFixed(3)]);
@@ -383,6 +386,14 @@ if (!flag('--no-render')) {
   const vName = `${name}-v${version}`;
   fs.copyFileSync(tmp, path.join(reelDir, `${vName}.mp4`));
   fs.rmSync(tmp);
+  // Pass 10 starts with the automatic frame review (scripts/lib/review.mjs), while the footage is still staged
+  step('Frame review (text cut off / overlapping, things over his face, loudness, dead stretches)…');
+  try {
+    const rv = await reviewVersion({edit, mp4: path.join(reelDir, `${vName}.mp4`), outBase: path.join(reelDir, vName)});
+    console.log(`  ${rv.fails ? `❌ ${rv.fails} FAIL` : '✓ no FAIL'}, ${rv.warns} warn → ${rv.file}${rv.fails ? '\n  Fix every FAIL before showing him (Pass 10), or note in plan.md why it is deliberate.' : ''}`);
+  } catch (e) {
+    console.log(`  ⚠️ frame review failed: ${e.message}`);
+  }
   for (const f of tempFiles) fs.rmSync(f, {force: true}); // Mac scratch space cleaned right away
   fs.writeFileSync(path.join(reelDir, `${vName}.transcript.md`), transcript);
   fs.mkdirSync(path.join(work, 'versions'), {recursive: true});

@@ -14,8 +14,10 @@ import {style, applyStyleOverride} from './style';
 import {AttachLayer} from './motion/Attach';
 import {BehindInserts, InsertsLayer, RoomFrame} from './layers/Inserts';
 import {CanvasWorld} from './layers/Canvas';
+import {Probe} from './layers/Probe';
 
-export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
+// probe: only for the automatic frame review (scripts/review.mjs); measures where text/pictures sit, never in a normal render
+export const Reel: React.FC<{edit: Edit; probe?: boolean}> = ({edit, probe}) => {
   applyStyleOverride(edit.styleOverride); // per-reel tweaks on top of the defaults
   const weave = useGateWeave();
   return (
@@ -50,6 +52,7 @@ export const Reel: React.FC<{edit: Edit}> = ({edit}) => {
       <Banner edit={edit} />
       <SoundDesign edit={edit} />
       <EndFade edit={edit} />
+      {probe && <Probe />}
     </AbsoluteFill>
   );
 };

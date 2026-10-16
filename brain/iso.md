@@ -62,6 +62,9 @@ a shape the list can't make (and then it's there for every later video).
   Kept: spring presets by weight (snappy UI fast, containers/camera medium, heavy type/logos slow, playful mascots
   bouncy); seeded randomness only (never Math.random, so re-renders match); label illustrative data "Example data" on
   screen; sound effects placed on their measured peak. Not taken: its Playwright renderer, launch-film flow, remake mode.
+- **Adopted later the same day (code, not just ideas):** animate's review pass → automatic frame review after every
+  render (scripts/lib/review.mjs); animate's kit/morph.js → shape-morph transition (direction.morphs, Morph.tsx);
+  claude-motion-design's subframe blur → direction.motionBlur; its spring weights → src/motion/springs.ts (skills.md).
 - **dylantarre/animation-principles (MIT): low value for us.** 144 short notes on Disney's 12 principles for UI/web;
   generic and repetitive. The parts that matter (anticipation, follow-through, slow in/out, arcs, staging, secondary
   action) are already in brain/animation-system.md and motion-design.md. Not installed.

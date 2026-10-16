@@ -35,6 +35,7 @@ import {Moved, Breather, Credit} from './Moves';
 import {Evidence} from './Evidence';
 import {Illo, IlloFull} from './Illos';
 import {Iso} from './Iso';
+import {CameraMotionBlur} from '@remotion/motion-blur';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const easeOut = Easing.bezier(0.16, 1, 0.3, 1);
@@ -374,6 +375,15 @@ const BoardFull: React.FC<{x: Extract<Insert, {kind: 'board'}>}> = ({x}) => <Boa
 // One insert drawn at its own local time t (used by the vlog pieces, which place it in their own Sequence).
 export const InsertView: React.FC<{x: Insert; t: number}> = ({x, t}) => (x.kind === 'illo' ? <Illo x={x} t={t} /> : isFull(x) ? <Full x={x} /> : <Overlay x={x} t={t} />);
 
+// Motion blur for fast graphics (edit.motionBlur, from howseen-ai/claude-motion-design: N sub-frames blended over a 180°
+// shutter = half a frame, like a film camera). Only full-screen graphic scenes (no footage inside, so no extra video
+// decoding); everything else renders as usual. Costs about `samples`× the render time of those seconds.
+const Blurred: React.FC<{edit: Edit; x: Insert; children: React.ReactNode}> = ({edit, x, children}) => {
+  const mb = edit.motionBlur;
+  if (!mb || !(mb.kinds ?? ['chart', 'illo', 'iso', 'board']).includes(x.kind)) return <>{children}</>;
+  return <CameraMotionBlur shutterAngle={mb.shutter ?? 180} samples={mb.samples ?? 6}>{children}</CameraMotionBlur>;
+};
+
 // Templates run inside a Sequence so they count from 0; overlays are drawn only while they're live.
 export const InsertsLayer: React.FC<{edit: Edit; layer: 'full' | 'over'}> = ({edit, layer}) => {
   const frame = useCurrentFrame();
@@ -383,7 +393,7 @@ export const InsertsLayer: React.FC<{edit: Edit; layer: 'full' | 'over'}> = ({ed
     <>
       {list.map((x, i) =>
         layer === 'full' ? (
-          <Sequence key={i} from={x.f} durationInFrames={x.frames} layout="absolute-fill"><Moved x={x} t={frame - x.f} backdrop={(x as {bg?: unknown}).bg && typeof (x as {bg?: unknown}).bg === 'string' ? (x as {bg: string}).bg : x.kind === 'board' ? '#efe9dc' : x.kind === 'illo' ? '#f3eee4' : undefined}><Full x={x} /></Moved></Sequence>
+          <Sequence key={i} from={x.f} durationInFrames={x.frames} layout="absolute-fill"><Moved x={x} t={frame - x.f} backdrop={(x as {bg?: unknown}).bg && typeof (x as {bg?: unknown}).bg === 'string' ? (x as {bg: string}).bg : x.kind === 'board' ? '#efe9dc' : x.kind === 'illo' ? '#f3eee4' : undefined}><Blurred edit={edit} x={x}><Full x={x} /></Blurred></Moved></Sequence>
         ) : frame >= x.f && frame < x.f + x.frames ? (
           <AbsoluteFill key={i} style={{pointerEvents: 'none'}}><Moved x={x} t={frame - x.f}><Overlay x={x} t={frame - x.f} /></Moved></AbsoluteFill>
         ) : null,

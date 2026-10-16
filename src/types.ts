@@ -109,6 +109,8 @@ export type Edit = {
   banner?: {text: string; f0: number; f1: number} | null;
   hookBehind?: boolean;
   foreground?: {f: number; frames: number; src?: string; canvas?: boolean}[];
+  // motion blur for fast graphics (claude-motion-design: sub-frames blended on a 180° shutter); kinds default chart/illo/iso/board
+  motionBlur?: {kinds?: string[]; samples?: number; shutter?: number} | null;
   canvas?: CanvasSpec | null; // canvas mode: footage is one layer on a canvas under one camera (layers/Canvas.tsx)
   endFade?: number;
   styleOverride?: Record<string, unknown> | null;
