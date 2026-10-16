@@ -2,7 +2,9 @@
 
 Learned frame by frame (10 frames per second, every animation) from the 4 Varun Mayya reels (luck, founder's time,
 GPT spark, AI agents) and every animated graphic of the 3 Anurag Bansal videos (protein prices, WHOOP, Starlink vs
-Ambani). The shot-by-shot notes (~190 lines, every timing) are on the T7: references/library/animation-study.md;
+Ambani). The shot-by-shot notes (~190 lines, every timing) are on the T7: references/library/animation-study.md, and
+the frame sheets I studied (10 frames per second, time-stamped) are in references/library/study-frames/ (open the
+sheet for a moment before building that animation, so the build copies the real motion);
 measured timings are also in brain/explainers.md "Animation vocabulary". This file is the METHOD: what they actually do, turned into steps I can follow for a topic nobody has
 animated before.
 
