@@ -75,7 +75,7 @@ minute). Reach across the whole toolbox, not only text:
   leave a beat empty.
 - **Memes move:** only GIFs or video memes (Library clips have their own sound; a silent GIF gets a meme sound by
   meaning). Never a still-image meme or a meme card (his verdict 2026-10-15; the check blocks it).
-- **Screens on camera** (phone, laptop, screen recording): reel `direction.blurSecrets: true`; vlog `scripts/secrets.py`
+- **Screens on camera** (phone, laptop, screen recording): reel `direction.blurSecrets: true`; vlog `scripts/secretsweep.py`
   on the piece → `censor`. Never publish a number, email, UPI ID, OTP or key.
 - **Needs an asset the Library lacks** → FIRST find it yourself: `node scripts/findimg.mjs search <name> <id> "<exact
   words>"` (logos, brands, places, objects, famous people, reaction GIFs) → look at the ONE numbered sheet → choose for

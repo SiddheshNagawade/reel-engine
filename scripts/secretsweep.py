@@ -2,7 +2,7 @@
 return blur boxes. From the AI-editing blueprint he shared ("on-screen secrets are found and blurred"); important for
 his building-in-public videos (dashboards, DMs, payment screens).
 
-Usage: .venv/bin/python scripts/secrets.py <video> [--from s] [--to s] [--fps 2] [--rotate 90] [--never "<a,b>"] [--out f.json]
+Usage: .venv/bin/python scripts/secretsweep.py <video> [--from s] [--to s] [--fps 2] [--rotate 90] [--never "<a,b>"] [--out f.json]
   Reads every line of text (Apple Vision) on sampled frames and flags: emails, UPI IDs, Indian phone numbers, OTP codes,
   card / Aadhaar numbers, API keys / tokens, and anything in --never or in a never.txt next to the output (names,
   addresses, his friends' numbers…).

@@ -331,7 +331,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     if (kind === 'stack') inserts.push({...rest, kind, ...sp, lines, at: (words ?? []).map((w) => L({word: w}).at), ...(sound === null ? {silent: true} : {})});
     else inserts.push({...rest, kind: 'words', ...sp, lines: lines.map((ln) => ln.map(L)), ...(sound === null ? {silent: true} : {})});
   }
-  // blurs: private things on screens. Tracks from scripts/secrets.py run on the cut (selects.mp4): key times are
+  // blurs: private things on screens. Tracks from scripts/secretsweep.py run on the cut (selects.mp4): key times are
   // seconds on the output timeline. reel.mjs fills direction.blurs itself when direction.blurSecrets is on.
   for (const tr of direction?.blurs ?? []) {
     const ks = tr.keys ?? [];

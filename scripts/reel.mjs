@@ -212,7 +212,7 @@ if (direction.blurSecrets) {
   const sf = path.join(work, `secrets-${segKey.slice(0, 8)}.json`);
   if (!fs.existsSync(sf)) {
     step('Looking for private text on screens (secrets sweep)…');
-    const r = spawnSync('.venv/bin/python', ['scripts/secrets.py', selects, '--fps', '2', '--out', sf], {stdio: ['ignore', 'inherit', 'pipe']});
+    const r = spawnSync('.venv/bin/python', ['scripts/secretsweep.py', selects, '--fps', '2', '--out', sf], {stdio: ['ignore', 'inherit', 'pipe']});
     if (r.status !== 0) console.log(`  (secrets sweep failed: ${String(r.stderr).slice(-200)})`);
   }
   if (fs.existsSync(sf)) direction.blurs = [...(direction.blurs ?? []), ...readJson(sf)];

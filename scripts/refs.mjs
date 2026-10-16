@@ -33,6 +33,12 @@ if (cmd === 'list') {
   }
   process.exit(0);
 }
+if (cmd === 'study') {
+  // (re)study folders already downloaded: node scripts/refs.mjs study [<folder name>…] (default: all without a transcript)
+  const names = args.length ? args : fs.readdirSync(root).filter((d) => !d.startsWith('.') && !fs.existsSync(path.join(root, d, 'transcript.txt')));
+  for (const n of names) studyDir(path.join(root, n), JSON.parse(fs.readFileSync(path.join(root, n, 'info.json'), 'utf8')).webpage_url);
+  process.exit(0);
+}
 if (cmd !== 'add' || !urls.length) {
   console.log('Usage: node scripts/refs.mjs add <url…> [--cookies chrome] [--no-study] | list');
   process.exit(1);
@@ -41,7 +47,8 @@ if (cmd !== 'add' || !urls.length) {
 for (const url of urls) {
   const tmp = path.join(root, `.tmp-${Date.now()}`);
   fs.mkdirSync(tmp, {recursive: true});
-  const ytArgs = ['-f', 'bv*+ba/b', '--merge-output-format', 'mp4', '--write-info-json', '--no-playlist', '-o', path.join(tmp, 'video.%(ext)s'), url];
+  // 1080p is plenty to study an edit (YouTube 4K = ~500 MB per video for nothing)
+  const ytArgs = ['--js-runtimes', `node:${process.execPath}`, '-f', 'bv*[height<=1080]+ba/b[height<=1080]/b', '--merge-output-format', 'mp4', '--ffmpeg-location', ffmpegPath, '--write-info-json', '--no-playlist', '-o', path.join(tmp, 'video.%(ext)s'), url];
   if (cookies) ytArgs.unshift('--cookies-from-browser', cookies);
   console.log(`Downloading ${url} …`);
   const r = run('.venv/bin/yt-dlp', ytArgs, {stdio: ['ignore', 'inherit', 'inherit']});
@@ -57,26 +64,34 @@ for (const url of urls) {
   fs.renameSync(tmp, dir);
   fs.renameSync(path.join(dir, 'video.info.json'), path.join(dir, 'info.json'));
   console.log(`Saved → ${dir}`);
-  if (!study) continue;
+  if (study) studyDir(dir, url);
+}
 
-  // Study: stills every ~2 s (contact sheet) + Hinglish transcript
+// Study: stills every 2 s + a transcript with [m:ss] times (to line up words with frames) + a notes page to fill in.
+function studyDir(dir, url) {
+  const info = JSON.parse(fs.readFileSync(path.join(dir, 'info.json'), 'utf8'));
+  const video = path.join(dir, 'video.mp4');
   const frames = path.join(dir, 'frames');
+  fs.rmSync(frames, {recursive: true, force: true});
   fs.mkdirSync(frames, {recursive: true});
-  run(ffmpegPath, ['-hide_banner', '-loglevel', 'error', '-i', path.join(dir, 'video.mp4'), '-vf', 'fps=1/2,scale=270:-2', path.join(frames, 'f%03d.jpg')]);
+  run(ffmpegPath, ['-hide_banner', '-loglevel', 'error', '-i', video, '-vf', 'fps=1/2,scale=270:-2', path.join(frames, 'f%03d.jpg')]);
   const wav = path.join(dir, 'audio.wav');
-  run(ffmpegPath, ['-hide_banner', '-loglevel', 'error', '-y', '-i', path.join(dir, 'video.mp4'), '-ac', '1', '-ar', '16000', wav]);
+  run(ffmpegPath, ['-hide_banner', '-loglevel', 'error', '-y', '-i', video, '-ac', '1', '-ar', '16000', wav]);
   const tj = path.join(dir, 'transcript.json');
-  run('.venv/bin/python', ['scripts/transcribe.py', wav, tj], {stdio: ['ignore', 'ignore', 'inherit']});
+  // mlx_whisper calls `ffmpeg` by name: put the bundled one on PATH
+  run('.venv/bin/python', ['scripts/transcribe.py', wav, tj], {stdio: ['ignore', 'ignore', 'inherit'], env: {...process.env, PATH: `${path.dirname(ffmpegPath)}:${process.env.PATH}`}});
   fs.rmSync(wav, {force: true});
+  const mmss = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
   let text = '';
   if (fs.existsSync(tj)) {
-    const t = JSON.parse(fs.readFileSync(tj, 'utf8'));
-    text = (t.segments ? t.segments.map((s) => s.text.trim()).join(' ') : t.text || '').trim();
+    const words = JSON.parse(fs.readFileSync(tj, 'utf8')).words || [];
+    const lines = [];
+    for (let i = 0; i < words.length; i += 14) lines.push(`[${mmss(words[i].s)}] ${words.slice(i, i + 14).map((w) => w.w.trim()).join(' ')}`);
+    text = lines.join('\n');
     fs.writeFileSync(path.join(dir, 'transcript.txt'), text + '\n');
-  }
-  fs.writeFileSync(
-    path.join(dir, 'notes.md'),
-    `# ${info.title || info.id}\n@${info.uploader || '?'} · ${Math.round(info.duration || 0)}s · ${url}\n\n## Caption\n${info.description || ''}\n\n## Transcript\n${text}\n\n## What to learn (fill in after watching frames/)\n- Hook:\n- Pacing / cuts:\n- Text & graphics:\n- Sound:\n`,
-  );
-  console.log('Studied: frames/, transcript.txt, notes.md');
+  } else console.error(`  transcript failed for ${dir}`);
+  const notes = path.join(dir, 'notes.md');
+  if (!fs.existsSync(notes) || !fs.readFileSync(notes, 'utf8').includes('## Learned'))
+    fs.writeFileSync(notes, `# ${info.title || info.id}\n@${info.uploader || '?'} · ${Math.round(info.duration || 0)}s · ${url}\n\n## Caption\n${info.description || ''}\n\n## What to learn (fill in after watching frames/)\n- Hook:\n- Story structure:\n- Pacing / cuts:\n- Text & graphics:\n- Sound:\n`);
+  console.log(`Studied ${path.basename(dir)}: frames/ (every 2 s), transcript.txt, notes.md`);
 }

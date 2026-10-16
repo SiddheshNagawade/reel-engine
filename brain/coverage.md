@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-92 techniques · 90 built · 1 still to build: Auto grade with a trained model (Image-Adaptive 3D LUT): PARKED, lost to raw on his footage · 1 parked on purpose (Subject/background separation grade)
+98 techniques · 90 built · 7 still to build: Ghost-text captions: whole phrase light grey, words darken as spoken, key word big in the accent colour; One metaphor object that evolves across every beat; Animated chart from real numbers (bar grows + value counts, line draws itself + end label, pie cuts, pictogram row); Chapter cards 01/02/03 (promise at start, progress later); Breather text: key line in thin type over A-roll dimmed to near black; Source credit + highlighted line on article screenshots; Auto grade with a trained model (Image-Adaptive 3D LUT): PARKED, lost to raw on his footage · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -19,7 +19,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | story | Visual-first beats | reel, vlog, process | ✅ | content-brief.md §10 → seeds the visuals pass | scriptwriter skill (adapted) |
 | story | 3-act spine, ~9 beats on real clips | vlog | ✅ | content-brief.md §10 | scriptwriter skill (adapted) |
 | story | Series continuity | reel | ✅ | content-brief.md §5 + §10, series log in the planner | content-brief.md + scriptwriter skill |
-| story | Private info on screens blurred | reel, vlog, process | ✅ | reel: direction.blurSecrets (auto sweep) / blurs · vlog: scripts/secrets.py on the piece → censor | AI-editing blueprint (Jason Cooperson) |
+| story | Private info on screens blurred | reel, vlog, process | ✅ | reel: direction.blurSecrets (auto sweep) / blurs · vlog: scripts/secretsweep.py on the piece → censor | AI-editing blueprint (Jason Cooperson) |
 | story | Ending: loop or hard cut on the payoff, never a fade | reel, vlog, process | ✅ | last segment / last line | preferences.md |
 | story | Honest claims | reel, vlog, process | ✅ | hook text, VO, name tags from people.json | preferences.md |
 | story | Find active vs idle stretches in hours of footage | process, vlog | ✅ | cutfinder.py activity <clip> | process-videos.md |
@@ -36,6 +36,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | cuts | No clipped words at cuts | reel | ✅ | automatic (cut-audit.json) → editplan check | AI-editing blueprint (Jason Cooperson) |
 | cuts | Readable pace (shots ≳ 1 s) | reel, vlog, process | ✅ | checked automatically | preferences.md |
 | captions | Caption look for this video | reel, vlog | ✅ | theme.captionStyle · vlog subs + word times | preferences.md |
+| captions | Ghost-text captions: whole phrase light grey, words darken as spoken, key word big in the accent colour | reel | ❌ to build | not built: new caption style next to the existing ones (his sizes stay) | explainers.md (Varun Mayya reels) |
 | captions | Hero words exaggerated | reel, vlog | ✅ | direction.emphasis · *word* in subs | edit-layers.md |
 | captions | Hinglish, never translated | reel, vlog | ✅ | clip-N.words.json, hinglish.json | preferences.md |
 | captions | The friends' real inside jokes | vlog | ✅ | ask him; pop / caps text | preferences.md |
@@ -49,6 +50,11 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | visuals | Inverted stacked title (exclusion blend) | reel | ✅ | direction.titles [{kind: "stack", lines, words}] | pablo.md |
 | visuals | Full-screen designed scene with a moving camera (mind-map, journey counter, steps on a path) | reel | ✅ | direction.scenes [{bg, cam, items}] (templates/Scene.tsx) | pablo.md |
 | visuals | Picture of who/what he names rises in beside him (halftone dots option) | reel | ✅ | direction.photos [{at, media: {file}, from, dots}] | pablo.md |
+| visuals | One metaphor object that evolves across every beat | reel, vlog | ❌ to build | brain/explainers.md Style A; build as one illustration scene with states | explainers.md (Varun Mayya reels) |
+| visuals | Animated chart from real numbers (bar grows + value counts, line draws itself + end label, pie cuts, pictogram row) | reel, vlog | ❌ to build | not built: component in src/layers with data from direction.json; brand colour per chart | explainers.md (Anurag Bansal) |
+| visuals | Chapter cards 01/02/03 (promise at start, progress later) | vlog | ❌ to build | not built: series design system card | explainers.md (Anurag Bansal) |
+| visuals | Breather text: key line in thin type over A-roll dimmed to near black | reel, vlog | ❌ to build | not built (text-card is close: dim the footage behind it) | explainers.md (Anurag Bansal) |
+| visuals | Source credit + highlighted line on article screenshots | reel, vlog | ❌ to build | not built: small corner text + highlight sweep | explainers.md |
 | visuals | Number counter | reel, vlog, process | ✅ | reel: direction.counters (style full/overlay) · vlog: gfx counter / {type: "insert", kind: "counter"} | motion-design.md |
 | visuals | Before/after circle reveal | reel, process | ✅ | reel: direction.reveals (CircleReveal) | motion-design.md |
 | visuals | Clips as cards on a stage (row, grid, stack, focus) | reel | ✅ | direction.stages (CardStage) | motion-design.md |
