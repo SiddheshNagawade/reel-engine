@@ -241,3 +241,8 @@ contradictions resolved). After every round of feedback: add the dated note here
   (notes on the T7: references/library/animation-study.md) and turned into brain/animation-system.md (the method + motion
   dictionary), read in the visuals/motion briefings. Ghost captions now build line by line; chart bars rise on their word,
   ranges are hatched bands, bars can start equal and shrink.
+- 2026-10-17: showed two isometric illustrations (green city on a floating board with wind turbines; road crossing with
+  factory, turbines, pines, cars): "can the things we make people visualise look 3D like this, decided per topic?"
+  Charts stay 2D ("they look beautiful flat"). Built direction.iso (src/layers/Iso.tsx, brain/iso.md). Verdict on the
+  test stills (city rising, turbines, 3D bars, road + factory): "Yes, the 3D look is right. Use it in my explainer
+  videos when the topic fits."

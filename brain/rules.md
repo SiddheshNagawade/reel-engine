@@ -76,6 +76,8 @@ sections at the moment of the decision.
   about the overlap). Footage + graphic together only when the graphic is small and clearly secondary.
 - Graphics are NOT boxed by default: charts, objects, labels live on the whole frame like stickers; they fly in from
   outside the frame and leave out of it (never just appear/disappear), so the reel feels like one piece (2026-10-16).
+- Places and systems people should SEE (a city, factory, supply chain, store, farm) can be an isometric 3D-look scene
+  (direction.iso, brain/iso.md) in explainers when the topic fits; one per section, on his words. Charts stay 2D (2026-10-17).
 - Screens on camera: private info (numbers, emails, UPI, OTPs, keys) is always blurred.
 - Explainers: the face is the trust, graphics are the facts (2026-10-17, measured on Anurag Bansal / Varun Mayya,
   brain/explainers.md "Face vs graphics"). Label every line FACT → graphic, QUESTION/TURN → face 2–4 s or breather
