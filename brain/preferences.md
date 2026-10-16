@@ -227,3 +227,4 @@ contradictions resolved). After every round of feedback: add the dated note here
 - 2026-10-15: "for God sake don't use image memes": memes must be GIFs or videos with sound. → still memes + meme cards banned (check blocks them); silent GIPHY GIFs get a Library meme sound (GIPHY clips with sound need a paid key).
 
 - 2026-10-16: charts in empty boxes look wrong; "whole frame is yours": graphics without boxes, entering/leaving through the frame edges, everything united instead of separate clips.
+- 2026-10-16 (later): the unboxed chart overlapping his face card = "fucked up". Earlier concept was right: the video goes, THEN the chart. One main element, others only support; the viewer must always know what to watch.

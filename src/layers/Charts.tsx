@@ -6,7 +6,8 @@
 //   line  the line draws itself left → right, the end dot lands and an end label pops ("+70 %")
 //   pie   the base disc sets, the slice sweeps open, then cuts out of the pie; a big percentage counts up beside it
 // Colour per chart (the brand's colour world): bg (card/board), color (the data), accent (highlight / tag / end label),
-// ink (text). style 'full' = a full-screen board (default), 'card' = a floating card over the footage/canvas (x, y, w).
+// ink (text). style 'full' (default) = the chart OWNS the screen: its bg wipes up over the footage, nothing else competes;
+// 'card' = a small supporting graphic next to the footage/canvas (x, y, w), only when the footage stays the main thing.
 import React from 'react';
 import {Easing, interpolate, useVideoConfig} from 'remotion';
 import {fonts} from './fonts';
@@ -83,7 +84,11 @@ export const Chart: React.FC<{x: ChartSpec & {frames: number}; t: number}> = ({x
   const pad = Math.min(cw, ch) * 0.08;
   const plot = {l: pad * 1.2, r: cw - pad * 1.2, t: pad * 2.6, b: ch - pad * 1.9};
   const c = {bg, ink, color, accent, fs, plot, cw, ch, S, t, fps};
-  return (
+  // ONE main element: a full chart owns the screen. Unboxed, its colour world wipes up from the bottom edge over the
+  // footage (the video is gone), the chart flies in on it, and on the way out both leave through the top edge.
+  const stageIn = interpolate(t, [0, Math.round(0.3 * fps)], [0, 1], {...clamp, easing: easeOut});
+  const stageOut = interpolate(t, [x.frames - Math.round(0.3 * fps), x.frames], [0, 1], {...clamp, easing: Easing.in(Easing.cubic)});
+  const chartEl = (
     <div style={{position: 'absolute', inset: 0, opacity: out, background: full && boxed ? (isLight(bg) ? '#efe9dc' : '#0b0b0d') : undefined,
       transform: `translateY(${dy}px)`, filter: mblur > 0.5 ? `blur(${mblur}px)` : undefined}}>
       <div style={boxed ? {position: 'absolute', left: cx - cw / 2, top: cy - (ch * openP) / 2 - 2, width: cw * lineP, height: Math.max(4, ch * openP),
@@ -97,6 +102,12 @@ export const Chart: React.FC<{x: ChartSpec & {frames: number}; t: number}> = ({x
           {x.type === 'pie' && <Pie x={x} c={c} />}
         </div>
       </div>
+    </div>
+  );
+  if (!full || boxed) return chartEl;
+  return (
+    <div style={{position: 'absolute', inset: 0, background: bg, clipPath: `inset(${stageOut * 100}% 0 ${(1 - stageIn) * 100}% 0)`}}>
+      {chartEl}
     </div>
   );
 };
