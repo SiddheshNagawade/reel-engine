@@ -116,3 +116,27 @@ Models: models/esrgan/ (gitignored; github.com/xinntao/Real-ESRGAN releases, mac
   data → tag. Colours per chart (brand world): bg, color, accent, ink. `style: "card"` floats over footage/canvas
   (x, y, w) and keeps captions; full boards hide captions. No box by default (`frame: "none"`): the chart lives on the canvas like stickers, flies in from below the frame and out through the top with motion blur; `frame: "box"` only when a card really helps (his verdict 2026-10-16: "no need to fit them in a box, whole frame is yours"). Move his footage card out of the way (canvas.footage) so it never overlaps. Use ONLY with real numbers + a `source`. Not for a single
   number (use counter). Sound: soft whoosh in, pop on the tag.
+
+## Illustrated objects that act out his words (2026-10-17, src/layers/Illos.tsx)
+`direction.illos [{at, until|seconds, style, bg, palette, hideCaptions, zoom, items: […]}]` → inserts kind 'illo'.
+One insert = a small board of objects; each item starts at its own word (`word` / `s`), so they build in the order he
+says them. Every object is DRAWN ON (outlines trace in part by part ~0.9 s, then the flat colours flood in), floats
+gently, reacts on words (`acts`), and drifts up + blurs out at the end (or `out` / an `out` act).
+- Objects: printer (`lines`, `total`; auto-prints line by line; `tear`), globe (`lon`, `spin`, `tilt`, real
+  projected continents; `pins [{word, lon, lat, label}]`), satellite (`orbit {around: item index | [x,y], rx, ry,
+  period, phase, tilt}` goes behind/in front of what it circles; `signal`), phone (`text`, `title`, auto `ping`),
+  laptop (`text`, `lines` type in), bulb (auto `on`), coins (`value` count; `add {n}`), cash (`text`), beaker
+  (`value` %, auto `fill`, `fill {to}`), clock (`spin {seconds, n}`), box (`open`, `text`), document (`text`,
+  `lines`; `stamp {text, color}`), svg (`src`: ANY vector file, e.g. Library/illustrations/<name>/x.svg or an icon
+  found online, drawn on the same way; `outline: false` drops the outline after the fill).
+- Generic for all: `enter` draw|pop|drop|none, `build` s, `size` (0.5 = half the frame width), `x`, `y`, `rot`,
+  `flip`, `color`, `accent`, `label` (tag under it), `idle` float|none, acts `pop`, `shake`, `fall` (gravity, "that
+  idea died"), `out`.
+- style "full" = its own canvas colour (`bg`) with a slow push-in; "over" = floats over the footage/canvas (keep
+  off his face). Captions stay unless `hideCaptions`. Sounds are automatic (soft whoosh in; stamp = hit, bulb/pin/
+  open = pop, ping/add = tick, fall = whoosh). Palette `{ink, paper, light, mid, dark, accent, blue, green, red, gold}`:
+  choose it for THIS video (brand colours, the reel's accent), never just the default.
+- Use: he names a thing the viewer should picture (bill, country, device, money, time, idea, a document). One idea
+  per board, 1–3 objects. NOT for people (photos), not for real numbers alone (chart/counter), not for a joke
+  (meme). New object needed → add it to OBJS in Illos.tsx (parts drawn with <D o={order}>), not a one-off.
+- Demo: src/edits/zz-illo-demo.json (needs a dummy public/input/zz-illo-demo.mp4; stills via scripts/still.mjs).

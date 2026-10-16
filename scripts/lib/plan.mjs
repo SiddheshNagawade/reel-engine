@@ -300,6 +300,16 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   for (const x of direction?.connectors ?? []) put('connector', x, 1.8);
   // animated charts from real numbers (src/layers/Charts.tsx): {at, seconds, type: bar|line|pie, bars|points|slices, …}
   for (const x of direction?.charts ?? []) put('chart', x, x.type === 'bar' ? 1.8 + 1.2 * (x.bars?.length ?? 1) : 3.5);
+  // illustrated objects that act out his words (src/layers/Illos.tsx): {at, until|seconds, style: full|over, bg, palette,
+  //   items: [{obj, word|s, x, y, size, text, lines, total, value, label, orbit, pins: [{word|s, lon, lat, label}],
+  //   acts: [{word|s, do: print|tear|ping|on|add|fill|spin|open|stamp|signal|pop|shake|fall|out, …}]}]}
+  for (const x of direction?.illos ?? []) {
+    const sp = span(x, 3.5);
+    if (!sp) continue;
+    const L = local(sp.f);
+    const {at, until, seconds, delay, sound, items, ...rest} = x;
+    inserts.push({...rest, kind: 'illo', ...sp, items: (items ?? []).map((it) => ({...L(it), acts: (it.acts ?? []).map(L), pins: (it.pins ?? []).map(L)})), ...(sound === null ? {silent: true} : {})});
+  }
   // Pablo-style designed graphics (brain/pablo.md): times inside are WORD indexes ({word: i}) or seconds from the
   // start of the insert ({s: 1.2}); both become frames from the insert start, so everything lands on his words.
   //   direction.scenes [{at, until, bg, cam: [{word|s, x, y, zoom}], items: [{word|s, type, …}]}]
@@ -591,6 +601,15 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else if (x.kind === 'burst') add('hit', x.f, vol * 0.5);
     else if (x.kind === 'counter') add('tick', x.f, vol * 0.3);
     else if (x.kind === 'chart') { add('soft-whoosh', x.f - 2, vol * 0.3, 4); if (x.multiplier || x.endLabel || x.cut != null) add('pop', x.f + x.frames - Math.round(1.2 * fps), vol * 0.35); }
+    else if (x.kind === 'illo') {
+      // a soft whoosh as the board arrives, then each act gets the sound of what it does (printer ticks per line…)
+      add('soft-whoosh', x.f - 2, vol * 0.25, 4);
+      const ACT = {stamp: 'hit', on: 'pop', ping: 'tick', open: 'pop', pop: 'pop', fall: 'whoosh', add: 'tick', tear: 'soft-whoosh'};
+      for (const it of x.items) {
+        for (const a of it.acts ?? []) if (ACT[a.do]) add(ACT[a.do], x.f + a.at, vol * (a.do === 'stamp' ? 0.5 : 0.3));
+        for (const p of it.pins ?? []) add('pop', x.f + p.at + Math.round(0.3 * fps), vol * 0.3);
+      }
+    }
     else if (x.kind === 'scatter') add('pop', x.f, vol * 0.35);
     else if (x.kind === 'push') add('whoosh', x.f + x.frames - 10, vol * 0.45, 4);
     else if (x.kind === 'scene' || x.kind === 'words' || x.kind === 'stack') designSounds(x);

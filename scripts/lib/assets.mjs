@@ -24,6 +24,8 @@ export function stageLibrary(edit) {
   edit.memes = (edit.memes ?? []).filter((m) => ok(m.sound) && ok(m.visual));
   edit.sfx = (edit.sfx ?? []).filter((x) => ok(x.src));
   edit.musicCues = (edit.musicCues ?? []).filter((x) => ok(x.src));
+  // illustrated objects drawn from a vector file (Library/illustrations/…): an item whose file is missing is dropped
+  for (const x of edit.inserts ?? []) if (x.kind === 'illo') x.items = (x.items ?? []).filter((it) => it.obj !== 'svg' || ok(it.src));
   const dropped = before - edit.memes.length - edit.sfx.length;
   if (dropped) console.log(`  ⚠️ ${dropped} sound/sticker(s) skipped: library not found (is the T7 plugged in?)`);
   return () => {

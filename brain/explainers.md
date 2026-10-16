@@ -85,6 +85,50 @@ the reframe that lands on the viewer. One idea per reel, 25–45 s.
 - As a designer he can go further than them: redesign moments (before/after of a logo, a grid overlay on a pack),
   which they don't do. That's his edge.
 
+## Face vs graphics: when his face is on screen, and why (measured 2026-10-17)
+Measured on youtube-vw4L5sbC7LY (Anurag Bansal, protein prices, 14 min; one still every 2 s, A-roll found by matching
+the desk set) and the 4 Varun Mayya reels (Apple Vision face detection, 4 fps). **The face is the trust, graphics are
+the facts.** Whenever he says a fact (number, name, place, product, a process step, a quote), the viewer sees it;
+the face comes back only for what a picture can't carry: the question, the reaction, the opinion.
+
+### YouTube explainer (Anurag Bansal)
+- **Face 31 % of the video, + 5 % "breather" text over his dimmed face, graphics/B-roll 64 %.**
+- **Face shots are short: median 4 s, longest 12 s.** Never more than ~12 s of face without a visual.
+- **Graphic stretches are long: median 8 s, up to 40 s** (the price evidence at 0:22, the cheese → whey process at
+  7:00, the "milk becomes paneer" demo at 10:26). A process or a chain of evidence stays in graphics until it's done.
+- **Face share grows through the video**: 13 % in the first minute (cold open + price evidence), ~20 % while
+  explaining how whey is made, 40–60 % in the last 3 minutes (his verdict, the future, the ending). Facts first,
+  opinion last, so the face takes over as the video turns from "what" to "what I think".
+- When the face is on, the context is always one of these:
+  1. **Hook line** (0:00–0:05): the question in his own words, 4–6 s, then evidence by 0:06 at the latest.
+  2. **Bridge / turn between two evidence blocks** (2–4 s): "but here's the thing", "so why…?". A short face shot
+     is how the video changes topic; the graphics never change topic on their own.
+  3. **Reaction after a big number** (4–8 s): after "100 L of milk → 1 kg protein" he's on screen saying what it means.
+  4. **Opinion / reframe / verdict** (6–12 s): the chapters "India's struggle" and "the future" are mostly face.
+  5. **Personal / trust moments**: the intro with his name tag, the sponsor read (47 % face there), the sign-off.
+- **Breather text** = the rhetorical questions ("Why on earth is the protein that is made from milk getting so
+  expensive?") typed in thin white over his A-roll dimmed to ~10 %. It is a third state between face and graphic:
+  his voice and presence stay, but the line becomes the picture.
+- Cuts from graphic back to face are plain hard cuts; the graphics are "evidence inserts" into a conversation.
+
+### Reels (Varun Mayya)
+- Face is on screen 10–18 s of 38–46 s in the idea reels (Ded5sx 24 %, Def2q 47 %), always in a SMALL card, never
+  full frame after the hook. The podcast-clip reel (Dehka) keeps the face 87 % but in a card beside graphics.
+- **Where the face is**: the hook claim (first 5–9 s: "all success is also luck", "the founder never sells his
+  time") and ONE proof/reframe line later ("today I'm standing here with so many channels", "your job is a
+  recruitment job"). Everything in between (the metaphor, the example, the numbers) is graphics only.
+- The middle of an idea reel is face-free for 15–20 s: the metaphor carries it.
+
+### Rules for his explainers (apply in the layout pass; mark FACE / GRAPHIC / BREATHER per line in plan.md)
+- Before building visuals, label every line: FACT (a thing, number, name, place, process) → graphic; QUESTION /
+  TURN → face 2–4 s or breather text; OPINION / FEELING / JOKE / PROOF → face.
+- YouTube: aim for 30–40 % face (his personal edge: allow up to ~45 % in opinion-heavy videos), never > 12 s of face
+  without a visual, front-load facts and let the face grow toward the end. Breather text every ~1–2 min.
+- Reels: face for the hook claim and ONE proof/reframe line; the middle is graphics on the canvas. His reels are
+  personal, so the face can stay a little more than Varun's (in a card), but the facts are never just his face.
+- Every thing he names gets a drawn object (direction.illos) or a chart/picture; when he names the thing again
+  later, the SAME object returns and acts (one visual system per video, see Style A).
+
 ## Animation vocabulary: how things MOVE (measured frame by frame at 10 fps, 2026-10-16)
 The motion matters more than the look. Timings are from the references; use them as a feel, adapt per video.
 
@@ -146,7 +190,8 @@ stacked-notification UI, collapse-to-card hook transition, tumbling chapter card
 - BUILT 2026-10-16: ghost-text captions (captionStyle "ghost") and animated charts (direction.charts: bar/line/pie);
   see brain/skills.md "Explainer kit". Still missing: pictogram row.
 - Source credit + lower-third name tag for YouTube (vlog name tags exist; not a YouTube lower-third).
-- Metaphor-system scenes: one vector object evolving across beats (today: separate illustrations per beat).
+- Metaphor-system scenes: one vector object evolving across beats. Base BUILT 2026-10-17: direction.illos (drawn-on
+  objects that act on his words: print, fill, stamp, orbit, fall…); a multi-state object library still grows per video.
 - Chapter cards (01/02/03 progress), breather text over dimmed A-roll, article screenshot with a highlighter sweep,
   process diagrams (cards + arrows, splits, pie, pictograms) in one series design system.
 Already have: canvas mode, counter, ui-mockup, card-stage, designed title, photo-rise, float-card.

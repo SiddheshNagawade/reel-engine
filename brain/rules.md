@@ -77,6 +77,12 @@ sections at the moment of the decision.
 - Graphics are NOT boxed by default: charts, objects, labels live on the whole frame like stickers; they fly in from
   outside the frame and leave out of it (never just appear/disappear), so the reel feels like one piece (2026-10-16).
 - Screens on camera: private info (numbers, emails, UPI, OTPs, keys) is always blurred.
+- Explainers: the face is the trust, graphics are the facts (2026-10-17, measured on Anurag Bansal / Varun Mayya,
+  brain/explainers.md "Face vs graphics"). Label every line FACT → graphic, QUESTION/TURN → face 2–4 s or breather
+  text, OPINION/PROOF/JOKE → face. YouTube ≈ 30–40 % face, never > 12 s of face without a visual, face grows toward
+  the end; reels: face for the hook claim + one proof line, the middle is graphics.
+- Things he names are DRAWN and ACT (direction.illos: drawn on, never popped in; the printer prints his bill, the
+  globe turns and a pin drops). Same object returns when he names it again. Palette chosen per video.
 
 ## Motion {motion}
 - Every element enters/leaves with motion (ease-out, blur-in, slight overshoot); one idea at a time, ~2 s to land.

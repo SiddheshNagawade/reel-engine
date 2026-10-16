@@ -228,3 +228,11 @@ contradictions resolved). After every round of feedback: add the dated note here
 
 - 2026-10-16: charts in empty boxes look wrong; "whole frame is yours": graphics without boxes, entering/leaving through the frame edges, everything united instead of separate clips.
 - 2026-10-16 (later): the unboxed chart overlapping his face card = "fucked up". Earlier concept was right: the video goes, THEN the chart. One main element, others only support; the viewer must always know what to watch.
+
+## 2026-10-17: face vs graphics in explainers + illustrated objects
+- He wants explainers like Varun Mayya / Anurag Bansal: his face used little, beautiful illustrations of the things
+  he mentions so viewers follow the story, animations close to the references. Measured the references (face 31 %
+  on YouTube, max 12 s; reels: hook + one proof line) → rule in rules.md + explainers.md "Face vs graphics".
+- Built direction.illos (Illos.tsx): drawn-on vector objects that act out his words (printer prints his bill,
+  globe + orbiting satellite, bulb, coins, beaker, clock, stamp, any SVG). Stills shown; verdict pending.
+

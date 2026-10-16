@@ -13,6 +13,7 @@
 //   push      a word or picture flies INTO the lens and fills the frame: a transition between two ideas
 //   scene     a full-screen motion-graphics board with a moving camera (templates/Scene.tsx)
 //   chart     animated bar / line / pie from real numbers, built one element at a time (Charts.tsx)
+//   illo      illustrated objects (printer, globe, satellite…) drawn on and acting out his words (Illos.tsx)
 //   words     designed mixed-font title tokens on the beat · stack: inverted (exclusion) stacked title (TitleText.tsx)
 // Also here: RoomFrame (the footage shrinks/moves to make room, blurred copy behind) and captionShift (captions
 // move aside while a visual owns their spot).
@@ -26,6 +27,7 @@ import {CardStage} from '../templates/CardStage';
 import {Scene} from '../templates/Scene';
 import {Words, Stack, Photo, FloatCard} from './TitleText';
 import {Chart} from './Charts';
+import {Illo, IlloFull} from './Illos';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const easeOut = Easing.bezier(0.16, 1, 0.3, 1);
@@ -42,7 +44,7 @@ export const TEXT_KINDS = new Set(['scatter', 'scene', 'words', 'stack']);
 // One size unit that works in 9:16 (= width) and 16:9 (= a phone-width column of the height), so the same
 // graphics serve reels and vlogs.
 const unitOf = (W: number, H: number) => Math.min(W, H * 0.5625);
-const isFull = (x: Insert) => FULL_KINDS.has(x.kind) || (x.kind === 'counter' && x.style !== 'overlay') || (x.kind === 'chart' && x.style !== 'card');
+const isFull = (x: Insert) => FULL_KINDS.has(x.kind) || (x.kind === 'counter' && x.style !== 'overlay') || (x.kind === 'chart' && x.style !== 'card') || (x.kind === 'illo' && x.style === 'full');
 
 // ── chat ────────────────────────────────────────────────────────────────────────────────────────────────────────
 const CHAT = {
@@ -333,6 +335,7 @@ const Overlay: React.FC<{x: Insert; t: number}> = ({x, t}) => {
     case 'photo': return <Photo {...x} t={t} frames={x.frames} />;
     case 'card': return <FloatCard {...x} t={t} frames={x.frames} />;
     case 'chart': return <Chart x={x} t={t} />;
+    case 'illo': return <Illo x={x} t={t} />;
     default: return null;
   }
 };
@@ -344,6 +347,7 @@ const Full: React.FC<{x: Insert}> = ({x}) => {
     case 'stage': return <CardStage items={x.items} beats={x.beats} frames={x.frames} bg={x.bg} />;
     case 'scene': return <Scene {...x} frames={x.frames} />;
     case 'chart': return <ChartFull x={x} />;
+    case 'illo': return <IlloFull x={x} />;
     default: return null;
   }
 };
@@ -351,7 +355,7 @@ const Full: React.FC<{x: Insert}> = ({x}) => {
 const ChartFull: React.FC<{x: Extract<Insert, {kind: 'chart'}>}> = ({x}) => <Chart x={x} t={useCurrentFrame()} />;
 
 // One insert drawn at its own local time t (used by the vlog pieces, which place it in their own Sequence).
-export const InsertView: React.FC<{x: Insert; t: number}> = ({x, t}) => (isFull(x) ? <Full x={x} /> : <Overlay x={x} t={t} />);
+export const InsertView: React.FC<{x: Insert; t: number}> = ({x, t}) => (x.kind === 'illo' ? <Illo x={x} t={t} /> : isFull(x) ? <Full x={x} /> : <Overlay x={x} t={t} />);
 
 // Templates run inside a Sequence so they count from 0; overlays are drawn only while they're live.
 export const InsertsLayer: React.FC<{edit: Edit; layer: 'full' | 'over'}> = ({edit, layer}) => {
