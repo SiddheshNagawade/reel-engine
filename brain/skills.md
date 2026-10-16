@@ -170,3 +170,16 @@ notes), wheel (cycle), chapters (strip / flip / tumble), pile (posts). Moves (sr
 footage), direction.credits (name tag + source); canvas.footage keys take dur / flash / badge (collapse to card).
 When to use each: brain/animation-system.md §3 (meaning → motion) and §5 (scene → scene). Never decoration: each one
 only when his sentence says that thing.
+
+## Shape-morph transition (direction.morphs → src/layers/Morph.tsx), 2026-10-17
+From cth9191/animate kit/morph.js (MIT). The old scene closes into a window shaped like one object, the outline morphs
+into the next scene's object on plain paper, the new scene opens out of it (default 1.2 s, `seconds` to change).
+`{at: wordIndex, from: {shape: circle|square|star|spark|heart|drop|bubble|pin|phone|hex|diamond|triangle|cloud|bolt|coin
+or d: "<svg path>", x, y, size (radius / frame width), color}, to: {...}, paper}`. Put x/y/size exactly on the object in
+both scenes (check stills). Use where two objects MEAN the same thing (his face → the globe); not on every cut. Tested on
+footage → illo globe → chart → footage. Captions stay above it.
+
+## Spring presets by weight (src/motion/springs.ts), 2026-10-17
+From howseen-ai/claude-motion-design (MIT): snappy 320/30 (labels, tags, markers), container 170/26 (cards, camera,
+charts flying in), heavy 120/24 (big type, bars, buildings), playful 180/12 (pops, pins; the only bouncy one).
+`springAt(seconds, weight)` or `interpolate(..., {easing: ease.heavy})`. Charts, Illos (pops) and Iso use them.

@@ -11,6 +11,7 @@
 // Ideas borrowed from cth9191/animate's isometric style (MIT): 2:1-ish projection, painter's order, closed-form springs.
 import React from 'react';
 import {AbsoluteFill, Easing, interpolate, useVideoConfig} from 'remotion';
+import {springAt} from '../motion/springs';
 import {fonts} from './fonts';
 
 type V3 = [number, number, number];
@@ -249,12 +250,7 @@ function build(it: IsoItem, t: number, hNow: number): Built {
 const DEF_H: Record<string, number> = {box: 1.5, building: 2, tower: 3.2, bar: 1, slab: 0.25, poly: 0.4, cyl: 1, tank: 1.2, cone: 1, pyramid: 1, pine: 1.2, tree: 1, house: 0.8, factory: 1, turbine: 3, solar: 0.5, car: 0.42, truck: 0.5, person: 0.9, coins: 1, sphere: 1, dome: 1};
 const DEF_ENTER: Record<string, IsoItem['enter']> = {box: 'rise', building: 'rise', tower: 'rise', bar: 'rise', cyl: 'rise', tank: 'rise', factory: 'rise', turbine: 'rise', coins: 'rise', poly: 'rise', road: 'none', water: 'none'};
 
-// closed-form damped spring 0 → 1 (overshoots a little, then settles)
-const spring = (s: number, k = 15, z = 0.5) => {
-  if (s <= 0) return 0;
-  const wd = k * Math.sqrt(1 - z * z);
-  return 1 - Math.exp(-z * k * s) * (Math.cos(wd * s) + ((z * k) / wd) * Math.sin(wd * s));
-};
+// springs by weight (src/motion/springs.ts): board/camera = container, buildings/bars = heavy, tags = snappy, pops = playful
 const rand = (seed: number) => () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
 
 // repeat → many copies (scatter in an area or a grid), each a little later (stagger, seconds)
@@ -319,7 +315,7 @@ export const Iso: React.FC<{x: IsoSpec & {frames: number}; t: number}> = ({x, t}
   const facing = (n: V3) => { const v = toView(n); return v[0] * VD[0] + v[1] * VD[1] + v[2] * VD[2]; };
 
   // board: lands first (scale + fade), everything else waits for it
-  const bIn = board ? spring(sec, 11, 0.62) : 1;
+  const bIn = board ? springAt(sec, 'container') : 1;
   const boardFaces = board ? prism(roundRect(board.w * (0.7 + 0.3 * bIn), board.d * (0.7 + 0.3 * bIn), board.r ?? 0.45), -bh, bh, board.color ?? '#5d9b43') : [];
 
   type Obj = {faces: Face[]; key: number; flat?: boolean; tag?: {p: V3; text: string; a: number}; label?: {p: V3; text: string; a: number}};
@@ -334,16 +330,16 @@ export const Iso: React.FC<{x: IsoSpec & {frames: number}; t: number}> = ({x, t}
     for (const a of it.acts ?? []) {
       const as = (t - a.at) / fps;
       if (as < 0) continue;
-      if (a.do === 'grow') { const prev = H0; H0 = prev + ((a.value ?? prev * 1.5) - prev) * spring(as, 9, 0.6); }
+      if (a.do === 'grow') { const prev = H0; H0 = prev + ((a.value ?? prev * 1.5) - prev) * springAt(as, 'heavy'); }
       if (a.do === 'color' && a.color) color = mixC(color ?? '#888888', a.color, Math.min(1, as / 0.35));
       if (a.do === 'pulse') glow = Math.max(glow, Math.max(0, 1 - Math.abs(as - 0.25) / 0.25));
-      if (a.do === 'out') outK = Math.max(0, 1 - spring(as, 12, 0.8));
+      if (a.do === 'out') outK = Math.max(0, 1 - springAt(as, 'snappy'));
       if (a.do === 'travel' && a.path) { const p = Easing.inOut(Easing.cubic)(Math.min(1, as / (a.seconds ?? 2))); const [qx, qy, dir] = pathAt(a.path, p); px = qx; py = qy; rot = dir; }
     }
-    if (it.out != null && t >= it.out) outK = Math.min(outK, Math.max(0, 1 - spring((t - it.out) / fps, 12, 0.8)));
+    if (it.out != null && t >= it.out) outK = Math.min(outK, Math.max(0, 1 - springAt((t - it.out) / fps, 'snappy')));
     if (outK <= 0.01) continue;
-    const k = enter === 'none' ? 1 : spring(ls, enter === 'rise' ? 10 : 13, enter === 'rise' ? 0.55 : 0.45);
-    const hNow = it.obj === 'bar' && it.value != null ? Math.max(0.01, it.value * spring(ls, 7, 0.75)) * outK : enter === 'rise' ? Math.max(0.01, H0 * k) * outK : H0;
+    const k = enter === 'none' ? 1 : springAt(ls, enter === 'rise' ? 'heavy' : 'playful');
+    const hNow = it.obj === 'bar' && it.value != null ? Math.max(0.01, it.value * springAt(ls, 'heavy')) * outK : enter === 'rise' ? Math.max(0.01, H0 * k) * outK : H0;
     const sc = (it.s ?? 1) * (enter === 'pop' ? k : 1) * (enter === 'rise' ? 1 : outK);
     const dz = enter === 'drop' ? (1 - k) * 5 : 0;
     const op = enter === 'drop' ? Math.min(1, ls / 0.12) : 1;
@@ -355,8 +351,8 @@ export const Iso: React.FC<{x: IsoSpec & {frames: number}; t: number}> = ({x, t}
     const faces = b.faces.map((f) => ({...f, pts: f.pts.map(T), n: Tn(f.n), glow, decals: f.decals?.map((d) => ({...d, pts: d.pts.map(T)}))}));
     const top: V3 = [px, py, z0 + b.height * sc];
     const o: Obj = {faces, key: depth([px, py, z0]), flat: b.flat};
-    if (it.tag && t >= (it.tagAt ?? at + 10)) o.tag = {p: top, text: it.tag, a: spring((t - (it.tagAt ?? at + 10)) / fps, 14, 0.5)};
-    if (it.obj === 'bar' && it.value != null) o.label = {p: top, text: `${Math.round(it.value * Math.min(1, spring(ls, 7, 0.9)) * 10) / 10}${it.unit ?? ''}`, a: Math.min(1, ls / 0.3) * outK};
+    if (it.tag && t >= (it.tagAt ?? at + 10)) o.tag = {p: top, text: it.tag, a: springAt((t - (it.tagAt ?? at + 10)) / fps, 'snappy')};
+    if (it.obj === 'bar' && it.value != null) o.label = {p: top, text: `${Math.round(it.value * Math.min(1, springAt(ls, 'heavy')) * 10) / 10}${it.unit ?? ''}`, a: Math.min(1, ls / 0.3) * outK};
     objs.push(o);
   }
   // painter's order: flat things (roads, water) right after the board, then objects far → near

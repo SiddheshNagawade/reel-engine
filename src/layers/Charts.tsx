@@ -10,6 +10,7 @@
 // 'card' = a small supporting graphic next to the footage/canvas (x, y, w), only when the footage stays the main thing.
 import React from 'react';
 import {Easing, interpolate, useVideoConfig} from 'remotion';
+import {ease} from '../motion/springs';
 import {fonts} from './fonts';
 import {isLight} from './Captions';
 
@@ -79,7 +80,7 @@ export const Chart: React.FC<{x: ChartSpec & {frames: number}; t: number}> = ({x
   const boxed = x.frame === 'box';
   const out = boxed ? interpolate(t, [x.frames - 6, x.frames], [1, 0], clamp) : 1;
   // no box: the whole chart travels in from below the frame (ease-out, motion blur) and leaves through the top
-  const flyIn = boxed ? 1 : interpolate(t, [0, Math.round(0.45 * fps)], [0, 1], {...clamp, easing: easeOut});
+  const flyIn = boxed ? 1 : interpolate(t, [0, Math.round(0.45 * fps)], [0, 1], {...clamp, easing: ease.container});
   const flyOut = boxed ? 0 : interpolate(t, [x.frames - Math.round(0.35 * fps), x.frames], [0, 1], {...clamp, easing: Easing.in(Easing.cubic)});
   const dy = (1 - flyIn) * H * 0.7 - flyOut * H * 0.8;
   const mblur = Math.abs((1 - flyIn) * 14) + flyOut * 18;
@@ -89,7 +90,7 @@ export const Chart: React.FC<{x: ChartSpec & {frames: number}; t: number}> = ({x
   const c = {bg, ink, color, accent, fs, plot, cw, ch, S, t, fps};
   // ONE main element: a full chart owns the screen. Unboxed, its colour world wipes up from the bottom edge over the
   // footage (the video is gone), the chart flies in on it, and on the way out both leave through the top edge.
-  const stageIn = interpolate(t, [0, Math.round(0.3 * fps)], [0, 1], {...clamp, easing: easeOut});
+  const stageIn = interpolate(t, [0, Math.round(0.3 * fps)], [0, 1], {...clamp, easing: ease.container});
   const stageOut = interpolate(t, [x.frames - Math.round(0.3 * fps), x.frames], [0, 1], {...clamp, easing: Easing.in(Easing.cubic)});
   const chartEl = (
     <div style={{position: 'absolute', inset: 0, opacity: out, background: full && boxed ? (isLight(bg) ? '#efe9dc' : '#0b0b0d') : undefined,
@@ -129,7 +130,7 @@ const Bars: React.FC<{x: ChartSpec; c: C}> = ({x, c}) => {
     // timed to his words when `at` is known (the references hold a finished bar until the next sentence), else spread out
     const s0 = Math.max(c.S.head, b.at ?? c.S.head + i * c.S.step);
     const dur = b.at != null ? Math.round(1.4 * c.fps) : Math.round(c.S.step * 0.9);
-    const p = interpolate(c.t, [s0, s0 + dur], [0, 1], {...clamp, easing: countEase});
+    const p = interpolate(c.t, [s0, s0 + dur], [0, 1], {...clamp, easing: ease.heavy}); // bars rise with weight
     const v0 = b.from ?? 0;
     const val = v0 + (b.value - v0) * p; // the value right now (counts up, or down when from > value)
     const h = (H * val) / max;
@@ -141,7 +142,7 @@ const Bars: React.FC<{x: ChartSpec; c: C}> = ({x, c}) => {
   const mFrom = geo[m?.from ?? 0], mTo = geo[m?.to ?? n - 1];
   const lastDone = Math.max(...geo.map((g) => g.s0 + g.dur + (g.b.to != null ? Math.round(0.7 * c.fps) : 0)));
   const mAt = m?.at ?? lastDone + 4;
-  const mP = interpolate(c.t, [mAt - 2, mAt + Math.round(0.25 * c.fps)], [0, 1], {...clamp, easing: Easing.out(Easing.back(2))});
+  const mP = interpolate(c.t, [mAt - 2, mAt + Math.round(0.25 * c.fps)], [0, 1], {...clamp, easing: ease.snappy});
   return (
     <>
       {/* gridlines + baseline */}
@@ -211,7 +212,7 @@ const Line: React.FC<{x: ChartSpec; c: C}> = ({x, c}) => {
     left -= lens[i]; tip = xy[i + 1];
   }
   const d = xy.map((q, i) => `${i ? 'L' : 'M'}${q[0].toFixed(1)},${q[1].toFixed(1)}`).join(' ');
-  const endP = interpolate(c.t, [s0 + dur, s0 + dur + Math.round(0.25 * c.fps)], [0, 1], {...clamp, easing: Easing.out(Easing.back(2))});
+  const endP = interpolate(c.t, [s0 + dur, s0 + dur + Math.round(0.25 * c.fps)], [0, 1], {...clamp, easing: ease.snappy});
   const last = xy[xy.length - 1];
   const clipW = tip[0];
   return (
@@ -254,7 +255,7 @@ const Pie: React.FC<{x: ChartSpec; c: C}> = ({x, c}) => {
   const cut = x.cut ?? 0;
   const s0 = c.S.head;
   const sweep = interpolate(c.t, [s0, s0 + c.S.step], [0, 1], {...clamp, easing: Easing.inOut(Easing.cubic)}); // slices sweep open
-  const pull = interpolate(c.t, [s0 + c.S.step, s0 + c.S.step + Math.round(0.4 * c.fps)], [0, 1], {...clamp, easing: easeOut}); // the cut slice slides out
+  const pull = interpolate(c.t, [s0 + c.S.step, s0 + c.S.step + Math.round(0.4 * c.fps)], [0, 1], {...clamp, easing: ease.container}); // the cut slice slides out
   let a = 0;
   const parts = slices.map((s, i) => {
     const a0 = a, a1 = a + (Math.PI * 2 * s.value) / total;

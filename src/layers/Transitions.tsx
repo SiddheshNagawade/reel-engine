@@ -1,6 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame, interpolate} from 'remotion';
 import type {Edit} from '../types';
+import {MorphOverlay} from './Morph';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
@@ -34,7 +35,9 @@ export const TransitionOverlay: React.FC<{edit: Edit; top?: boolean}> = ({edit, 
   const frame = useCurrentFrame();
   return (
     <>
-      {(edit.transitions ?? []).filter((t) => (t.type === 'leakwhite') === !!top).map((t, i) => {
+      {/* shape morph (Morph.tsx): drawn on the top layer so it can close over full-screen scenes too */}
+      {top && <MorphOverlay edit={edit} />}
+      {(edit.transitions ?? []).filter((t) => t.type !== 'morph' && (t.type === 'leakwhite') === !!top).map((t, i) => {
         const d = frame - t.f;
         // his overlay transition (Pablo Quesada): a white light-leak bloom sweeps in from one side, peaks to almost
         // pure white on the cut, then clears (~0.5 s). Used only at a few scene changes, never on every cut.
