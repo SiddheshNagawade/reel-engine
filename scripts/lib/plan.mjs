@@ -234,6 +234,13 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const w = byIndex.get(typeof l === 'number' ? l : l.at);
     if (w) transitions.push({f: typeof l === 'object' && l.end ? w.f1 : w.f0, type: 'leakwhite'});
   }
+  // shape morphs (src/layers/Morph.tsx, from cth9191/animate): the old scene closes in on one object, it morphs into the
+  // next scene's object, the new scene opens out of it. direction.morphs [{at: wordIndex (the cut lands on this word),
+  // from: {shape|d, x, y, size, color}, to: {...}, seconds (whole bridge, default 1.2), paper}]
+  for (const mo of direction?.morphs ?? []) {
+    const w = byIndex.get(mo.at);
+    if (w) transitions.push({f: w.f0, type: 'morph', morph: {from: mo.from ?? {}, to: mo.to ?? {}, d: mo.seconds ? mo.seconds / 2 : undefined, paper: mo.paper, outline: mo.outline}});
+  }
   const moves = [];
   (direction?.sections ?? []).forEach((i, k) => {
     const w = byIndex.get(i);
@@ -317,6 +324,14 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   // illustrated objects that act out his words (src/layers/Illos.tsx): {at, until|seconds, style: full|over, bg, palette,
   //   items: [{obj, word|s, x, y, size, text, lines, total, value, label, orbit, pins: [{word|s, lon, lat, label}],
   //   acts: [{word|s, do: print|tear|ping|on|add|fill|spin|open|stamp|signal|pop|shake|fall|out, …}]}]}
+  // structure boards (src/layers/Boards.tsx): list / chain / wheel / chapters / pile; items[].word|s = when each step lands
+  for (const x of direction?.boards ?? []) {
+    const sp = span(x, 4);
+    if (!sp) continue;
+    const L = local(sp.f);
+    const {at, until, seconds, delay, sound, items, ...rest} = x;
+    inserts.push({...rest, kind: 'board', ...sp, items: (items ?? []).map(L), ...(sound === null ? {silent: true} : {})});
+  }
   for (const x of direction?.illos ?? []) {
     const sp = span(x, 3.5);
     if (!sp) continue;
@@ -625,6 +640,11 @@ export function buildEdit({name, video, duration, silences, words, direction, st
       // the board lands (soft whoosh), then a soft pop per object as it rises/drops in (max 6, so it never rattles)
       add('soft-whoosh', x.f - 2, vol * 0.25, 4);
       x.items.slice(0, 6).forEach((it) => add('pop', x.f + (it.at ?? 0) + 3, vol * 0.18));
+    }
+    else if (x.kind === 'board') {
+      const S = {list: 'tick', chain: 'pop', wheel: 'whoosh', chapters: 'tick', pile: 'pop'}[x.type] ?? 'pop';
+      add('soft-whoosh', x.f - 2, vol * 0.25, 4);
+      for (const it of x.items ?? []) if (it.at > 0) add(S, x.f + it.at, vol * (S === 'whoosh' ? 0.35 : 0.3));
     }
     else if (x.kind === 'illo') {
       // a soft whoosh as the board arrives, then each act gets the sound of what it does (printer ticks per line…)

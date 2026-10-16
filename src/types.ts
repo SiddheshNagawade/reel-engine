@@ -2,8 +2,10 @@ import type {CanvasSpec} from './layers/Canvas';
 import type {SceneSpec} from './templates/Scene';
 import type {WordsSpec, StackSpec, PhotoSpec, CardSpec} from './layers/TitleText';
 import type {ChartSpec} from './layers/Charts';
+import type {BoardSpec} from './layers/Boards';
 import type {IlloSpec} from './layers/Illos';
 import type {IsoSpec} from './layers/Iso';
+import type {MorphSpec} from './layers/Morph';
 // Everything is in output-timeline frames unless named src*.
 export type Segment = {srcFrame: number; outFrame: number; frames: number; zoom: number; freeze?: boolean; wb?: [number, number, number]};
 export type CapWord = {w: string; f0: number; f1: number; emph: boolean};
@@ -17,7 +19,7 @@ export type Effect = {f: number; frames: number; type: 'mono' | 'dark' | 'rage';
 
 export type TextCard = {f: number; frames: number; text: string; mode: 'typewriter' | 'wave' | 'slam' | 'title'; bg?: 'white' | 'black' | 'accent' | 'blur'; accentWord?: string; size?: number; speed?: number; color?: string; glow?: boolean};
 export type CaptionStyle = 'bold-pop' | 'editorial' | 'script-accent' | 'condensed-stack' | 'highlight-box' | 'bubble' | 'glow-grad' | 'ghost';
-export type TransitionType = 'whip' | 'zoomblur' | 'flash' | 'lightleak' | 'tilt3d' | 'leakwhite';
+export type TransitionType = 'whip' | 'zoomblur' | 'flash' | 'lightleak' | 'tilt3d' | 'leakwhite' | 'morph';
 export type Theme = {
   topic: string;
   pace: string;
@@ -29,7 +31,7 @@ export type Theme = {
   brightFootage: boolean;
   ghostInk?: 'dark' | 'light'; // ghost captions: ink colour (default: dark on a light canvas, else light)
 };
-export type Transition = {f: number; type: TransitionType};
+export type Transition = {f: number; type: TransitionType; morph?: MorphSpec}; // morph: layers/Morph.tsx
 
 // Tracked attachments (src/motion): see scripts/motiontrack.py for the sample format.
 export type MotionHand = {side: 'L' | 'R'; conf: number; pts: Record<string, [number, number]>};
@@ -81,6 +83,7 @@ export type Insert = InsertBase & (
   | ({kind: 'card'} & CardSpec)
   | ({kind: 'chart'} & ChartSpec)
   | ({kind: 'illo'} & IlloSpec)
+  | ({kind: 'board'} & BoardSpec)
   | ({kind: 'iso'} & IsoSpec)
 );
 // The footage makes room: scale (0.6 = 60 %), shift (fractions of the frame), rounded corners, what fills behind it.

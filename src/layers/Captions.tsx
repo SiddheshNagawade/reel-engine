@@ -32,6 +32,7 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
   if ((edit.inserts ?? []).some((x) => TEXT_KINDS.has(x.kind) && frame >= x.f && frame < x.f + x.frames)) return null;
   // a full-screen chart is a board of its own: captions step aside (a 'card' chart keeps them)
   if ((edit.inserts ?? []).some((x) => x.kind === 'chart' && x.style !== 'card' && frame >= x.f && frame < x.f + x.frames)) return null;
+  if ((edit.inserts ?? []).some((x) => x.kind === 'board' && x.style !== 'over' && frame >= x.f && frame < x.f + x.frames)) return null;
   if ((edit.inserts ?? []).some((x) => x.kind === 'illo' && x.hideCaptions && frame >= x.f && frame < x.f + x.frames)) return null;
   const g = edit.captions.find((x) => frame >= x.f0 && frame < x.f1);
   if (!g) return null;

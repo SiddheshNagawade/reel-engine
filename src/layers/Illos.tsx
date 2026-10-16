@@ -646,6 +646,14 @@ const OBJS: Record<string, Obj> = {
   svg: {parts: 8, draw: (c) => <SvgObj c={c} />},
 };
 export const ILLO_OBJECTS = Object.keys(OBJS);
+// one finished object as a small icon (boards: a picture on a sticky note, a node, a card)
+export const IlloIcon: React.FC<{obj: string; color?: string; accent?: string; text?: string; style?: React.CSSProperties}> = ({obj, color, accent, text, style}) => {
+  const {fps} = useVideoConfig();
+  const o = OBJS[obj] ?? OBJS.box;
+  const it = {obj, at: 0, color, accent, text} as IlloItem;
+  const c: Ctx = {t: 999, fps, P: PAL, it, main: color ?? PAL.light, acc: accent ?? PAL.accent, built: 0, part: () => ({k: 1, f: 1}), act: () => null, acts: () => []};
+  return <svg viewBox="-60 -60 120 120" width="100%" height="100%" style={{overflow: 'visible', ...style}}>{o.draw(c)}</svg>;
+};
 
 // ── one item: placement, build, idle life, generic acts, exit ────────────────────────────────────────────────────
 const Item: React.FC<{it: IlloItem; t: number; frames: number; P: Required<IlloPalette>; pos: {x: number; y: number; rot: number}; U: number; z: number}> = ({it, t, frames, P, pos, U, z}) => {

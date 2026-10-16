@@ -28,6 +28,7 @@ import {CardStage} from '../templates/CardStage';
 import {Scene} from '../templates/Scene';
 import {Words, Stack, Photo, FloatCard} from './TitleText';
 import {Chart} from './Charts';
+import {Board} from './Boards';
 import {Illo, IlloFull} from './Illos';
 import {Iso} from './Iso';
 
@@ -46,7 +47,7 @@ export const TEXT_KINDS = new Set(['scatter', 'scene', 'words', 'stack']);
 // One size unit that works in 9:16 (= width) and 16:9 (= a phone-width column of the height), so the same
 // graphics serve reels and vlogs.
 const unitOf = (W: number, H: number) => Math.min(W, H * 0.5625);
-const isFull = (x: Insert) => FULL_KINDS.has(x.kind) || (x.kind === 'counter' && x.style !== 'overlay') || (x.kind === 'chart' && x.style !== 'card') || (x.kind === 'illo' && x.style === 'full') || (x.kind === 'iso' && x.style !== 'over');
+const isFull = (x: Insert) => FULL_KINDS.has(x.kind) || (x.kind === 'counter' && x.style !== 'overlay') || (x.kind === 'chart' && x.style !== 'card') || (x.kind === 'illo' && x.style === 'full') || (x.kind === 'board' && x.style !== 'over') || (x.kind === 'iso' && x.style !== 'over');
 
 // ── chat ────────────────────────────────────────────────────────────────────────────────────────────────────────
 const CHAT = {
@@ -338,6 +339,7 @@ const Overlay: React.FC<{x: Insert; t: number}> = ({x, t}) => {
     case 'card': return <FloatCard {...x} t={t} frames={x.frames} />;
     case 'chart': return <Chart x={x} t={t} />;
     case 'illo': return <Illo x={x} t={t} />;
+    case 'board': return <Board x={x} t={t} />;
     case 'iso': return <Iso x={x} t={t} />;
     default: return null;
   }
@@ -351,6 +353,7 @@ const Full: React.FC<{x: Insert}> = ({x}) => {
     case 'scene': return <Scene {...x} frames={x.frames} />;
     case 'chart': return <ChartFull x={x} />;
     case 'illo': return <IlloFull x={x} />;
+    case 'board': return <BoardFull x={x} />;
     case 'iso': return <IsoFull x={x} />;
     default: return null;
   }
@@ -358,6 +361,8 @@ const Full: React.FC<{x: Insert}> = ({x}) => {
 
 const IsoFull: React.FC<{x: Extract<Insert, {kind: 'iso'}>}> = ({x}) => <Iso x={x} t={useCurrentFrame()} />;
 const ChartFull: React.FC<{x: Extract<Insert, {kind: 'chart'}>}> = ({x}) => <Chart x={x} t={useCurrentFrame()} />;
+
+const BoardFull: React.FC<{x: Extract<Insert, {kind: 'board'}>}> = ({x}) => <Board x={x} t={useCurrentFrame()} />;
 
 // One insert drawn at its own local time t (used by the vlog pieces, which place it in their own Sequence).
 export const InsertView: React.FC<{x: Insert; t: number}> = ({x, t}) => (x.kind === 'illo' ? <Illo x={x} t={t} /> : isFull(x) ? <Full x={x} /> : <Overlay x={x} t={t} />);
