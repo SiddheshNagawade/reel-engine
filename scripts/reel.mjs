@@ -16,6 +16,7 @@ import {probe, extractAudio, detectSilences, extractPiece, joinPieces, wordLoudn
 import {directLocal} from './lib/director.mjs';
 import {analyzeFrames, pickTheme} from './lib/themes.mjs';
 import {buildEdit, buildTranscript, brollTags} from './lib/plan.mjs';
+import {resolveEvidence} from './lib/evidence.mjs';
 import {mediaRoots, outputRoot, workRoot, listVideos, libraryRoot} from './lib/paths.mjs';
 import {syncToDrive} from './lib/sync.mjs';
 import {writePostFacts} from './postkit.mjs';
@@ -130,6 +131,7 @@ if (fresh || flag('--redirect') || !fs.existsSync(dirFile)) {
   step(`Using saved direction (work/${name}/direction.json)…`);
   direction = readJson(dirFile);
 }
+resolveEvidence(direction, work); // capture / clip / logo files → sizes, lines to mark, credits (scripts/lib/evidence.mjs)
 for (const n of direction.notes ?? []) console.log(`  · ${n}`);
 // Per-reel tweaks of the look (templates are starting points): direction.styleOverride is merged over style.json.
 const deepMerge = (t, o) => {

@@ -189,9 +189,10 @@ stacked-notification UI, collapse-to-card hook transition, tumbling chapter card
 ## Gaps in our toolkit (not built yet, 2026-10-16)
 - BUILT 2026-10-16: ghost-text captions (captionStyle "ghost") and animated charts (direction.charts: bar/line/pie);
   see brain/skills.md "Explainer kit". Still missing: pictogram row.
-- Source credit + lower-third name tag for YouTube (vlog name tags exist; not a YouTube lower-third).
+- BUILT 2026-10-17: source credit + name tag (direction.credits), evidence cards (direction.evidence: website/article
+  capture with ONE line marker-swept, other creators' clips with name tag, brand logos as SVG); brain/skills.md "Evidence kit".
 - Metaphor-system scenes: one vector object evolving across beats. Base BUILT 2026-10-17: direction.illos (drawn-on
   objects that act on his words: print, fill, stamp, orbit, fall…); a multi-state object library still grows per video.
-- Chapter cards (01/02/03 progress), breather text over dimmed A-roll, article screenshot with a highlighter sweep,
+- Chapter cards (01/02/03 progress), breather text over dimmed A-roll (both BUILT 2026-10-17; article highlight too),
   process diagrams (cards + arrows, splits, pie, pictograms) in one series design system.
 Already have: canvas mode, counter, ui-mockup, card-stage, designed title, photo-rise, float-card.

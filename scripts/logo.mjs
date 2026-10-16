@@ -10,11 +10,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {libraryRoot} from './lib/paths.mjs';
+import {driveAttached, libraryRoot} from './lib/paths.mjs';
 
 const args = process.argv.slice(2);
 const opt = (n, d) => (args.includes(n) ? args[args.indexOf(n) + 1] : d);
-const VALUED = new Set(['--for', '--slug']);
+const VALUED = new Set(['--for', '--slug', '--out']);
 const brands = args.filter((a, i) => !a.startsWith('--') && !VALUED.has(args[i - 1]));
 if (!brands.length) {
   console.log('Usage: node scripts/logo.mjs <brand> [<brand>…] [--for <reel>] [--dark] [--wordmark] [--slug <simple-icons slug>]');
@@ -56,11 +56,23 @@ async function fromSimpleIcons(brand) {
   return {svg, from: `simple-icons · ${slug}`, title, hex, licence: 'brand logo (trademark of its owner), via simple-icons (CC0 data)'};
 }
 
+// the Library lives on the T7 only; --out <dir> just saves the .svg files there (tests), no Library import
+const outOnly = opt('--out');
+if (!driveAttached() && !outOnly) {
+  console.log('The T7 is not plugged in: logos go into the Library on the drive. Plug it in and run this again.');
+  process.exit(2);
+}
 let got = 0;
 for (const brand of brands) {
   const logo = (await fromSvgl(brand)) ?? (await fromSimpleIcons(brand));
   if (!logo) {
     console.log(`✗ ${brand}: not on svgl.app or simple-icons (try --slug, or node scripts/findimg.mjs search … "${brand} logo svg")`);
+    continue;
+  }
+  if (outOnly) {
+    fs.mkdirSync(outOnly, {recursive: true});
+    fs.writeFileSync(path.join(outOnly, `logo-${key(brand)}.svg`), logo.svg);
+    console.log(`✓ ${brand} ← ${logo.from}${logo.hex ? ` (brand colour #${logo.hex})` : ''} → ${outOnly}`);
     continue;
   }
   const id = `logo-${key(brand)}${args.includes('--dark') ? '-dark' : ''}${args.includes('--wordmark') ? '-wordmark' : ''}`;

@@ -4,6 +4,7 @@ import type {WordsSpec, StackSpec, PhotoSpec, CardSpec} from './layers/TitleText
 import type {ChartSpec} from './layers/Charts';
 import type {BoardSpec} from './layers/Boards';
 import type {MoveSpec, BreatherSpec, CreditSpec} from './layers/Moves';
+import type {EvidenceSpec} from './layers/Evidence';
 import type {IlloSpec} from './layers/Illos';
 import type {IsoSpec} from './layers/Iso';
 import type {MorphSpec} from './layers/Morph';
@@ -87,6 +88,7 @@ export type Insert = InsertBase & (
   | ({kind: 'board'} & BoardSpec)
   | ({kind: 'breather'} & BreatherSpec)
   | ({kind: 'credit'} & CreditSpec)
+  | ({kind: 'evidence'} & EvidenceSpec)
   | ({kind: 'iso'} & IsoSpec)
 );
 // The footage makes room: scale (0.6 = 60 %), shift (fractions of the frame), rounded corners, what fills behind it.

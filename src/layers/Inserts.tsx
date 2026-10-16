@@ -15,6 +15,8 @@
 //   chart     animated bar / line / pie from real numbers, built one element at a time (Charts.tsx)
 //   iso       isometric 3D-look scenes on a floating board (Iso.tsx): buildings rise, turbines spin, cars travel
 //   illo      illustrated objects (printer, globe, satellite…) drawn on and acting out his words (Illos.tsx)
+//   evidence  proof cards (Evidence.tsx): website/article capture with ONE line marker-swept, someone's clip with a
+//             name tag, a brand logo; all with a "Source:" credit
 //   words     designed mixed-font title tokens on the beat · stack: inverted (exclusion) stacked title (TitleText.tsx)
 // Also here: RoomFrame (the footage shrinks/moves to make room, blurred copy behind) and captionShift (captions
 // move aside while a visual owns their spot).
@@ -30,6 +32,7 @@ import {Words, Stack, Photo, FloatCard} from './TitleText';
 import {Chart} from './Charts';
 import {Board} from './Boards';
 import {Moved, Breather, Credit} from './Moves';
+import {Evidence} from './Evidence';
 import {Illo, IlloFull} from './Illos';
 import {Iso} from './Iso';
 
@@ -343,6 +346,7 @@ const Overlay: React.FC<{x: Insert; t: number}> = ({x, t}) => {
     case 'board': return <Board x={x} t={t} />;
     case 'breather': return <Breather x={x} t={t} />;
     case 'credit': return <Credit x={x} t={t} />;
+    case 'evidence': return <Evidence x={x} t={t} />;
     case 'iso': return <Iso x={x} t={t} />;
     default: return null;
   }

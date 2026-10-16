@@ -7,6 +7,7 @@
 //     <T7>/_work/<reel>/captures/<id>.mp4   smooth scroll top → bottom (holds, eased), for direction.plane / vlogs
 //   --find: the line(s) the camera will move to and the yellow marker will sweep (direction.evidence look "page")
 //   --mobile: phone-width page (reads better inside a 9:16 reel); default is a 1280 px desktop page
+//   --out <dir>: save somewhere else (tests); without it the T7 must be plugged in (nothing is written to the Mac)
 //   --library: also file it in Library/wanted/<id> (Kind: picture, Source: url) and import it, for reuse in other videos
 // Private info (emails, phone numbers, UPI, keys, names in --never / never.txt) is found with scripts/secretsweep.py
 // (Apple Vision OCR of the screenshot) and blurred INTO the picture before anything else sees it.
@@ -16,12 +17,12 @@ import os from 'node:os';
 import path from 'node:path';
 import {spawn, spawnSync} from 'node:child_process';
 import ffmpegPath from 'ffmpeg-static';
-import {libraryRoot, workRoot} from './lib/paths.mjs';
+import {driveAttached, libraryRoot, workRoot} from './lib/paths.mjs';
 
 const args = process.argv.slice(2);
 const opt = (n, d) => (args.includes(n) ? args[args.indexOf(n) + 1] : d);
 const many = (n) => args.flatMap((a, i) => (a === n ? [args[i + 1]] : []));
-const VALUED = new Set(['--id', '--find', '--max', '--seconds', '--never']);
+const VALUED = new Set(['--id', '--find', '--max', '--seconds', '--never', '--out']);
 const [reel, url] = args.filter((a, i) => !a.startsWith('--') && !VALUED.has(args[i - 1]));
 if (!reel || !/^https?:\/\//.test(url ?? '')) {
   console.log('Usage: node scripts/capture.mjs <reel> <url> [--id name] [--find "line"]… [--mobile] [--max 6000] [--seconds 8] [--no-video] [--library]');
@@ -31,7 +32,12 @@ const mobile = args.includes('--mobile');
 const id = opt('--id', new URL(url).hostname.replace(/^www\./, '').split('.')[0] + '-' + (new URL(url).pathname.split('/').filter(Boolean).pop() ?? 'home').replace(/\W+/g, '-').slice(0, 30)).toLowerCase();
 const maxH = +opt('--max', mobile ? 5000 : 6000);
 const finds = many('--find');
-const outDir = path.join(workRoot(), reel, 'captures');
+// data lives on the T7 only (rules.md); --out <dir> = somewhere else on purpose (a scratch test)
+if (!driveAttached() && !opt('--out')) {
+  console.log('The T7 is not plugged in: captures are kept on the drive only. Plug it in and run this again.');
+  process.exit(2);
+}
+const outDir = opt('--out') ?? path.join(workRoot(), reel, 'captures');
 fs.mkdirSync(outDir, {recursive: true});
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'reelengine-capture-'));
 const VW = mobile ? 430 : 1280, VH = mobile ? 932 : 800, DPR = 2;

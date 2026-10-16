@@ -44,13 +44,17 @@ if (cmd === 'study') {
   process.exit(0);
 }
 if (cmd === 'clip') {
-  const from = flag('--from'), to = flag('--to'), idFlag = flag('--id');
+  const from = flag('--from'), to = flag('--to'), idFlag = flag('--id'), outFlag = flag('--out');
   const [reel] = args.filter((a) => !a.startsWith('http'));
   if (!reel || !urls[0] || !from || !to) {
     console.log('Usage: node scripts/refs.mjs clip <reel> <url> --from 1:23 --to 1:28 [--id name] [--cookies chrome]');
     process.exit(1);
   }
-  const dir = path.join(workRoot(), reel, 'clips');
+  if (!driveAttached() && !outFlag) {
+    console.log('The T7 is not plugged in: clips are kept on the drive only. Plug it in and run this again.');
+    process.exit(2);
+  }
+  const dir = outFlag ?? path.join(workRoot(), reel, 'clips');
   const tmp = path.join(dir, `.tmp-${Date.now()}`);
   fs.mkdirSync(tmp, {recursive: true});
   const ytArgs = ['--js-runtimes', `node:${process.execPath}`, '-f', 'bv*[height<=1080][vcodec!^=av01]+ba/b[height<=1080]/b', '--merge-output-format', 'mp4',

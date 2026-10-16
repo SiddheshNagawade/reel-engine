@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-120 techniques · 118 built · 1 still to build: Auto grade with a trained model (Image-Adaptive 3D LUT): PARKED, lost to raw on his footage · 1 parked on purpose (Subject/background separation grade)
+125 techniques · 123 built · 1 still to build: Auto grade with a trained model (Image-Adaptive 3D LUT): PARKED, lost to raw on his footage · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -68,6 +68,9 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | visuals | Chapter cards 01/02/03 (promise at start, progress later) | vlog | ✅ | direction.boards {type: "chapters", mode: "strip" (current darkens, title types) / "flip" / "tumble", current, items: [{word, num, text, obj/img}]} | explainers.md (Anurag Bansal) |
 | visuals | Breather text: key line in thin type over A-roll dimmed to near black | reel, vlog | ✅ | direction.breathers [{at, until, dim?, text?}]: his words from at..until light up one by one over the footage dimmed to ~86 % black; captions step aside | explainers.md (Anurag Bansal) |
 | visuals | Source credit + highlighted line on article screenshots | reel, vlog | ✅ | direction.credits [{at, seconds, name, role, source}]: green name tag slides in bottom-left, "Source: …" bottom-right (above the reel safe zone on tall frames) | explainers.md |
+| visuals | Article / website capture as a card: camera goes to ONE line, yellow marker sweeps it on his word | reel, vlog | ✅ | node scripts/capture.mjs <reel> <url> --find "exact sentence" → direction.evidence [{at, until, look: "page", page: "captures/<id>", mark: 0, zoomWord, markWord}] (src/layers/Evidence.tsx; source credit automatic, footage blurred behind) | explainers.md (Anurag Bansal) |
+| visuals | A few seconds of another creator's / brand's video as proof, in a card with name tag + source | reel, vlog | ✅ | node scripts/refs.mjs clip <reel> <url> --from m:ss --to m:ss → direction.evidence [{at, until, look: "clip", clip: "clips/<id>", volume: 1}] | explainers.md (Anurag Bansal) |
+| visuals | Brand logo as a sharp SVG that pops on its colour (svgl.app / simple-icons) | reel, vlog | ✅ | node scripts/logo.mjs <brand> → direction.evidence [{at, look: "logo", logo: "stickers/logo-<brand>/sticker.svg", title, brandBg: true}] or illos obj "svg" | howseen-ai/claude-motion-design svgl_logos.py (MIT) |
 | visuals | Isometric 3D-look scene on a floating board (buildings rise, turbines spin, cars travel, camera orbits) | reel, vlog | ✅ | direction.iso (brain/iso.md): board + items [{obj, word, x, y, h, color, acts}], repeat for forests/crowds | iso.md (his isometric references, 2026-10-17) |
 | visuals | Number counter | reel, vlog, process | ✅ | reel: direction.counters (style full/overlay) · vlog: gfx counter / {type: "insert", kind: "counter"} | motion-design.md |
 | visuals | Before/after circle reveal | reel, process | ✅ | reel: direction.reveals (CircleReveal) | motion-design.md |
@@ -96,6 +99,8 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | depth | Person cut-outs (hero intros) | vlog | ✅ | scripts/herocut.py + gfx hero | vlog.md |
 | motion | Intro zoom-out from tight, eyes locked; key-word push-in | reel | ✅ | direction.camera [{at, type: zoomout/keypush}] | pablo.md |
 | motion | White light-leak between speaker and a full-screen scene | reel | ✅ | direction.leaks [wordIndex / {at, end: true}] | pablo.md |
+| motion | Shape-morph bridge: the scene closes in on one object, it morphs into the next scene's object, the new scene opens out of it | reel | ✅ | direction.morphs [{at, from: {shape/d, x, y, size, color}, to: {...}, seconds}] → layers/Morph.tsx | cth9191/animate kit/morph.js (MIT) |
+| motion | Springs by weight: snappy (labels, tags), container (cards, camera, charts), heavy (big type, bars, buildings), playful (pops) | reel | ✅ | src/motion/springs.ts (springAt / ease.<weight>), used by Charts, Illos, Iso | howseen-ai/claude-motion-design (MIT) |
 | motion | The whole scene shrinks into one dot/pin of the next, bigger world (or the camera pulls back from one place) | reel, vlog | ✅ | any insert: exit {type: "dot", x, y} (scene shrinks into a point) and the next one enter {type: "dot", x, y} (grows out of it); src/layers/Moves.tsx | animation-system.md (radar → globe, map zoom-out) |
 | motion | Zoom-through: camera dives into one detail of the graphic (motion blur ~0.6 s) and lands on it as the next scene | reel, vlog | ✅ | any insert: exit {type: "dive", x, y} (camera dives into that point, blur) and the next enter {type: "dive", x, y} (lands from the dive); the scene colour stays still behind | explainers.md |
 | motion | 3D card fly-in: blank card swings in with perspective, contents appear after | reel, vlog | ✅ | any insert: enter {type: "fly3d"} (perspective swing-in with overshoot); also whip-up/down/left/right and exit "sheet" (slides up revealing what is under) | explainers.md |

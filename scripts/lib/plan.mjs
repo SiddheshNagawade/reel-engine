@@ -335,6 +335,19 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   }
   // creator name tag + "Source: …" (other people's clips, data, articles)
   for (const x of direction?.credits ?? []) put('credit', x, 4, {silent: true});
+  // evidence cards (src/layers/Evidence.tsx, files resolved by scripts/lib/evidence.mjs): website/article capture with
+  // ONE line marker-swept (zoomWord = camera moves to the line, markWord = the marker sweeps), someone's clip with a
+  // name tag, a brand logo; each with its "Source:" credit
+  for (const x of direction?.evidence ?? []) {
+    if (!x.media) continue;
+    const sp = span(x, x.look === 'logo' ? 2 : 4);
+    if (!sp) continue;
+    const L = local(sp.f);
+    const {at, until, seconds, delay, sound, zoomWord, markWord, mark, page, clip, logo, pageSize, brandBg, from, ...rest} = x;
+    const rel = (w) => (w == null ? undefined : L({word: w}).at);
+    inserts.push({...rest, kind: 'evidence', ...sp, media: {...x.media, ...(from != null ? {trimBefore: Math.round(from * fps)} : {})}, ...(pageSize ? {page: pageSize} : {}),
+      ...(zoomWord != null ? {zoomAt: rel(zoomWord)} : {}), ...(markWord != null ? {markAt: rel(markWord)} : {}), ...(sound === null ? {silent: true} : {})});
+  }
   // structure boards (src/layers/Boards.tsx): list / chain / wheel / chapters / pile; items[].word|s = when each step lands
   for (const x of direction?.boards ?? []) {
     const sp = span(x, 4);
@@ -647,6 +660,12 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else if (x.kind === 'burst') add('hit', x.f, vol * 0.5);
     else if (x.kind === 'counter') add('tick', x.f, vol * 0.3);
     else if (x.kind === 'chart') { add('soft-whoosh', x.f - 2, vol * 0.3, 4); if (x.multiplier || x.endLabel || x.cut != null) add('pop', x.f + x.frames - Math.round(1.2 * fps), vol * 0.35); }
+    else if (x.kind === 'evidence') {
+      // the card arrives (soft whoosh); a light tick as the marker touches the line; a logo lands with a pop
+      add('soft-whoosh', x.f - 2, vol * 0.3, 4);
+      if (x.look === 'logo') add('pop', x.f + 4, vol * 0.35);
+      if (x.marks?.length) add('tick', x.f + (x.markAt ?? x.zoomAt ?? 15) + 2, vol * 0.3);
+    }
     else if (x.kind === 'iso') {
       // the board lands (soft whoosh), then a soft pop per object as it rises/drops in (max 6, so it never rattles)
       add('soft-whoosh', x.f - 2, vol * 0.25, 4);
