@@ -21,19 +21,23 @@
 // order he says them; style 'full' = its own coloured canvas, 'over' = floating over the footage/canvas.
 import React, {useEffect, useState} from 'react';
 import {AbsoluteFill, Easing, continueRender, delayRender, interpolate, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {ease} from '../motion/springs';
 import {fonts} from './fonts';
 import {isLight} from './Captions';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const easeOut = Easing.bezier(0.16, 1, 0.3, 1);
-const back = Easing.out(Easing.back(1.8));
+const back = ease.playful; // pops = the playful spring preset (src/motion/springs.ts)
 
 export type IlloPalette = {ink?: string; paper?: string; light?: string; mid?: string; dark?: string; accent?: string; blue?: string; green?: string; red?: string; gold?: string};
 export type Pt = [number, number];
 // travel: route (item index of a 'route'), path (points, frame fractions) or target (item index: an arc to it); bend =
 // arc height (fraction of the frame's unit width, + = up); turn = the traveller rotates along the path
 export type IlloAct = {at: number; do: string; to?: number; n?: number; text?: string; color?: string; seconds?: number;
-  route?: number; path?: Pt[]; target?: number; bend?: number; turn?: boolean};
+  route?: number; path?: Pt[]; target?: number; bend?: number; turn?: boolean;
+  into?: string; // morph: the object it turns into (analogy → the real thing, same place)
+  index?: number; // focus (share/crowd): which person stays
+};
 export type IlloPin = {at: number; lon: number; lat: number; label?: string; color?: string};
 export type IlloItem = {
   obj: string; // printer | globe | satellite | phone | laptop | bulb | coins | cash | beaker | clock | box | document | svg
@@ -59,6 +63,16 @@ export type IlloItem = {
   // swarm
   of?: string; n?: number; grid?: [number, number, number, number]; cols?: number; into?: number | Pt;
   counter?: {from?: number; to: number; prefix?: string; suffix?: string}; result?: string; stagger?: number;
+  // crowd: spell = text the crowd writes in the accent colour (act 'spell'); mark = how many turn accent (act 'mark')
+  spell?: string; mark?: number;
+  // share: the block (x, y, size) splits on act 'split' into one piece per person (grid), each piece flies to its person
+  each?: string; // label after the split ("25 Mbps each")
+  // journey: stops (frame fractions) and legs; each leg draws, a dot travels it, and it adds a segment to the total bar
+  stops?: {x: number; y: number; label?: string}[];
+  legs?: {from: number; to: number; value: number; label?: string; color?: string; dashed?: boolean; at?: number}[];
+  bar?: [number, number, number]; unit?: string;
+  // stream: copies flow from sources (points, or a ring) into a target while the stream runs
+  sources?: Pt[]; ring?: [number, number, number, number]; rate?: number; speed?: number;
 };
 export type IlloSpec = {
   style?: 'full' | 'over';
@@ -612,9 +626,23 @@ const car: Obj = {parts: 4, draw: (c) => (
   </g>
 )};
 
+// FLASHLIGHT: a torch pointing down with its light cone and spot (the everyday analogy for coverage / reach)
+const flashlight: Obj = {parts: 4, draw: (c) => {
+  const w = c.it.value ?? 30; // spot half-width
+  return (
+    <g>
+      {c.part(3).k > 0 && <path d={`M-9,-6 L${-w},52 L${w},52 L9,-6 Z`} fill={c.acc} opacity={0.28 * c.part(3).k} />}
+      <D c={c} o={3} d={ell(0, 52, w, w * 0.18)} fill={c.acc} op={0.6} />
+      <D c={c} o={0} d={rr(-7, -52, 14, 40, 4)} fill={c.it.color ?? c.P.dark} />
+      <D c={c} o={1} d="M-7,-14 L-11,-6 H11 L7,-14 Z" fill={c.P.mid} />
+      <D c={c} o={2} d={rr(-3, -40, 6, 6, 1)} fill={c.acc} />
+    </g>
+  );
+}};
+
 const OBJS: Record<string, Obj> = {
   printer, globe, satellite, phone, laptop, bulb, coins, cash, beaker, clock, box, document: documentObj,
-  bottle, person, drop, coin, jar, car,
+  bottle, person, drop, coin, jar, car, flashlight,
   svg: {parts: 8, draw: (c) => <SvgObj c={c} />},
 };
 export const ILLO_OBJECTS = Object.keys(OBJS);
@@ -670,7 +698,24 @@ const Item: React.FC<{it: IlloItem; t: number; frames: number; P: Required<IlloP
     <div style={{position: 'absolute', left: pos.x - S * 0.6, top: pos.y - S * 0.6, width: S * 1.2, height: S * 1.2, zIndex: z, opacity: op,
       transform: `translateY(${(dy * S) / 100}px) rotate(${(it.rot ?? 0) + rot + pos.rot}deg) scale(${sc}) ${it.flip ? 'scaleX(-1)' : ''}`,
       filter: `${blur > 0.3 ? `blur(${blur}px) ` : ''}drop-shadow(0 ${S * 0.03}px ${S * 0.05}px rgba(0,0,0,0.18))`}}>
-      <svg viewBox="-60 -60 120 120" width="100%" height="100%" style={{overflow: 'visible'}}>{obj.draw(c)}</svg>
+      {(() => {
+        // MORPH (analogy → the real thing): the object shrinks away while the new one pops in at the same spot (~0.3 s)
+        const mo = c.act('morph');
+        const svg = (node: React.ReactNode, st?: React.CSSProperties) => (
+          <svg viewBox="-60 -60 120 120" width="100%" height="100%" style={{overflow: 'visible', position: 'absolute', inset: 0, ...st}}>{node}</svg>
+        );
+        if (!mo || !mo.a.into) return svg(obj.draw(c), {position: 'relative'});
+        const k = interpolate(mo.t, [0, Math.round(0.3 * fps)], [0, 1], clamp);
+        const nx = {...it, obj: mo.a.into, color: mo.a.color ?? it.color, text: mo.a.text ?? it.text};
+        const c2: Ctx = {...c, it: nx, main: nx.color ?? P.light, part: () => ({k: 1, f: 1})};
+        const o2 = OBJS[mo.a.into] ?? OBJS.box;
+        return (
+          <div style={{position: 'relative', width: '100%', height: '100%'}}>
+            {k < 1 && svg(obj.draw(c), {opacity: 1 - k, transform: `scale(${1 - 0.5 * k})`, filter: `blur(${k * 4}px)`})}
+            {svg(o2.draw(c2), {opacity: Math.min(1, k * 1.6), transform: `scale(${0.5 + 0.5 * back(k)})`})}
+          </div>
+        );
+      })()}
       {label && lp > 0 && (
         <div style={{position: 'absolute', left: 0, width: '100%', top: S * 1.08, textAlign: 'center'}}>
           <span style={{display: 'inline-block', transform: `scale(${lp})`, fontFamily: fonts.anton, fontSize: Math.max(U * 0.04, S * 0.12), color: isLight(P.paper) ? P.ink : '#fff',
@@ -841,6 +886,237 @@ const swarmDone = (it: IlloItem, fps: number) => {
   return {first: pour.at + Math.round(0.6 * fps), last: pour.at + Math.round((n - 1) * gap + 0.6 * fps)};
 };
 
+// ── tiny person glyph (crowds, shares): head + shoulders ──────────────────────────────────────────────────────────
+const personD = (x: number, y: number, h: number) => {
+  const r = h * 0.2, w = h * 0.42;
+  return `M${x - r},${y - h * 0.3} a${r},${r} 0 1,0 ${2 * r},0 a${r},${r} 0 1,0 ${-2 * r},0 Z M${x - w},${y + h * 0.5} Q${x - w},${y - h * 0.02} ${x},${y - h * 0.02} Q${x + w},${y - h * 0.02} ${x + w},${y + h * 0.5} Z`;
+};
+const gridSpots = (n: number, g: [number, number, number, number], W: number, H: number, cols?: number) => {
+  const [gx, gy, gw, gh] = g;
+  const c = cols ?? Math.max(1, Math.round(Math.sqrt((n * gw * W) / (gh * H))));
+  const r = Math.ceil(n / c);
+  const cw = (gw * W) / c, ch = (gh * H) / r;
+  return {cell: Math.min(cw, ch), cols: c, rows: r, pts: Array.from({length: n}, (_, i) => [gx * W + cw * ((i % c) + 0.5), gy * H + ch * (Math.floor(i / c) + 0.5)] as Pt)};
+};
+// which grid points fall inside the text (drawn once on a hidden canvas)
+const spellMask = (text: string, spots: Pt[], g: [number, number, number, number], W: number, H: number) => {
+  if (typeof document === 'undefined') return spots.map(() => false);
+  const cv = document.createElement('canvas');
+  const cw = Math.max(1, Math.round(g[2] * W)), ch = Math.max(1, Math.round(g[3] * H));
+  cv.width = cw; cv.height = ch;
+  const x = cv.getContext('2d');
+  if (!x) return spots.map(() => false);
+  let fs = ch * 0.9;
+  x.font = `900 ${fs}px Anton, Impact, sans-serif`;
+  const tw = x.measureText(text).width;
+  if (tw > cw * 0.94) fs *= (cw * 0.94) / tw;
+  x.font = `900 ${fs}px Anton, Impact, sans-serif`;
+  x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = '#000';
+  x.fillText(text, cw / 2, ch / 2);
+  const data = x.getImageData(0, 0, cw, ch).data;
+  return spots.map(([px, py]) => {
+    const ix = Math.round(px - g[0] * W), iy = Math.round(py - g[1] * H);
+    return ix >= 0 && iy >= 0 && ix < cw && iy < ch && data[(iy * cw + ix) * 4 + 3] > 100;
+  });
+};
+
+// CROWD PICTOGRAM: tiny people rain in row by row; 'spell' = the crowd writes a number/word in the accent colour;
+// 'mark' = the first `mark` people turn accent (a share of the crowd); 'focus' = everyone fades except one who grows
+const Crowd: React.FC<{it: IlloItem; t: number; frames: number; P: Required<IlloPalette>; U: number; W: number; H: number}> = ({it, t, frames, P, U, W, H}) => {
+  const {fps} = useVideoConfig();
+  const lt = t - it.at;
+  const n = Math.max(1, it.n ?? 300);
+  const g = it.grid ?? [0.08, 0.4, 0.84, 0.4];
+  const {cell, cols, pts} = React.useMemo(() => gridSpots(n, g, W, H, it.cols), [n, g.join(), W, H, it.cols]);
+  const inText = React.useMemo(() => (it.spell ? spellMask(it.spell, pts, g, W, H) : null), [it.spell, pts]);
+  if (lt < 0) return null;
+  const rows = Math.ceil(n / cols);
+  const rowGap = Math.max(1, (Math.min(1.4, 0.3 + rows * 0.05) * fps) / rows);
+  const act = (name: string) => (it.acts ?? []).find((a) => a.do === name && t >= a.at);
+  const sp = act('spell'), mk = act('mark'), fo = act('focus');
+  const outAt = Math.min(it.out ?? Infinity, frames);
+  const xo = interpolate(t, [outAt - Math.round(0.3 * fps), outAt], [0, 1], clamp);
+  const ink = it.color ?? (isLight(P.paper) ? P.dark : P.light);
+  const acc = it.accent ?? P.accent;
+  const markN = it.mark ?? Math.round(n * 0.1);
+  const fp = fo ? interpolate(t - fo.at, [0, Math.round(0.5 * fps)], [0, 1], {...clamp, easing: easeOut}) : 0;
+  const keep = fo?.index ?? Math.floor(n / 2);
+  return (
+    <svg width="100%" height="100%" style={{position: 'absolute', inset: 0, overflow: 'visible', opacity: 1 - xo, zIndex: 300}}>
+      {pts.map((q, i) => {
+        const row = Math.floor(i / cols);
+        const a0 = row * rowGap + (i % cols) * 0.15;
+        const k = interpolate(lt, [a0, a0 + Math.round(0.2 * fps)], [0, 1], {...clamp, easing: easeOut});
+        if (k <= 0) return null;
+        let col = ink, h = cell * 0.8, op = k;
+        const ripple = (from: number) => interpolate(t - from - (i % cols) * 0.4, [0, 6], [0, 1], clamp); // the colour sweeps left → right
+        if (sp && inText?.[i]) col = mix(ink, acc, ripple(sp.at));
+        if (mk && i < markN) col = mix(ink, acc, ripple(mk.at));
+        if (fo) {
+          if (i === keep) { h *= 1 + fp * 5; col = mix(col, acc, fp); } else op *= 1 - fp * 0.92;
+        }
+        return <path key={i} d={personD(q[0], q[1] - (1 - k) * cell * 0.6, h)} fill={col} opacity={op} />;
+      })}
+    </svg>
+  );
+};
+
+// SHARE: one block (x, y, size, label) splits into a piece per person on 'split'; pieces fly to their people (who turn
+// accent as theirs lands); the more people, the smaller the crumbs. `each` lands after the split.
+const Share: React.FC<{it: IlloItem; t: number; frames: number; P: Required<IlloPalette>; U: number; W: number; H: number}> = ({it, t, frames, P, U, W, H}) => {
+  const {fps} = useVideoConfig();
+  const lt = t - it.at;
+  const n = Math.max(1, it.n ?? 4);
+  const g = it.grid ?? [0.6, 0.35, 0.32, 0.3];
+  const {cell, pts} = React.useMemo(() => gridSpots(n, g, W, H, it.cols), [n, g.join(), W, H, it.cols]);
+  if (lt < 0) return null;
+  const bx = (it.x ?? 0.3) * W, by = (it.y ?? 0.5) * H, bs = (it.size ?? 0.22) * U;
+  const acc = it.accent ?? P.accent, ink = it.color ?? (isLight(P.paper) ? P.dark : P.light);
+  const appear = interpolate(lt, [0, Math.round(0.35 * fps)], [0, 1], {...clamp, easing: back});
+  const split = (it.acts ?? []).find((a) => a.do === 'split' && t >= a.at);
+  const st = split ? t - split.at : -1;
+  const sc = Math.ceil(Math.sqrt(n)), piece = bs / sc;
+  const crack = split ? interpolate(st, [0, Math.round(0.35 * fps)], [0, 1], {...clamp, easing: easeOut}) : 0; // pieces drift apart
+  const fly = Math.round(0.6 * fps);
+  const gap = Math.max(0.3, Math.min(3, (1.2 * fps) / n));
+  const outAt = Math.min(it.out ?? Infinity, frames);
+  const xo = interpolate(t, [outAt - Math.round(0.3 * fps), outAt], [0, 1], clamp);
+  const fo = (it.acts ?? []).find((a) => a.do === 'focus' && t >= a.at);
+  const fp = fo ? interpolate(t - fo.at, [0, Math.round(0.5 * fps)], [0, 1], {...clamp, easing: easeOut}) : 0;
+  const keep = fo?.index ?? 0;
+  const lastLand = Math.round(0.4 * fps) + (n - 1) * gap + fly;
+  const eachK = split && it.each ? interpolate(st, [lastLand, lastLand + Math.round(0.3 * fps)], [0, 1], {...clamp, easing: back}) : 0;
+  return (
+    <div style={{position: 'absolute', inset: 0, opacity: 1 - xo, zIndex: 300}}>
+      <svg width="100%" height="100%" style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
+        {pts.map((q, i) => {
+          const land = split ? interpolate(st, [Math.round(0.4 * fps) + i * gap + fly - 2, Math.round(0.4 * fps) + i * gap + fly + 3], [0, 1], clamp) : 0;
+          let h = Math.min(cell * 0.8, U * 0.12), op = appear;
+          if (fo) { if (i === keep) h *= 1 + fp * 1.5; else op *= 1 - fp * 0.9; }
+          return <path key={i} d={personD(q[0], q[1], h)} fill={mix(ink, acc, land)} opacity={op} />;
+        })}
+        {Array.from({length: n}, (_, i) => {
+          const hx = bx - bs / 2 + piece * ((i % sc) + 0.5), hy = by - bs / 2 + piece * (Math.floor(i / sc) + 0.5);
+          if (!split) return i === 0 ? <rect key="b" x={bx - (bs * appear) / 2} y={by - (bs * appear) / 2} width={bs * appear} height={bs * appear} rx={bs * 0.06} fill={acc} /> : null;
+          const s0 = Math.round(0.4 * fps) + i * gap;
+          const p = interpolate(st, [s0, s0 + fly], [0, 1], {...clamp, easing: Easing.inOut(Easing.cubic)});
+          if (p >= 1) return null;
+          const home: Pt = [bx + (hx - bx) * (1 + crack * 0.25), by + (hy - by) * (1 + crack * 0.25)];
+          const tgt = pts[i];
+          const at = p > 0 ? along(arc2(home, [tgt[0], tgt[1] - cell * 0.1], U * 0.06), p).pt : home;
+          const w = piece * (1 - 0.6 * p) * (1 - crack * 0.12);
+          return <rect key={i} x={at[0] - w / 2} y={at[1] - w / 2} width={w} height={w} rx={w * 0.12} fill={acc} />;
+        })}
+      </svg>
+      {it.label && !split && (
+        <div style={{position: 'absolute', left: bx - bs, width: bs * 2, top: by + bs * 0.62, textAlign: 'center', fontFamily: fonts.anton, fontSize: U * 0.055,
+          color: isLight(P.paper) ? P.ink : '#fff', opacity: appear}}>{it.label}</div>
+      )}
+      {eachK > 0 && (
+        <div style={{position: 'absolute', left: g[0] * W, width: g[2] * W, top: (g[1] + g[3]) * H + U * 0.02, textAlign: 'center', fontFamily: fonts.anton, fontSize: U * 0.06,
+          color: acc, transform: `scale(${eachK})`}}>{it.each}</div>
+      )}
+    </div>
+  );
+};
+
+// JOURNEY: stops + legs. Each leg: its line draws, a dot travels it leaving a trail, and a segment joins the total bar
+// at the bottom with the leg's value; the total lands at the end ("1,44,000 km")
+const Journey: React.FC<{it: IlloItem; t: number; frames: number; P: Required<IlloPalette>; U: number; W: number; H: number}> = ({it, t, frames, P, U, W, H}) => {
+  const {fps} = useVideoConfig();
+  const lt = t - it.at;
+  if (lt < 0) return null;
+  const stops = (it.stops ?? []).map((s) => ({...s, p: [s.x * W, s.y * H] as Pt}));
+  const legs = it.legs ?? [];
+  const dur = Math.round((it.speed ?? 0.9) * fps);
+  const starts = legs.map((l, i) => l.at ?? it.at + Math.round(0.5 * fps) + i * (dur + Math.round(0.35 * fps)));
+  const total = legs.reduce((a, l) => a + l.value, 0) || 1;
+  const [bx, by, bw] = it.bar ?? [0.1, 0.86, 0.8];
+  const acc = it.accent ?? P.accent, ink = isLight(P.paper) ? P.ink : '#f2efe8';
+  const outAt = Math.min(it.out ?? Infinity, frames);
+  const xo = interpolate(t, [outAt - Math.round(0.3 * fps), outAt], [0, 1], clamp);
+  const appear = interpolate(lt, [0, Math.round(0.3 * fps)], [0, 1], clamp);
+  let acc0 = 0;
+  const done = legs.length ? starts[legs.length - 1] + dur : 0;
+  const totK = interpolate(t, [done + 4, done + 4 + Math.round(0.3 * fps)], [0, 1], {...clamp, easing: back});
+  const fs = U * 0.032;
+  return (
+    <div style={{position: 'absolute', inset: 0, opacity: 1 - xo, zIndex: 250}}>
+      <svg width="100%" height="100%" style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
+        {legs.map((l, i) => {
+          const a = stops[l.from]?.p, b = stops[l.to]?.p;
+          if (!a || !b) return null;
+          const p = interpolate(t, [starts[i], starts[i] + dur], [0, 1], {...clamp, easing: Easing.inOut(Easing.quad)});
+          const col = l.color ?? acc;
+          const off = U * 0.012 * (l.dashed ? 1 : -1); // there and back sit side by side
+          const nx = -(b[1] - a[1]), ny = b[0] - a[0], L = Math.hypot(nx, ny) || 1;
+          const A: Pt = [a[0] + (nx / L) * off, a[1] + (ny / L) * off], B: Pt = [b[0] + (nx / L) * off, b[1] + (ny / L) * off];
+          const tip: Pt = [A[0] + (B[0] - A[0]) * p, A[1] + (B[1] - A[1]) * p];
+          const segX = bx * W + (acc0 / total) * bw * W, segW = (l.value / total) * bw * W * p;
+          acc0 += l.value;
+          return (
+            <g key={i}>
+              <line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke={ink} strokeOpacity={0.15 * appear} strokeWidth={U * 0.003} strokeDasharray={`${U * 0.01} ${U * 0.01}`} />
+              {p > 0 && <line x1={A[0]} y1={A[1]} x2={tip[0]} y2={tip[1]} stroke={col} strokeWidth={U * 0.008} strokeLinecap="round" strokeDasharray={l.dashed ? `${U * 0.018} ${U * 0.012}` : undefined} />}
+              {p > 0 && p < 1 && <circle cx={tip[0]} cy={tip[1]} r={U * 0.014} fill={col} />}
+              {p > 0 && <rect x={segX + 1} y={by * H} width={Math.max(0, segW - 2)} height={U * 0.022} rx={U * 0.004} fill={col} />}
+              {p >= 1 && (l.label ?? '') !== '' && (
+                <text x={segX + ((l.value / total) * bw * W) / 2} y={by * H + U * 0.055} fontFamily={fonts.inter} fontWeight={700} fontSize={fs * 0.7} fill={ink} textAnchor="middle">{l.label}</text>
+              )}
+              {p > 0.5 && l.label && (
+                <text x={(a[0] + b[0]) / 2 + (nx / L) * U * 0.05} y={(a[1] + b[1]) / 2 + (ny / L) * U * 0.05} fontFamily={fonts.inter} fontWeight={800} fontSize={fs * 0.75} fill={ink}
+                  textAnchor="middle" opacity={interpolate(p, [0.5, 0.8], [0, 1], clamp)}>{l.label}</text>
+              )}
+            </g>
+          );
+        })}
+        <line x1={bx * W} x2={(bx + bw) * W} y1={by * H + U * 0.032} y2={by * H + U * 0.032} stroke={ink} strokeOpacity={0.25 * appear} strokeWidth={1.5} />
+      </svg>
+      {stops.map((s, i) => s.label ? (
+        <div key={i} style={{position: 'absolute', left: s.p[0] - U * 0.2, width: U * 0.4, top: s.p[1] + U * 0.05, textAlign: 'center', fontFamily: fonts.inter, fontWeight: 700,
+          fontSize: fs * 0.75, color: ink, opacity: appear}}>{s.label}</div>
+      ) : null)}
+      {totK > 0 && it.result && (
+        <div style={{position: 'absolute', left: bx * W, width: bw * W, top: by * H + U * 0.075, textAlign: 'center', fontFamily: fonts.anton, fontSize: U * 0.07, color: ink,
+          transform: `scale(${totK})`}}>{it.result}</div>
+      )}
+    </div>
+  );
+};
+
+// STREAM: copies keep flowing from sources (points, or a ring of n spots around a centre) into the target while the
+// stream runs (from `at` to `out`): "opportunities coming your way", money pouring in, users signing up
+const Stream: React.FC<{it: IlloItem; t: number; frames: number; P: Required<IlloPalette>; U: number; W: number; H: number; target: Pt | null}> = ({it, t, frames, P, U, W, H, target}) => {
+  const {fps} = useVideoConfig();
+  const lt = t - it.at;
+  if (lt < 0 || !target) return null;
+  const srcs: Pt[] = it.ring
+    ? Array.from({length: Math.max(1, it.ring[3])}, (_, i) => { const a = (i / it.ring![3]) * Math.PI * 2; return [it.ring![0] * W + Math.cos(a) * it.ring![2] * U, it.ring![1] * H + Math.sin(a) * it.ring![2] * U] as Pt; })
+    : (it.sources ?? [[0.1, 0.1], [0.9, 0.1], [0.1, 0.9], [0.9, 0.9]]).map(([x, y]) => [x * W, y * H] as Pt);
+  const rate = it.rate ?? 6, dur = Math.round((it.speed ?? 1.1) * fps);
+  const endAt = Math.min(it.out ?? Infinity, frames) - it.at;
+  const obj = OBJS[it.of ?? 'coin'] ?? OBJS.coin;
+  const c = still(it.of ?? 'coin', P, fps, it);
+  const sz = (it.size ?? 0.06) * U;
+  const every = fps / rate;
+  const out: React.ReactNode[] = [];
+  const first = Math.max(0, Math.floor((lt - dur) / every)), last = Math.floor(Math.min(lt, endAt - dur) / every);
+  for (let j = first; j <= last; j++) {
+    const born = j * every, p = (lt - born) / dur;
+    if (p < 0 || p > 1) continue;
+    const s = srcs[(j * 7) % srcs.length];
+    const jitter = ((j * 37) % 11) / 11 - 0.5;
+    const pt = along(arc2(s, target, U * (0.05 + 0.12 * jitter)), Easing.in(Easing.quad)(p)).pt;
+    const op = interpolate(p, [0, 0.15, 0.85, 1], [0, 1, 1, 0], clamp);
+    out.push(
+      <div key={j} style={{position: 'absolute', left: pt[0] - sz / 2, top: pt[1] - sz / 2, width: sz, height: sz, opacity: op, transform: `scale(${1 - 0.4 * p})`, zIndex: 350}}>
+        <svg viewBox="-60 -60 120 120" width="100%" height="100%" style={{overflow: 'visible'}}>{obj.draw(c)}</svg>
+      </div>,
+    );
+  }
+  return <>{out}</>;
+};
+
 // ── the board ───────────────────────────────────────────────────────────────────────────────────────────────────
 export const Illo: React.FC<{x: IlloSpec & {frames: number}; t: number}> = ({x: raw, t}) => {
   const {fps, width: W, height: H} = useVideoConfig();
@@ -907,7 +1183,13 @@ export const Illo: React.FC<{x: IlloSpec & {frames: number}; t: number}> = ({x: 
         ) : it.obj === 'swarm' ? (
           <Swarm key={i} it={it} t={t} frames={x.frames} P={P} U={U} W={W} H={H}
             target={typeof it.into === 'number' ? (base[it.into] ? [base[it.into].x, base[it.into].y] : null) : it.into ? [it.into[0] * W, it.into[1] * H] : null} />
-        ) : <Item key={i} it={it} t={t} frames={x.frames} P={P} pos={base[i]} U={U} z={zs[i]} />)}
+        ) : it.obj === 'crowd' ? <Crowd key={i} it={it} t={t} frames={x.frames} P={P} U={U} W={W} H={H} />
+          : it.obj === 'share' ? <Share key={i} it={it} t={t} frames={x.frames} P={P} U={U} W={W} H={H} />
+          : it.obj === 'journey' ? <Journey key={i} it={it} t={t} frames={x.frames} P={P} U={U} W={W} H={H} />
+          : it.obj === 'stream' ? (
+            <Stream key={i} it={it} t={t} frames={x.frames} P={P} U={U} W={W} H={H}
+              target={typeof it.into === 'number' ? (base[it.into] ? [base[it.into].x, base[it.into].y] : null) : it.into ? [it.into[0] * W, it.into[1] * H] : null} />
+          ) : <Item key={i} it={it} t={t} frames={x.frames} P={P} pos={base[i]} U={U} z={zs[i]} />)}
         {/* a swarm's result ("1 KG") lands under its container after the last copy */}
         {items.map((it, i) => {
           const sd = it.obj === 'swarm' && it.result ? swarmDone(it, fps) : null;

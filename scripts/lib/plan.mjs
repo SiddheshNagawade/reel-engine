@@ -322,7 +322,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     if (!sp) continue;
     const L = local(sp.f);
     const {at, until, seconds, delay, sound, items, ...rest} = x;
-    inserts.push({...rest, kind: 'illo', ...sp, items: (items ?? []).map((it) => ({...L(it), acts: (it.acts ?? []).map(L), pins: (it.pins ?? []).map(L)})), ...(sound === null ? {silent: true} : {})});
+    inserts.push({...rest, kind: 'illo', ...sp, items: (items ?? []).map((it) => ({...L(it), acts: (it.acts ?? []).map(L), pins: (it.pins ?? []).map(L), ...(it.legs ? {legs: it.legs.map((l) => (l.word != null || l.s != null ? L(l) : l))} : {})})), ...(sound === null ? {silent: true} : {})});
   }
   // isometric 3D-look scenes (src/layers/Iso.tsx, brain/iso.md): {at, until|seconds, style: full|over, bg, board: {w, d, h, r, color}|null,
   //   orbit, cam: [{word|s, yaw, elev, zoom, x, y}], rings, items: [{obj, word|s, x, y, z, w, d, h, r, color, color2, enter,
@@ -629,7 +629,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else if (x.kind === 'illo') {
       // a soft whoosh as the board arrives, then each act gets the sound of what it does (printer ticks per line…)
       add('soft-whoosh', x.f - 2, vol * 0.25, 4);
-      const ACT = {stamp: 'hit', on: 'pop', ping: 'tick', open: 'pop', pop: 'pop', fall: 'whoosh', add: 'tick', tear: 'soft-whoosh', travel: 'soft-whoosh', pour: 'whoosh'};
+      const ACT = {stamp: 'hit', on: 'pop', ping: 'tick', open: 'pop', pop: 'pop', fall: 'whoosh', add: 'tick', tear: 'soft-whoosh', travel: 'soft-whoosh', pour: 'whoosh', morph: 'soft-whoosh', split: 'pop', spell: 'tick', mark: 'tick', focus: 'soft-whoosh'};
       for (const it of x.items) {
         for (const a of it.acts ?? []) if (ACT[a.do]) add(ACT[a.do], x.f + a.at, vol * (a.do === 'stamp' ? 0.5 : 0.3));
         for (const p of it.pins ?? []) add('pop', x.f + p.at + Math.round(0.3 * fps), vol * 0.3);
