@@ -3,6 +3,7 @@ import type {SceneSpec} from './templates/Scene';
 import type {WordsSpec, StackSpec, PhotoSpec, CardSpec} from './layers/TitleText';
 import type {ChartSpec} from './layers/Charts';
 import type {IlloSpec} from './layers/Illos';
+import type {IsoSpec} from './layers/Iso';
 // Everything is in output-timeline frames unless named src*.
 export type Segment = {srcFrame: number; outFrame: number; frames: number; zoom: number; freeze?: boolean; wb?: [number, number, number]};
 export type CapWord = {w: string; f0: number; f1: number; emph: boolean};
@@ -80,6 +81,7 @@ export type Insert = InsertBase & (
   | ({kind: 'card'} & CardSpec)
   | ({kind: 'chart'} & ChartSpec)
   | ({kind: 'illo'} & IlloSpec)
+  | ({kind: 'iso'} & IsoSpec)
 );
 // The footage makes room: scale (0.6 = 60 %), shift (fractions of the frame), rounded corners, what fills behind it.
 export type RoomLayout = {f: number; frames: number; scale?: number; x?: number; y?: number; radius?: number; fill?: 'blur' | 'color'; color?: string};

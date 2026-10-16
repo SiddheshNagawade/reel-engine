@@ -30,6 +30,7 @@ Everything else is read at the moment it matters, through a briefing or a skill,
 | pablo.md | the designed-reel style (titles, inverted title, full-screen scenes, sound map) learned from a course | visuals + motion briefings |
 | posting.md | how to write the IG caption / YT title etc. for each video (posting kit) + analytics verdicts | viewer briefing, edit-video step 5 |
 | explainers.md | idea reels on a canvas + brand-decoding YouTube: what the studied references do, story shapes, how to use it for him, toolkit gaps | story / visuals / layout briefings; refs in T7 references/library (scripts/refs.mjs) |
+| iso.md | isometric 3D-look scenes (direction.iso): objects, coordinates, when to use; verdict on the 3 animation repos he shared | visuals briefing; when building a 3D-look scene |
 | vlog.md | long-form vlog playbook | briefings when the video is a vlog |
 | process-videos.md | drawing / making-of playbook | briefings when the video is a process video |
 | clipping.md | ARCHIVE: Whop clipping (he stopped, 2026-10-11); the pipeline notes stay for podcast clips | only if he clips again |

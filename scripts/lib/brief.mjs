@@ -18,7 +18,7 @@ export const READS = {
   captions: [['brain/edit-layers.md', 'Pass 1'], ['brain/principles.md', '5. Captions']],
   visuals: [['brain/edit-layers.md', 'Pass 2'], ['brain/memes.md', 'When a meme belongs'], ['brain/memes.md', 'How to show it'], ['brain/motion-design.md', 'Mood first'], ['brain/motion-design.md', 'Frame grammar'],
     ['brain/expensive.md', 'The core idea'], ['brain/pablo.md', 'When it fits'], ['brain/explainers.md', 'How I\'d use it for him'], ['brain/explainers.md', 'Gaps in our toolkit'], ['brain/explainers.md', 'Rules for his explainers'],
-    ['brain/animation-system.md', '1. The one law'], ['brain/animation-system.md', '2. The method'], ['brain/animation-system.md', '3. Motion dictionary'], ['brain/animation-system.md', '7. One main element']],
+    ['brain/animation-system.md', '1. The one law'], ['brain/animation-system.md', '2. The method'], ['brain/animation-system.md', '3. Motion dictionary'], ['brain/animation-system.md', '7. One main element'], ['brain/iso.md', 'When to use it']],
   layout: [['brain/edit-layers.md', 'Pass 3'], ['brain/explainers.md', 'Face vs graphics'], ['brain/explainers.md', 'What they do'], ['brain/canvas.md', 'What it can do'], ['brain/canvas.md', 'When to use it']],
   connectors: [['brain/edit-layers.md', 'Pass 4']],
   depth: [['brain/edit-layers.md', 'Pass 5']],

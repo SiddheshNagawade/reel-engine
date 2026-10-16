@@ -308,6 +308,12 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const multiplier = x.multiplier ? (({word, ...m}) => ({...m, ...rel({word})}))(x.multiplier) : undefined;
     put('chart', x, x.type === 'bar' ? 1.8 + 1.2 * (x.bars?.length ?? 1) : 3.5, {...(bars ? {bars} : {}), ...(multiplier ? {multiplier} : {})});
   }
+  // {word: i} / {s: 1.2} → frames from the insert start (used by illos, iso, scenes, titles, canvas)
+  const local = (f0) => (o) => {
+    const {word, s, ...rest} = o;
+    const at = word != null ? (byIndex.get(word)?.f0 ?? f0) - f0 : s != null ? Math.round(s * fps) : rest.at ?? 0;
+    return {...rest, at, ...(rest.out != null ? {out: Math.round(rest.out * fps)} : {})};
+  };
   // illustrated objects that act out his words (src/layers/Illos.tsx): {at, until|seconds, style: full|over, bg, palette,
   //   items: [{obj, word|s, x, y, size, text, lines, total, value, label, orbit, pins: [{word|s, lon, lat, label}],
   //   acts: [{word|s, do: print|tear|ping|on|add|fill|spin|open|stamp|signal|pop|shake|fall|out, …}]}]}
@@ -318,15 +324,21 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const {at, until, seconds, delay, sound, items, ...rest} = x;
     inserts.push({...rest, kind: 'illo', ...sp, items: (items ?? []).map((it) => ({...L(it), acts: (it.acts ?? []).map(L), pins: (it.pins ?? []).map(L)})), ...(sound === null ? {silent: true} : {})});
   }
+  // isometric 3D-look scenes (src/layers/Iso.tsx, brain/iso.md): {at, until|seconds, style: full|over, bg, board: {w, d, h, r, color}|null,
+  //   orbit, cam: [{word|s, yaw, elev, zoom, x, y}], rings, items: [{obj, word|s, x, y, z, w, d, h, r, color, color2, enter,
+  //   windows, points, value, unit, tag, repeat: {n, area, grid, stagger}, acts: [{word|s, do: grow|color|out|travel|pulse, …}]}]}
+  for (const x of direction?.iso ?? []) {
+    const sp = span(x, 4);
+    if (!sp) continue;
+    const L = local(sp.f);
+    const {at, until, seconds, delay, sound, items, cam, ...rest} = x;
+    const tagAt = (it) => (it.tagWord != null || it.tagS != null ? {tagAt: L({word: it.tagWord, s: it.tagS}).at} : {});
+    inserts.push({...rest, kind: 'iso', ...sp, ...(cam ? {cam: cam.map(L)} : {}), items: (items ?? []).map((it) => ({...L(it), ...tagAt(it), acts: (it.acts ?? []).map(L)})), ...(sound === null ? {silent: true} : {})});
+  }
   // Pablo-style designed graphics (brain/pablo.md): times inside are WORD indexes ({word: i}) or seconds from the
   // start of the insert ({s: 1.2}); both become frames from the insert start, so everything lands on his words.
   //   direction.scenes [{at, until, bg, cam: [{word|s, x, y, zoom}], items: [{word|s, type, …}]}]
   //   direction.titles [{at, until, kind: 'words', lines: [[{word|s, text, font, enter, highlight}]]} | {kind: 'stack', lines, words: [i…]}]
-  const local = (f0) => (o) => {
-    const {word, s, ...rest} = o;
-    const at = word != null ? (byIndex.get(word)?.f0 ?? f0) - f0 : s != null ? Math.round(s * fps) : rest.at ?? 0;
-    return {...rest, at, ...(rest.out != null ? {out: Math.round(rest.out * fps)} : {})};
-  };
   for (const x of direction?.scenes ?? []) {
     const sp = span(x, 4);
     if (!sp) continue;
@@ -609,6 +621,11 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else if (x.kind === 'burst') add('hit', x.f, vol * 0.5);
     else if (x.kind === 'counter') add('tick', x.f, vol * 0.3);
     else if (x.kind === 'chart') { add('soft-whoosh', x.f - 2, vol * 0.3, 4); if (x.multiplier || x.endLabel || x.cut != null) add('pop', x.f + x.frames - Math.round(1.2 * fps), vol * 0.35); }
+    else if (x.kind === 'iso') {
+      // the board lands (soft whoosh), then a soft pop per object as it rises/drops in (max 6, so it never rattles)
+      add('soft-whoosh', x.f - 2, vol * 0.25, 4);
+      x.items.slice(0, 6).forEach((it) => add('pop', x.f + (it.at ?? 0) + 3, vol * 0.18));
+    }
     else if (x.kind === 'illo') {
       // a soft whoosh as the board arrives, then each act gets the sound of what it does (printer ticks per line…)
       add('soft-whoosh', x.f - 2, vol * 0.25, 4);
