@@ -114,5 +114,5 @@ Models: models/esrgan/ (gitignored; github.com/xinntao/Real-ESRGAN releases, mac
   `display` range resolves after, multiplier tag + bracket pops last), line (draws itself, end dot + `endLabel`),
   pie (slice sweeps, the `cut` slice slides out, `big` number counts up). Build order: thin line → card opens → axes →
   data → tag. Colours per chart (brand world): bg, color, accent, ink. `style: "card"` floats over footage/canvas
-  (x, y, w) and keeps captions; full boards hide captions. Use ONLY with real numbers + a `source`. Not for a single
+  (x, y, w) and keeps captions; full boards hide captions. No box by default (`frame: "none"`): the chart lives on the canvas like stickers, flies in from below the frame and out through the top with motion blur; `frame: "box"` only when a card really helps (his verdict 2026-10-16: "no need to fit them in a box, whole frame is yours"). Move his footage card out of the way (canvas.footage) so it never overlaps. Use ONLY with real numbers + a `source`. Not for a single
   number (use counter). Sound: soft whoosh in, pop on the tag.

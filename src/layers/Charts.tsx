@@ -23,6 +23,9 @@ export type ChartSpec = {
   title?: string; // small header on the card ("RAW WHEY PRICE / KG")
   source?: string; // small credit in the corner ("Source: NZ Herald")
   style?: 'full' | 'card';
+  // box: the chart sits on its own card (opens from a line). none (default): no box at all, the bars/line/pie live
+  // straight on the canvas or footage like stickers, flying in from below the frame and out through the top.
+  frame?: 'box' | 'none';
   x?: number; y?: number; w?: number; // card placement (fractions; centre x, top y, width)
   bg?: string; color?: string; accent?: string; ink?: string;
   prefix?: string; suffix?: string; decimals?: number;
@@ -69,15 +72,23 @@ export const Chart: React.FC<{x: ChartSpec & {frames: number}; t: number}> = ({x
   const lineP = interpolate(t, [0, S.line], [0, 1], {...clamp, easing: easeOut});
   const openP = interpolate(t, [S.line, S.line + S.open], [0, 1], {...clamp, easing: easeOut});
   const axesP = interpolate(t, [S.line + S.open, S.head], [0, 1], {...clamp, easing: easeOut});
-  const out = interpolate(t, [x.frames - 6, x.frames], [1, 0], clamp);
+  const boxed = x.frame === 'box';
+  const out = boxed ? interpolate(t, [x.frames - 6, x.frames], [1, 0], clamp) : 1;
+  // no box: the whole chart travels in from below the frame (ease-out, motion blur) and leaves through the top
+  const flyIn = boxed ? 1 : interpolate(t, [0, Math.round(0.45 * fps)], [0, 1], {...clamp, easing: easeOut});
+  const flyOut = boxed ? 0 : interpolate(t, [x.frames - Math.round(0.35 * fps), x.frames], [0, 1], {...clamp, easing: Easing.in(Easing.cubic)});
+  const dy = (1 - flyIn) * H * 0.7 - flyOut * H * 0.8;
+  const mblur = Math.abs((1 - flyIn) * 14) + flyOut * 18;
   const fs = U * 0.034; // label size
   const pad = Math.min(cw, ch) * 0.08;
   const plot = {l: pad * 1.2, r: cw - pad * 1.2, t: pad * 2.6, b: ch - pad * 1.9};
   const c = {bg, ink, color, accent, fs, plot, cw, ch, S, t, fps};
   return (
-    <div style={{position: 'absolute', inset: 0, opacity: out, background: full ? (isLight(bg) ? '#efe9dc' : '#0b0b0d') : undefined}}>
-      <div style={{position: 'absolute', left: cx - cw / 2, top: cy - (ch * openP) / 2 - 2, width: cw * lineP, height: Math.max(4, ch * openP),
-        background: bg, borderRadius: U * 0.025 * openP, overflow: 'hidden', boxShadow: openP > 0.1 ? '0 30px 80px rgba(0,0,0,0.35)' : undefined}}>
+    <div style={{position: 'absolute', inset: 0, opacity: out, background: full && boxed ? (isLight(bg) ? '#efe9dc' : '#0b0b0d') : undefined,
+      transform: `translateY(${dy}px)`, filter: mblur > 0.5 ? `blur(${mblur}px)` : undefined}}>
+      <div style={boxed ? {position: 'absolute', left: cx - cw / 2, top: cy - (ch * openP) / 2 - 2, width: cw * lineP, height: Math.max(4, ch * openP),
+        background: bg, borderRadius: U * 0.025 * openP, overflow: 'hidden', boxShadow: openP > 0.1 ? '0 30px 80px rgba(0,0,0,0.35)' : undefined}
+        : {position: 'absolute', left: cx - cw / 2, top: cy - ch / 2, width: cw, height: ch}}>
         <div style={{position: 'absolute', left: 0, top: 0, width: cw, height: ch, opacity: axesP}}>
           {x.title && <div style={{position: 'absolute', left: pad, top: pad * 0.8, fontFamily: fonts.inter, fontWeight: 800, fontSize: fs * 0.8, letterSpacing: 2, textTransform: 'uppercase', color: ink, opacity: 0.75}}>{x.title}</div>}
           {x.source && <div style={{position: 'absolute', right: pad, bottom: pad * 0.45, fontFamily: fonts.inter, fontWeight: 500, fontSize: fs * 0.55, color: ink, opacity: 0.55}}>Source: {x.source}</div>}

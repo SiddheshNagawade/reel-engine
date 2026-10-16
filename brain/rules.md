@@ -71,6 +71,8 @@ sections at the moment of the decision.
   camera, white light-leak) is ONE more option to mix in where an explaining reel needs it, never the default (2026-10-14).
 - His footage doesn't have to be the base: canvas mode (brain/canvas.md) puts it on a designed canvas as one layer
   under one moving camera. Consider it in every layout pass for explaining reels (2026-10-14).
+- Graphics are NOT boxed by default: charts, objects, labels live on the whole frame like stickers; they fly in from
+  outside the frame and leave out of it (never just appear/disappear), so the reel feels like one piece (2026-10-16).
 - Screens on camera: private info (numbers, emails, UPI, OTPs, keys) is always blurred.
 
 ## Motion {motion}
