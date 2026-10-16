@@ -16,6 +16,9 @@ sections at the moment of the decision.
 - "Whatever makes the video better": improve the system without asking, explain afterwards (2026-10-12).
 - After EVERY version: his verdicts → preferences.md (history) + this file (rule); new tools → techniques.mjs +
   brain/skills.md; commit + push. A fresh chat must start at the quality of the latest version.
+- Never "we can't do that": a moment needs X → HAVE (skills.md) → PORT/IDEA (brain/toolbox.md, repos on the T7,
+  `node scripts/toolbox.mjs find`) → build. Find new open-source repos myself, keep the useful ones (permissive licence) in
+  the toolbox and the map (2026-10-17).
 - Ready-made skills/pages he brings: read fully, adopt what helps HIS videos into these files, say what was skipped.
 
 ## Story, hooks, endings {story}

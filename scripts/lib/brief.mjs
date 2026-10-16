@@ -29,6 +29,16 @@ export const READS = {
   asks: [['brain/edit-layers.md', 'Pass 9']],
   viewer: [['brain/edit-layers.md', 'Pass 10'], ['brain/principles.md', '8. Checklist'], ['brain/posting.md', 'Instagram caption'], ['brain/posting.md', 'YouTube Shorts']],
 };
+// The toolbox (brain/toolbox.md): every pass also sees what can make its ideas (HAVE / PORT from a repo on the T7 / IDEA),
+// so a missing tool is never a reason to skip an idea.
+const TOOLBOX = {
+  captions: ['Captions & text'], connectors: ['Captions & text'],
+  visuals: ['Visuals: charts, numbers, data', 'Visuals: objects, illustrations, 3D', 'Visuals: screens, UI, evidence'],
+  depth: ['Visuals: objects, illustrations, 3D'], asks: ['Visuals: screens, UI, evidence'],
+  layout: ['Layout & camera'], motion: ['Layout & camera', 'Transitions'], cuts: ['Transitions'],
+  look: ['Backgrounds, effects, look'], sound: ['Sound & music'], viewer: ['Checking quality'], density: ['Checking quality'],
+};
+for (const [pass, heads] of Object.entries(TOOLBOX)) READS[pass]?.push(...heads.map((h) => ['brain/toolbox.md', h]));
 
 // One markdown section: from the heading that starts with `start` to the next heading of the same or higher level.
 export function section(file, start) {

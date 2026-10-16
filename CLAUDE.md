@@ -46,6 +46,8 @@ It is the step-by-step route and nothing in it is optional. The short version:
 - The Mac is scratch space only: temp files are deleted after each render. Never leave clutter on the Mac.
 - **Library on the T7**: `/Volumes/T7 Shield/ReelEngine/Library/` → `stickers/`, `sounds/` (INDEX.md), `music/`, `rejected/` (never use), `wanted/`, `catalog.json` (tags = when to use; git backup in `brain/library-catalog.json`). Files a render needs are staged into public/ only during the render, then removed. Only `public/assets/library/fonts/` stays on the Mac.
 - **Mac = the system only** (code, node_modules, .venv, Whisper model, fonts, film grain). If the T7 is unplugged, work/output fall back to the Mac and `syncToDrive()` moves them to the drive on the next run.
+- **Toolbox on the T7**: `toolbox/repos/` = open-source video/animation code we may reuse (Remotion components, shot recipes,
+  isometric figures…), mapped in `brain/toolbox.md` (HAVE / PORT / IDEA per pass). `node scripts/toolbox.mjs find|list|fetch`.
 - Look: `style.json` (caption sizes are PERFECT; don't change them). Spelling fixes: `hinglish.json`. Usage history (avoid repeats): `brain/usage.json`.
 - Tools: `scripts/transcribe.py` (two-pass Whisper), `scripts/facetrack.py`, `scripts/personmask.py` (text behind person), `scripts/memes-extract.mjs`, `scripts/sfx-extract.mjs`, `scripts/still.mjs`.
 - Animation on his footage (props stuck to face/hands, bubbles, labels, notes, any object as a sticker): `direction.attach`; follow `.claude/skills/motion-graphics/SKILL.md`.

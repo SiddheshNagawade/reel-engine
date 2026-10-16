@@ -246,3 +246,6 @@ contradictions resolved). After every round of feedback: add the dated note here
   Charts stay 2D ("they look beautiful flat"). Built direction.iso (src/layers/Iso.tsx, brain/iso.md). Verdict on the
   test stills (city rising, turbines, 3D bars, road + factory): "Yes, the 3D look is right. Use it in my explainer
   videos when the topic fits."
+- 2026-10-17: "find GitHub repos yourself, take the code, keep them; the brain must know what tools exist so it never
+  misses something it could have built." → 19 repos (MIT/Apache) cloned to the T7 toolbox/repos, mapped in
+  brain/toolbox.md (HAVE / PORT / IDEA by pass, read in every briefing), scripts/toolbox.mjs to search them.
