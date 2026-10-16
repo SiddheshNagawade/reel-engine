@@ -107,10 +107,12 @@ Models: models/esrgan/ (gitignored; github.com/xinntao/Real-ESRGAN releases, mac
 ## Explainer kit: ghost captions + animated charts (2026-10-16, brain/explainers.md)
 - **Ghost-text captions** (`captionStyle: "ghost"` via direction.themeOverride; `ghostInk` "dark"|"light", auto from
   canvas.bg): the whole phrase (≤ 8 words) sits in light grey, each word goes to full ink on its spoken time, the ONE
-  key word (direction.emphasis) fades up big in the accent on its own line; the phrase leaves with blur + drift up.
+  key word (direction.emphasis) fades up big in the accent on its own line; lines (~18 chars) arrive one by one as
+  they're reached (2026-10-17, measured on the references); the phrase leaves with blur + drift up.
   Use: calm explaining reels on a canvas. NOT for funny/hype reels (use bold-pop/bubble). Sizes derive from
   style.captions.size. Code: src/layers/Captions.tsx `Ghost`.
-- **Animated charts** (`direction.charts`, src/layers/Charts.tsx): bar (bars rise one by one, values count up ease-out,
+- **Animated charts** (`direction.charts`, src/layers/Charts.tsx): bar (each bar rises on its `word`, `from` = start
+  value for equal-then-grow/shrink bars (counts down too), `to` = range top drawn as a hatched band; bars rise one by one, values count up ease-out,
   `display` range resolves after, multiplier tag + bracket pops last), line (draws itself, end dot + `endLabel`),
   pie (slice sweeps, the `cut` slice slides out, `big` number counts up). Build order: thin line → card opens → axes →
   data → tag. Colours per chart (brand world): bg, color, accent, ink. `style: "card"` floats over footage/canvas
@@ -140,3 +142,9 @@ gently, reacts on words (`acts`), and drifts up + blurs out at the end (or `out`
   per board, 1–3 objects. NOT for people (photos), not for real numbers alone (chart/counter), not for a joke
   (meme). New object needed → add it to OBJS in Illos.tsx (parts drawn with <D o={order}>), not a one-off.
 - Demo: src/edits/zz-illo-demo.json (needs a dummy public/input/zz-illo-demo.mp4; stills via scripts/still.mjs).
+
+## Animation system (2026-10-17, brain/animation-system.md)
+The method for inventing visuals for ANY topic (frame-by-frame study of all 7 references): state change on a word,
+hero object, noun → object / verb → motion dictionary, scenes born from the last one, timing. Read in the visuals and
+motion briefings; storyboard table in plan.md (technique 'state-storyboard'). Shot-by-shot notes: T7
+references/library/animation-study.md.

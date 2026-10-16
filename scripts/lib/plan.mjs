@@ -299,7 +299,15 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   }
   for (const x of direction?.connectors ?? []) put('connector', x, 1.8);
   // animated charts from real numbers (src/layers/Charts.tsx): {at, seconds, type: bar|line|pie, bars|points|slices, …}
-  for (const x of direction?.charts ?? []) put('chart', x, x.type === 'bar' ? 1.8 + 1.2 * (x.bars?.length ?? 1) : 3.5);
+  // bars[].word / multiplier.word = the word index it moves on (the references time every bar to the sentence)
+  for (const x of direction?.charts ?? []) {
+    const f0 = byIndex.get(x.at)?.f0;
+    if (f0 == null) continue;
+    const rel = (o) => (o?.word != null && byIndex.get(o.word) ? {at: Math.max(0, byIndex.get(o.word).f0 - f0)} : {});
+    const bars = x.bars?.map(({word, ...b}) => ({...b, ...rel({word})}));
+    const multiplier = x.multiplier ? (({word, ...m}) => ({...m, ...rel({word})}))(x.multiplier) : undefined;
+    put('chart', x, x.type === 'bar' ? 1.8 + 1.2 * (x.bars?.length ?? 1) : 3.5, {...(bars ? {bars} : {}), ...(multiplier ? {multiplier} : {})});
+  }
   // illustrated objects that act out his words (src/layers/Illos.tsx): {at, until|seconds, style: full|over, bg, palette,
   //   items: [{obj, word|s, x, y, size, text, lines, total, value, label, orbit, pins: [{word|s, lon, lat, label}],
   //   acts: [{word|s, do: print|tear|ping|on|add|fill|spin|open|stamp|signal|pop|shake|fall|out, …}]}]}

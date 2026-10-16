@@ -84,11 +84,13 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
 
 type P = {words: CapWord[]; current: number; frame: number; fps: number; theme: Theme; edit: Edit};
 
-// GHOST TEXT (explainer reels, brain/explainers.md): the whole phrase is on screen from its first word in very light
-// grey, each word turns to full ink as it's spoken (real word times), and the phrase's ONE key word (direction.emphasis)
-// drops in big on its own line in the accent colour; it isn't ghosted, it arrives. Reads ahead = pulls the viewer through
-// the sentence. Ink follows the background: dark ink on a light canvas, white over footage / dark canvas
-// (theme.ghostInk 'dark' | 'light', default from edit.canvas.bg). Sizes come from style.captions.size (his sizes stay).
+// GHOST TEXT (explainer reels, brain/explainers.md + brain/animation-system.md): the phrase builds LINE BY LINE (each
+// short line arrives in very light grey when its first word is reached, so the eye reads a little ahead), each word turns
+// to full ink exactly as it's spoken (real word times), and the phrase's ONE key word (direction.emphasis) fades up big on
+// its own line in the accent colour; it isn't ghosted, it arrives. Lines already read stay; the stack grows downward
+// (measured frame by frame on the Varun Mayya reels, 2026-10-17). Ink follows the background: dark ink on a light canvas,
+// white over footage / dark canvas (theme.ghostInk 'dark' | 'light', default from edit.canvas.bg). Sizes come from
+// style.captions.size (his sizes stay).
 const ghostInk = (edit: Edit) => {
   const pick = edit.theme?.ghostInk;
   if (pick === 'dark' || pick === 'light') return pick;
@@ -129,14 +131,29 @@ const Ghost: React.FC<P> = ({words, frame, fps, theme, edit}) => {
       </span>
     );
   }
-  const row = (ws: CapWord[], off: number) => ws.length ? (
-    <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '78%', margin: '0 auto'}}>{ws.map((w, i) => plain(w, off + i))}</div>
-  ) : null;
+  // short lines (~18 characters, like the references): each one shows up (ghost) 2 frames before its first word
+  const lines = (ws: CapWord[], off: number) => {
+    const out: {ws: CapWord[]; off: number}[] = [];
+    let cur: CapWord[] = [], start = off, n = 0;
+    ws.forEach((w, i) => {
+      if (cur.length && n + w.w.length > 18) { out.push({ws: cur, off: start}); cur = []; n = 0; start = off + i; }
+      cur.push(w); n += w.w.length + 1;
+    });
+    if (cur.length) out.push({ws: cur, off: start});
+    return out.map((ln, k) => {
+      const show = interpolate(frame, [ln.ws[0].f0 - 3, ln.ws[0].f0], [0, 1], clamp);
+      return (
+        <div key={`${off}-${k}`} style={{display: 'flex', justifyContent: 'center', width: '100%', opacity: show, transform: `translateY(${(1 - show) * 8}px)`}}>
+          {ln.ws.map((w, i) => plain(w, ln.off + i))}
+        </div>
+      );
+    });
+  };
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%'}}>
-      {row(before, 0)}
+      {lines(before, 0)}
       {keyEl}
-      {row(after, ki + 1)}
+      {lines(after, ki + 1)}
     </div>
   );
 };

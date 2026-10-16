@@ -25,6 +25,7 @@ Everything else is read at the moment it matters, through a briefing or a skill,
 | color.md | colour lessons, v1 targets, scopes | look briefing |
 | sounds.md | moment → sound by meaning | sound briefing |
 | memes.md | the video-meme library and how to present a meme (card / half / full / zoom) | visuals + sound briefings |
+| animation-system.md | THE METHOD to invent visuals for any topic: the one law (state change on a word), steps, motion dictionary (meaning → movement), enter/live/leave, scene-to-scene, timing, worked example | visuals + motion briefings |
 | canvas.md | canvas mode: footage as one layer on a canvas, one camera over all | layout + motion briefings |
 | pablo.md | the designed-reel style (titles, inverted title, full-screen scenes, sound map) learned from a course | visuals + motion briefings |
 | posting.md | how to write the IG caption / YT title etc. for each video (posting kit) + analytics verdicts | viewer briefing, edit-video step 5 |

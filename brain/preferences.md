@@ -236,3 +236,8 @@ contradictions resolved). After every round of feedback: add the dated note here
 - Built direction.illos (Illos.tsx): drawn-on vector objects that act out his words (printer prints his bill,
   globe + orbiting satellite, bulb, coins, beaker, clock, stamp, any SVG). Stills shown; verdict pending.
 
+- 2026-10-17: "study every animation in the references up close, frame by frame … think how you can create things of
+  your own for different new topics, that's the main system." → every animation of the 7 references studied at 5–10 fps
+  (notes on the T7: references/library/animation-study.md) and turned into brain/animation-system.md (the method + motion
+  dictionary), read in the visuals/motion briefings. Ghost captions now build line by line; chart bars rise on their word,
+  ranges are hatched bands, bars can start equal and shrink.

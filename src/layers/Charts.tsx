@@ -17,7 +17,10 @@ const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const easeOut = Easing.bezier(0.16, 1, 0.3, 1);
 const countEase = Easing.out(Easing.cubic);
 
-export type ChartBar = {label: string; value: number; display?: string; color?: string; hi?: boolean};
+// at = frames from the chart start when this bar moves (plan.mjs fills it from `word`, so it rises on his word);
+// from = the value it starts at (equal bars, then one grows/shrinks: counts up or DOWN); to = top of a range: after the
+// count a hatched band grows value -> to while the label's upper number counts ("₹700–800").
+export type ChartBar = {label: string; value: number; display?: string; color?: string; hi?: boolean; at?: number; from?: number; to?: number};
 export type ChartSlice = {label?: string; value: number; color?: string};
 export type ChartSpec = {
   type: 'bar' | 'line' | 'pie';
@@ -32,7 +35,7 @@ export type ChartSpec = {
   prefix?: string; suffix?: string; decimals?: number;
   // bar
   bars?: ChartBar[];
-  multiplier?: {text: string; from?: number; to?: number}; // tag between bar `from` and bar `to` (default first → last)
+  multiplier?: {text: string; from?: number; to?: number; at?: number}; // tag between bar `from` and bar `to` (default first → last); at = frames (from `word`)
   // line
   points?: number[]; xLabels?: string[]; endLabel?: string; area?: boolean;
   // pie
@@ -117,38 +120,54 @@ type C = {bg: string; ink: string; color: string; accent: string; fs: number; pl
 // ── bar ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 const Bars: React.FC<{x: ChartSpec; c: C}> = ({x, c}) => {
   const bars = x.bars ?? [];
-  const max = Math.max(...bars.map((b) => b.value), 1) * 1.08;
+  const max = Math.max(...bars.map((b) => Math.max(b.value, b.to ?? 0, b.from ?? 0)), 1) * 1.08;
   const {l, r, t: top, b: base} = c.plot;
   const n = bars.length, slot = (r - l) / n, bw = Math.min(slot * 0.5, c.cw * 0.2);
   const hiIdx = bars.findIndex((b) => b.hi) >= 0 ? bars.findIndex((b) => b.hi) : n - 1;
+  const H = base - top;
   const geo = bars.map((b, i) => {
-    const s0 = c.S.head + i * c.S.step;
-    const p = interpolate(c.t, [s0, s0 + c.S.step * 0.9], [0, 1], {...clamp, easing: countEase});
-    const h = ((base - top) * b.value) / max;
-    return {b, i, p, h, cx: l + slot * (i + 0.5), s0};
+    // timed to his words when `at` is known (the references hold a finished bar until the next sentence), else spread out
+    const s0 = Math.max(c.S.head, b.at ?? c.S.head + i * c.S.step);
+    const dur = b.at != null ? Math.round(1.4 * c.fps) : Math.round(c.S.step * 0.9);
+    const p = interpolate(c.t, [s0, s0 + dur], [0, 1], {...clamp, easing: countEase});
+    const v0 = b.from ?? 0;
+    const val = v0 + (b.value - v0) * p; // the value right now (counts up, or down when from > value)
+    const h = (H * val) / max;
+    const rangeP = b.to != null ? interpolate(c.t, [s0 + dur, s0 + dur + Math.round(0.7 * c.fps)], [0, 1], {...clamp, easing: countEase}) : 0;
+    const hTo = b.to != null ? h + (H * (b.to - b.value) * rangeP) / max : h; // the band only grows after the bar has landed
+    return {b, i, p, h, hTo, val, rangeP, dur, cx: l + slot * (i + 0.5), s0, hEnd: (H * Math.max(b.value, b.to ?? 0)) / max};
   });
   const m = x.multiplier;
   const mFrom = geo[m?.from ?? 0], mTo = geo[m?.to ?? n - 1];
-  const mAt = c.S.head + n * c.S.step;
+  const lastDone = Math.max(...geo.map((g) => g.s0 + g.dur + (g.b.to != null ? Math.round(0.7 * c.fps) : 0)));
+  const mAt = m?.at ?? lastDone + 4;
   const mP = interpolate(c.t, [mAt - 2, mAt + Math.round(0.25 * c.fps)], [0, 1], {...clamp, easing: Easing.out(Easing.back(2))});
   return (
     <>
       {/* gridlines + baseline */}
       {[0.25, 0.5, 0.75].map((g) => <div key={g} style={{position: 'absolute', left: l, width: r - l, top: base - (base - top) * g, height: 1, background: c.ink, opacity: 0.12}} />)}
       <div style={{position: 'absolute', left: l, width: r - l, top: base, height: 3, background: c.ink, opacity: 0.6}} />
-      {geo.map(({b, i, p, h, cx, s0}) => {
+      {geo.map(({b, i, h, hTo, val, rangeP, cx, s0, dur}) => {
         const hi = i === hiIdx;
         const fill = b.color ?? (hi ? c.accent : c.color);
-        const shown = c.t >= s0;
-        const counting = c.t < s0 + c.S.step * 0.9;
-        const label = !counting && b.display ? b.display : `${x.prefix ?? ''}${fmt(b.value * p, x.decimals ?? 0)}${x.suffix ?? ''}`;
+        const shown = c.t >= s0 || b.from != null; // a bar with a start value is there from the beginning (equal bars)
+        const dec = x.decimals ?? 0;
+        const num = (v: number) => `${x.prefix ?? ''}${fmt(v, dec)}`;
+        const label = c.t >= s0 + dur && b.display ? b.display
+          : b.to != null && rangeP > 0 ? `${num(b.value)}–${fmt(b.value + (b.to - b.value) * rangeP, dec)}${x.suffix ?? ''}`
+          : `${num(val)}${x.suffix ?? ''}`;
         return (
           <React.Fragment key={i}>
-            <div style={{position: 'absolute', left: cx - bw / 2, width: bw, top: base - h * p, height: h * p, background: fill, borderRadius: '4px 4px 0 0',
+            {/* the range: a hatched band on top of the bar, same colour (uncertainty drawn, not just written) */}
+            {hTo > h + 0.5 && (
+              <div style={{position: 'absolute', left: cx - bw / 2, width: bw, top: base - hTo, height: hTo - h, borderRadius: '4px 4px 0 0', opacity: 0.85,
+                backgroundImage: `repeating-linear-gradient(135deg, ${fill} 0 ${c.fs * 0.18}px, transparent ${c.fs * 0.18}px ${c.fs * 0.36}px)`, boxShadow: `inset 0 0 0 2px ${fill}`}} />
+            )}
+            <div style={{position: 'absolute', left: cx - bw / 2, width: bw, top: base - h, height: h, background: fill, borderRadius: hTo > h + 0.5 ? 0 : '4px 4px 0 0',
               opacity: hi || b.color ? 1 : 0.92}} />
             {shown && (
-              <div style={{position: 'absolute', left: cx - slot / 2, width: slot, top: base - h * p - c.fs * 1.7, textAlign: 'center', fontFamily: fonts.anton,
-                fontSize: c.fs * 1.25, color: hi ? c.accent : c.ink, whiteSpace: 'nowrap', opacity: interpolate(c.t, [s0, s0 + 4], [0, 1], clamp)}}>{label}</div>
+              <div style={{position: 'absolute', left: cx - slot / 2, width: slot, top: base - Math.max(h, hTo) - c.fs * 1.7, textAlign: 'center', fontFamily: fonts.anton,
+                fontSize: c.fs * 1.25, color: hi ? c.accent : c.ink, whiteSpace: 'nowrap', opacity: b.from != null ? 1 : interpolate(c.t, [s0, s0 + 4], [0, 1], clamp)}}>{label}</div>
             )}
             <div style={{position: 'absolute', left: cx - slot / 2, width: slot, top: base + c.fs * 0.5, textAlign: 'center', fontFamily: fonts.inter, fontWeight: 800,
               fontSize: c.fs * 0.75, letterSpacing: 1.5, textTransform: 'uppercase', color: c.ink, opacity: 0.85}}>{b.label}</div>
@@ -158,7 +177,7 @@ const Bars: React.FC<{x: ChartSpec; c: C}> = ({x, c}) => {
       {m && mFrom && mTo && mP > 0 && (() => {
         // bracket at the right of the taller bar: from the lower bar's top to the higher bar's top, tag beside it
         const x0 = mTo.cx + bw / 2 + c.fs * 0.6;
-        const yA = base - mFrom.h, yB = base - mTo.h;
+        const yA = base - mFrom.hEnd, yB = base - mTo.hEnd;
         const y1 = Math.min(yA, yB), y2 = Math.max(yA, yB);
         return (
           <>
