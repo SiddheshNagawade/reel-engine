@@ -29,6 +29,7 @@ import {Scene} from '../templates/Scene';
 import {Words, Stack, Photo, FloatCard} from './TitleText';
 import {Chart} from './Charts';
 import {Board} from './Boards';
+import {Moved, Breather, Credit} from './Moves';
 import {Illo, IlloFull} from './Illos';
 import {Iso} from './Iso';
 
@@ -340,6 +341,8 @@ const Overlay: React.FC<{x: Insert; t: number}> = ({x, t}) => {
     case 'chart': return <Chart x={x} t={t} />;
     case 'illo': return <Illo x={x} t={t} />;
     case 'board': return <Board x={x} t={t} />;
+    case 'breather': return <Breather x={x} t={t} />;
+    case 'credit': return <Credit x={x} t={t} />;
     case 'iso': return <Iso x={x} t={t} />;
     default: return null;
   }
@@ -376,9 +379,9 @@ export const InsertsLayer: React.FC<{edit: Edit; layer: 'full' | 'over'}> = ({ed
     <>
       {list.map((x, i) =>
         layer === 'full' ? (
-          <Sequence key={i} from={x.f} durationInFrames={x.frames} layout="absolute-fill"><Full x={x} /></Sequence>
+          <Sequence key={i} from={x.f} durationInFrames={x.frames} layout="absolute-fill"><Moved x={x} t={frame - x.f} backdrop={(x as {bg?: unknown}).bg && typeof (x as {bg?: unknown}).bg === 'string' ? (x as {bg: string}).bg : x.kind === 'board' ? '#efe9dc' : x.kind === 'illo' ? '#f3eee4' : undefined}><Full x={x} /></Moved></Sequence>
         ) : frame >= x.f && frame < x.f + x.frames ? (
-          <AbsoluteFill key={i} style={{pointerEvents: 'none'}}><Overlay x={x} t={frame - x.f} /></AbsoluteFill>
+          <AbsoluteFill key={i} style={{pointerEvents: 'none'}}><Moved x={x} t={frame - x.f}><Overlay x={x} t={frame - x.f} /></Moved></AbsoluteFill>
         ) : null,
       )}
     </>

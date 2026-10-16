@@ -160,3 +160,13 @@ references/library/animation-study.md.
   (bottles, coins, people) pop in with a counter, then pour in arcs into the container item, which pops; the result
   label lands ("100 L → 1 KG"). Use for concentration, effort → result, "it takes X to make Y".
 - New icons for both: bottle, person, drop, coin, jar (label text), car.
+
+## Animation batches 1–3 (2026-10-17): every studied animation is now buildable
+Illos items (src/layers/Illos.tsx): `morph` act (analogy → real thing), `crowd` (people grid that spells a number / marks
+a share / focuses one), `share` (block splits to people), `journey` (legs + running-total bar), `stream` (copies flow
+into a target), `flashlight` icon. Boards (direction.boards → src/layers/Boards.tsx): list (split / cards), chain (sticky
+notes), wheel (cycle), chapters (strip / flip / tumble), pile (posts). Moves (src/layers/Moves.tsx): any insert takes
+`enter` / `exit` = dive · dot · fly3d · whip-up/down/left/right · sheet; direction.breathers (his line over dimmed
+footage), direction.credits (name tag + source); canvas.footage keys take dur / flash / badge (collapse to card).
+When to use each: brain/animation-system.md §3 (meaning → motion) and §5 (scene → scene). Never decoration: each one
+only when his sentence says that thing.

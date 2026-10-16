@@ -3,6 +3,7 @@ import type {SceneSpec} from './templates/Scene';
 import type {WordsSpec, StackSpec, PhotoSpec, CardSpec} from './layers/TitleText';
 import type {ChartSpec} from './layers/Charts';
 import type {BoardSpec} from './layers/Boards';
+import type {MoveSpec, BreatherSpec, CreditSpec} from './layers/Moves';
 import type {IlloSpec} from './layers/Illos';
 import type {IsoSpec} from './layers/Iso';
 import type {MorphSpec} from './layers/Morph';
@@ -62,7 +63,7 @@ export type Attach = {
 
 // Media for inserts: a file inside public/ (staged for the render), a video from a point (trimBefore, frames).
 export type MediaRef = {src: string; video?: boolean; trimBefore?: number; filter?: string; label?: string};
-type InsertBase = {f: number; frames: number};
+type InsertBase = {f: number; frames: number; enter?: MoveSpec; exit?: MoveSpec}; // enter/exit: how it's born from / turns into the next scene (Moves.tsx)
 export type Insert = InsertBase & (
   | {kind: 'counter'; values: (string | number)[]; label?: string; prefix?: string; suffix?: string; style?: 'full' | 'overlay'; x?: number; y?: number; bg?: string; ink?: string; accent?: string}
   | {kind: 'reveal'; before: MediaRef; after: MediaRef; path?: [number, number][]}
@@ -84,6 +85,8 @@ export type Insert = InsertBase & (
   | ({kind: 'chart'} & ChartSpec)
   | ({kind: 'illo'} & IlloSpec)
   | ({kind: 'board'} & BoardSpec)
+  | ({kind: 'breather'} & BreatherSpec)
+  | ({kind: 'credit'} & CreditSpec)
   | ({kind: 'iso'} & IsoSpec)
 );
 // The footage makes room: scale (0.6 = 60 %), shift (fractions of the frame), rounded corners, what fills behind it.

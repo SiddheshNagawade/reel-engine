@@ -135,13 +135,11 @@ Topic: "Why my design client paid ₹40,000 for a logo that took 2 hours."
 - Ending: his line "price the years, not the hours" with the tag swinging gently = the last image is the hero object.
 Every row = noun → object, verb → motion, born from the previous scene. That's the system.
 
-## 9. What our engine has / what's missing for this (keep updated)
-Have: Illos objects (printer, globe, satellite, phone, laptop, bulb, coins, cash, beaker, clock, box, document, bottle,
-person, drop, coin, jar, car + any SVG drawn on; acts: print, fill, stamp, orbit, pins, fall, shake, TRAVEL along a
-route/arc; routes: road/dotted/line/trail; SWARM many-into-one with a counter and a result), charts (bar/line/pie, word-timed bars, from/to
-ranges, hatched band, shrink), counters, UI mockups (chat, notify, cursor), canvas camera, ghost captions, connectors.
-Missing (scripts/lib/techniques.mjs, built: false): analogy→real morph, crowd pictogram that spells a number,
-split/share block, journey diagram with a running-total bar, scene shrink-into-dot / dive-into zoom,
-particle stream to a target, rotating wheel/cycle diagram, sliding-highlight list, sticky-note process chain with
-self-drawing arrows, rubber stamp on any object, tweet pile, chapter strip (cards darken / flip), hatched-range +
-handwritten chart annotations, logo-from-pieces.
+## 9. What our engine has (all of §3 and §5 is built, 2026-10-17)
+Illos objects (printer, globe, satellite, phone, laptop, bulb, coins, cash, beaker, clock, box, document, bottle, person,
+drop, coin, jar, car, flashlight + any SVG drawn on) with acts (print, fill, stamp, orbit, pins, fall, shake, travel,
+morph, pop) and board items (route, swarm, crowd, share, journey, stream); boards (list, chain, wheel, chapters, pile);
+charts (bar/line/pie, word-timed, ranges, shrink); counters; UI mockups; ghost captions; moves on any insert (dive,
+dot, fly3d, whips, sheet); breathers; credits; collapse to card (canvas footage keys). How to call each: brain/skills.md.
+Still worth adding when a video needs it: real 3D (brain/iso.md has the isometric 3D look), maps of specific countries
+(only the world globe exists), and hand-drawn marker annotations on charts.

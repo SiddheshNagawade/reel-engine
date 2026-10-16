@@ -10,8 +10,11 @@ import React from 'react';
 import {AbsoluteFill, Easing, OffthreadVideo, Sequence, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import type {Edit} from '../types';
 import {Scene, type SceneCam, type SceneItem, type SceneSpec} from '../templates/Scene';
+import {IlloIcon} from './Illos';
 
-export type FootageKey = {at: number; x?: number; y?: number; w?: number; rot?: number; shape?: 'rect' | 'round' | 'circle'; cut?: boolean};
+// dur = seconds to reach this key (default ~0.7; the "collapse to card" of the references is ~0.25); flash = a pale
+// one-frame wash as it starts (hook → card); badge = an Illos object pinned on the card's top-right corner
+export type FootageKey = {at: number; x?: number; y?: number; w?: number; rot?: number; shape?: 'rect' | 'round' | 'circle'; cut?: boolean; dur?: number; flash?: boolean; badge?: string};
 export type CanvasSpec = {bg?: SceneSpec['bg']; cam?: SceneCam[]; footage?: FootageKey[]; items?: SceneItem[]};
 
 const glide = Easing.bezier(0.6, 0, 0.25, 1);
@@ -26,12 +29,13 @@ function stateAt(keys: FootageKey[], t: number) {
     const k = ks[i];
     if (t < k.at) break;
     const target = v(k);
-    const p = glide(Math.min(1, (t - k.at) / 22));
+    const p = glide(Math.min(1, (t - k.at) / Math.max(1, k.dur != null ? k.dur * 30 : 22)));
     cur = Object.fromEntries(Object.keys(base).map((n) => [n, (cur as Record<string, number>)[n] + ((target as Record<string, number>)[n] - (cur as Record<string, number>)[n]) * p])) as typeof base;
     cut = !!k.cut;
   }
   return {...cur, cut};
 }
+const lastKey = (keys: FootageKey[], t: number) => [...keys].sort((a, b) => a.at - b.at).filter((k) => t >= k.at).pop();
 
 const Footage: React.FC<{edit: Edit; children: React.ReactNode}> = ({edit, children}) => {
   const t = useCurrentFrame();
@@ -57,7 +61,17 @@ const Footage: React.FC<{edit: Edit; children: React.ReactNode}> = ({edit, child
             <OffthreadVideo src={staticFile(fg.src!)} transparent muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
           </Sequence>
         )}
+        {/* collapse flash: the frame washes pale for an instant as it starts to shrink */}
+        {(() => { const k = lastKey(edit.canvas?.footage ?? [], t); const d = k ? t - k.at : 99; return k?.flash && d < 4 ? <AbsoluteFill style={{background: '#f4f7f2', opacity: [0.85, 0.6, 0.3, 0.1][d]}} /> : null; })()}
       </div>
+      {(() => {
+        // the hero object pinned on the card's corner (it travels with the card)
+        const k = [...(edit.canvas?.footage ?? [])].filter((q) => q.badge && t >= q.at).pop();
+        if (!k?.badge) return null;
+        const p = Math.min(1, (t - k.at) / 9);
+        const sz = Math.min(W, H) * 0.16 / Math.max(0.2, s.w);
+        return <div style={{position: 'absolute', right: -sz * 0.3, top: -sz * 0.3, width: sz, height: sz, transform: `scale(${Easing.out(Easing.back(1.8))(p)})`}}><IlloIcon obj={k.badge} /></div>;
+      })()}
     </div>
   );
 };

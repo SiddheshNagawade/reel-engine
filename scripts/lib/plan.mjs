@@ -324,6 +324,17 @@ export function buildEdit({name, video, duration, silences, words, direction, st
   // illustrated objects that act out his words (src/layers/Illos.tsx): {at, until|seconds, style: full|over, bg, palette,
   //   items: [{obj, word|s, x, y, size, text, lines, total, value, label, orbit, pins: [{word|s, lon, lat, label}],
   //   acts: [{word|s, do: print|tear|ping|on|add|fill|spin|open|stamp|signal|pop|shake|fall|out, …}]}]}
+  // breather text over the dimmed footage: his own words from `at` to `until`, each lighting up as he says it
+  for (const x of direction?.breathers ?? []) {
+    const sp = span(x, 3);
+    if (!sp) continue;
+    const ids = [...byIndex.keys()].filter((i) => i >= x.at && i <= (x.until ?? x.at + 12)).sort((a, b) => a - b);
+    const words = x.text ? x.text.split(/\s+/).map((w, i) => ({w, at: Math.round(i * 4)})) : ids.map((i) => ({w: byIndex.get(i).w, at: byIndex.get(i).f0 - sp.f}));
+    const {at, until, seconds, delay, sound, text, ...rest} = x;
+    inserts.push({...rest, kind: 'breather', ...sp, words, silent: true});
+  }
+  // creator name tag + "Source: …" (other people's clips, data, articles)
+  for (const x of direction?.credits ?? []) put('credit', x, 4, {silent: true});
   // structure boards (src/layers/Boards.tsx): list / chain / wheel / chapters / pile; items[].word|s = when each step lands
   for (const x of direction?.boards ?? []) {
     const sp = span(x, 4);
