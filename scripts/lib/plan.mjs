@@ -160,8 +160,8 @@ export function buildEdit({name, video, duration, silences, words, direction, st
 
   // 5. Caption groups: short, punchy, broken at punctuation and pauses.
   const c = style.captions;
-  const maxWords = {'glow-grad': 2, 'highlight-box': 5, 'editorial': 4, 'script-accent': 4, 'condensed-stack': 4}[theme.captionStyle] ?? c.maxWords;
-  const maxChars = maxWords > 3 ? 26 : c.maxChars;
+  const maxWords = {ghost: 8, 'glow-grad': 2, 'highlight-box': 5, 'editorial': 4, 'script-accent': 4, 'condensed-stack': 4}[theme.captionStyle] ?? c.maxWords;
+  const maxChars = theme.captionStyle === 'ghost' ? 46 : maxWords > 3 ? 26 : c.maxChars; // ghost shows a whole phrase
   const captions = [];
   let cur = [];
   const flush = () => {
@@ -298,6 +298,8 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else if (kind === 'cursor') put('cursor', rest, 2, {clickAt: sec(clickAt)});
   }
   for (const x of direction?.connectors ?? []) put('connector', x, 1.8);
+  // animated charts from real numbers (src/layers/Charts.tsx): {at, seconds, type: bar|line|pie, bars|points|slices, …}
+  for (const x of direction?.charts ?? []) put('chart', x, x.type === 'bar' ? 1.8 + 1.2 * (x.bars?.length ?? 1) : 3.5);
   // Pablo-style designed graphics (brain/pablo.md): times inside are WORD indexes ({word: i}) or seconds from the
   // start of the insert ({s: 1.2}); both become frames from the insert start, so everything lands on his words.
   //   direction.scenes [{at, until, bg, cam: [{word|s, x, y, zoom}], items: [{word|s, type, …}]}]
@@ -588,6 +590,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else if (x.kind === 'cursor') add('click', x.f + (x.clickAt ?? 22), vol * 0.5);
     else if (x.kind === 'burst') add('hit', x.f, vol * 0.5);
     else if (x.kind === 'counter') add('tick', x.f, vol * 0.3);
+    else if (x.kind === 'chart') { add('soft-whoosh', x.f - 2, vol * 0.3, 4); if (x.multiplier || x.endLabel || x.cut != null) add('pop', x.f + x.frames - Math.round(1.2 * fps), vol * 0.35); }
     else if (x.kind === 'scatter') add('pop', x.f, vol * 0.35);
     else if (x.kind === 'push') add('whoosh', x.f + x.frames - 10, vol * 0.45, 4);
     else if (x.kind === 'scene' || x.kind === 'words' || x.kind === 'stack') designSounds(x);

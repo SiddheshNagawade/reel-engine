@@ -67,5 +67,6 @@ export function pickTheme({topic, pace, frames, override = {}}) {
     text: '#FFFFFF',
     transitions: pace === 'energetic' ? t.energetic : t.calm,
     brightFootage: frames.brightness > 0.62,
+    ...(override.ghostInk ? {ghostInk: override.ghostInk} : {}),
   };
 }

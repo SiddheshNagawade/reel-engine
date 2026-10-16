@@ -1,6 +1,6 @@
 import {captionShift, TEXT_KINDS} from './Inserts';
 import React from 'react';
-import {AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate} from 'remotion';
+import {AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate, interpolateColors} from 'remotion';
 import type {CSSProperties} from 'react';
 import type {CapWord, Edit, Theme} from '../types';
 import {fonts} from './fonts';
@@ -30,13 +30,15 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
   if ((edit.memes ?? []).some((m) => m.clip && (m.placement === 'full' || m.placement === 'zoom') && frame >= m.f && frame < m.f + m.frames)) return null;
   // Scatter text is a text moment of its own: captions step aside while it's up.
   if ((edit.inserts ?? []).some((x) => TEXT_KINDS.has(x.kind) && frame >= x.f && frame < x.f + x.frames)) return null;
+  // a full-screen chart is a board of its own: captions step aside (a 'card' chart keeps them)
+  if ((edit.inserts ?? []).some((x) => x.kind === 'chart' && x.style !== 'card' && frame >= x.f && frame < x.f + x.frames)) return null;
   const g = edit.captions.find((x) => frame >= x.f0 && frame < x.f1);
   if (!g) return null;
   let current = -1;
   g.words.forEach((w, i) => frame >= w.f0 && (current = i));
   const enter = spring({frame: frame - g.f0, fps, config: {damping: 13, stiffness: 220, mass: 0.6}});
-  const exit = interpolate(frame, [g.f1 - 4, g.f1], [1, 0], clamp);
-  const props = {words: g.words, current, frame, fps, theme: edit.theme};
+  const exit = interpolate(frame, [g.f1 - (edit.theme?.captionStyle === 'ghost' ? 6 : 4), g.f1], [1, 0], clamp);
+  const props = {words: g.words, current, frame, fps, theme: edit.theme, edit};
 
   const S = {
     'bold-pop': BoldPop,
@@ -46,6 +48,7 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
     'highlight-box': HighlightBox,
     bubble: Bubble,
     'glow-grad': GlowGrad,
+    ghost: Ghost,
   }[edit.theme?.captionStyle ?? 'bold-pop'] ?? BoldPop;
 
   // A visual can own the caption spot for a while: captions glide to another height (direction.captionMoves).
@@ -64,8 +67,12 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
           justifyContent: 'center',
           alignItems: 'baseline',
           transformStyle: 'preserve-3d',
-          transform: `translateY(-50%) rotateX(${(1 - enter) * 35}deg) scale(${move.scale})`,
+          // ghost text is calm (it's read, not punched): the phrase fades up, no 3D flip
+          transform: edit.theme?.captionStyle === 'ghost' ? `translateY(calc(-50% + ${(1 - enter) * 16}px)) scale(${move.scale})` : `translateY(-50%) rotateX(${(1 - enter) * 35}deg) scale(${move.scale})`,
           opacity: Math.min(1, enter * 1.8) * exit,
+          // ghost phrases leave with blur + a drift up (~0.2 s), and the next one starts on the very next frame
+          filter: edit.theme?.captionStyle === 'ghost' && exit < 1 ? `blur(${(1 - exit) * 8}px)` : undefined,
+          marginTop: edit.theme?.captionStyle === 'ghost' ? -(1 - exit) * 30 : 0,
         }}
       >
         <S {...props} />
@@ -74,7 +81,64 @@ export const Captions: React.FC<{edit: Edit}> = ({edit}) => {
   );
 };
 
-type P = {words: CapWord[]; current: number; frame: number; fps: number; theme: Theme};
+type P = {words: CapWord[]; current: number; frame: number; fps: number; theme: Theme; edit: Edit};
+
+// GHOST TEXT (explainer reels, brain/explainers.md): the whole phrase is on screen from its first word in very light
+// grey, each word turns to full ink as it's spoken (real word times), and the phrase's ONE key word (direction.emphasis)
+// drops in big on its own line in the accent colour; it isn't ghosted, it arrives. Reads ahead = pulls the viewer through
+// the sentence. Ink follows the background: dark ink on a light canvas, white over footage / dark canvas
+// (theme.ghostInk 'dark' | 'light', default from edit.canvas.bg). Sizes come from style.captions.size (his sizes stay).
+const ghostInk = (edit: Edit) => {
+  const pick = edit.theme?.ghostInk;
+  if (pick === 'dark' || pick === 'light') return pick;
+  const bg = edit.canvas?.bg?.color;
+  return bg && /^#[0-9a-f]{6}$/i.test(bg) && isLight(bg) ? 'dark' : 'light';
+};
+const Ghost: React.FC<P> = ({words, frame, fps, theme, edit}) => {
+  const {width: W} = useVideoConfig();
+  const dark = ghostInk(edit) === 'dark';
+  const ink = dark ? '#1d1d1f' : '#ffffff';
+  const ghost = dark ? '#d4d4d4' : 'rgba(255,255,255,0.32)';
+  const shadow = dark ? 'none' : '0 4px 18px rgba(0,0,0,0.55)';
+  const lead = style.captions.size * 0.66;
+  const ki = words.findIndex((w) => w.emph);
+  const plain = (w: CapWord, i: number) => {
+    const on = interpolate(frame, [w.f0 - 1, w.f0 + 2], [0, 1], clamp);
+    return (
+      <span key={i} style={{fontFamily: fonts.inter, fontWeight: 700, fontSize: lead, lineHeight: 1.18, letterSpacing: '-0.02em', margin: `0 ${lead * 0.13}px`,
+        color: interpolateColors(on, [0, 1], [ghost, ink]), textShadow: on > 0.5 ? shadow : 'none', display: 'inline-block'}}>
+        {w.w}
+      </span>
+    );
+  };
+  const before = ki < 0 ? words : words.slice(0, ki), after = ki < 0 ? [] : words.slice(ki + 1);
+  const key = ki < 0 ? null : words[ki];
+  let keyEl: React.ReactNode = null;
+  if (key) {
+    // quick fade-up on its spoken time (~0.15 s, ease-out, no bounce: measured on the references)
+    const d = interpolate(frame, [key.f0 - 1, key.f0 + Math.round(0.15 * fps)], [0, 1], {...clamp, easing: (x) => 1 - Math.pow(1 - x, 3)});
+    const chars = key.w.length;
+    const size = Math.min(style.captions.size * 1.7, (W * 0.84) / Math.max(1, chars * 0.56)); // long words shrink to fit
+    keyEl = (
+      <span style={{display: 'block', width: '100%', textAlign: 'center', fontFamily: fonts.inter, fontWeight: 800, fontSize: size, lineHeight: 1.02,
+        letterSpacing: '-0.035em', color: theme.accent, margin: `${lead * 0.08}px 0`, opacity: d,
+        transform: `translateY(${(1 - d) * size * 0.25}px)`, filter: `blur(${(1 - d) * 4}px)`,
+        textShadow: dark ? 'none' : '0 8px 30px rgba(0,0,0,0.5)'}}>
+        {key.w}
+      </span>
+    );
+  }
+  const row = (ws: CapWord[], off: number) => ws.length ? (
+    <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '78%', margin: '0 auto'}}>{ws.map((w, i) => plain(w, off + i))}</div>
+  ) : null;
+  return (
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%'}}>
+      {row(before, 0)}
+      {keyEl}
+      {row(after, ki + 1)}
+    </div>
+  );
+};
 
 // His caption look (Pablo Quesada course, brain/pablo.md): heavy grotesk, no outline, a subtle white→grey gradient
 // fill, a soft white glow, no punctuation, a few words at a time, each word fading up as it's spoken. Same size as

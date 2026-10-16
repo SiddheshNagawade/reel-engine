@@ -103,3 +103,16 @@ Doesn't replace him for current Indian memes and inside jokes.
 item); --anime = realesr-animevideov3 (fast, but waxy on real faces: cartoons only). NOT automatic: he wants memes/GIFs exactly as they come
 (2026-10-15); only for a picture he asks to sharpen. SVG logos are vector = already perfect. Library webms now keep up to 1080 px.
 Models: models/esrgan/ (gitignored; github.com/xinntao/Real-ESRGAN releases, macos zip).
+
+## Explainer kit: ghost captions + animated charts (2026-10-16, brain/explainers.md)
+- **Ghost-text captions** (`captionStyle: "ghost"` via direction.themeOverride; `ghostInk` "dark"|"light", auto from
+  canvas.bg): the whole phrase (≤ 8 words) sits in light grey, each word goes to full ink on its spoken time, the ONE
+  key word (direction.emphasis) fades up big in the accent on its own line; the phrase leaves with blur + drift up.
+  Use: calm explaining reels on a canvas. NOT for funny/hype reels (use bold-pop/bubble). Sizes derive from
+  style.captions.size. Code: src/layers/Captions.tsx `Ghost`.
+- **Animated charts** (`direction.charts`, src/layers/Charts.tsx): bar (bars rise one by one, values count up ease-out,
+  `display` range resolves after, multiplier tag + bracket pops last), line (draws itself, end dot + `endLabel`),
+  pie (slice sweeps, the `cut` slice slides out, `big` number counts up). Build order: thin line → card opens → axes →
+  data → tag. Colours per chart (brand world): bg, color, accent, ink. `style: "card"` floats over footage/canvas
+  (x, y, w) and keeps captions; full boards hide captions. Use ONLY with real numbers + a `source`. Not for a single
+  number (use counter). Sound: soft whoosh in, pop on the tag.

@@ -143,8 +143,8 @@ zoom-through transition, 3D card fly-in, draw-on reveal for vector objects, obje
 stacked-notification UI, collapse-to-card hook transition, tumbling chapter cards.
 
 ## Gaps in our toolkit (not built yet, 2026-10-16)
-- Ghost-text captions (whole phrase light grey, words darken as spoken, key word big in accent).
-- Animated charts: bar (grow + value counter + multiplier tag), line (self-drawing + end label), from real numbers.
+- BUILT 2026-10-16: ghost-text captions (captionStyle "ghost") and animated charts (direction.charts: bar/line/pie);
+  see brain/skills.md "Explainer kit". Still missing: pictogram row.
 - Source credit + lower-third name tag for YouTube (vlog name tags exist; not a YouTube lower-third).
 - Metaphor-system scenes: one vector object evolving across beats (today: separate illustrations per beat).
 - Chapter cards (01/02/03 progress), breather text over dimmed A-roll, article screenshot with a highlighter sweep,
