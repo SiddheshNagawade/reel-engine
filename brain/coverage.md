@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-98 techniques · 90 built · 7 still to build: Ghost-text captions: whole phrase light grey, words darken as spoken, key word big in the accent colour; One metaphor object that evolves across every beat; Animated chart from real numbers (bar grows + value counts, line draws itself + end label, pie cuts, pictogram row); Chapter cards 01/02/03 (promise at start, progress later); Breather text: key line in thin type over A-roll dimmed to near black; Source credit + highlighted line on article screenshots; Auto grade with a trained model (Image-Adaptive 3D LUT): PARKED, lost to raw on his footage · 1 parked on purpose (Subject/background separation grade)
+104 techniques · 90 built · 13 still to build: Ghost-text captions: whole phrase light grey, words darken as spoken, key word big in the accent colour; One metaphor object that evolves across every beat; Animated chart from real numbers (bar grows + value counts, line draws itself + end label, pie cuts, pictogram row); Chapter cards 01/02/03 (promise at start, progress later); Breather text: key line in thin type over A-roll dimmed to near black; Source credit + highlighted line on article screenshots; Zoom-through: camera dives into one detail of the graphic (motion blur ~0.6 s) and lands on it as the next scene; 3D card fly-in: blank card swings in with perspective, contents appear after; Draw-on / constructed reveal of a vector object (traced, filled like a clock wipe); Object acts out the line (snaps, falls with gravity, fills, breathes); Hook collapses into a card: light flash, full frame shrinks to a corner-badged card (~0.25 s); Chapter cards tumble in, stack, straighten; others fly off leaving the current one; Auto grade with a trained model (Image-Adaptive 3D LUT): PARKED, lost to raw on his footage · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -81,6 +81,12 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | depth | Person cut-outs (hero intros) | vlog | ✅ | scripts/herocut.py + gfx hero | vlog.md |
 | motion | Intro zoom-out from tight, eyes locked; key-word push-in | reel | ✅ | direction.camera [{at, type: zoomout/keypush}] | pablo.md |
 | motion | White light-leak between speaker and a full-screen scene | reel | ✅ | direction.leaks [wordIndex / {at, end: true}] | pablo.md |
+| motion | Zoom-through: camera dives into one detail of the graphic (motion blur ~0.6 s) and lands on it as the next scene | reel, vlog | ❌ to build | not built; timings in brain/explainers.md Animation vocabulary | explainers.md |
+| motion | 3D card fly-in: blank card swings in with perspective, contents appear after | reel, vlog | ❌ to build | not built | explainers.md |
+| motion | Draw-on / constructed reveal of a vector object (traced, filled like a clock wipe) | reel, vlog, process | ❌ to build | not built (SVG stroke + fill reveal) | explainers.md |
+| motion | Object acts out the line (snaps, falls with gravity, fills, breathes) | reel, vlog | ❌ to build | not built: physics presets on illustration elements | explainers.md |
+| motion | Hook collapses into a card: light flash, full frame shrinks to a corner-badged card (~0.25 s) | reel | ❌ to build | not built (canvas mode can animate the footage layer; add the flash + badge) | explainers.md |
+| motion | Chapter cards tumble in, stack, straighten; others fly off leaving the current one | vlog | ❌ to build | not built (pairs with chapter-cards) | explainers.md |
 | motion | Camera push on a new idea, punch on a hero word | reel, vlog, process | ✅ | reel: direction.sections · vlog/process: zoom/toZoom, gfx zoom | preferences.md |
 | motion | Transitions only where the picture really changes | reel, vlog, process | ✅ | checked automatically | preferences.md |
 | motion | Every element enters and leaves with motion | reel, vlog, process | ✅ | built into the layers | motion-design.md |

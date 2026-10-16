@@ -85,6 +85,63 @@ the reframe that lands on the viewer. One idea per reel, 25–45 s.
 - As a designer he can go further than them: redesign moments (before/after of a logo, a grid overlay on a pack),
   which they don't do. That's his edge.
 
+## Animation vocabulary: how things MOVE (measured frame by frame at 10 fps, 2026-10-16)
+The motion matters more than the look. Timings are from the references; use them as a feel, adapt per video.
+
+### Text
+- **Ghost → ink, word by word.** The phrase sits at ~15 % grey; each word goes dark in ~0.1 s exactly on its spoken
+  time. The key word appears on its own line, big, in the accent colour, with a quick fade-up (≈0.15 s), no bounce.
+- **Phrase exit = blur + drift up + fade together (≈0.2 s)**, and the next phrase starts on the very next frame. Never
+  an empty screen between phrases.
+- **Key word smear on a scene change**: the big word gets a vertical motion blur as the scene whips away.
+
+### Objects (the metaphor)
+- **Drawn on, not popped in.** The clover is constructed by a (photo cut-out) compass tracing it: ~0.8 s from line to
+  full shape. Showing HOW a thing is made is more interesting than a fade.
+- **Fill/progress as feedback**: an icon fills like a clock wipe (white → green, ~0.4 s) as the line says the key word.
+- **Breathing rings**: concentric dashed rings scale out with a soft overshoot and settle (≈0.5 s) on an "increase" word.
+- **Staggered pop-ins**: people icons appear one by one around the object (~0.05–0.1 s apart), a counter style for crowds.
+- **Objects react to the meaning**: when he calls an idea stupid, the progress bar snaps, tilts and falls out of frame
+  (gravity, ~0.8 s). The graphic acts out the line, it doesn't just illustrate it.
+- **Counters roll**: 5 → 6 → 7 one step at a time, each new digit popping in slightly small then scaling to full
+  (≈0.2 s per step); chart labels count up smoothly (₹0 → ₹700 over ~1.5 s, ease-out so it slows at the end), then a
+  range ("₹700–800") resolves after.
+- **UI acts like UI**: notifications slide down and stack, older ones push down and dim; a heart taps with burst lines;
+  a cursor clicks; the calendar fills day by day with small avatars (~1.5 s for a month, staggered by row).
+
+### Camera & transitions (between ideas only)
+- **Collapse to card**: the full-frame hook flashes light (one frame of washed-out tint) then shrinks into a small
+  rounded card in ~0.2–0.3 s; a little badge (the metaphor icon) is pinned on the card's corner.
+- **3D card fly-in**: a blank white card swings in with perspective (rotated → flat in ~0.4 s), THEN its contents
+  appear (~0.1 s later). Shape first, content second.
+- **Zoom-through**: the camera dives into one detail of the current graphic (the luck number) with heavy motion blur
+  (~0.6 s) and lands on that detail as the next scene. The next scene is "inside" the last one.
+- **Whip with motion blur** (≈0.2–0.3 s), horizontal or vertical, to the next scene; the new elements slide in from
+  the whip direction.
+- **Light → dark world switch**: a soft black gradient wipes up from the bottom over ~0.2 s for a new frame of thinking.
+- **Footage card swap**: the old clip blurs out as the new clip card fades in at the same spot (≈0.2 s), so the
+  layout never jumps.
+
+### YouTube (brand explainers)
+- **Chart build order**: a thin line draws across (0.3 s) → it opens into the chart card (0.3 s) → axes and labels
+  (0.5 s) → the bar rises while its value counts up (~1.5 s, ease-out) → the second bar → the multiplier tag pops last.
+  One element at a time; the viewer reads each before the next appears.
+- **Logo built from pieces**: the base word sets first, the brand's accent word and mark drop in after (~0.4 s each).
+- **Grid assemble**: product cards slide in from the side one by one with a quick stagger (~0.1 s) until the grid is full.
+- **Product + giant word**: the product cut-out tumbles in rotating and settles (~0.8 s); the huge brand word fades up
+  BEHIND it (depth: product in front of the type).
+- **Chapter cards as physical cards**: they fall/tumble in from the top with rotation, stack, then straighten into a
+  row (~3 s); later the others fly away leaving only the current chapter. Playful physics on a serious video.
+- **Diagram grows leftward with the story**: "1 kg" first, then "100 L →" slides in before it, then "10 kg" before
+  that, each new object fading up from black (~0.4 s). The chain builds in the order he says it.
+- **Cut back to A-roll is a plain hard cut** (no transition), which keeps the graphics feeling like "evidence inserts".
+
+### What this means for our engine
+Our motion (brain/motion-design.md) already has ease-out entrances, push-ins, counters, ui-mockup and card-stage.
+Missing and worth building, in order of use: ghost-text captions, chart build (bar/line/pie with this build order),
+zoom-through transition, 3D card fly-in, draw-on reveal for vector objects, object physics reactions (fall/snap),
+stacked-notification UI, collapse-to-card hook transition, tumbling chapter cards.
+
 ## Gaps in our toolkit (not built yet, 2026-10-16)
 - Ghost-text captions (whole phrase light grey, words darken as spoken, key word big in accent).
 - Animated charts: bar (grow + value counter + multiplier tag), line (self-drawing + end label), from real numbers.

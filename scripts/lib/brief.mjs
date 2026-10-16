@@ -21,7 +21,7 @@ export const READS = {
   layout: [['brain/edit-layers.md', 'Pass 3'], ['brain/explainers.md', 'What they do'], ['brain/canvas.md', 'What it can do'], ['brain/canvas.md', 'When to use it']],
   connectors: [['brain/edit-layers.md', 'Pass 4']],
   depth: [['brain/edit-layers.md', 'Pass 5']],
-  motion: [['brain/edit-layers.md', 'Pass 6'], ['brain/motion-design.md', 'Motion vocabulary'], ['brain/pablo.md', 'The method'], ['brain/canvas.md', 'When to use it']],
+  motion: [['brain/edit-layers.md', 'Pass 6'], ['brain/explainers.md', 'Animation vocabulary'], ['brain/motion-design.md', 'Motion vocabulary'], ['brain/pablo.md', 'The method'], ['brain/canvas.md', 'When to use it']],
   look: [['brain/color.md', 'Rules'], ['brain/color.md', 'Status']],
   sound: [['brain/edit-layers.md', 'Pass 7'], ['brain/memes.md', 'When a meme belongs'], ['brain/sounds.md', 'Moment → sound'], ['brain/sounds.md', 'Rules'], ['brain/sounds.md', 'Music by mood'], ['brain/sounds.md', 'Silence and transitions']],
   density: [['brain/edit-layers.md', 'Pass 8'], ['brain/principles.md', '3. Pattern interrupts']],
