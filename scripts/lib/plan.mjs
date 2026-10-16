@@ -612,7 +612,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     else if (x.kind === 'illo') {
       // a soft whoosh as the board arrives, then each act gets the sound of what it does (printer ticks per line…)
       add('soft-whoosh', x.f - 2, vol * 0.25, 4);
-      const ACT = {stamp: 'hit', on: 'pop', ping: 'tick', open: 'pop', pop: 'pop', fall: 'whoosh', add: 'tick', tear: 'soft-whoosh'};
+      const ACT = {stamp: 'hit', on: 'pop', ping: 'tick', open: 'pop', pop: 'pop', fall: 'whoosh', add: 'tick', tear: 'soft-whoosh', travel: 'soft-whoosh', pour: 'whoosh'};
       for (const it of x.items) {
         for (const a of it.acts ?? []) if (ACT[a.do]) add(ACT[a.do], x.f + a.at, vol * (a.do === 'stamp' ? 0.5 : 0.3));
         for (const p of it.pins ?? []) add('pop', x.f + p.at + Math.round(0.3 * fps), vol * 0.3);

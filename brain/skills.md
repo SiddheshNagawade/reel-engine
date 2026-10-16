@@ -148,3 +148,13 @@ The method for inventing visuals for ANY topic (frame-by-frame study of all 7 re
 hero object, noun → object / verb → motion dictionary, scenes born from the last one, timing. Read in the visuals and
 motion briefings; storyboard table in plan.md (technique 'state-storyboard'). Shot-by-shot notes: T7
 references/library/animation-study.md.
+
+## Path-follow + many-into-one (2026-10-17, src/layers/Illos.tsx, brain/animation-system.md §3)
+- **Travel**: `{obj: "route", points, bend, line: "road"|"dotted"|"line"|"trail", follow}` draws a path across the
+  board; any item travels with an act `{word, do: "travel", route: i | path: [[x,y]…] | target: i, bend, seconds, turn}`
+  and pops on landing (lands on the last word). Use for journeys, "drive luck your way", money/goods/data going A → B,
+  a signal travelling (trail). Not for decoration: only when his sentence moves something.
+- **Swarm into one**: `{obj: "swarm", of, n, grid, counter, into, result, acts: [{word, do: "pour"}]}` = many copies
+  (bottles, coins, people) pop in with a counter, then pour in arcs into the container item, which pops; the result
+  label lands ("100 L → 1 KG"). Use for concentration, effort → result, "it takes X to make Y".
+- New icons for both: bottle, person, drop, coin, jar (label text), car.

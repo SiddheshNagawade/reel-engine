@@ -134,11 +134,12 @@ Topic: "Why my design client paid ₹40,000 for a logo that took 2 hours."
 Every row = noun → object, verb → motion, born from the previous scene. That's the system.
 
 ## 9. What our engine has / what's missing for this (keep updated)
-Have: Illos objects (printer, globe, satellite, phone, laptop, bulb, coins, cash, beaker, clock, box, document + any
-SVG drawn on; acts: print, fill, stamp, orbit, pins, fall, shake), charts (bar/line/pie, word-timed bars, from/to
+Have: Illos objects (printer, globe, satellite, phone, laptop, bulb, coins, cash, beaker, clock, box, document, bottle,
+person, drop, coin, jar, car + any SVG drawn on; acts: print, fill, stamp, orbit, pins, fall, shake, TRAVEL along a
+route/arc; routes: road/dotted/line/trail; SWARM many-into-one with a counter and a result), charts (bar/line/pie, word-timed bars, from/to
 ranges, hatched band, shrink), counters, UI mockups (chat, notify, cursor), canvas camera, ghost captions, connectors.
 Missing (scripts/lib/techniques.mjs, built: false): analogy→real morph, crowd pictogram that spells a number,
-split/share block, many-into-one concentration, journey diagram with a running-total bar, path-follow travel, scene shrink-into-dot / dive-into zoom,
+split/share block, journey diagram with a running-total bar, scene shrink-into-dot / dive-into zoom,
 particle stream to a target, rotating wheel/cycle diagram, sliding-highlight list, sticky-note process chain with
 self-drawing arrows, rubber stamp on any object, tweet pile, chapter strip (cards darken / flip), hatched-range +
 handwritten chart annotations, logo-from-pieces.
