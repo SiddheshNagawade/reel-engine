@@ -319,7 +319,7 @@ for (const [i, fg] of (edit.foreground ?? []).entries()) {
 }
 // Pictures/clips used by inserts (reveals, card stages): {file} → copied into public/ only for the render.
 let mk = 0;
-for (const x of edit.inserts ?? []) {
+for (const x of [...(edit.inserts ?? []), ...(edit.kit ?? [])]) {
   for (const m of [x.before, x.after, x.media, ...(x.items ?? [])].filter((m) => m?.file)) {
     const file = [m.file, path.join(work, m.file), path.join(libraryRoot(), m.file)].find((p) => fs.existsSync(p));
     if (!file) { console.log(`  (insert media not found: ${m.file})`); continue; }

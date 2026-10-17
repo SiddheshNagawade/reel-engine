@@ -15,6 +15,7 @@ import {AttachLayer} from './motion/Attach';
 import {BehindInserts, InsertsLayer, RoomFrame} from './layers/Inserts';
 import {CanvasWorld} from './layers/Canvas';
 import {Probe} from './layers/Probe';
+import {KitCuts, KitLayer} from './layers/Vendor';
 
 // probe: only for the automatic frame review (scripts/review.mjs); measures where text/pictures sit, never in a normal render
 export const Reel: React.FC<{edit: Edit; probe?: boolean}> = ({edit, probe}) => {
@@ -34,6 +35,7 @@ export const Reel: React.FC<{edit: Edit; probe?: boolean}> = ({edit, probe}) => 
         })()}
         <BrollLayer edit={edit} />
         <TransitionOverlay edit={edit} />
+        <KitCuts edit={edit} />
         <EffectOverlay edit={edit} />
         <FilmTreatment />
       </AbsoluteFill>
@@ -46,6 +48,7 @@ export const Reel: React.FC<{edit: Edit; probe?: boolean}> = ({edit, probe}) => 
       <Popups edit={edit} />
       <MemeLayer edit={edit} />
       <InsertsLayer edit={edit} layer="over" />
+      <KitLayer edit={edit} />
       <AttachLayer items={edit.attach} motion={edit.motion} layer="screen" />
       {!edit.hookBehind && <Hook edit={edit} />}
       <HookLines edit={edit} />

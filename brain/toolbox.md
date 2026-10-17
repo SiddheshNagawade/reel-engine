@@ -13,12 +13,13 @@ Rule: a moment needs X → check HAVE → PORT → IDEA → only then build from
 ## Captions & text {captions,connectors}
 - HAVE: caption styles in style.json/theme (glow-grad…, ghost captions = whole phrase grey → ink, key word big),
   hero words, scatter text, designed titles (pablo), inverted title, text behind him, typewriter/wave/slam text card.
+- HAVE (ported, direction.kit): remocn marker-highlight (`use: 'marker'`), ink-underline (`'underline'`),
+  scribble-circle (`'scribble'`), rolling-number (`'rolling'`).
 - PORT remocn (MIT, `remocn/registry/remocn/`): 30+ caption styles: caption-karaoke, -highlight-box, -marker,
   -underline, -word-pop, -bounce-in, -blur-in, -stamp, -split-flap, -slot, -scramble, -redact, -typewriter,
   -handwrite, -teleprompter, -speaker, -prosody (size follows voice), -dim-progress, -knockout, -cube, -emoji.
 - PORT remocn text effects: kinetic-center-build, kinetic-morph-text, per-character-rise, per-word-crossfade,
-  word-push, word-stream, zoom-words, rolling-number, number-wheel, slot-machine-roll, value-swap, marker-highlight,
-  ink-underline, scribble-circle, strikethrough-replace, inline-pill-takeover, inline-word-roll, handwrite,
+  word-push, word-stream, zoom-words, number-wheel, slot-machine-roll, value-swap, strikethrough-replace, inline-pill-takeover, inline-word-roll, handwrite,
   shadow-sweep-text, shimmer-sweep, gradient-scale-cut-text, outline-fill-track-text, type-wall, type-repeater,
   rgb-glitch-text, matrix-decode, ring-text, rush-type, tracking-in, top-down-letters, bottom-up-letters.
 - PORT snapcn (MIT, `snapcn/registry/snap-cn/`): karaoke-captions, word-captions, punch-lines, text-swap, text-swell,
@@ -28,7 +29,8 @@ Rule: a moment needs X → check HAVE → PORT → IDEA → only then build from
 
 ## Visuals: charts, numbers, data {visuals}
 - HAVE: direction.charts (bar/line/pie, built one element at a time, hatched ranges), counters, real numbers, 3D bars (iso).
-- PORT remocn: animated-bar-chart, animated-line-chart, hand-count, rolling-number. snapcn: count-grid.
+- HAVE (ported): remocn rolling-number (direction.kit `use: 'rolling'`).
+- PORT remocn: animated-bar-chart, animated-line-chart, hand-count. snapcn: count-grid.
 - IDEA shotcraft `data/`: before-after slider scrub, gauge readout, timeline travel, chart live moves.
 - IDEA motion-skills pack list (iart-ai, MIT; the packs are separate repos, clone when needed): data-animation-skills,
   map-animation-skills (Vox-style editorial maps), explainer-video-skills, b-roll-skills (b-roll drawn from what is said).
@@ -52,8 +54,9 @@ Rule: a moment needs X → check HAVE → PORT → IDEA → only then build from
   findimg.mjs (Wikimedia, Openverse, GIPHY), secrets blur, card-stage. Evidence kit (direction.evidence):
   website capture + scroll recording (capture.mjs), article card with a yellow marker on one line, Source credit, SVG
   logos (logo.mjs), other creators' YouTube clips with a name tag (refs.mjs clip).
-- PORT snapcn: phone-frame, laptop-frame, screen-recording, capture-reveal, cursor-track, search-typing,
-  prompt-send, prompt-zoom, answer-stream, answer-highlight, agent-steps, terminal-simulator, channel-thread,
+- HAVE (ported, direction.kit): snapcn phone-frame (`use: 'phone'`), laptop-frame (`'laptop'`, dive into the screen),
+  screen-recording (`'screen'`, crop + camera push-ins), search-typing (`'search'`).
+- PORT snapcn: capture-reveal, cursor-track, prompt-send, prompt-zoom, answer-stream, answer-highlight, agent-steps, terminal-simulator, channel-thread,
   status-cycle, check-cycle, card-rail, orbit-gallery, moodboard-reveal, reel-collage, logo-assemble/-collapse/-drift.
 - PORT remocn-ui (`remocn/registry/remocn-ui/`): 48 animated UI pieces (imessage/telegram chat flows, checkout,
   signup, onboarding stepper, command menu, toast, typing indicator, settings toggle). remocn: claude-chat, chat-gpt,
@@ -74,18 +77,20 @@ Rule: a moment needs X → check HAVE → PORT → IDEA → only then build from
 
 ## Transitions {motion,cuts}
 - HAVE: whip, tilt3d, zoomblur, white light-leak, push, blur; shape-morph transition (direction.morphs), motion blur on fast graphics (direction.motionBlur).
-- PORT remocn: whip-pan, zoom-blur, wave-wipe, warp-dissolve, swirl-dissolve, smoke-dissolve, grain-dissolve,
-  pixelate-region, page-turn, glitch-cut, push-through, shared-axis-y/-z, slide-swap, mask-reveal-up, tv-power-off,
+- HAVE (ported, direction.kit, between two of his shots): remocn whip-pan, zoom-blur, page-turn, glitch-cut (CSS version).
+- PORT remocn: wave-wipe, warp-dissolve, swirl-dissolve, smoke-dissolve, grain-dissolve,
+  pixelate-region, push-through, shared-axis-y/-z, slide-swap, mask-reveal-up, tv-power-off,
   crumple-toss, fade-through, dither-dissolve, perlin-dissolve, particle-dissolve, ember-burn, ripple-zoom.
 - PORT claude-code-video-toolkit `lib/transitions`: glitch, rgbSplit, zoomBlur, lightLeak, clockWipe, pixelate, checkerboard.
 - IDEA shotcraft `transition/`: circle match iris, line-carry transition, card flip reveal, card flock tumble,
   tear streak, hidden cut, white-flash logo cut, mosaic reframe, transition travel.
 
 ## Backgrounds, effects, look {look,visuals}
-- HAVE: film look (grain, glow, vignette), light burst/glitch flash, confetti-style effects, subject separation (not built).
+- HAVE: film look (grain, glow, vignette), light burst/glitch flash, subject separation (direction.separate).
+- HAVE (ported, direction.kit): remocn confetti (`use: 'confetti'`), speed-lines (`'speedlines'`, focus/trail).
 - PORT remocn shaders (WebGL, check render cost first): mesh gradients (dusk, ember, ink, lagoon, mint, peach,
   synthwave…), grain gradients, liquid metal, god rays, light tunnel, smoke ring, water, caustics, voronoi; and
-  confetti, speed-lines, radial-burst, volumetric-rays, vhs-filter, crt-screen, halftone-print, hologram,
+  radial-burst, volumetric-rays, vhs-filter, crt-screen, halftone-print, hologram,
   security-cam, fog-rise, chromatic-wave, grid-wave, sheen-slide-in.
 - PORT claude-code-video-toolkit components: AnimatedBackground, FilmGrain, Vignette.
 

@@ -4,7 +4,7 @@ Generated from scripts/lib/techniques.mjs (`node scripts/editplan.mjs --coverage
 Every technique appears as a checklist line in its pass of every plan.md and must be marked used / not used (with a
 reason) before a render. Rules a computer can measure are also checked on the edit itself (scripts/lib/lint.mjs).
 
-129 techniques · 127 built · 1 still to build: Auto grade with a trained model (Image-Adaptive 3D LUT): PARKED, lost to raw on his footage · 1 parked on purpose (Subject/background separation grade)
+143 techniques · 141 built · 1 still to build: Auto grade with a trained model (Image-Adaptive 3D LUT): PARKED, lost to raw on his footage · 1 parked on purpose (Subject/background separation grade)
 
 | pass | technique | kinds | status | how | from |
 |---|---|---|---|---|---|
@@ -35,6 +35,10 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | cuts | Dissolve / dip to white | vlog, process | ✅ | "transition": {type: dissolve/white/black, d} | craft.md |
 | cuts | No clipped words at cuts | reel | ✅ | automatic (cut-audit.json) → editplan check | AI-editing blueprint (Jason Cooperson) |
 | cuts | Readable pace (shots ≳ 1 s) | reel, vlog, process | ✅ | checked automatically | preferences.md |
+| cuts | Whip-pan cut: old shot races out with stretch + directional blur, new shot races in | reel | ✅ | direction.kit [{use: 'whip-pan', at: word, direction: left/right/up/down, blur}] (snaps to the nearest real cut) | remocn whip-pan (MIT) |
+| cuts | Zoom-blur cut: old shot pushes past the lens, new one settles in soft → sharp | reel | ✅ | direction.kit [{use: 'zoom-blur', at, blur, rise}] | remocn zoom-blur (MIT) |
+| cuts | Page-turn cut: the old shot flips up like a sheet of paper (stop-motion poses), the new one is underneath | reel, process | ✅ | direction.kit [{use: 'page-turn', at, angle, poses}] | remocn page-turn (MIT) |
+| cuts | Glitch cut: bands tear sideways with pink/cyan flashes, hand over at different moments | reel | ✅ | direction.kit [{use: 'glitch-cut', at, intensity, slices, rgbSplit}] | remocn glitch-cut (MIT, CSS version) |
 | captions | Caption look for this video | reel, vlog | ✅ | theme.captionStyle · vlog subs + word times | preferences.md |
 | captions | Ghost-text captions: phrase builds line by line in light grey, words darken as spoken, key word big in the accent colour | reel | ✅ | direction.themeOverride.captionStyle = "ghost" (+ ghostInk "dark"/"light"; default dark ink on a light canvas.bg, white over footage). Phrases up to 8 words; the ONE key word per phrase = direction.emphasis (word index), drops in big in theme.accent on its own line. Pair with canvas mode + styleOverride.captions.top. src/layers/Captions.tsx Ghost | explainers.md (Varun Mayya reels) |
 | captions | Hero words exaggerated | reel, vlog | ✅ | direction.emphasis · *word* in subs | edit-layers.md |
@@ -86,6 +90,15 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | visuals | Vector character in the footage | reel, vlog | ✅ | npm run char (character-overlay skill) | preferences.md |
 | visuals | Vector illustration / icon | reel, vlog | ✅ | Library/stickers *.svg/png (assets.mjs) · reel: attach {what: "image", src} · vlog: gfx sticker / attach image | preferences.md |
 | visuals | Title card: serif caps + glowing script word | reel | ✅ | direction.cards mode "title" + accentWord | expensive.md |
+| visuals | Marker highlight: a highlighter sweeps behind one phrase of a line, on his word | reel, vlog | ✅ | direction.kit [{use: 'marker', at, before, highlight, after, markWord, bg: card/none, accent, x, y}] | remocn marker-highlight (MIT) |
+| visuals | Ink underline: a hand-inked brush stroke draws under a line | reel, vlog | ✅ | direction.kit [{use: 'underline', at, text, drawWord, accent}] | remocn ink-underline (MIT) |
+| visuals | Scribble circle: a loose hand-drawn loop circles a region (+ optional marker note) | reel, vlog | ✅ | direction.kit [{use: 'scribble', at, box: [x, y, w, h] fractions, drawWord, text}] | remocn scribble-circle (MIT) |
+| visuals | Rolling number (odometer digits, higher places rise in as reached) | reel, vlog | ✅ | direction.kit [{use: 'rolling', at, from, to, prefix, suffix, text, rollWord, rollFrames, separator}] | remocn rolling-number (MIT) |
+| visuals | Confetti burst (deterministic, gravity + flutter) | reel, vlog | ✅ | direction.kit [{use: 'confetti', at, x, y, fireWord, count, colors}] | remocn confetti (MIT) |
+| visuals | Phone frame: his screen recording / a screenshot inside an iPhone that rises / rotates in / floats, tilt or crane showcase | reel, vlog | ✅ | direction.kit [{use: 'phone', at, until, media: {file}/{word}, variant: flat/tilt/showcase, entrance, bg, cam: [{word, zoom, x, y}]}] | snapcn phone-frame (MIT) |
+| visuals | Laptop frame: lid opens, notch morphs to a label, camera dives into the screen until it fills the frame | reel, vlog | ✅ | direction.kit [{use: 'laptop', at, until, media, entrance: rise/open, text (notch label), notchWord, pushWord}] | snapcn laptop-frame (MIT) |
+| visuals | Screen recording as a shot: chrome cropped off, camera pushes in to the one spot that matters, holds, pulls back | reel, vlog | ✅ | direction.kit [{use: 'screen', at, until, media, crop: {top}, inset, cam: [{word/s, zoom, x, y, seconds}]}] | snapcn screen-recording (MIT) |
+| visuals | Search / AI prompt bar types a query with human rhythm, camera dollies in | reel, vlog | ✅ | direction.kit [{use: 'search', at, text, typeWord, icon: search/sparkle, surface: shadcn/glass, theme, bg}] | snapcn search-typing (MIT) |
 | layout | Canvas mode: canvas is the base, his footage one layer (card / circle / just him cut out), one camera over all | reel | ✅ | direction.canvas {bg, cam, footage, items} (brain/canvas.md) | canvas.md |
 | layout | Face budget for explainers: face for trust + turning points, graphics for facts (YouTube ~30 % face, max ~12 s; reels: hook + 1 proof line) | reel, vlog | ✅ | brain/explainers.md "Face vs graphics": write the face/graphic map per line in plan.md (layout pass) | explainers.md (measured on youtube-vw4L5sbC7LY + 4 reels) |
 | layout | Footage makes room (shrinks/moves, blurred fill) | reel | ✅ | direction.layouts {at, until, scale, x, y, fill: blur/color} | edit-layers.md |
@@ -117,6 +130,7 @@ reason) before a render. Rules a computer can measure are also checked on the ed
 | motion | Scatter text | reel, vlog | ✅ | reel: direction.cards mode "scatter" · vlog: gfx {type: "insert", kind: "scatter"} | motion-design.md |
 | motion | Light burst / glitch flash accent | reel, vlog | ✅ | reel: direction.bursts · vlog: gfx zoom flash / insert burst | motion-design.md |
 | motion | Push-through / 3D tilted plane / layout morph / cascade | reel, vlog | ✅ | reel: direction.pushes / planes / stages (morphs) / ui notify (cascade, stack: true) · vlog: insert push / plane | motion-design.md |
+| motion | Speed lines: manga focus lines rush in to a point (focus) or streaks behind a flying word (trail) | reel, vlog | ✅ | direction.kit [{use: 'speedlines', at, mode: focus/trail, x, y, fromPoint, text, lineWord}] | remocn speed-lines (MIT) |
 | look | His original colours + grain (v1 look) | reel, vlog | ✅ | style.film / vlog look | color.md |
 | look | Grade per clip, then one shared look | process, vlog | ✅ | process: exposure per segment | preferences.md |
 | look | Scopes before any grade change | reel, vlog, process | ✅ | scripts/colorcheck.py | color.md |

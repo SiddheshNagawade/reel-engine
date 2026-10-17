@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {libraryRoot} from './paths.mjs';
+import {buildKit} from './kit.mjs';
 
 const PUBLIC = path.resolve('public');
 const VIDEO_EXT = /\.(mp4|mov|m4v|webm)$/i;
@@ -439,6 +440,8 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const {at, until, seconds, delay, ...rest} = x;
     return sp ? [{...rest, ...sp}] : [];
   });
+  // ported component kit (remocn + snapcn, src/layers/Vendor.tsx): direction.kit [{use, at, …}], see scripts/lib/kit.mjs
+  const {kit, kitCuts, sounds: kitSounds} = buildKit({direction, byIndex, segments, fps, durationInFrames, span, media});
 
   // 8b. Screen effects: B&W/dark on beats, red burn on angry lines.
   const effects = beatSegs.map((sg) => ({f: sg.outFrame, frames: sg.frames, type: sg.beat?.effect ?? 'mono', end: 'cut'}));
@@ -721,6 +724,8 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     if (t.type === 'flash') add('hit', t.f, vol * 0.5);
     else if (t.type !== 'lightleak') add('whoosh', t.f - 8, vol * 0.45, 6);
   }
+  // kit sounds: plain folders (tick, whoosh…) via add, Library families (typing, count, reward, glitch) via libSound
+  for (const k of kitSounds) (['click', 'hit', 'pop', 'soft-whoosh', 'tick', 'whoosh'].includes(k.type) ? add : libSound)(k.type, k.f, vol * k.v, k.fade ?? 0);
 
   // Pinned open-loop headline: stays at the top until the payoff word, then disappears.
   const banner = direction?.banner?.text
@@ -782,6 +787,8 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     banner,
     cards,
     inserts,
+    kit,
+    kitCuts,
     layouts,
     captionMoves,
     hookBehind: !!(direction?.hookBehind && hookText),

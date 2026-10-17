@@ -9,6 +9,7 @@ import type {EvidenceSpec} from './layers/Evidence';
 import type {IlloSpec} from './layers/Illos';
 import type {IsoSpec} from './layers/Iso';
 import type {MorphSpec} from './layers/Morph';
+import type {KitItem, KitCut} from './layers/vendor/kit-types';
 // Everything is in output-timeline frames unless named src*.
 export type Segment = {srcFrame: number; outFrame: number; frames: number; zoom: number; freeze?: boolean; wb?: [number, number, number]};
 export type CapWord = {w: string; f0: number; f1: number; emph: boolean};
@@ -99,6 +100,8 @@ export type CaptionMove = {f: number; frames: number; top?: number; scale?: numb
 
 export type Edit = {
   inserts?: Insert[];
+  kit?: KitItem[]; // ported remocn/snapcn components (layers/Vendor.tsx, direction.kit)
+  kitCuts?: KitCut[]; // ported cut transitions between two of his shots (whip-pan, zoom-blur, page-turn, glitch-cut)
   layouts?: RoomLayout[];
   captionMoves?: CaptionMove[];
   attach?: Attach[];
