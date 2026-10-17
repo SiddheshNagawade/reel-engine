@@ -103,10 +103,11 @@ function deadStretches(mp4, maxS = 3) {
 function judge({frames, W, H}, edit, faceAt) {
   const fps = edit.fps, issues = new Map();
   const add = (sev, kind, label, f) => { const k = `${sev}|${kind}|${label}`; const v = issues.get(k); if (v) { v.f1 = f; v.n++; } else issues.set(k, {sev, kind, label, f0: f, f1: f, n: 1}); };
-  const capWords = (f) => new Set((edit.captions ?? []).filter((g) => f >= g.f0 - 2 && f <= g.f1 + 2).flatMap((g) => g.words.map((w) => norm(w.w))));
+  const capWords = (f) => new Set((edit.captions ?? []).filter((g) => f >= g.f0 - 2 && f <= g.f1 + 2).flatMap((g) => g.words.flatMap((w) => w.w.split(/\s+/).map(norm))));
   const keyOf = (it) => (it.k === 'text' ? 't:' + it.s : `m:${it.tag}:${Math.round((it.b[2] - it.b[0]) / 20)}x${Math.round((it.b[3] - it.b[1]) / 20)}`);
   const fs_ = [...frames.keys()].sort((a, b) => a - b);
   let prev = new Map(), prevF = -1e9;
+  const capFace = new Set();
   for (const f of fs_) {
     const items = frames.get(f), cap = capWords(f), byKey = new Map();
     for (const it of items) byKey.set(keyOf(it), it);
@@ -134,21 +135,30 @@ function judge({frames, W, H}, edit, faceAt) {
     }
     // a full-screen scene (solid backdrop or a full-frame drawing over everything) hides the footage: no face to protect
     const footage = items.filter((it) => it.tag === 'img').sort((a, b) => area(b.b) - area(a.b))[0];
-    const fullScene = !footage || items.some((it) => (it.tag === 'backdrop' || it.tag === 'svg') && area(it.b) > 0.8 * W * H && !footage.up.includes(it.id) && !it.up.includes(footage.id));
+    const fullScene = !footage || items.some((it) => it.tag === 'backdrop' && area(it.b) > 0.8 * W * H && !footage.up.includes(it.id) && !it.up.includes(footage.id));
     const face = fullScene ? null : faceAt?.(f / fps);
     if (face) {
       const fb = [face.b[0] * W, face.b[1] * H, (face.b[0] + face.b[2]) * W, (face.b[1] + face.b[3]) * H], fa = area(fb);
       for (const it of items) {
-        if (area(it.b) > 0.5 * W * H || !atRest(it)) continue; // the footage itself / full-screen scenes
+        if (area(it.b) > 0.5 * W * H || it.tag === 'overlay' || !atRest(it)) continue; // the footage itself / full-screen scenes
         if (it.k === 'media' && face.seen && inter(it.b, fb) > 0.9 * fa) continue; // the face is IN this picture (footage card, meme)
-        if (inter(it.b, fb) > 0.2 * fa) {
+        // covers a fifth of his face, or sits mostly ON his face (a small word on his mouth counts too)
+        if (inter(it.b, fb) > 0.2 * fa || inter(it.b, fb) > 0.4 * area(it.b)) {
           const cap = isCap(it);
-          add(cap ? 'WARN' : 'FAIL', cap ? 'caption over his face' : 'something covers his face', it.k === 'text' ? `"${label(it.s)}"` : (it.tag === 'card' ? 'a card/box' : `a picture (${it.tag})`), f);
+          if (cap) capFace.add(f); // one summary line, not one per caption
+          // stickers/cards/pictures on his face break a hard rule (FAIL); other text (hook lines, labels) is a judgement call
+          else if (it.k === 'text') add('WARN', 'text on his face', `"${label(it.s)}"`, f);
+          else add('FAIL', 'something covers his face', it.tag === 'card' ? 'a card/box' : `a picture (${it.tag})`, f);
         }
       }
     }
     prev = byKey; prevF = f;
   }
+  if (capFace.size) {
+    const fr = [...capFace].sort((a, b) => a - b);
+    issues.set('capface', {sev: 'WARN', kind: 'captions on his face', label: `in ${Math.round((100 * fr.length) / fs_.length)} % of the measured frames (move them down / off his mouth with captionMoves where it hurts)`, f0: fr[0], f1: fr.at(-1), n: fr.length});
+  }
+  if (process.env.REVIEW_DUMP) fs.writeFileSync(process.env.REVIEW_DUMP, JSON.stringify({W, H, frames: [...frames]}));
   return [...issues.values()];
 }
 

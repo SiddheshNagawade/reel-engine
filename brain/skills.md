@@ -205,7 +205,12 @@ block, picture and solid card on screen, after transforms and clipping) every 6t
 (a graphic flying in from outside is meant to be cut off): text cut off by the frame edge, text overlapping text, the
 same text twice, a card/picture/text over his face (Apple Vision on the render, face carried through a moment where
 something hides it; full-screen scenes skipped), text in the Instagram UI zones (warn). Sound: LUFS (-16..-14), true
-peak (<= -1), loudest moment. Dead stretches > 3 s (warn). Costs ~10–20 s on a short reel. FAIL = fix before he sees it.
+peak (<= -1), loudest moment. Dead stretches > 3 s (warn). FAIL = fix before he sees it.
+Severity: a card/sticker/picture on his face = FAIL (hard rule); other text on his face (hook lines) = WARN; captions on
+his face = one WARN line with the % of frames. Grain/vignette/leak overlays are ignored (only SOLID full-frame layers
+count as "the footage is hidden"). First real run (img-1391 v3, 39 s, 195 frames measured, ~4 min while other renders
+ran): hook text "ka idea" on his chin, "Raat ke" in the top UI zone, captions on his face in 63 % of frames, sound
+-15 LUFS / -1.5 dBTP. The standalone command restores the footage and his cut-outs from _work/ for the run.
 
 ## Motion blur on fast graphics (direction.motionBlur → Inserts.tsx), 2026-10-17
 From howseen-ai/claude-motion-design (MIT): 6 sub-frames blended over half a frame (180° shutter) via

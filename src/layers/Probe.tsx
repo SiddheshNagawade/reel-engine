@@ -65,7 +65,11 @@ function measure(): ProbeItem[] {
     const r = e.getBoundingClientRect(), a = r.width * r.height;
     if (a < FA * 0.003) continue;
     const b = visible(e, r);
-    if (b) out.push({k: 'media', tag: a > FA * 0.5 ? 'backdrop' : 'card', b: b.map(Math.round) as Box, id: idOf(e), up: []});
+    if (!b) continue;
+    // a full-frame layer only hides the footage when it is solid: grain, vignette and light-leak overlays are not
+    let o = 1; for (let p: Element | null = e; p && p !== document.body; p = p.parentElement) o *= Number(cs(p).opacity);
+    const solid = !!bgA && (bgA.length < 4 || bgA[3] >= 0.95) && o >= 0.95 && st.mixBlendMode === 'normal';
+    out.push({k: 'media', tag: a <= FA * 0.5 ? 'card' : solid ? 'backdrop' : 'overlay', b: b.map(Math.round) as Box, id: idOf(e), up: []});
   }
   for (const it of out) { const e = [...ids].find(([, i]) => i === it.id)?.[0]; if (e) it.up = ancestors(e); }
   return out;
