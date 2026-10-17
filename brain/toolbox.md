@@ -61,7 +61,7 @@ Rule: a moment needs X → check HAVE → PORT → IDEA → only then build from
   SplitScreen, PointingHand, LogoWatermark components (Remotion).
 
 ## Layout & camera {layout,motion}
-- HAVE: canvas mode, make-room layouts, collapse to card (planned), camera push/punch, intro zoom-out, push-through,
+- HAVE: canvas mode, make-room layouts, collapse to card, enter/exit moves on any insert (dive zoom-through, shrink to a dot, 3D fly-in, whips, sheet), camera push/punch, intro zoom-out, push-through,
   3D tilted plane, iso camera orbit.
 - PORT remocn: canvas-presentation, infinite-bento-pan, stage, scene-motion, camera-lens, lens-zoom, focus-pull,
   focus-blur-resolve, perspective-marquee, path-ride, polaroid, paper-sticker, mondrian-split, echo-stack.
@@ -72,7 +72,7 @@ Rule: a moment needs X → check HAVE → PORT → IDEA → only then build from
   layers, wall → one actor, carousel emphasis (references/motion-grammar.md).
 
 ## Transitions {motion,cuts}
-- HAVE: whip, tilt3d, zoomblur, white light-leak, push, blur; shape-morph transition being built (repos session).
+- HAVE: whip, tilt3d, zoomblur, white light-leak, push, blur; shape-morph transition (direction.morphs), motion blur on fast graphics (direction.motionBlur).
 - PORT remocn: whip-pan, zoom-blur, wave-wipe, warp-dissolve, swirl-dissolve, smoke-dissolve, grain-dissolve,
   pixelate-region, page-turn, glitch-cut, push-through, shared-axis-y/-z, slide-swap, mask-reveal-up, tv-power-off,
   crumple-toss, fade-through, dither-dissolve, perlin-dissolve, particle-dissolve, ember-burn, ripple-zoom.
@@ -81,7 +81,7 @@ Rule: a moment needs X → check HAVE → PORT → IDEA → only then build from
   tear streak, hidden cut, white-flash logo cut, mosaic reframe, transition travel.
 
 ## Backgrounds, effects, look {look,visuals}
-- HAVE: film look (grain, glow, vignette), light burst/glitch flash, confetti-style effects, subject separation (planned).
+- HAVE: film look (grain, glow, vignette), light burst/glitch flash, confetti-style effects, subject separation (not built).
 - PORT remocn shaders (WebGL, check render cost first): mesh gradients (dusk, ember, ink, lagoon, mint, peach,
   synthwave…), grain gradients, liquid metal, god rays, light tunnel, smoke ring, water, caustics, voronoi; and
   confetti, speed-lines, radial-burst, volumetric-rays, vhs-filter, crt-screen, halftone-print, hologram,
@@ -98,7 +98,7 @@ Rule: a moment needs X → check HAVE → PORT → IDEA → only then build from
 - HAVE: cut audit (clipped words), colour scopes, density count, render gate, viewer pass.
 - IDEA motion-video-kit: the "Gauntlet" (fresh critic on the actual render, item-by-item, ledger; critic prompts),
   frozen-time check (no still stretch > ~0.6 s), contact sheets. animate: review.mjs (text cut off/overlapping,
-  loudness) being ported by the repos session. claude-code-video-toolkit: tools/qc.py.
+  loudness): HAVE as scripts/lib/review.mjs, runs after every render, read in Pass 10. claude-code-video-toolkit: tools/qc.py.
 
 ## AI generation (needs a cloud GPU or a paid API; only when nothing real fits, and say so)
 - IDEA claude-code-video-toolkit tools: flux2 / ideogram4 (images), ltx2 (video clips), qwen3_tts (voice),
