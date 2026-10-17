@@ -49,8 +49,9 @@ Rule: a moment needs X → check HAVE → PORT → IDEA → only then build from
 
 ## Visuals: screens, UI, evidence {visuals,asks}
 - HAVE: ui-mockup (chat, notifications, button + cursor), float-card (page behind his head), photo-rise,
-  findimg.mjs (Wikimedia, Openverse, GIPHY), secrets blur, card-stage. Being built (evidence kit session): website
-  capture + scroll recording, article highlight, source credit, SVG logos, YouTube clips as evidence.
+  findimg.mjs (Wikimedia, Openverse, GIPHY), secrets blur, card-stage. Evidence kit (direction.evidence):
+  website capture + scroll recording (capture.mjs), article card with a yellow marker on one line, Source credit, SVG
+  logos (logo.mjs), other creators' YouTube clips with a name tag (refs.mjs clip).
 - PORT snapcn: phone-frame, laptop-frame, screen-recording, capture-reveal, cursor-track, search-typing,
   prompt-send, prompt-zoom, answer-stream, answer-highlight, agent-steps, terminal-simulator, channel-thread,
   status-cycle, check-cycle, card-rail, orbit-gallery, moodboard-reveal, reel-collage, logo-assemble/-collapse/-drift.
