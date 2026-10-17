@@ -211,3 +211,13 @@ From howseen-ai/claude-motion-design (MIT): 6 sub-frames blended over half a fra
 @remotion/motion-blur, only on full-screen chart/illo/iso/board scenes (no footage inside). Measured: 8 s of pure
 graphics rendered in 35.5 s with blur vs 32.7 s without (~+10 %). `true` or `{kinds, samples, shutter}`; `--no-blur`
 skips it for drafts. Fast exits show slight stepping at 6 samples: use 8 there. Not for footage or reading text.
+
+## Maps, chart notes, subject separation (2026-10-17)
+- **direction.maps** (src/layers/Map.tsx): real country shapes with India's OFFICIAL borders (Natural Earth "IND" view,
+  Library/maps/world-ind.geojson on the T7). view keys glide the camera (one country → world, or world → India), fills
+  colour countries one by one, pins drop with a label, routes draw an arc with a travelling dot, title pops. Never use
+  a random map image from the internet for India (wrong borders are a legal and audience problem). No state borders yet.
+- **charts[].notes**: hand-written marker arrow + note between two bars, after the bars land, on his word.
+- **direction.separate**: face-following light that separates him from the background without a mask (no halo).
+  Use on flat/busy backgrounds; subtle (amount ≤ 0.5); not on canvas cards where he's already separated.
+- autograde stays PARKED on purpose (the trained model lost to his raw footage, 2026-10-15).

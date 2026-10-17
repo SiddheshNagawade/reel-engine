@@ -36,6 +36,9 @@ export type ChartSpec = {
   prefix?: string; suffix?: string; decimals?: number;
   // bar
   bars?: ChartBar[];
+  // hand-written marker notes (the protein video's "~2.4x the USA"): a curved arrow draws from bar `from` to bar `to`
+  // (or just a note above bar `from`), then the text writes itself in marker; at = frames (from `word`)
+  notes?: {text: string; from: number; to?: number; at?: number; color?: string}[];
   multiplier?: {text: string; from?: number; to?: number; at?: number}; // tag between bar `from` and bar `to` (default first → last); at = frames (from `word`)
   // line
   points?: number[]; xLabels?: string[]; endLabel?: string; area?: boolean;
@@ -189,6 +192,34 @@ const Bars: React.FC<{x: ChartSpec; c: C}> = ({x, c}) => {
           </>
         );
       })()}
+      {(x.notes ?? []).map((nt, k) => {
+        const A = geo[nt.from], B = nt.to != null ? geo[nt.to] : null;
+        if (!A) return null;
+        const at = nt.at ?? lastDone + 6 + k * Math.round(0.8 * c.fps);
+        const p = interpolate(c.t, [at, at + Math.round(0.45 * c.fps)], [0, 1], {...clamp, easing: Easing.inOut(Easing.quad)});
+        if (p <= 0) return null;
+        const col = nt.color ?? c.ink;
+        const ay = B ? base - A.hEnd + c.fs * 0.9 : Math.max(c.plot.t + c.fs * 2.6, base - A.hEnd - c.fs * 2.2); // with a target: starts from the bar's side, under its value
+        if (!B) {
+          return <div key={k} style={{position: 'absolute', left: A.cx - c.fs * 4, width: c.fs * 8, top: ay - c.fs * 1.6, textAlign: 'center', fontFamily: fonts.marker, fontSize: c.fs * 0.85,
+            color: col, transform: 'rotate(-4deg)', clipPath: `inset(0 ${(1 - p) * 100}% 0 0)`}}>{nt.text}</div>;
+        }
+        const by = Math.max(c.plot.t + c.fs * 2.6, base - B.hEnd - c.fs * 2.2);
+        const x1 = A.cx + bw * 0.55, x2 = B.cx, top = Math.max(c.plot.t + c.fs * 1.6, Math.min(ay, by) - c.fs * 1.8); // stays clear of the title
+        const d = `M${x1},${ay} Q${(x1 + x2) / 2},${top} ${x2},${by}`;
+        const ang = Math.atan2(by - top, x2 - (x1 + x2) / 2), hl = c.fs * 0.5;
+        return (
+          <React.Fragment key={k}>
+            <svg width={c.cw} height={c.ch} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+              <path d={d} pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - p} fill="none" stroke={col} strokeWidth={c.fs * 0.13} strokeLinecap="round" />
+              {p > 0.95 && <path d={`M${x2 - Math.cos(ang - 0.5) * hl},${by - Math.sin(ang - 0.5) * hl} L${x2},${by} L${x2 - Math.cos(ang + 0.5) * hl},${by - Math.sin(ang + 0.5) * hl}`}
+                fill="none" stroke={col} strokeWidth={c.fs * 0.13} strokeLinecap="round" strokeLinejoin="round" />}
+            </svg>
+            <div style={{position: 'absolute', left: (x1 + x2) / 2 - c.fs * 1.5, width: c.fs * 10, top: top - c.fs * 1.15, textAlign: 'left', fontFamily: fonts.marker, fontSize: c.fs * 0.85,
+              color: col, transform: 'rotate(-4deg)', clipPath: `inset(0 ${(1 - interpolate(c.t, [at + Math.round(0.3 * c.fps), at + Math.round(0.9 * c.fps)], [0, 1], clamp)) * 100}% 0 0)`}}>{nt.text}</div>
+          </React.Fragment>
+        );
+      })}
     </>
   );
 };

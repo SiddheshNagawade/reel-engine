@@ -31,6 +31,7 @@ import {Scene} from '../templates/Scene';
 import {Words, Stack, Photo, FloatCard} from './TitleText';
 import {Chart} from './Charts';
 import {Board} from './Boards';
+import {MapBoard} from './Map';
 import {Moved, Breather, Credit} from './Moves';
 import {Evidence} from './Evidence';
 import {Illo, IlloFull} from './Illos';
@@ -52,7 +53,7 @@ export const TEXT_KINDS = new Set(['scatter', 'scene', 'words', 'stack']);
 // One size unit that works in 9:16 (= width) and 16:9 (= a phone-width column of the height), so the same
 // graphics serve reels and vlogs.
 const unitOf = (W: number, H: number) => Math.min(W, H * 0.5625);
-const isFull = (x: Insert) => FULL_KINDS.has(x.kind) || (x.kind === 'counter' && x.style !== 'overlay') || (x.kind === 'chart' && x.style !== 'card') || (x.kind === 'illo' && x.style === 'full') || (x.kind === 'board' && x.style !== 'over') || (x.kind === 'iso' && x.style !== 'over');
+const isFull = (x: Insert) => FULL_KINDS.has(x.kind) || (x.kind === 'counter' && x.style !== 'overlay') || (x.kind === 'chart' && x.style !== 'card') || (x.kind === 'illo' && x.style === 'full') || (x.kind === 'board' && x.style !== 'over') || (x.kind === 'map' && x.style !== 'over') || (x.kind === 'iso' && x.style !== 'over');
 
 // ── chat ────────────────────────────────────────────────────────────────────────────────────────────────────────
 const CHAT = {
@@ -345,6 +346,7 @@ const Overlay: React.FC<{x: Insert; t: number}> = ({x, t}) => {
     case 'chart': return <Chart x={x} t={t} />;
     case 'illo': return <Illo x={x} t={t} />;
     case 'board': return <Board x={x} t={t} />;
+    case 'map': return <MapBoard x={x} t={t} />;
     case 'breather': return <Breather x={x} t={t} />;
     case 'credit': return <Credit x={x} t={t} />;
     case 'evidence': return <Evidence x={x} t={t} />;
@@ -362,6 +364,7 @@ const Full: React.FC<{x: Insert}> = ({x}) => {
     case 'chart': return <ChartFull x={x} />;
     case 'illo': return <IlloFull x={x} />;
     case 'board': return <BoardFull x={x} />;
+    case 'map': return <MapFull x={x} />;
     case 'iso': return <IsoFull x={x} />;
     default: return null;
   }
@@ -370,6 +373,7 @@ const Full: React.FC<{x: Insert}> = ({x}) => {
 const IsoFull: React.FC<{x: Extract<Insert, {kind: 'iso'}>}> = ({x}) => <Iso x={x} t={useCurrentFrame()} />;
 const ChartFull: React.FC<{x: Extract<Insert, {kind: 'chart'}>}> = ({x}) => <Chart x={x} t={useCurrentFrame()} />;
 
+const MapFull: React.FC<{x: Extract<Insert, {kind: 'map'}>}> = ({x}) => <MapBoard x={x} t={useCurrentFrame()} />;
 const BoardFull: React.FC<{x: Extract<Insert, {kind: 'board'}>}> = ({x}) => <Board x={x} t={useCurrentFrame()} />;
 
 // One insert drawn at its own local time t (used by the vlog pieces, which place it in their own Sequence).
@@ -393,7 +397,7 @@ export const InsertsLayer: React.FC<{edit: Edit; layer: 'full' | 'over'}> = ({ed
     <>
       {list.map((x, i) =>
         layer === 'full' ? (
-          <Sequence key={i} from={x.f} durationInFrames={x.frames} layout="absolute-fill"><Moved x={x} t={frame - x.f} backdrop={(x as {bg?: unknown}).bg && typeof (x as {bg?: unknown}).bg === 'string' ? (x as {bg: string}).bg : x.kind === 'board' ? '#efe9dc' : x.kind === 'illo' ? '#f3eee4' : undefined}><Blurred edit={edit} x={x}><Full x={x} /></Blurred></Moved></Sequence>
+          <Sequence key={i} from={x.f} durationInFrames={x.frames} layout="absolute-fill"><Moved x={x} t={frame - x.f} backdrop={(x as {bg?: unknown}).bg && typeof (x as {bg?: unknown}).bg === 'string' ? (x as {bg: string}).bg : x.kind === 'board' ? '#efe9dc' : x.kind === 'map' ? ((x as {bg?: string}).bg ?? '#0f7a55') : x.kind === 'illo' ? '#f3eee4' : undefined}><Blurred edit={edit} x={x}><Full x={x} /></Blurred></Moved></Sequence>
         ) : frame >= x.f && frame < x.f + x.frames ? (
           <AbsoluteFill key={i} style={{pointerEvents: 'none'}}><Moved x={x} t={frame - x.f}><Overlay x={x} t={frame - x.f} /></Moved></AbsoluteFill>
         ) : null,

@@ -113,6 +113,23 @@ export const VideoTrack: React.FC<{edit: Edit; behind?: React.ReactNode}> = ({ed
           />
         </Sequence>
       ))}
+      {/* SUBJECT SEPARATION (direction.separate): a light that follows his face. No mask, so no halo (the person-mask
+          try left one): a soft warm lift around the head + shoulders, the rest of the frame falls off darker. Inside the
+          camera layer, so it moves with every zoom. */}
+      {(() => {
+        const sp = edit.separate;
+        if (!sp) return null;
+        if (sp.ranges && !sp.ranges.some(([a, b]) => frame >= a && frame < b)) return null;
+        const fc = faceAt(edit.faces, frame, 8) ?? [0.5, 0.38];
+        const a = sp.amount ?? 0.35, w = sp.warm ?? 0.5, r = (sp.size ?? 1) * 46;
+        const cx = fc[0] * 100, cy = fc[1] * 100 + 8; // a little below the face: head + shoulders
+        return (
+          <>
+            <AbsoluteFill style={{mixBlendMode: 'multiply', background: `radial-gradient(${r}% ${r * 0.72}% at ${cx}% ${cy}%, rgba(255,255,255,1) 35%, rgba(${Math.round(255 - 150 * a)},${Math.round(255 - 150 * a)},${Math.round(255 - 140 * a)},1) 100%)`}} />
+            <AbsoluteFill style={{mixBlendMode: 'soft-light', background: `radial-gradient(${r * 0.7}% ${r * 0.5}% at ${cx}% ${cy - 6}%, rgba(255,${Math.round(214 + 20 * (1 - w))},${Math.round(170 + 60 * (1 - w))},${0.35 * a + 0.1}) 0%, rgba(255,220,180,0) 100%)`}} />
+          </>
+        );
+      })()}
       {/* text / props that sit behind the person, then the person cut-out on top of it */}
       {behind}
       <AttachLayer items={edit.attach} motion={edit.motion} layer="behind" />

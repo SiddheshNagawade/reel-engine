@@ -141,5 +141,6 @@ drop, coin, jar, car, flashlight + any SVG drawn on) with acts (print, fill, sta
 morph, pop) and board items (route, swarm, crowd, share, journey, stream); boards (list, chain, wheel, chapters, pile);
 charts (bar/line/pie, word-timed, ranges, shrink); counters; UI mockups; ghost captions; moves on any insert (dive,
 dot, fly3d, whips, sheet); breathers; credits; collapse to card (canvas footage keys). How to call each: brain/skills.md.
-Still worth adding when a video needs it: real 3D (brain/iso.md has the isometric 3D look), maps of specific countries
-(only the world globe exists), and hand-drawn marker annotations on charts.
+Also built 2026-10-17: country maps (India's official borders, direction.maps), hand-written marker notes on charts.
+Still worth adding when a video needs it: Indian state borders (needs an official-boundary source), real 3D (brain/iso.md
+has the isometric 3D look).

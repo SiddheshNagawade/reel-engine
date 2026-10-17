@@ -6,6 +6,7 @@ import {loadFont as anton} from '@remotion/google-fonts/Anton';
 import {loadFont as chewy} from '@remotion/google-fonts/Chewy';
 import {loadFont as poppins} from '@remotion/google-fonts/Poppins';
 import {loadFont as dmSerif} from '@remotion/google-fonts/DMSerifDisplay';
+import {loadFont as marker} from '@remotion/google-fonts/PermanentMarker';
 
 export const fonts = {
   montserrat: montserrat('normal', {weights: ['800', '900'], subsets: ['latin']}).fontFamily,
@@ -16,6 +17,7 @@ export const fonts = {
   chewy: chewy('normal', {weights: ['400'], subsets: ['latin']}).fontFamily,
   poppins: poppins('normal', {weights: ['600', '800'], subsets: ['latin']}).fontFamily,
   dmSerif: dmSerif('normal', {weights: ['400'], subsets: ['latin']}).fontFamily,
+  marker: marker('normal', {weights: ['400'], subsets: ['latin']}).fontFamily, // hand-written chart notes
 };
 
 // Kept for older imports.

@@ -3,6 +3,7 @@ import type {SceneSpec} from './templates/Scene';
 import type {WordsSpec, StackSpec, PhotoSpec, CardSpec} from './layers/TitleText';
 import type {ChartSpec} from './layers/Charts';
 import type {BoardSpec} from './layers/Boards';
+import type {MapSpec} from './layers/Map';
 import type {MoveSpec, BreatherSpec, CreditSpec} from './layers/Moves';
 import type {EvidenceSpec} from './layers/Evidence';
 import type {IlloSpec} from './layers/Illos';
@@ -86,6 +87,7 @@ export type Insert = InsertBase & (
   | ({kind: 'chart'} & ChartSpec)
   | ({kind: 'illo'} & IlloSpec)
   | ({kind: 'board'} & BoardSpec)
+  | ({kind: 'map'} & MapSpec)
   | ({kind: 'breather'} & BreatherSpec)
   | ({kind: 'credit'} & CreditSpec)
   | ({kind: 'evidence'} & EvidenceSpec)
@@ -110,6 +112,8 @@ export type Edit = {
   hookBehind?: boolean;
   foreground?: {f: number; frames: number; src?: string; canvas?: boolean}[];
   // motion blur for fast graphics (claude-motion-design: sub-frames blended on a 180° shutter); kinds default chart/illo/iso/board
+  // subject separation: a soft light follows his face (warmer, a touch brighter), the background falls off darker
+  separate?: {amount?: number; warm?: number; size?: number; ranges?: [number, number][]} | null;
   motionBlur?: {kinds?: string[]; samples?: number; shutter?: number} | null;
   canvas?: CanvasSpec | null; // canvas mode: footage is one layer on a canvas under one camera (layers/Canvas.tsx)
   endFade?: number;
