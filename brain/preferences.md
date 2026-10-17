@@ -249,3 +249,9 @@ contradictions resolved). After every round of feedback: add the dated note here
 - 2026-10-17: "find GitHub repos yourself, take the code, keep them; the brain must know what tools exist so it never
   misses something it could have built." → 19 repos (MIT/Apache) cloned to the T7 toolbox/repos, mapped in
   brain/toolbox.md (HAVE / PORT / IDEA by pass, read in every briefing), scripts/toolbox.mjs to search them.
+- 2026-10-17: on the evidence cards (article/website captures): "even if the screenshots are long, scroll them and present
+  them so they're visible in the video: zoom and properly show it. Highlight the line or word that is being spoken, the
+  way other YouTube videos do. Animate the website by scrolling: highlight words at the top, and if another topic is
+  spoken from the same website, fast scroll and slow down when you reach that location." → direction.evidence page
+  TOURS (stops: fast scroll with a slight zoom-out and motion blur, slow arrival, each stop's line marked on his word),
+  every stop zoomed to a readable size (the camera glides along long lines with the marker).

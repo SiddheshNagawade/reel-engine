@@ -82,6 +82,9 @@ sections at the moment of the decision.
 - Places and systems people should SEE (a city, factory, supply chain, store, farm) can be an isometric 3D-look scene
   (direction.iso, brain/iso.md) in explainers when the topic fits; one per section, on his words. Charts stay 2D (2026-10-17).
 - Screens on camera: private info (numbers, emails, UPI, OTPs, keys) is always blurred.
+- Website/article evidence is never a page "to read": zoom until the text is readable in the video, scroll to the part he
+  is talking about and highlight THAT line/word as he says it (yellow marker sweep). Several parts of one page = one
+  page tour: fast scroll between them, slow down on arrival, mark the next line (direction.evidence stops) (2026-10-17).
 - Explainers: the face is the trust, graphics are the facts (2026-10-17, measured on Anurag Bansal / Varun Mayya,
   brain/explainers.md "Face vs graphics"). Label every line FACT → graphic, QUESTION/TURN → face 2–4 s or breather
   text, OPINION/PROOF/JOKE → face. YouTube ≈ 30–40 % face, never > 12 s of face without a visual, face grows toward

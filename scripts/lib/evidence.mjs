@@ -1,6 +1,7 @@
 // direction.evidence → ready for the plan: reads the sidecar .json that capture.mjs / refs.mjs clip wrote next to each
 // capture or clip, so the direction only names WHAT to show and which line to mark:
 //   {at, until|seconds, look: "page", page: "captures/<id>", mark: 0 | [0, 1], zoomWord, markWord, source?}
+//   tour of one page: {…, look: "page", page, stops: [{word, mark: 0, markWord}, {word, mark: 2, markWord}…]}
 //   {at, until|seconds, look: "clip", clip: "clips/<id>", name?, role?, source?, volume: 1}
 //   {at, until|seconds, look: "logo", logo: "stickers/logo-zomato/sticker.svg", title: "Zomato", bg: "#E23744"}
 // Paths are relative to _work/<reel>/ (captures, clips) or the Library (logos); reel.mjs stages the files.
@@ -19,6 +20,8 @@ export function resolveEvidence(direction, work) {
       x.media = {file: `${x.page}.jpg`};
       x.pageSize = {w: meta.width, h: meta.height};
       x.marks ??= idx.flatMap((i) => meta.found?.[i]?.rects ?? []);
+      // a page TOUR: stops [{word, mark, markWord}] → each stop's lines (fast scroll there on word, mark on markWord)
+      for (const st of x.stops ?? []) st.marks ??= [].concat(st.mark ?? []).flatMap((i) => meta.found?.[i]?.rects ?? []);
       x.site ??= new URL(meta.url).hostname.replace(/^www\./, '');
       x.source ??= meta.site;
     } else if (x.look === 'clip' && x.clip) {

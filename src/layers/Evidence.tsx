@@ -1,7 +1,8 @@
 // EVIDENCE inserts for explainers (brain/explainers.md Style B): the proof behind a claim, shown as a card that flies
 // in from below the frame and leaves through the top, with a "Source: …" credit (and a name tag for people's clips).
 //   page  a website / article capture (scripts/capture.mjs): browser bar with the site, the camera starts at the top of
-//         the page, moves to ONE line on zoomAt and a yellow marker sweeps across it (line by line) on markAt
+//         the page, moves to ONE line on zoomAt and a yellow marker sweeps across it (line by line) on markAt; or a
+//         TOUR (stops): fast scroll to each part he talks about, slow arrival, its line marked as he says it
 //   clip  a few seconds of someone else's video (scripts/refs.mjs clip): video card + creator name tag + source
 //   logo  a brand logo (scripts/logo.mjs, SVG) pops in on the brand's colour or white
 // The footage behind steps back (blurred + darkened by default): the evidence is the ONE main element (rules.md).
@@ -16,6 +17,7 @@ export type EvidenceSpec = {
   media: MediaRef;
   page?: {w: number; h: number}; // capture size in page px (the .json next to the capture)
   marks?: [number, number, number, number][]; // lines to highlight [x, y, w, h] in page px (capture.mjs --find)
+  stops?: {at: number; marks: [number, number, number, number][]; markAt?: number}[]; // a page TOUR: the camera scrolls fast to each stop on its word, slows down, marks its lines
   zoomAt?: number; // frames from the start: the camera moves to the marked line (default ~0.5 s)
   markAt?: number; // frames from the start: the marker sweeps (default: when the camera arrives)
   site?: string; // text in the browser bar (default: none → no bar)
@@ -71,72 +73,93 @@ const PageCard: React.FC<{x: EvidenceSpec & {frames: number}; t: number; W: numb
   const bar = x.site ? U * 0.075 : 0;
   const vw = cw, vh = ch - bar;
   const pw = x.page?.w ?? 1280, ph = x.page?.h ?? 4000;
-  const marks = x.marks ?? [];
-  // camera: A = top of the page (fit width) → B = the marked lines, as big as fits
+  // camera: A = top of the page (fit width), then a TOUR of stops: each stop = the lines he's talking about, at a
+  // readable size. Between stops the page scrolls FAST (zooming out a little, motion blur) and slows right down on
+  // arrival; the marker sweeps each stop's lines on his word. One stop = the single-line card.
   const s0 = vw / pw;
   const camAt = (s: number, cx: number, cy: number) => {
     const hx = vw / (2 * s), hy = vh / (2 * s);
     return {s, cx: pw * s <= vw ? pw / 2 : Math.min(Math.max(cx, hx), pw - hx), cy: ph * s <= vh ? ph / 2 : Math.min(Math.max(cy, hy), ph - hy)};
   };
+  type Cam = ReturnType<typeof camAt>;
   const A = camAt(s0, pw / 2, 0);
-  // marker timing: lines swept one after another, each in proportion to its length
-  const zoomAt = x.zoomAt ?? Math.round(0.5 * fps);
-  const total = marks.reduce((a, m) => a + m[2], 0) || 1;
-  const sweepF = Math.round(Math.min(2.2, 0.5 + marks.length * 0.45) * fps);
-  const lineK = (tt: number, markAt: number) => {
+  const readyStops = (x.stops?.length ? x.stops : x.marks?.length ? [{at: x.zoomAt ?? Math.round(0.5 * fps), marks: x.marks, markAt: x.markAt}] : [])
+    .filter((st) => st.marks?.length).sort((p, q) => p.at - q.at);
+  const plans = readyStops.map((st) => {
+    const marks = st.marks;
+    const total = marks.reduce((a, m) => a + m[2], 0) || 1;
+    const sweepF = Math.round(Math.min(2.2, 0.5 + marks.length * 0.45) * fps);
+    const lh = [...marks.map((m) => m[3])].sort((p, q) => p - q)[Math.floor(marks.length / 2)];
+    const x0 = Math.min(...marks.map((m) => m[0])), x1 = Math.max(...marks.map((m) => m[0] + m[2]));
+    const y0 = Math.min(...marks.map((m) => m[1])), y1 = Math.max(...marks.map((m) => m[1] + m[3]));
+    // readable size (a desktop page shown whole is unreadable in a reel): the whole block if it fits, otherwise
+    // zoomed in on the line and the camera glides along with the marker tip
+    const fit = Math.min((vw * 0.88) / (x1 - x0), (vh * 0.45) / (y1 - y0));
+    const readable = (U * (tall ? 0.036 : 0.03)) / lh;
+    const sB = Math.min(Math.max(fit, readable, s0), s0 * 4);
+    const follow = fit < readable * 0.95;
+    const B = follow ? camAt(sB, marks[0][0] + (vw / (2 * sB)) * 0.85, marks[0][1] + marks[0][3] / 2) : camAt(sB, (x0 + x1) / 2, (y0 + y1) / 2);
+    return {st, marks, total, sweepF, x0, x1, y0, y1, fit, readable, sB, follow, B, markAt: 0, moveF: 0};
+  });
+  const lineK = (pl: (typeof plans)[number], tt: number) => {
     let acc = 0;
-    return marks.map((m) => {
-      const a = acc / total, b = (acc + m[2]) / total;
+    return pl.marks.map((m) => {
+      const a = acc / pl.total, b = (acc + m[2]) / pl.total;
       acc += m[2];
-      return interpolate(tt, [markAt + a * sweepF, markAt + b * sweepF], [0, 1], {...clamp, easing: Easing.out(Easing.quad)});
+      return interpolate(tt, [pl.markAt + a * pl.sweepF, pl.markAt + b * pl.sweepF], [0, 1], {...clamp, easing: Easing.out(Easing.quad)});
     });
   };
-  // B = the marked text at a READABLE size (a desktop page shown whole is unreadable in a reel): the whole marked
-  // block if it fits, otherwise zoomed in on the line and the camera glides along with the marker tip
-  let B = A, moveF = 0;
-  const lh = marks.length ? [...marks.map((m) => m[3])].sort((p, q) => p - q)[Math.floor(marks.length / 2)] : 16;
-  const x0 = Math.min(...marks.map((m) => m[0])), x1 = Math.max(...marks.map((m) => m[0] + m[2]));
-  const y0 = Math.min(...marks.map((m) => m[1])), y1 = Math.max(...marks.map((m) => m[1] + m[3]));
-  const fit = marks.length ? Math.min((vw * 0.88) / (x1 - x0), (vh * 0.45) / (y1 - y0)) : s0;
-  const readable = (U * (tall ? 0.036 : 0.03)) / lh;
-  const sB = Math.min(Math.max(fit, readable, s0), s0 * 4);
-  const follow = marks.length > 0 && fit < readable * 0.95;
-  const tip = (tt: number, markAt: number) => {
-    const ks = lineK(tt, markAt);
+  const tip = (pl: (typeof plans)[number], tt: number) => {
+    const ks = lineK(pl, tt);
     let i = ks.findIndex((k) => k < 1);
-    if (i < 0) i = marks.length - 1;
-    const m = marks[i];
+    if (i < 0) i = pl.marks.length - 1;
+    const m = pl.marks[i];
     return [m[0] + m[2] * ks[i], m[1] + m[3] / 2];
   };
-  if (marks.length) {
-    const hx = vw / (2 * sB);
-    B = follow ? camAt(sB, marks[0][0] + hx * 0.85, marks[0][1] + marks[0][3] / 2) : camAt(sB, (x0 + x1) / 2, (y0 + y1) / 2);
-    moveF = Math.round(Math.min(1.6, 0.8 + Math.abs(B.cy - A.cy) / 4000) * fps);
-  }
-  const markAt = x.markAt ?? zoomAt + moveF;
-  const p = marks.length ? interpolate(t, [zoomAt, zoomAt + moveF], [0, 1], {...clamp, easing: easeIO}) : 0;
-  const sc = Math.exp(Math.log(A.s) + (Math.log(B.s) - Math.log(A.s)) * p);
-  let cx = A.cx + (B.cx - A.cx) * p, cy = A.cy + (B.cy - A.cy) * p;
-  if (follow && t > markAt) {
-    // smoothed tip (average over ±0.3 s) keeps the glide calm when the marker jumps to the next line
-    const w = Math.round(0.3 * fps), pts = Array.from({length: 2 * w + 1}, (_, j) => tip(t - w + j, markAt));
-    const tx = pts.reduce((a, q) => a + q[0], 0) / pts.length, ty = pts.reduce((a, q) => a + q[1], 0) / pts.length;
-    const k = interpolate(t, [markAt, markAt + w], [0, 1], clamp);
-    const c = camAt(sB, tx + (vw / (2 * sB)) * 0.25, ty); // the tip sits a bit left of centre: the words ahead are visible
-    cx = B.cx + (c.cx - B.cx) * k;
-    cy = B.cy + (c.cy - B.cy) * k;
-  }
-  // after the sweep the camera eases back to the whole marked sentence, if it is still readable that way
-  let s = sc;
-  const endAt = markAt + sweepF + Math.round(0.3 * fps);
-  if (follow && t > endAt && fit >= readable * 0.6) {
-    const e = interpolate(t, [endAt, endAt + Math.round(0.8 * fps)], [0, 1], {...clamp, easing: easeIO});
-    const C = camAt(Math.max(fit, s0), (x0 + x1) / 2, (y0 + y1) / 2);
-    s = Math.exp(Math.log(sc) + (Math.log(C.s) - Math.log(sc)) * e);
-    cx += (C.cx - cx) * e;
-    cy += (C.cy - cy) * e;
-  }
-  const ks = lineK(t, markAt);
+  // where the camera is while it stays at stop i (after arriving): follow the marker, then settle on the sentence
+  const atStop = (i: number, tt: number): Cam => {
+    const pl = plans[i];
+    let c: Cam = pl.B;
+    if (pl.follow && tt > pl.markAt) {
+      const w = Math.round(0.3 * fps), pts = Array.from({length: 2 * w + 1}, (_, j) => tip(pl, tt - w + j)); // smoothed tip
+      const tx = pts.reduce((a, q) => a + q[0], 0) / pts.length, ty = pts.reduce((a, q) => a + q[1], 0) / pts.length;
+      const k = interpolate(tt, [pl.markAt, pl.markAt + w], [0, 1], clamp);
+      const f = camAt(pl.sB, tx + (vw / (2 * pl.sB)) * 0.25, ty); // tip a bit left of centre: the words ahead show
+      c = {s: pl.sB, cx: pl.B.cx + (f.cx - pl.B.cx) * k, cy: pl.B.cy + (f.cy - pl.B.cy) * k};
+    }
+    const endAt = pl.markAt + pl.sweepF + Math.round(0.3 * fps);
+    if (pl.follow && tt > endAt && pl.fit >= pl.readable * 0.6) {
+      const e = interpolate(tt, [endAt, endAt + Math.round(0.8 * fps)], [0, 1], {...clamp, easing: easeIO});
+      const C = camAt(Math.max(pl.fit, s0), (pl.x0 + pl.x1) / 2, (pl.y0 + pl.y1) / 2);
+      c = {s: Math.exp(Math.log(c.s) + (Math.log(C.s) - Math.log(c.s)) * e), cx: c.cx + (C.cx - c.cx) * e, cy: c.cy + (C.cy - c.cy) * e};
+    }
+    return c;
+  };
+  // travel times: long jumps take longer but stay quick (fast scroll), then the marker waits for his word
+  plans.forEach((pl, i) => {
+    const from = i ? atStop(i - 1, pl.st.at) : A;
+    const screens = Math.abs(pl.B.cy - from.cy) * Math.min(from.s, pl.B.s) / vh; // how many screens it scrolls
+    pl.moveF = Math.round(Math.min(1.5, 0.55 + screens * 0.12) * fps);
+    pl.markAt = pl.st.markAt ?? pl.st.at + pl.moveF;
+  });
+  const camAtTime = (tt: number): Cam => {
+    let i = -1;
+    plans.forEach((pl, j) => { if (tt >= pl.st.at) i = j; });
+    if (i < 0) return A;
+    const pl = plans[i];
+    const from = i ? atStop(i - 1, pl.st.at) : A;
+    const raw = interpolate(tt, [pl.st.at, pl.st.at + pl.moveF], [0, 1], clamp);
+    if (raw >= 1) return atStop(i, tt);
+    const e = Easing.bezier(0.55, 0, 0.12, 1)(raw); // speeds up fast, long gentle arrival
+    const far = Math.abs(pl.B.cy - from.cy) * Math.min(from.s, pl.B.s) > vh * 1.2;
+    const dip = far ? Math.sin(Math.PI * e) * 0.35 : 0; // zoom out a little mid-scroll, like a hand flicking the page
+    return {s: Math.exp(Math.log(from.s) + (Math.log(pl.B.s) - Math.log(from.s)) * e - dip), cx: from.cx + (pl.B.cx - from.cx) * e, cy: from.cy + (pl.B.cy - from.cy) * e};
+  };
+  const cam = camAtTime(t), prev = camAtTime(t - 1);
+  const {s, cx, cy} = cam;
+  // motion blur only while the page really flies (screen px per frame of the scroll itself, not the zoom)
+  const speed = Math.hypot(cy - prev.cy, cx - prev.cx) * Math.min(s, prev.s);
+  const blur = Math.min(5, Math.max(0, speed - vh * 0.035) * 0.06);
   const color = x.marker ?? '#ffe14a';
   return (
     <div style={{position: 'absolute', left, top, width: cw, height: ch, borderRadius: U * 0.028, overflow: 'hidden', background: '#fff',
@@ -152,14 +175,17 @@ const PageCard: React.FC<{x: EvidenceSpec & {frames: number}; t: number; W: numb
         </div>
       )}
       <div style={{position: 'relative', width: vw, height: vh, overflow: 'hidden'}}>
-        <div style={{position: 'absolute', left: 0, top: 0, width: pw, height: ph, transformOrigin: '0 0', transform: `translate(${vw / 2 - cx * s}px, ${vh / 2 - cy * s}px) scale(${s})`}}>
+        <div style={{position: 'absolute', left: 0, top: 0, width: pw, height: ph, transformOrigin: '0 0', transform: `translate(${vw / 2 - cx * s}px, ${vh / 2 - cy * s}px) scale(${s})`, filter: blur > 0.3 ? `blur(${blur}px)` : undefined}}>
           <Img src={staticFile(x.media.src)} style={{position: 'absolute', left: 0, top: 0, width: pw, height: ph}} />
-          {marks.map(([mx, my, mw, mh], i) => {
-            const k = ks[i];
-            if (k <= 0) return null;
-            const pad = mh * 0.12;
-            return <div key={i} style={{position: 'absolute', left: mx - pad, top: my - pad * 0.5, width: (mw + pad * 2) * k, height: mh + pad,
-              background: color, mixBlendMode: 'multiply', borderRadius: `${mh * 0.12}px ${mh * 0.3}px ${mh * 0.18}px ${mh * 0.25}px`, transform: `skewX(-6deg)`, opacity: 0.92}} />;
+          {plans.flatMap((pl, si) => {
+            const ks = lineK(pl, t);
+            return pl.marks.map(([mx, my, mw, mh], i) => {
+              const k = ks[i];
+              if (k <= 0) return null;
+              const pad = mh * 0.12;
+              return <div key={`${si}-${i}`} style={{position: 'absolute', left: mx - pad, top: my - pad * 0.5, width: (mw + pad * 2) * k, height: mh + pad,
+                background: color, mixBlendMode: 'multiply', borderRadius: `${mh * 0.12}px ${mh * 0.3}px ${mh * 0.18}px ${mh * 0.25}px`, transform: `skewX(-6deg)`, opacity: 0.92}} />;
+            });
           })}
         </div>
       </div>

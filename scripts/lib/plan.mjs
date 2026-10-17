@@ -313,7 +313,8 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const rel = (o) => (o?.word != null && byIndex.get(o.word) ? {at: Math.max(0, byIndex.get(o.word).f0 - f0)} : {});
     const bars = x.bars?.map(({word, ...b}) => ({...b, ...rel({word})}));
     const multiplier = x.multiplier ? (({word, ...m}) => ({...m, ...rel({word})}))(x.multiplier) : undefined;
-    put('chart', x, x.type === 'bar' ? 1.8 + 1.2 * (x.bars?.length ?? 1) : 3.5, {...(bars ? {bars} : {}), ...(multiplier ? {multiplier} : {})});
+    const notes = x.notes?.map(({word, ...n}) => ({...n, ...rel({word})}));
+    put('chart', x, x.type === 'bar' ? 1.8 + 1.2 * (x.bars?.length ?? 1) : 3.5, {...(bars ? {bars} : {}), ...(multiplier ? {multiplier} : {}), ...(notes ? {notes} : {})});
   }
   // {word: i} / {s: 1.2} → frames from the insert start (used by illos, iso, scenes, titles, canvas)
   const local = (f0) => (o) => {
@@ -343,10 +344,20 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     const sp = span(x, x.look === 'logo' ? 2 : 4);
     if (!sp) continue;
     const L = local(sp.f);
-    const {at, until, seconds, delay, sound, zoomWord, markWord, mark, page, clip, logo, pageSize, brandBg, from, ...rest} = x;
+    const {at, until, seconds, delay, sound, zoomWord, markWord, mark, page, clip, logo, pageSize, brandBg, from, stops, ...rest} = x;
     const rel = (w) => (w == null ? undefined : L({word: w}).at);
     inserts.push({...rest, kind: 'evidence', ...sp, media: {...x.media, ...(from != null ? {trimBefore: Math.round(from * fps)} : {})}, ...(pageSize ? {page: pageSize} : {}),
+      ...(stops?.length ? {stops: stops.filter((st) => st.marks?.length).map((st) => ({marks: st.marks, at: st.word != null ? rel(st.word) : Math.round((st.s ?? 0) * fps), ...(st.markWord != null ? {markAt: rel(st.markWord)} : {})}))} : {}),
       ...(zoomWord != null ? {zoomAt: rel(zoomWord)} : {}), ...(markWord != null ? {markAt: rel(markWord)} : {}), ...(sound === null ? {silent: true} : {})});
+  }
+  // maps (src/layers/Map.tsx): view / fills / pins / routes / title, each {word|s} → frames from the map start
+  for (const x of direction?.maps ?? []) {
+    const sp = span(x, 4);
+    if (!sp) continue;
+    const L = local(sp.f);
+    const {at, until, seconds, delay, sound, view, fills, pins, routes, title, ...rest} = x;
+    inserts.push({...rest, kind: 'map', ...sp, view: (view ?? [{s: 0, focus: 'world'}]).map(L), fills: (fills ?? []).map(L), pins: (pins ?? []).map(L), routes: (routes ?? []).map(L),
+      ...(title ? {title: L(title)} : {}), ...(sound === null ? {silent: true} : {})});
   }
   // structure boards (src/layers/Boards.tsx): list / chain / wheel / chapters / pile; items[].word|s = when each step lands
   for (const x of direction?.boards ?? []) {
@@ -664,12 +675,20 @@ export function buildEdit({name, video, duration, silences, words, direction, st
       // the card arrives (soft whoosh); a light tick as the marker touches the line; a logo lands with a pop
       add('soft-whoosh', x.f - 2, vol * 0.3, 4);
       if (x.look === 'logo') add('pop', x.f + 4, vol * 0.35);
-      if (x.marks?.length) add('tick', x.f + (x.markAt ?? x.zoomAt ?? 15) + 2, vol * 0.3);
+      if (x.marks?.length && !x.stops?.length) add('tick', x.f + (x.markAt ?? x.zoomAt ?? 15) + 2, vol * 0.3);
+      // a page tour: a quiet whoosh on each fast scroll, a tick when each stop's marker starts
+      (x.stops ?? []).forEach((st, i) => { if (i) add('soft-whoosh', x.f + st.at, vol * 0.2, 3); add('tick', x.f + (st.markAt ?? st.at + 25) + 2, vol * 0.25); });
     }
     else if (x.kind === 'iso') {
       // the board lands (soft whoosh), then a soft pop per object as it rises/drops in (max 6, so it never rattles)
       add('soft-whoosh', x.f - 2, vol * 0.25, 4);
       x.items.slice(0, 6).forEach((it) => add('pop', x.f + (it.at ?? 0) + 3, vol * 0.18));
+    }
+    else if (x.kind === 'map') {
+      add('soft-whoosh', x.f - 2, vol * 0.25, 4);
+      for (const p of x.pins ?? []) add('pop', x.f + p.at + 3, vol * 0.3);
+      for (const r of x.routes ?? []) add('soft-whoosh', x.f + r.at, vol * 0.25, 4);
+      if (x.title) add('pop', x.f + x.title.at, vol * 0.35);
     }
     else if (x.kind === 'board') {
       const S = {list: 'tick', chain: 'pop', wheel: 'whoosh', chapters: 'tick', pile: 'pop'}[x.type] ?? 'pop';
@@ -777,6 +796,7 @@ export function buildEdit({name, video, duration, silences, words, direction, st
     effects,
     moves,
     canvas,
+    separate: direction?.separate ?? null, // subject separation light (VideoTrack.tsx)
     popups,
     broll,
     sfx,
