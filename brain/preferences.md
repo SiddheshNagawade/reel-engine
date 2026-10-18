@@ -274,3 +274,7 @@ contradictions resolved). After every round of feedback: add the dated note here
   to the editor and it has all the knowledge to edit completely. "Make it final so this context isn't needed in every chat."
   → brain/templates/longform-script.md, saved to projects/<slug>/script.md; rules.md + write-script skill + edit-video.
 - Agreed the episode formula: a small-news-style title as the door, then the general concept, then where else it applies.
+- Same day, later: "I hope you haven't made it very formula-like… it should feel human, not structured, not
+  repeating the same things, not high-level language… the editor isn't able to get the context." → two files:
+  script.md (only what he says, plain words) + editor-brief.md (whole context for the editor). The 9-beat anatomy in
+  longform-scripts.md is a toolbox of moves, not an order to follow.

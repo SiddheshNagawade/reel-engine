@@ -20,10 +20,14 @@ Read first, in this order:
 ## Long-form output (Designomics): one final file, nothing left for him to write
 - Research first: open every page a number comes from (a search snippet is not a source); check the topic is still
   current and that no deep video already exists (`yt-dlp ytsearch8:`).
-- Copy `brain/templates/longform-script.md` → `/Volumes/T7 Shield/ReelEngine/projects/<slug>/script.md` (T7 missing →
-  `./projects/<slug>/script.md`) and fill ALL sections, "My take" included, written in his voice.
-- The STORY → SCRIPT → HOOKS → CHECK steps below still apply; the CHECK adds: every line in section 2 has a row in the
-  edit sheet, every number has a ✔ source, his filler words are not in the text, word count fits the target length.
+- Two files in `/Volumes/T7 Shield/ReelEngine/projects/<slug>/` (T7 missing → `./projects/<slug>/`):
+  `script.md` from brain/templates/longform-script.md (only what he says, "My take" included in his voice) and
+  `editor-brief.md` from brain/templates/longform-editor-brief.md (the editor's whole context).
+- Sound human: find this story's own shape (don't run the same beat order every episode), plain words a 15-year-old
+  gets first time, no stock phrases reused across episodes, terms explained in the same breath.
+- The STORY → SCRIPT → HOOKS → CHECK steps below still apply; the CHECK adds: read the script aloud in your head as a
+  first-time viewer (anything confusing → rewrite), every paragraph has a row in the editor brief, every number has a
+  checked source, no filler words, word count fits the length.
 - Tell him the file path, the title you recommend, the read-aloud length, and anything still unconfirmed.
 
 ## Steps — ONE AT A TIME, each written down before the next (never all at once)

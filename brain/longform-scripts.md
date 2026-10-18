@@ -47,7 +47,9 @@ Design topics already proven on his channel: Pantone (colour), Whoop (removing t
 - The viewer must NOT be able to guess the answer. Name a real brand. Avoid "Marketing Case Study" style titles about
   a campaign; avoid abstract nouns ("The Subscription Trap") unless a famous brand is in the title.
 
-## 4. Anatomy of his script (the order almost never changes)
+## 4. Anatomy of his script (HIS order; for us it is a toolbox, not a template)
+Siddhesh, 2026-10-19: our scripts must not feel formula-like. Use these moves where the story needs them, change the
+order, skip what doesn't serve this episode, and never reuse the same stock phrase every video.
 Word budget: he speaks ~205 words/min; 12–14 min = 2,500–2,900 words. Siddhesh speaks slower (plan ~150 wpm):
 7 min ≈ 1,050 words, 10 min ≈ 1,500, 12 min ≈ 1,800.
 
@@ -95,10 +97,10 @@ Word budget: he speaks ~205 words/min; 12–14 min = 2,500–2,900 words. Siddhe
    (the shape, colour, screen, button, pack, logo) and shows it as a designer would (before/after, markup, grid).
 3. Length: aim 8–10 min (1,200–1,500 words at his pace). The data says 11–15 min is best for Anurag, but a new voice
    earns length; 7–8 min early episodes, grow to 10–12 once retention is known.
-4. Script format (he reads it word for word): copy `brain/templates/longform-script.md` to
-   `/Volumes/T7 Shield/ReelEngine/projects/<slug>/script.md` and fill every section: read-aloud text (clean, no stage
-   notes), edit sheet (say · see · kind · source · asset per chunk), sources (opened, ✔), assets, posting kit,
-   fact-check notes. Spoken English with Indian units (lakh, crore, ₹ first); short sentences; one analogy per idea; a
+4. Two files in `/Volumes/T7 Shield/ReelEngine/projects/<slug>/`: `script.md` (from
+   brain/templates/longform-script.md: ONLY what he says, plain spoken paragraphs) and `editor-brief.md` (from
+   brain/templates/longform-editor-brief.md: what the video is about, the look, moment-by-moment "the viewer should
+   get / on screen / him on or off camera", sources with links, things to find, watch-outs, posting kit). Spoken English with Indian units (lakh, crore, ₹ first); short sentences; one analogy per idea; a
    named person for every piece of maths. **"My take" is written in full in his voice** (opinion + what a designer
    learns + one honest doubt, 120–180 words); he tweaks, he never has to write it. Never invent his experiences.
 4b. Relevance: the title and the door are about NOW (a 2026 event, dated in the file's "Why now" row). An older
@@ -120,9 +122,10 @@ Word budget: he speaks ~205 words/min; 12–14 min = 2,500–2,900 words. Siddhe
    pass the topic test.
 
 ## 7b. The Designomics episode formula (his idea, 2026-10-19)
-News door (a strange 2026 RESULT with a number, ~1 min) → the named concept underneath (one analogy, one imaginary
-person with rupee maths) → the same concept in 2–3 other famous cases, one Indian (~2 min; this is what news channels
-never do and it keeps the video alive after the news ages) → his take as a designer + one comment question.
+The ingredients (in whatever order the story wants): news door (a strange 2026 RESULT with a number) · the named concept underneath (one analogy, one imaginary
+person with rupee maths) · the same concept in 2–3 other famous cases, one Indian (what news channels never do; it
+keeps the video alive after the news ages) · his take as a designer + one comment question. It should never feel like
+the same video with a new topic.
 Idea list built this way: Claude Doc "Designomics Episode Ideas" (https://claude.ai/artifact/H6jRB9nynFRHAuejHEh4Vh).
 
 ## 8. Catalog (one line each, by views)

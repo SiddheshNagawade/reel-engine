@@ -22,14 +22,15 @@ briefing refuses to open until every earlier pass is closed (one step at a time,
 3. Tell him in 3–5 lines: the steps ahead, where you'll stop to ask him (the 2 checkpoints), and an honest time
    estimate for each render. Never vanish for hours.
 
-## Scripted long-form (Designomics): `projects/<slug>/script.md` exists
-Read the script file BEFORE anything else (format: brain/templates/longform-script.md). It replaces guessing:
-- Pass 0 (story) is already locked by the script: cut his recording to section 2 (best take of each chunk, retakes and
-  fluffs removed, every word of the script kept unless he skipped it); the hook choice = section 1's title, so
-  checkpoint 1 only confirms it with him.
-- Match recording to script by the transcript: each edit-sheet row's `Say` = the first words of a chunk; its `See`
-  column IS pass 2 (support visuals) and its `Kind` (FACE · GRAPHIC · EVIDENCE · BREATHER) is pass 3 (layout).
-- `Source` ids → evidence cards / on-screen credits (direction.evidence); `Assets` (section 5) → pass 9's request table.
+## Scripted long-form (Designomics): `projects/<slug>/script.md` + `editor-brief.md` exist
+Read `editor-brief.md` first (the context: story, look, moment by moment), then `script.md` (what he says). They
+replace guessing:
+- Pass 0 (story) is locked by script.md: cut his recording to it (best take of each paragraph, retakes and fluffs
+  removed, every line kept unless he skipped it); the title in the brief's posting section is the hook, so checkpoint 1
+  only confirms it with him.
+- Match recording to the brief by transcript: each "Moment by moment" row's `Starts with` = his first words there;
+  `The viewer should get` + `On screen` drive pass 2 (support visuals); `Him` drives pass 3 (layout).
+- `Source` ids → evidence cards / on-screen credits (direction.evidence); "Things to find or make" → pass 9's table.
 - Series look and signatures (Price Tag stamp, evidence cards, chapter cards, Cd tile): Designomics Series Bible.
 - Until a long-form kind exists in editplan.mjs, init with `--kind vlog` and note "scripted long-form" in plan.md.
 
