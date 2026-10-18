@@ -160,6 +160,10 @@ older than ~1 month needs a new event to reopen it.
   letter shapes not copyrightable, Arial, why Google Fonts is free, IKEA Verdanagate, the State Department font
   fight, everyone building their own).
 - Nothing in the script that doesn't add an insight or move the story.
+- Review lesson (font episode, 2026-10-19): when a hook number is disputed, never just say "might not be true" (it
+  deflates the hook); state the dispute in one line and turn it into a bigger mechanism that keeps the stakes (one
+  quote was small, the meter that never stops was not). Lists (acquisitions, timelines) are told as an image or
+  action ("a big fish eating smaller fish"), max 2 named items + one callback name, the rest shown on screen.
 
 ## 7c. Story, not lecture (his rule, 2026-10-19)
 - Start in a scene: a person, a place, a moment (a buyer in 2017 sending $50,000 for a car), not a definition.
