@@ -284,3 +284,8 @@ contradictions resolved). After every round of feedback: add the dated note here
   in the ideas doc (Roadster now #1).
 - Same day: "It should be very, very engaging… very hook kind of thing, story formatted, because people like to
   listen to stories. They don't want a lecture." → story rule in rules.md + longform-scripts.md §7c.
+- Same day, roast #3: "Tesla taken $250,000… finally saw the car… the title is very bad… what is it sparking in
+  people? Not attractive enough to click, no idea what I'll get… understand how Anurag writes titles, how consumer
+  friendly." He shared Enrico Tartarotti's full title list next to Anurag's: "Enrico is UI side, Anurag product
+  management side; we have to find our own category." → Title rule (round 3) + our lane in longform-scripts.md;
+  Round 3 table in the ideas doc; radar task now proposes titles in our lane.

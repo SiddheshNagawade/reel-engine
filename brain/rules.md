@@ -46,6 +46,9 @@ sections at the moment of the decision.
   in projects/<slug>/ on the T7: script.md = only what he says (brain/templates/longform-script.md) and
   editor-brief.md = the full context for the editor: story, look, moment-by-moment, sources, assets, posting
   (brain/templates/longform-editor-brief.md). He records into that folder (2026-10-19).
+- Long-form titles (round 3, 2026-10-19): a hidden truth about something the viewer already uses/knows, viewer as
+  the subject, one emotion word; news = the opening, never the title. Our lane = why things look the way they do
+  and who gets rich from that design decision (longform-scripts.md "Title rule (round 3)").
 - Long-form = a STORY, never a lecture (2026-10-19): a real person or company the viewer follows, a moment we can
   picture, something at stake, open questions that pay off later, a reveal, an ending that lands. Explanations live
   inside the story, never as a block of theory.

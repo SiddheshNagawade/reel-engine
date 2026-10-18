@@ -126,6 +126,20 @@ Before proposing topics read `/Volumes/T7 Shield/ReelEngine/references/news-rada
 scheduled task `designomics-news-radar`). Rank by how old the news door is; check the date of every door; anything
 older than ~1 month needs a new event to reopen it.
 
+## Title rule (round 3, his verdict 2026-10-19) — overrides the news-style titles of round 2
+- News-report titles failed ("Tesla took deposits, people finally saw the car" = "ok, that happened"). The title
+  promises a HIDDEN TRUTH about something the viewer already uses or cares about; the news is why we make it this
+  week and how the video opens, never what the title reports. No dates in titles.
+- Learned from Enrico Tartarotti (UI/tech design, hits: "The Insane Design Of Messaging" 1.6M, "Short Form Content Is
+  BROKEN" 1.5M, "The LIES That Make Your Tech ACTUALLY Work" 1.1M, "Who Is REALLY Making Billions From ChatGPT" 950k):
+  everyday thing + hidden layer + "you/your" + one emotion word (ridiculous, insane, weird, lies, secrets, obsessed),
+  repeatable series shapes ("The Ridiculous Engineering Of ___"). His misses = narrow news and personal topics.
+- From Anurag: a known brand + a paradox that touches your money.
+- OUR LANE: why the things you buy and use look/feel/behave the way they do, and who gets rich from that design
+  decision. Enrico = how it works inside; Anurag = company strategy; us = the design decision as a money weapon.
+- Our repeatable shapes: "The Sneaky Design Of ___", "Why Every ___ Looks The Same", "The Secret Business Of ___",
+  "Why You ___". Test: would a non-designer feel "wait, I see that every day and never knew"?
+
 ## 7c. Story, not lecture (his rule, 2026-10-19)
 - Start in a scene: a person, a place, a moment (a buyer in 2017 sending $50,000 for a car), not a definition.
 - Someone to follow from start to end (a buyer, a founder, a designer, a company), with something to win or lose.
