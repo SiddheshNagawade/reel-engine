@@ -121,6 +121,11 @@ Word budget: he speaks ~205 words/min; 12–14 min = 2,500–2,900 words. Siddhe
    = open lane. (e) evergreen "everyone knows" stories (Parle-G pack, Amul girl, Paytm box) are rejected even if they
    pass the topic test.
 
+## 7a. Freshness first (his rule, 2026-10-19)
+Before proposing topics read `/Volumes/T7 Shield/ReelEngine/references/news-radar/LATEST.md` (daily 8 AM scan by the
+scheduled task `designomics-news-radar`). Rank by how old the news door is; check the date of every door; anything
+older than ~1 month needs a new event to reopen it.
+
 ## 7b. The Designomics episode formula (his idea, 2026-10-19)
 The ingredients (in whatever order the story wants): news door (a strange 2026 RESULT with a number) · the named concept underneath (one analogy, one imaginary
 person with rupee maths) · the same concept in 2–3 other famous cases, one Indian (what news channels never do; it

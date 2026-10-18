@@ -36,6 +36,9 @@ sections at the moment of the decision.
 - Long-form topics/titles (2026-10-19): a SPECIFIC name + a result that sounds impossible + CURRENT (this year's news),
   and the title must hide the mechanism (never question + answer in one title). Reject evergreen "everyone knows it"
   topics and anything with existing deep videos on YouTube (check with `yt-dlp ytsearch`). Global brands are fine.
+- Speed is the edge (2026-10-19): rank ideas by how fresh the news door is (days old beats months old); an older
+  story (Cybertruck flop) goes INSIDE a video, never in the title. A daily 8 AM scheduled task
+  (designomics-news-radar) writes picks to T7 references/news-radar/LATEST.md: read it before proposing topics.
 - Long-form must feel relevant NOW: even an old story needs a 2026 door, and the title is about today's version of
   it (2026-10-19). Formula: news door → named concept → same concept in 2–3 other cases (one Indian) → his take.
 - Long-form scripts are speak-as-is and complete: "my take" is WRITTEN for him in his voice (opinion + designer

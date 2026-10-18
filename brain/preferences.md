@@ -278,3 +278,7 @@ contradictions resolved). After every round of feedback: add the dated note here
   repeating the same things, not high-level language… the editor isn't able to get the context." → two files:
   script.md (only what he says, plain words) + editor-brief.md (whole context for the editor). The 9-beat anatomy in
   longform-scripts.md is a toolbox of moves, not an order to follow.
+- Same day: "Cybertruck's topic is old, it can be part of the video but not the title… the Roadster news is current.
+  You are not aware of current news. We have to act faster… make something that makes you aware every day… so we
+  are the first ones to make the video. That's our main advantage." → daily 8 AM news radar task + freshness ranking
+  in the ideas doc (Roadster now #1).
