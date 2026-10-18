@@ -126,6 +126,15 @@ Before proposing topics read `/Volumes/T7 Shield/ReelEngine/references/news-rada
 scheduled task `designomics-news-radar`). Rank by how old the news door is; check the date of every door; anything
 older than ~1 month needs a new event to reopen it.
 
+## 7c. Story, not lecture (his rule, 2026-10-19)
+- Start in a scene: a person, a place, a moment (a buyer in 2017 sending $50,000 for a car), not a definition.
+- Someone to follow from start to end (a buyer, a founder, a designer, a company), with something to win or lose.
+- Keep 2–3 questions open and pay each off later; never answer the title's question in the first half.
+- Every explanation is told as what happened to someone ("so Tesla had a problem…"), with one picture-able example.
+- A turn in the middle (what everyone believed was wrong) and a last reveal that changes how the opening looks.
+- End on a line that lands (a twist, a callback, a strong opinion), then one question. No summary of points.
+- Test: if a paragraph could sit in a textbook, rewrite it as something that happened.
+
 ## 7b. The Designomics episode formula (his idea, 2026-10-19)
 The ingredients (in whatever order the story wants): news door (a strange 2026 RESULT with a number) · the named concept underneath (one analogy, one imaginary
 person with rupee maths) · the same concept in 2–3 other famous cases, one Indian (what news channels never do; it

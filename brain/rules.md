@@ -46,6 +46,9 @@ sections at the moment of the decision.
   in projects/<slug>/ on the T7: script.md = only what he says (brain/templates/longform-script.md) and
   editor-brief.md = the full context for the editor: story, look, moment-by-moment, sources, assets, posting
   (brain/templates/longform-editor-brief.md). He records into that folder (2026-10-19).
+- Long-form = a STORY, never a lecture (2026-10-19): a real person or company the viewer follows, a moment we can
+  picture, something at stake, open questions that pay off later, a reveal, an ending that lands. Explanations live
+  inside the story, never as a block of theory.
 - Scripts sound human, not formula: no fixed beat order every episode, no stock phrases repeated across videos,
   plain words a 15-year-old gets on first hearing, every term explained in the same breath (2026-10-19).
 - Long-form: 3-act spine on real clips; two-part series: part 1 ends on the moment it broke (content-brief.md §10).

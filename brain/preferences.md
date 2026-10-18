@@ -282,3 +282,5 @@ contradictions resolved). After every round of feedback: add the dated note here
   You are not aware of current news. We have to act faster… make something that makes you aware every day… so we
   are the first ones to make the video. That's our main advantage." → daily 8 AM news radar task + freshness ranking
   in the ideas doc (Roadster now #1).
+- Same day: "It should be very, very engaging… very hook kind of thing, story formatted, because people like to
+  listen to stories. They don't want a lecture." → story rule in rules.md + longform-scripts.md §7c.
