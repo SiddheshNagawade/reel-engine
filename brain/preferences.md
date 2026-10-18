@@ -293,3 +293,7 @@ contradictions resolved). After every round of feedback: add the dated note here
   views… if we talk about Netflix's font inside, why not in the title… give me multiple options (general, specific)…
   the Roadster delay wasn't a strategy, they just couldn't make it… the video should be insightful, the insights
   detailed enough to write scripts." → Title rule (round 4) + Round 4 deep briefs in the ideas doc.
+- Same day, roast #5: he hated the Cybertruck idea at #1: "I'd just get one insight, the steel is not bendable…
+  research a lot… a very dense informative video in the easiest story possible… not one fact covered in a long
+  video." → density rule (≥ 8 insights) in rules.md + longform-scripts.md; Cybertruck and Apple-icons ideas dropped;
+  font brief researched to 11 insights as the model.

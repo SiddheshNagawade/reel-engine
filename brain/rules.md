@@ -46,6 +46,8 @@ sections at the moment of the decision.
   in projects/<slug>/ on the T7: script.md = only what he says (brain/templates/longform-script.md) and
   editor-brief.md = the full context for the editor: story, look, moment-by-moment, sources, assets, posting
   (brain/templates/longform-editor-brief.md). He records into that folder (2026-10-19).
+- Long-form density (2026-10-19): ≥ 8 separate insights per episode, all in one story; research until you have
+  them or drop the idea. One fact stretched over minutes is the worst failure.
 - Long-form titles (round 4, 2026-10-19): famous name + hidden reason, always 3 options (specific / mixed / broad)
   with a pick; every idea needs a real insight and a brief deep enough to script (longform-scripts.md round 4).
 - Long-form titles (round 3, 2026-10-19): a hidden truth about something the viewer already uses/knows, viewer as

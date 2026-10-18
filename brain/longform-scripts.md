@@ -151,6 +151,16 @@ older than ~1 month needs a new event to reopen it.
 - Idea briefs must be deep enough to script from: why now, the story in 4-6 beats with numbers, the insight, other
   cases (one Indian), the ending, what to check, opened sources. The ideas doc "Round 4" is the model.
 
+## Density rule (his verdict 2026-10-19, after the Cybertruck idea)
+- "In that video I'd get one insight: the steel isn't bendable. I'd be frustrated wasting seven minutes." An episode
+  needs AT LEAST 8 separate insights, each a surprise on its own, all tied together by one story. Research until
+  you have them (10+ searches, opened pages); if you can't reach 8, drop the idea instead of padding it.
+- Every brief lists its insights numbered with a count in the heading. Model: the font brief in the ideas doc
+  (11 insights: renting fonts, Netflix Sans, the disputed savings, Monotype's buying spree, private-equity owner,
+  letter shapes not copyrightable, Arial, why Google Fonts is free, IKEA Verdanagate, the State Department font
+  fight, everyone building their own).
+- Nothing in the script that doesn't add an insight or move the story.
+
 ## 7c. Story, not lecture (his rule, 2026-10-19)
 - Start in a scene: a person, a place, a moment (a buyer in 2017 sending $50,000 for a car), not a definition.
 - Someone to follow from start to end (a buyer, a founder, a designer, a company), with something to win or lose.
