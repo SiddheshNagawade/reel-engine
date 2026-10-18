@@ -114,6 +114,12 @@ Word budget: he speaks ~205 words/min; 12–14 min = 2,500–2,900 words. Siddhe
    = open lane. (e) evergreen "everyone knows" stories (Parle-G pack, Amul girl, Paytm box) are rejected even if they
    pass the topic test.
 
+## 7b. The Designomics episode formula (his idea, 2026-10-19)
+News door (a strange 2026 RESULT with a number, ~1 min) → the named concept underneath (one analogy, one imaginary
+person with rupee maths) → the same concept in 2–3 other famous cases, one Indian (~2 min; this is what news channels
+never do and it keeps the video alive after the news ages) → his take as a designer + one comment question.
+Idea list built this way: Claude Doc "Designomics Episode Ideas" (https://claude.ai/artifact/H6jRB9nynFRHAuejHEh4Vh).
+
 ## 8. Catalog (one line each, by views)
 | Views | Video (length) | Type | Hook device |
 |---|---|---|---|
