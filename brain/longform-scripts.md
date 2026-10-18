@@ -140,6 +140,17 @@ older than ~1 month needs a new event to reopen it.
 - Our repeatable shapes: "The Sneaky Design Of ___", "Why Every ___ Looks The Same", "The Secret Business Of ___",
   "Why You ___". Test: would a non-designer feel "wait, I see that every day and never knew"?
 
+## Title rule (round 4, his verdict 2026-10-19) — the balance
+- Round 3 went too broad ("Why Companies Make You Wait" = no name, no hype, no views). A title needs BOTH: a famous
+  name people already search for (Cybertruck, Netflix, Figma, Cadbury) AND a hidden reason they never knew.
+  If a famous name is inside the video, it belongs in the title.
+- Always give 3 title options per idea: specific (name + exact fact), mixed (name + hidden reason), broad (the
+  concept), and mark one pick.
+- Every idea must carry a real insight (a mechanism worth learning), not a news recap. If the story has no "why"
+  (the Roadster was simply late, not a strategy), drop the angle and find the real one (the Cybertruck's steel).
+- Idea briefs must be deep enough to script from: why now, the story in 4-6 beats with numbers, the insight, other
+  cases (one Indian), the ending, what to check, opened sources. The ideas doc "Round 4" is the model.
+
 ## 7c. Story, not lecture (his rule, 2026-10-19)
 - Start in a scene: a person, a place, a moment (a buyer in 2017 sending $50,000 for a car), not a definition.
 - Someone to follow from start to end (a buyer, a founder, a designer, a company), with something to win or lose.

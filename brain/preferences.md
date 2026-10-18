@@ -289,3 +289,7 @@ contradictions resolved). After every round of feedback: add the dated note here
   friendly." He shared Enrico Tartarotti's full title list next to Anurag's: "Enrico is UI side, Anurag product
   management side; we have to find our own category." → Title rule (round 3) + our lane in longform-scripts.md;
   Round 3 table in the ideas doc; radar task now proposes titles in our lane.
+- Same day, roast #4: "Now all the titles are very general… even if you write Cybertruck or Tesla you could have gotten
+  views… if we talk about Netflix's font inside, why not in the title… give me multiple options (general, specific)…
+  the Roadster delay wasn't a strategy, they just couldn't make it… the video should be insightful, the insights
+  detailed enough to write scripts." → Title rule (round 4) + Round 4 deep briefs in the ideas doc.
