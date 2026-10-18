@@ -11,6 +11,9 @@ Read first, in this order:
 2. `brain/hooks.md` (his hook rules: English title-like hook text, 3–4 options, he picks; every option passes
    "The 4 hook mistakes check": no delay, no confusion, relevant to the viewer, contrast).
 3. `brain/content-plan.md` → the live planner docs (current series, pillars, what's already posted).
+4. Long-form YouTube (Designomics or any 6–15 min explainer): `brain/longform-scripts.md` in full (topic test, title
+   formula, the 9-beat anatomy, writing devices, overlap list, what flops). The 66 Anurag Bansal transcripts it was
+   built from are on the T7 in `references/decoding brands/` (INDEX.md by views) when a beat needs a closer model.
 
 ## Steps — ONE AT A TIME, each written down before the next (never all at once)
 Each step is its own piece of thinking with its own output: STORY (facts + shape + beats, no wording yet) → SCRIPT
