@@ -265,3 +265,12 @@ contradictions resolved). After every round of feedback: add the dated note here
   corners and won, Cadbury tried to own a colour and lost, Netflix built its own font, Jaguar stopped selling cars then
   changed its logo, OpenAI paid billions for a company with no product. Specific name + impossible result + current,
   answer hidden. Global design-business drama is fine; "make it Indian" was my rule, not his.
+
+## 2026-10-19: long-form scripts, final format
+- "Whatever the idea is, even a long-ago idea, it should feel very relevant at this time. The title too."
+- "Don't keep my take blank. Write something for it from my side. I don't want to think a lot… I can manipulate your
+  script a little, but give it so I can just speak it out."
+- Script files in a text format that opens anywhere, with all reference links, so he can hand the file + his recording
+  to the editor and it has all the knowledge to edit completely. "Make it final so this context isn't needed in every chat."
+  → brain/templates/longform-script.md, saved to projects/<slug>/script.md; rules.md + write-script skill + edit-video.
+- Agreed the episode formula: a small-news-style title as the door, then the general concept, then where else it applies.

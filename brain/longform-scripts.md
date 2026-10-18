@@ -95,9 +95,14 @@ Word budget: he speaks ~205 words/min; 12–14 min = 2,500–2,900 words. Siddhe
    (the shape, colour, screen, button, pack, logo) and shows it as a designer would (before/after, markup, grid).
 3. Length: aim 8–10 min (1,200–1,500 words at his pace). The data says 11–15 min is best for Anurag, but a new voice
    earns length; 7–8 min early episodes, grow to 10–12 once retention is known.
-4. Script format (he reads it word for word): a table per beat with `time · he says · we see`; spoken English with
-   Indian units (lakh, crore, ₹ first); short sentences; one analogy per idea; a named person for every piece of
-   maths; every fact has a source line under the table. "My take" section = a draft he rewrites in his own words.
+4. Script format (he reads it word for word): copy `brain/templates/longform-script.md` to
+   `/Volumes/T7 Shield/ReelEngine/projects/<slug>/script.md` and fill every section: read-aloud text (clean, no stage
+   notes), edit sheet (say · see · kind · source · asset per chunk), sources (opened, ✔), assets, posting kit,
+   fact-check notes. Spoken English with Indian units (lakh, crore, ₹ first); short sentences; one analogy per idea; a
+   named person for every piece of maths. **"My take" is written in full in his voice** (opinion + what a designer
+   learns + one honest doubt, 120–180 words); he tweaks, he never has to write it. Never invent his experiences.
+4b. Relevance: the title and the door are about NOW (a 2026 event, dated in the file's "Why now" row). An older
+   story is only allowed through a current door.
 5. Every cold open passes: concrete in the first sentence, a number by sentence 3, the contradiction by 45 s,
    "the big question" by 60 s.
 6. Overlap check — he has ALREADY covered: Pantone, Dyson, Whoop, Coke cans, Toyota badge engineering, Zomato→Eternal,

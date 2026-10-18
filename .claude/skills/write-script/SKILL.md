@@ -14,6 +14,17 @@ Read first, in this order:
 4. Long-form YouTube (Designomics or any 6–15 min explainer): `brain/longform-scripts.md` in full (topic test, title
    formula, the 9-beat anatomy, writing devices, overlap list, what flops). The 66 Anurag Bansal transcripts it was
    built from are on the T7 in `references/decoding brands/` (INDEX.md by views) when a beat needs a closer model.
+   Idea bank: Claude Doc "Designomics Episode Ideas" (https://claude.ai/artifact/H6jRB9nynFRHAuejHEh4Vh, read with the
+   docs connector); series identity: "Designomics Series Bible" (https://claude.ai/artifact/56MNF1JZyqXTEzGuBd7gVY).
+
+## Long-form output (Designomics): one final file, nothing left for him to write
+- Research first: open every page a number comes from (a search snippet is not a source); check the topic is still
+  current and that no deep video already exists (`yt-dlp ytsearch8:`).
+- Copy `brain/templates/longform-script.md` → `/Volumes/T7 Shield/ReelEngine/projects/<slug>/script.md` (T7 missing →
+  `./projects/<slug>/script.md`) and fill ALL sections, "My take" included, written in his voice.
+- The STORY → SCRIPT → HOOKS → CHECK steps below still apply; the CHECK adds: every line in section 2 has a row in the
+  edit sheet, every number has a ✔ source, his filler words are not in the text, word count fits the target length.
+- Tell him the file path, the title you recommend, the read-aloud length, and anything still unconfirmed.
 
 ## Steps — ONE AT A TIME, each written down before the next (never all at once)
 Each step is its own piece of thinking with its own output: STORY (facts + shape + beats, no wording yet) → SCRIPT
@@ -35,7 +46,7 @@ step on its own, then continue.
 7. **Hand-off to the edit:** the "we see" column becomes the visuals pass of `_work/<name>/plan.md` (edit-video skill);
    the graphics it names go to the asset-request table if the Library lacks them.
 
-Output: a short table per script (time · beat · he says · we see), the hook options, the open loop. Points, not essays.
+Output (reels/vlogs): a short table per script (time · beat · he says · we see), the hook options, the open loop. Points, not essays.
 
 Note: the uploaded `scriptwriter-skill` (mcpmarket) is for fictional TV series in Chinese screenplay format. Its useful
 ideas (visual-first, 3-act spine, continuity, subtext) are adapted above; don't use its scene-heading format.

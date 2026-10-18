@@ -31,6 +31,7 @@ Everything else is read at the moment it matters, through a briefing or a skill,
 | posting.md | how to write the IG caption / YT title etc. for each video (posting kit) + analytics verdicts | viewer briefing, edit-video step 5 |
 | explainers.md | idea reels on a canvas + brand-decoding YouTube: what the studied references do, story shapes, how to use it for him, toolkit gaps | story / visuals / layout briefings; refs in T7 references/library (scripts/refs.mjs) |
 | longform-scripts.md | long-form YouTube scripts (Designomics): what 66 Anurag Bansal videos + their views teach — topic test, titles, beat anatomy, devices, what flops, catalog | write-script skill (long-form) |
+| templates/longform-script.md | the one-file Designomics script format (read-aloud text, edit sheet, sources, assets, posting kit); copied to projects/<slug>/script.md | write-script (long-form), edit-video (scripted long-form) |
 | toolbox.md | what I can make for any idea: HAVE (built) / PORT (open-source code on the T7, toolbox/repos) / IDEA (recipes), by pass | every pass briefing (its sections) + `node scripts/toolbox.mjs find <word>` |
 | iso.md | isometric 3D-look scenes (direction.iso): objects, coordinates, when to use; verdict on the 3 animation repos he shared | visuals briefing; when building a 3D-look scene |
 | vlog.md | long-form vlog playbook | briefings when the video is a vlog |

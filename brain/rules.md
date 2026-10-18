@@ -36,6 +36,12 @@ sections at the moment of the decision.
 - Long-form topics/titles (2026-10-19): a SPECIFIC name + a result that sounds impossible + CURRENT (this year's news),
   and the title must hide the mechanism (never question + answer in one title). Reject evergreen "everyone knows it"
   topics and anything with existing deep videos on YouTube (check with `yt-dlp ytsearch`). Global brands are fine.
+- Long-form must feel relevant NOW: even an old story needs a 2026 door, and the title is about today's version of
+  it (2026-10-19). Formula: news door → named concept → same concept in 2–3 other cases (one Indian) → his take.
+- Long-form scripts are speak-as-is and complete: "my take" is WRITTEN for him in his voice (opinion + designer
+  insight + one doubt), never left blank; he only tweaks. Never invent things he did. Format = one Markdown file per
+  episode, projects/<slug>/script.md on the T7 (brain/templates/longform-script.md): read-aloud text, edit sheet,
+  sources, assets, posting kit. He records into that folder; the editor reads the file first (2026-10-19).
 - Long-form: 3-act spine on real clips; two-part series: part 1 ends on the moment it broke (content-brief.md §10).
 
 ## Cuts & pacing {cuts}
