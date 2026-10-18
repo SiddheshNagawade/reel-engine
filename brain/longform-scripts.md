@@ -104,8 +104,15 @@ Word budget: he speaks ~205 words/min; 12–14 min = 2,500–2,900 words. Siddhe
    Wimbledon logos, Ferrari EV + Jaguar's EV problem, Tupperware (inside the phone-repair video), Tropicana and Jaguar
    minimal logos (inside the luxury video), Cadbury Dairy Milk vs 5 Star, Fevicol ads, Nike, MRF stickers. Pick a
    different story or a clearly new angle.
-7. India test for the pilot: foreign brands Indians don't use flop on his channel (Ferrari 21k, Labubu 12k). A US story
-   like Cracker Barrel needs an Indian hook or a famous Indian parallel, or a different pilot.
+7. His verdict 2026-10-19 overrides an "India first" reading of the data: he wants global design-business drama
+   (Adobe–Figma, Apple v Samsung, Cadbury purple, Netflix font, Jaguar, OpenAI–io). Still give foreign stories ONE line
+   that lands for an Indian viewer (a tool they use, an Indian parallel), but never pick a topic just because it is Indian.
+8. **Curiosity gap test (his, 2026-10-19)**: (a) is it from the last few months, or does a current event reopen it?
+   (b) can the viewer guess the answer from the title? If yes, reject. (c) does the title state a strange RESULT and
+   hide the HOW? Never put the answer in the title. (d) is there already a deep video on it? Run
+   `.venv/bin/yt-dlp --flat-playlist --print "%(view_count)s | %(title)s" "ytsearch8:<topic>"`; only small news clips
+   = open lane. (e) evergreen "everyone knows" stories (Parle-G pack, Amul girl, Paytm box) are rejected even if they
+   pass the topic test.
 
 ## 8. Catalog (one line each, by views)
 | Views | Video (length) | Type | Hook device |

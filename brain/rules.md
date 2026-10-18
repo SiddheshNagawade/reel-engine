@@ -33,6 +33,9 @@ sections at the moment of the decision.
 - Endings: NEVER a fade, any video. A loop back into the first line, or a hard cut on the payoff. Keep his concluding
   line, don't clip the last word (~0.3 s tail).
 - Honest: clickbait only as far as the video delivers; say when a drawing came from Pinterest; never invent facts.
+- Long-form topics/titles (2026-10-19): a SPECIFIC name + a result that sounds impossible + CURRENT (this year's news),
+  and the title must hide the mechanism (never question + answer in one title). Reject evergreen "everyone knows it"
+  topics and anything with existing deep videos on YouTube (check with `yt-dlp ytsearch`). Global brands are fine.
 - Long-form: 3-act spine on real clips; two-part series: part 1 ends on the moment it broke (content-brief.md §10).
 
 ## Cuts & pacing {cuts}

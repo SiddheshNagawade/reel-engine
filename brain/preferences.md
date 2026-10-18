@@ -255,3 +255,13 @@ contradictions resolved). After every round of feedback: add the dated note here
   spoken from the same website, fast scroll and slow down when you reach that location." → direction.evidence page
   TOURS (stops: fast scroll with a slight zoom-out and motion blur, slow arrival, each stop's line marked on his word),
   every stop zoomed to a readable size (the camera glides along long lines with the marker).
+
+## 2026-10-19: long-form topic ideas must create a "I need to know this" gap
+- He rejected 5 Indian pilot ideas I offered (Parle-G shrinking pack, Amul ad spend, ATM recalibration for new notes,
+  Paytm Soundbox, quick-commerce apps looking alike): "very common", "already on YouTube", "people already know what's
+  in it". On the notes idea: fine INSIDE a video, but "why would I click that title?". On Paytm: "you are giving away
+  the answer and the question in the same title".
+- What he liked (his earlier list): Adobe paid $1B for a company it never bought, Apple sued Samsung over rounded
+  corners and won, Cadbury tried to own a colour and lost, Netflix built its own font, Jaguar stopped selling cars then
+  changed its logo, OpenAI paid billions for a company with no product. Specific name + impossible result + current,
+  answer hidden. Global design-business drama is fine; "make it Indian" was my rule, not his.
