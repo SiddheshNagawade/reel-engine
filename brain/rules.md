@@ -46,6 +46,9 @@ sections at the moment of the decision.
   in projects/<slug>/ on the T7: script.md = only what he says (brain/templates/longform-script.md) and
   editor-brief.md = the full context for the editor: story, look, moment-by-moment, sources, assets, posting
   (brain/templates/longform-editor-brief.md). He records into that folder (2026-10-19).
+- Long-form thumbnails (2026-10-19): title = the famous names, thumbnail = the feeling/contradiction in a picture
+  + 1–4 words, never the same words; 3 thumbnail options per idea from the 8 types in brain/thumbnails.md; his face
+  only as a big real reaction, and A/B test with YouTube Test & Compare. Library: T7 references/thumbnails/.
 - Long-form density (2026-10-19): ≥ 8 separate insights per episode, all in one story; research until you have
   them or drop the idea. One fact stretched over minutes is the worst failure.
 - Long-form titles (round 4, 2026-10-19): famous name + hidden reason, always 3 options (specific / mixed / broad)

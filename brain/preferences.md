@@ -297,3 +297,8 @@ contradictions resolved). After every round of feedback: add the dated note here
   research a lot… a very dense informative video in the easiest story possible… not one fact covered in a long
   video." → density rule (≥ 8 insights) in rules.md + longform-scripts.md; Cybertruck and Apple-icons ideas dropped;
   font brief researched to 11 insights as the model.
+- Same day: "people have one thing in the thumbnail and one in the title, related but separate… study what works…
+  save every thumbnail and their ideas in the reference… tell me which kind of thumbnail can be made where… is
+  having a face getting views or not?" → brain/thumbnails.md (split rule, 8 types, face data) + T7
+  references/thumbnails/ (153 thumbnails, INDEX, contact sheets). Face verdict: helps Anurag, hurts Enrico; the
+  picture's idea matters more; test with YouTube Test & Compare.

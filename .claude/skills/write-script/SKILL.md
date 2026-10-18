@@ -28,6 +28,8 @@ Read first, in this order:
 - The STORY → SCRIPT → HOOKS → CHECK steps below still apply; the CHECK adds: read the script aloud in your head as a
   first-time viewer (anything confusing → rewrite), every paragraph has a row in the editor brief, every number has a
   checked source, no filler words, word count fits the length.
+- Thumbnails: 3 options per episode from `brain/thumbnails.md` (types + face data; reference sheets in T7
+  `references/thumbnails/`), written in the editor brief's posting section; never repeat the title's words.
 - Tell him the file path, the title you recommend, the read-aloud length, and anything still unconfirmed.
 
 ## Steps — ONE AT A TIME, each written down before the next (never all at once)
