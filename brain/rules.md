@@ -99,7 +99,11 @@ sections at the moment of the decision.
 - Stickers fully inside the frame, never over his face (corner stickers sit above his head). Variety of entrances.
 - No emoji graphics ("so low effort"). Pop text only with a real joke.
 - Never tag/name a person he hasn't confirmed (people.json from his who-is-who sheet).
-- Ask him every video for memes/GIFs/pictures he can Google (asset requests); they build the Library.
+- Asking him for assets (2026-10-21): get everything I can myself first; what's left = ONE short list in the chat
+  (what + where it goes in the video), never a wanted/ folder table he has to work through.
+- Real footage over graphics (2026-10-21): in explainers, real clips (news, places, products, events) are the MAIN visual
+  wherever the script names a real event; drawn graphics only for letter comparisons, numbers, charts. Clips: short,
+  credited, under commentary (fair use); never disguised with filters to dodge Content ID.
 - The designed-reel style (brain/pablo.md: mixed-font titles, inverted stacked title, full-screen scenes with a moving
   camera, white light-leak) is ONE more option to mix in where an explaining reel needs it, never the default (2026-10-14).
 - His footage doesn't have to be the base: canvas mode (brain/canvas.md) puts it on a designed canvas as one layer

@@ -308,3 +308,9 @@ contradictions resolved). After every round of feedback: add the dated note here
   in a new font' seems very AI generated… while speaking in front of camera it doesn't sound human, it sounds like a
   script… make it how a YouTuber talks, similar to Anurag Bansal." → rewrote the whole script in spoken style;
   "Spoken style" section in longform-scripts.md + rule in rules.md.
+
+
+## 2026-10-21 netflix-font (Designomics ep 1)
+- The wanted/ folder asset tables are "worthless" to him: confusing, too many folders. Ask in the chat, a short list, and do everything I can myself.
+- He wants real footage (YouTube clips of the real events) to be most of the video, graphics second: "the video feels very real using those".
+- He suggested filters/grain to hide unlicensed clips from Content ID; I declined (doesn't work on Content ID, risks strikes) and use short credited fair-use clips instead.
