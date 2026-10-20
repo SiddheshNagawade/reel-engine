@@ -82,7 +82,7 @@ export const Logos: React.FC<P<{items: {t: number; src: string; h?: number; labe
   const {t, exit} = useLife(at, dur, 0.4, 0.45);
   const z = fit(box);
   const cur = items.filter((it) => t >= it.t).length - 1;
-  const n = items.length, slotW = 230 * z;
+  const n = items.length, slotW = 300 * z;
   return (
     <div style={{...center, opacity: exit}}>
       {title && <Kicker text={title} k={step(t, 0)} style={{position: 'absolute', top: box.h * 0.12, fontSize: 22 * z}} />}
@@ -93,11 +93,11 @@ export const Logos: React.FC<P<{items: {t: number; src: string; h?: number; labe
         if (t < it.t) return null;
         const hx = 0, hy = -40 * z, px = (i - (n - 1) / 2) * slotW, py = box.h * 0.32;
         const x = hx + (px - hx) * park, y = hy + (py - hy) * park;
-        const sc = (1.7 - 1.15 * park) * (0.75 + 0.25 * k);
+        const sc = (1.9 - 1.38 * park) * (0.75 + 0.25 * k);
         return (
-          <div key={i} style={{position: 'absolute', left: '50%', top: '50%', width: 200 * z, height: 110 * z, marginLeft: -100 * z, marginTop: -55 * z, borderRadius: 20, ...CARD3D, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          <div key={i} style={{position: 'absolute', left: '50%', top: '50%', width: 280 * z, height: 156 * z, marginLeft: -140 * z, marginTop: -78 * z, borderRadius: 26, ...CARD3D, display: 'flex', alignItems: 'center', justifyContent: 'center',
             opacity: k * (i === cur ? 1 : 0.8), transform: `perspective(1400px) translate3d(${x}px, ${y + (1 - k) * 80}px, ${(1 - k) * -300}px) rotateX(${(1 - k) * 35}deg) rotateY(${(1 - park) * Math.sin(t * 0.8) * 8}deg) scale(${sc})`}}>
-            <Pic s={it.src} style={{height: (it.h ?? 64) * z * 0.62, maxWidth: 160 * z, filter: invert ? 'brightness(0) invert(0.95)' : undefined}} />
+            <Pic s={it.src} style={{height: (it.h ?? 64) * z * 0.9, maxWidth: 220 * z, filter: invert ? 'brightness(0) invert(0.95)' : undefined}} />
           </div>
         );
       })}
@@ -823,7 +823,7 @@ export const Apps: React.FC<P<{items: {src: string; name: string}[]; question: s
 // SUBSCRIBED, the bell rings. Timed to his "subscribe". ──
 export const Subscribe: React.FC<P<{channel?: string; logo?: string}>> = ({at, dur, box, channel = 'Cdesh'}) => {
   const {t, exit, enter} = useLife(at, dur, 0.5, 0.35);
-  const z = fit(box);
+  const z = fit(box) * 1.22;
   const click = 1.3, bell = 1.9;
   const press = interpolate(t, [click - 0.08, click, click + 0.15], [1, 0.9, 1], clamp);
   const done = t >= click;
@@ -855,11 +855,11 @@ export const End: React.FC<P<{line?: string}>> = ({at, dur, line = 'Thanks for w
   const s = useSpring(t, 0, 11);
   return (
     <div style={center}>
-      <div style={{width: 130, height: 130, borderRadius: 30, background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `perspective(1200px) rotateY(${(1 - s) * 90}deg) scale(${s})`, boxShadow: SH}}>
-        <span style={{fontFamily: F.serif, fontWeight: 800, fontSize: 70, color: '#fff'}}>Cd</span>
+      <div style={{width: 200, height: 200, borderRadius: 44, background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `perspective(1200px) rotateY(${(1 - s) * 90}deg) scale(${s})`, boxShadow: SH}}>
+        <span style={{fontFamily: F.serif, fontWeight: 800, fontSize: 108, color: '#fff'}}>Cd</span>
       </div>
-      <Rise text={line} t={t - 0.3} style={{fontFamily: F.serif, fontWeight: 700, fontSize: 84, color: C.ink, marginTop: 34, letterSpacing: -2}} />
-      <div style={{fontFamily: F.sans, fontWeight: 500, fontSize: 26, color: C.mute, marginTop: 16, opacity: step(t, 0.9)}}>See you in the next one.</div>
+      <Rise text={line} t={t - 0.3} style={{fontFamily: F.serif, fontWeight: 700, fontSize: 132, color: C.ink, marginTop: 40, letterSpacing: -3}} />
+      <div style={{fontFamily: F.sans, fontWeight: 500, fontSize: 40, color: C.mute, marginTop: 20, opacity: step(t, 0.9)}}>See you in the next one.</div>
     </div>
   );
 };
@@ -889,14 +889,14 @@ export const Note: React.FC<P<{text: string; sub?: string; hot?: string[]; side?
 // different sources sit together; only a small credit bottom-right (his voice already tells what it is) ──
 // vol = the clip's own sound, kept low under his voice (his ask 2026-10-21: the clips felt empty without it)
 export const Clip: React.FC<P<{src: string; from?: number; full?: boolean; source?: string; zoom?: number; drift?: 'in' | 'out' | 'left' | 'right'; vol?: number}>> = ({at, dur, box, src: s, from = 0, full = true, source, zoom = 1.1, drift = 'in', vol = 0.12}) => {
-  const {t, exit, enter} = useLife(at, dur, 0.2, 0.2);
+  const {t, exit, enter} = useLife(at, dur, full ? 0.04 : 0.5, full ? 0.04 : 0.3); // full-frame clips = hard cuts
   const p = Math.min(1, Math.max(0, t) / Math.max(1, dur));
   const sc = drift === 'out' ? zoom - (zoom - 1.03) * p : 1.03 + (zoom - 1.03) * p;
   const dx = drift === 'left' ? -40 * p : drift === 'right' ? 40 * p : 0;
   const vid = <OffthreadVideo src={srcOf(s)} volume={(f) => vol * Math.min(1, f / 6) * exit} startFrom={Math.round(from * 30)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `translateX(${dx}px) scale(${drift === 'left' || drift === 'right' ? 1.08 : sc})`, filter: 'contrast(1.06) saturate(0.9)'}} />;
   const credit = source && <div style={{position: 'absolute', right: 34, bottom: 26, fontFamily: F.sans, fontWeight: 500, fontSize: 16, color: 'rgba(255,255,255,0.72)', textShadow: '0 1px 6px rgba(0,0,0,0.6)', opacity: step(t, 0.3) * exit}}>{source}</div>;
   if (full) return (
-    <div style={{position: 'absolute', inset: 0, overflow: 'hidden', opacity: Math.min(enter * 2, 1) * exit}}>
+    <div style={{position: 'absolute', inset: 0, overflow: 'hidden'}}>
       {vid}
       <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(130% 100% at 50% 45%, rgba(0,0,0,0) 62%, rgba(0,0,0,0.32) 100%)'}} />
       {credit}
