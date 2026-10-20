@@ -2,6 +2,9 @@ import React from 'react';
 import {AbsoluteFill, Easing, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {loadFont as plexSans} from '@remotion/google-fonts/IBMPlexSans';
 import {loadFont as plexSerif} from '@remotion/google-fonts/IBMPlexSerif';
+import {loadFont as interTight} from '@remotion/google-fonts/InterTight';
+import {loadFont as geist} from '@remotion/google-fonts/Geist';
+import {loadFont as instrSerif} from '@remotion/google-fonts/InstrumentSerif';
 import {loadFont as plexMono} from '@remotion/google-fonts/IBMPlexMono';
 import {loadFont as caveat} from '@remotion/google-fonts/Caveat';
 import {loadFont as carlito} from '@remotion/google-fonts/Carlito';
@@ -17,11 +20,16 @@ export const C = {
 };
 const lat = ['latin'] as const;
 export const F = {
-  sans: plexSans('normal', {weights: ['400', '500', '600', '700'], subsets: [...lat]}).fontFamily,
-  serif: plexSerif('normal', {weights: ['500', '600', '700'], subsets: [...lat]}).fontFamily,
-  serifIt: plexSerif('italic', {weights: ['500'], subsets: [...lat]}).fontFamily,
-  mono: plexMono('normal', {weights: ['500', '600'], subsets: [...lat]}).fontFamily,
-  hand: caveat('normal', {weights: ['600', '700'], subsets: [...lat]}).fontFamily,
+  // modern type (his verdict 2026-10-21: the slab serif felt old): Inter Tight for display, Geist for text,
+  // Instrument Serif italic for small human accents; IBM Plex only when IBM Plex itself is the subject
+  sans: geist('normal', {weights: ['400', '500', '600', '700'], subsets: [...lat]}).fontFamily,
+  serif: interTight('normal', {weights: ['600', '700', '800'], subsets: [...lat]}).fontFamily,
+  serifIt: instrSerif('italic', {weights: ['400'], subsets: [...lat]}).fontFamily,
+  mono: geist('normal', {weights: ['500', '600'], subsets: [...lat]}).fontFamily,
+  digits: plexMono('normal', {weights: ['500', '600'], subsets: [...lat]}).fontFamily,
+  hand: instrSerif('italic', {weights: ['400'], subsets: [...lat]}).fontFamily,
+  plex: plexSans('normal', {weights: ['400', '600', '700'], subsets: [...lat]}).fontFamily,
+  plexSerif: plexSerif('normal', {weights: ['600'], subsets: [...lat]}).fontFamily,
   calibriLike: carlito('normal', {weights: ['400', '700'], subsets: [...lat]}).fontFamily,
   deva: notoDeva('normal', {weights: ['500'], subsets: ['devanagari']}).fontFamily,
   tamil: notoTamil('normal', {weights: ['500'], subsets: ['tamil']}).fontFamily,
@@ -62,7 +70,35 @@ export const enterStyle = (k: number, exitK: number, from: 'up' | 'down' | 'left
   const dx = from === 'left' ? -dist * e : from === 'right' ? dist * e : 0;
   const dy = from === 'up' ? dist * e : from === 'down' ? -dist * e : 0;
   const s = from === 'pop' ? 0.7 + 0.3 * k : 1;
-  return {opacity: Math.min(k, exitK), transform: `translate(${dx}px, ${dy - x * 40}px) scale(${s})`, filter: `blur(${(e + x) * 10}px)`};
+  const ry = (from === 'left' ? -28 : from === 'right' ? 28 : 0) * e;
+  const rx = (from === 'up' ? 22 : from === 'down' ? -22 : 0) * e + 14 * x;
+  return {opacity: Math.min(k, exitK), transform: `perspective(1600px) translate3d(${dx}px, ${dy - x * 40}px, ${-200 * (e + x)}px) rotateX(${rx}deg) rotateY(${ry}deg) scale(${s})`, filter: `blur(${(e + x) * 8}px)`, transformStyle: 'preserve-3d'};
+};
+
+// the "camera" over a held graphic: a slow orbit, and every ~3 s it eases to a new angle + a little closer,
+// so nothing ever sits still for more than 2–4 s (his rule)
+export const Drift: React.FC<{t: number; children: React.ReactNode; amp?: number}> = ({t, children, amp = 1}) => {
+  const STEP = 3.1;
+  const n = Math.floor(t / STEP), k = Easing.bezier(0.45, 0, 0.2, 1)(Math.min(1, (t - n * STEP) / 0.9));
+  const ang = (i: number) => (i === 0 ? 0 : i % 2 ? 5 : -5);
+  const ry = n === 0 ? 0 : ang(n - 1) + (ang(n) - ang(n - 1)) * k;          // eases to the next angle
+  const zoom = 1 + 0.022 * Math.min(4, n === 0 ? 0 : n - 1 + k);              // and steps a little closer
+  return (
+    <div style={{position: 'absolute', inset: 0, transform: `perspective(1800px) rotateX(${Math.sin(t * 0.45) * 2.5 * amp}deg) rotateY(${(ry + Math.sin(t * 0.32 + 1) * 2.5) * amp}deg) scale(${zoom})`, transformStyle: 'preserve-3d'}}>
+      {children}
+    </div>
+  );
+};
+
+// 3D card surface: light from the top-left, a lit edge and a deep soft shadow (reads as a physical object)
+export const CARD3D: React.CSSProperties = {
+  background: 'linear-gradient(155deg, #3a3733 0%, #2a2825 45%, #1f1d1b 100%)',
+  boxShadow: '0 1px 0 rgba(255,255,255,0.10) inset, 0 -2px 0 rgba(0,0,0,0.35) inset, 0 40px 80px -20px rgba(0,0,0,0.75), 0 12px 24px rgba(0,0,0,0.35)',
+  border: '1px solid rgba(255,255,255,0.06)',
+};
+export const PAPER3D: React.CSSProperties = {
+  background: 'linear-gradient(160deg, #fbf8f2 0%, #f1ebe0 60%, #e6ddcf 100%)',
+  boxShadow: '0 1px 0 #fff inset, 0 40px 80px -20px rgba(0,0,0,0.75), 0 12px 24px rgba(0,0,0,0.35)',
 };
 
 // letters rise + un-blur, staggered
@@ -115,7 +151,7 @@ export const Source: React.FC<{text: string; k?: number; style?: React.CSSProper
 );
 
 export const Kicker: React.FC<{text: string; k?: number; style?: React.CSSProperties; color?: string}> = ({text, k = 1, style, color = C.orange}) => (
-  <div style={{fontFamily: F.mono, fontWeight: 600, fontSize: 22, letterSpacing: 4, color, textTransform: 'uppercase', opacity: k, ...style}}>{text}</div>
+  <div style={{fontFamily: F.sans, fontWeight: 600, fontSize: 22, letterSpacing: 2.5, color, textTransform: 'uppercase', opacity: k, ...style}}>{text}</div>
 );
 
 // a marker circle drawn around something (Enrico-style), w/h in px, draws on in 0.5 s

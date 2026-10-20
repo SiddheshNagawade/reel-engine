@@ -27,7 +27,7 @@ const sil = fs.readFileSync(path.join(W, 'silences.tsv'), 'utf8').trim().split('
 const nextSpeech = (t) => { const s = sil.find(([a, b]) => a <= t + 0.02 && b > t); return s ? s[1] : t; }; // end of the silence we're in
 
 // pauses follow the script's punctuation: mid-sentence join (comma) / full stop / paragraph — snappy, never glued
-const PAUSE = {'': 0.08, '|': 0.22, '||': 0.42};
+const PAUSE = {'': 0.06, '|': 0.16, '||': 0.32};
 // playback speed of the whole cut (his delivery is slow; 1.08 keeps the voice natural). Output times are divided by it.
 const SPEED = Number(process.argv[3] ?? 1);
 const rows = [];
@@ -58,14 +58,17 @@ for (const raw of fs.readFileSync(path.join(W, 'cut.txt'), 'utf8').split('\n')) 
   if (before) s = Math.max(before[0], before[1] - 0.1);
   const after = sil.find(([a]) => a >= e - 0.3 && a <= e + 0.6);
   if (after) e = after[0] + 0.08;
+  // trim silence still sitting at the very start / end of the line (Whisper often puts a first word early)
+  for (let k = 0; k < 3; k++) { const lead = sil.find(([a, b]) => a <= s + 0.05 && b > s + 0.1 && b < e); if (lead) s = lead[1] - 0.07; }
+  for (let k = 0; k < 3; k++) { const tail = sil.find(([a, b]) => a < e - 0.1 && b >= e - 0.05 && a > s); if (tail) e = tail[0] + 0.07; }
   rows.push({s, e, sep, text, chapter});
 }
 // a range → pieces with long inner silences shortened; the row's end gets its pause from the real room tone
 const pieces = [];
 for (const [i, r] of rows.entries()) {
-  const inner = sil.filter(([a, b]) => a > r.s + 0.1 && b < r.e - 0.1 && b - a > 0.32);
+  const inner = sil.filter(([a, b]) => a > r.s + 0.1 && b < r.e - 0.1 && b - a > 0.2);
   let cur = r.s;
-  for (const [a, b] of inner) { pieces.push({s: cur, e: a + 0.09, row: i}); cur = b - 0.08; }
+  for (const [a, b] of inner) { pieces.push({s: cur, e: a + 0.06, row: i}); cur = b - 0.06; }
   const want = PAUSE[r.sep];
   // if he keeps talking right after (a retake starts), don't eat into it
   const room = Math.max(0.08, nextSpeech(r.e) - r.e - 0.05);

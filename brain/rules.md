@@ -162,3 +162,21 @@ sections at the moment of the decision.
   temp files are deleted after every render; nothing new is written to the Mac when the T7 is unplugged.
 - Never overwrite a version: output/<name>/<name>-vN.mp4 + CHANGELOG.md entry saying exactly what changed.
 - Only stage my own files in git; another chat may be working in the same folder.
+
+## Long-form edit rules (his verdicts on netflix-font v1, 2026-10-21) {cuts,visuals,layout,motion,sound,look}
+- Framing: ONE fixed crop for the full-screen view and one for the small window, centred on him for the whole video;
+  only smooth zoom in/out (glides), never shifting/re-framing per shot. The background must not jump.
+- Pacing: pauses follow the script's punctuation (comma ≈ 0.06 s, full stop ≈ 0.16 s, paragraph ≈ 0.32 s); every
+  silent gap inside a line ≤ 0.12 s; trim silence at the start/end of every take; speed only a touch (≤ 1.05×).
+  Target for a ~2,100-word script: 12–13 min. Cut repeated takes (he reads the laptop, then re-says to camera):
+  re-transcribe the finished cut and grep for repeated 3-word runs before rendering.
+- Freedom to drop script lines that repeat a point (extra examples, side reasons) so it stays engaging.
+- Real clips: no captions/kickers on them (he is already saying it); a small credit bottom-right, no dots; keep
+  each clip's own sound low underneath (Netflix tudum etc.).
+- One idea per screen: lists (logos, conditions, questions, columns) show ONE item big at a time, earlier items
+  park small; the end = subscribe (cursor clicks, bell) → thanks for watching, each its own screen.
+- Look: modern type (Inter Tight / Geist / Instrument Serif italic), no slab serif; 3D depth (perspective
+  entrances, lit card surfaces, slow camera orbit) instead of flat vectors.
+- Nothing static > 2–4 s: held graphics get a camera step every ~3 s, long face shots a zoom glide.
+- Sound: Synthet7 music by section, whooshes/impacts clearly audible (≈ 0.5–0.7), heavy sound design in the hook.
+- Hook: first ~10 s = a fast recap of the whole story (4 lines over real footage, a cut every ~1 s, riser + hits).

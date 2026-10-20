@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, Audio, OffthreadVideo, Sequence, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
-import {C, EASE, clamp, Paper, src, type Box} from './kit';
+import {C, EASE, clamp, Paper, Drift, src, type Box} from './kit';
 import {SCENES} from './scenes';
 
 // Designomics long-form episode (16:9). The base = his cut, cropped, graded talking footage (scripts/longform.mjs).
@@ -118,9 +118,15 @@ export const Episode: React.FC<EpisodeProps> = ({base, shots, scenes, sfx = [], 
   );
 };
 
+const DriftAt: React.FC<{at: number; children: React.ReactNode}> = ({at, children}) => {
+  const f = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  return <Drift t={Math.max(0, f / fps - at)}>{children}</Drift>;
+};
+
 // scenes keep absolute times (seconds in the episode): shift the Sequence's local frame back
 const SceneAt: React.FC<{Comp: React.FC<any>; sc: Scene; box: Box; offset: number}> = ({Comp, sc, box, offset}) => (
   <div style={{position: 'absolute', left: box.x, top: box.y, width: box.w, height: box.h}}>
-    <Comp {...sc} at={sc.at - offset} box={box} />
+    {sc.type === 'clip' ? <Comp {...sc} at={sc.at - offset} box={box} /> : <DriftAt at={sc.at - offset}><Comp {...sc} at={sc.at - offset} box={box} /></DriftAt>}
   </div>
 );

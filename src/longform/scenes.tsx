@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, Easing, OffthreadVideo} from 'remotion';
-import {C, F, SH, EASE, clamp, useLife, step, useSpring, Rise, RiseWords, Source, Kicker, MarkerCircle, Underline, PriceTag, Pic, fontOf, enterStyle, src as srcOf, type Box} from './kit';
+import {C, F, SH, CARD3D, PAPER3D, EASE, clamp, useLife, step, useSpring, Rise, RiseWords, Source, Kicker, MarkerCircle, Underline, PriceTag, Pic, fontOf, enterStyle, src as srcOf, type Box} from './kit';
 
 // Every scene: {type, at, dur, ...}. `box` = where it lives (full frame when he is off screen, the free side otherwise).
 type P<T> = T & {at: number; dur: number; box: Box};
@@ -51,26 +51,25 @@ export const Statement: React.FC<P<{text: string; hot?: string[]; size?: number;
   );
 };
 
-// ── Lines typed one after another (the three questions) ──
+// ── Questions: one at a time, typed big in the middle; earlier ones float up and fade ──
 export const TypeLines: React.FC<P<{lines: {t: number; text: string}[]; kicker?: string}>> = ({at, dur, box, lines, kicker}) => {
   const {t, exit} = useLife(at, dur, 0.4, 0.4);
   const z = fit(box);
+  const cur = lines.filter((l) => t >= l.t).length - 1;
   return (
-    <div style={{...center, alignItems: 'flex-start', padding: `0 ${box.w * 0.09}px`, opacity: exit}}>
-      {kicker && <Kicker text={kicker} k={step(t, 0)} style={{fontSize: 22 * z, marginBottom: 30 * z}} />}
+    <div style={{...center, opacity: exit}}>
+      {kicker && <Kicker text={kicker} k={step(t, 0)} style={{position: 'absolute', top: box.h * 0.16, fontSize: 22 * z}} />}
       {lines.map((l, i) => {
+        if (i > cur) return null;
         const lt = t - l.t;
-        if (lt < 0) return <div key={i} style={{height: 92 * z}} />;
-        const n = Math.floor(Math.min(l.text.length, lt * 38));
-        const done = n >= l.text.length;
-        const active = i === lines.filter((x) => t >= x.t).length - 1;
+        const n = Math.floor(Math.min(l.text.length, lt * 34));
+        const up = i < cur ? step(t, lines[i + 1].t, 0.6) : 0;
+        const age = cur - i;
         return (
-          <div key={i} style={{display: 'flex', alignItems: 'baseline', gap: 22 * z, height: 92 * z, opacity: active ? 1 : 0.45}}>
-            <span style={{fontFamily: F.mono, fontWeight: 600, fontSize: 30 * z, color: C.orange}}>0{i + 1}</span>
-            <span style={{fontFamily: F.sans, fontWeight: 600, fontSize: 58 * z, color: C.ink}}>
-              {l.text.slice(0, n)}
-              <span style={{opacity: !done || (active && Math.floor(t * 2) % 2 === 0) ? 1 : 0, color: C.orange}}>▍</span>
-            </span>
+          <div key={i} style={{position: 'absolute', top: '50%', width: '90%', textAlign: 'center', transform: `translateY(${-50 - up * 0 - age * 0}%) translateY(${-up * (150 + (age - 1) * 70) * z}px) scale(${1 - up * 0.5})`,
+            opacity: i === cur ? 1 : 0.3 / age, fontFamily: F.serif, fontWeight: 700, fontSize: 92 * z, color: C.ink, letterSpacing: -1.5}}>
+            <span style={{fontFamily: F.sans, fontWeight: 600, fontSize: 30 * z, color: C.orange, verticalAlign: 'middle', marginRight: 24 * z}}>0{i + 1}</span>
+            {l.text.slice(0, n)}<span style={{color: C.orange, opacity: i === cur && Math.floor(t * 2.5) % 2 === 0 ? 1 : 0}}>|</span>
           </div>
         );
       })}
@@ -78,26 +77,30 @@ export const TypeLines: React.FC<P<{lines: {t: number; text: string}[]; kicker?:
   );
 };
 
-// ── Logos fly in on the word that names them ──
-export const Logos: React.FC<P<{items: {t: number; src: string; h?: number; label?: string}[]; title?: string; cols?: number; invert?: boolean}>> = ({at, dur, box, items, title, cols = 3, invert = true}) => {
+// ── Logos: each brand gets its own moment (big, on its word), then files into a row below ──
+export const Logos: React.FC<P<{items: {t: number; src: string; h?: number; label?: string}[]; title?: string; cols?: number; invert?: boolean}>> = ({at, dur, box, items, title, invert = true}) => {
   const {t, exit} = useLife(at, dur, 0.4, 0.45);
   const z = fit(box);
+  const cur = items.filter((it) => t >= it.t).length - 1;
+  const n = items.length, slotW = 230 * z;
   return (
     <div style={{...center, opacity: exit}}>
-      {title && <Kicker text={title} k={step(t, 0)} style={{fontSize: 22 * z, marginBottom: 40 * z}} />}
-      <div style={{display: 'grid', gridTemplateColumns: `repeat(${cols}, ${360 * z}px)`, gap: `${44 * z}px ${40 * z}px`}}>
-        {items.map((it, i) => {
-          const k = step(t, it.t, 0.55);
-          const s = useSpring(t, it.t, 11);
-          return (
-            <div key={i} style={{height: 170 * z, borderRadius: 22, background: C.card, border: `1px solid ${C.line}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: SH,
-              opacity: k, transform: `translateY(${(1 - s) * 120}px) scale(${0.85 + 0.15 * s}) rotate(${(1 - s) * (i % 2 ? 6 : -6)}deg)`}}>
-              <Pic s={it.src} style={{height: (it.h ?? 70) * z, maxWidth: 280 * z, filter: invert ? 'brightness(0) invert(0.93)' : undefined}} />
-              {it.label && <div style={{fontFamily: F.mono, fontSize: 18 * z, color: C.mute, marginTop: 14 * z, letterSpacing: 2}}>{it.label}</div>}
-            </div>
-          );
-        })}
-      </div>
+      {title && <Kicker text={title} k={step(t, 0)} style={{position: 'absolute', top: box.h * 0.12, fontSize: 22 * z}} />}
+      {items.map((it, i) => {
+        const k = step(t, it.t, 0.5);
+        const next = items[i + 1];
+        const park = next ? step(t, next.t, 0.55) : 0; // 0 = hero, 1 = parked in the row
+        if (t < it.t) return null;
+        const hx = 0, hy = -40 * z, px = (i - (n - 1) / 2) * slotW, py = box.h * 0.32;
+        const x = hx + (px - hx) * park, y = hy + (py - hy) * park;
+        const sc = (1.7 - 1.15 * park) * (0.75 + 0.25 * k);
+        return (
+          <div key={i} style={{position: 'absolute', left: '50%', top: '50%', width: 200 * z, height: 110 * z, marginLeft: -100 * z, marginTop: -55 * z, borderRadius: 20, ...CARD3D, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            opacity: k * (i === cur ? 1 : 0.8), transform: `perspective(1400px) translate3d(${x}px, ${y + (1 - k) * 80}px, ${(1 - k) * -300}px) rotateX(${(1 - k) * 35}deg) rotateY(${(1 - park) * Math.sin(t * 0.8) * 8}deg) scale(${sc})`}}>
+            <Pic s={it.src} style={{height: (it.h ?? 64) * z * 0.62, maxWidth: 160 * z, filter: invert ? 'brightness(0) invert(0.95)' : undefined}} />
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -130,11 +133,10 @@ export const Meter: React.FC<P<{keys: [number, number][]; label?: string; prefix
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <Kicker text={label} style={{fontSize: 22 * z}} />
           <div style={{display: 'flex', alignItems: 'center', gap: 10, fontFamily: F.mono, fontSize: 20 * z, color: zero ? C.green : C.red}}>
-            <div style={{width: 14 * z, height: 14 * z, borderRadius: 99, background: zero ? C.green : C.red, opacity: zero ? 1 : 0.5 + 0.5 * Math.sin(t * 8)}} />
             {zero ? 'PAID OFF' : 'RUNNING'}
           </div>
         </div>
-        <div style={{fontFamily: F.mono, fontWeight: 600, fontSize: 132 * z, color: zero ? C.green : C.ink, letterSpacing: 4, marginTop: 10 * z, whiteSpace: 'pre', transform: `translateY(${wobble}px)`}}>
+        <div style={{fontFamily: F.digits, fontWeight: 600, fontSize: 132 * z, color: zero ? C.green : C.ink, letterSpacing: 4, marginTop: 10 * z, whiteSpace: 'pre', transform: `translateY(${wobble}px)`}}>
           {prefix}{digits.trimStart()}
         </div>
         <div style={{height: 10 * z, borderRadius: 9, background: C.line, marginTop: 14 * z, overflow: 'hidden'}}>
@@ -165,7 +167,7 @@ export const Quote: React.FC<P<{text: string; who: string; role?: string; source
   const z = fit(box);
   return (
     <div style={{...center, ...enterStyle(enter, exit, 'up', 70)}}>
-      <div style={{width: box.w * 0.8, padding: `${56 * z}px ${70 * z}px`, borderRadius: 30, background: C.card, border: `1px solid ${C.line}`, boxShadow: SH, position: 'relative'}}>
+      <div style={{width: box.w * 0.8, padding: `${56 * z}px ${70 * z}px`, borderRadius: 30, ...CARD3D, position: 'relative'}}>
         <div style={{position: 'absolute', top: -40 * z, left: 50 * z, fontFamily: F.serif, fontSize: 200 * z, color: C.orange, lineHeight: 1}}>“</div>
         <RiseWords text={text} t={t - 0.2} hot={hot} style={{fontFamily: F.serif, fontWeight: 500, fontSize: 54 * z, lineHeight: 1.25, color: C.ink}} stagger={0.045} />
         <div style={{marginTop: 34 * z, display: 'flex', alignItems: 'center', gap: 16, opacity: step(t, 0.9)}}>
@@ -195,27 +197,28 @@ export const Evidence: React.FC<P<{src: string; source?: string; caption?: strin
   );
 };
 
-// ── Checklist: what a licence counts ──
+// ── Licence conditions: each one gets the screen (big word + what it costs), done ones stack small at the side ──
 export const Checklist: React.FC<P<{title: string; items: {t: number; text: string; icon?: string}[]; source?: string}>> = ({at, dur, box, title, items, source}) => {
-  const {t, exit, enter} = useLife(at, dur, 0.5, 0.45);
+  const {t, exit} = useLife(at, dur, 0.5, 0.45);
   const z = fit(box);
+  const cur = items.filter((it) => t >= it.t).length - 1;
   return (
-    <div style={{...center, ...enterStyle(enter, exit, 'right', 80)}}>
-      <div style={{width: 860 * z, padding: `${50 * z}px ${60 * z}px`, borderRadius: 26, background: '#f3eee5', color: '#1d1b19', boxShadow: SH, transform: 'rotate(-1.5deg)'}}>
-        <div style={{fontFamily: F.mono, fontWeight: 600, fontSize: 22 * z, letterSpacing: 3, color: C.orange}}>FONT LICENCE · CONDITIONS</div>
-        <div style={{fontFamily: F.serif, fontWeight: 600, fontSize: 52 * z, marginTop: 10 * z, marginBottom: 26 * z}}>{title}</div>
-        {items.map((it, i) => {
-          const k = step(t, it.t, 0.45);
-          return (
-            <div key={i} style={{display: 'flex', alignItems: 'center', gap: 24 * z, padding: `${16 * z}px 0`, borderTop: '2px dashed #cfc6b8', opacity: 0.25 + 0.75 * k}}>
-              <div style={{width: 46 * z, height: 46 * z, borderRadius: 10, border: `3px solid ${k > 0.5 ? C.orange : '#b9b0a2'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 34 * z, color: C.orange, fontWeight: 700, transform: `scale(${0.8 + 0.2 * k})`}}>{k > 0.5 ? '✓' : ''}</div>
-              <div style={{fontFamily: F.sans, fontWeight: 600, fontSize: 40 * z, transform: `translateX(${(1 - k) * 30}px)`}}>{it.text}</div>
-              <div style={{marginLeft: 'auto', fontFamily: F.mono, fontSize: 26 * z, color: C.orange, opacity: k}}>{it.icon ?? '× $'}</div>
-            </div>
-          );
-        })}
-      </div>
-      {source && <Source text={source} k={step(t, 1) * exit} style={{marginTop: 26}} />}
+    <div style={{...center, opacity: exit}}>
+      <Kicker text={title} k={step(t, 0)} style={{position: 'absolute', top: box.h * 0.14, fontSize: 24 * z}} />
+      {items.map((it, i) => {
+        if (i > cur) return null;
+        const k = step(t, it.t, 0.5);
+        const park = i < cur ? step(t, items[i + 1].t, 0.55) : 0;
+        return (
+          <div key={i} style={{position: 'absolute', left: '50%', top: '50%', transform: `perspective(1400px) translate3d(${-50 + park * -0}%, -50%, 0) translate3d(${park * -box.w * 0.3}px, ${park * (-box.h * 0.18 + i * 64 * z)}px, ${(1 - k) * -260}px) rotateX(${(1 - k) * 30}deg) scale(${1 - park * 0.62})`,
+            opacity: k * (i === cur ? 1 : 0.65), display: 'flex', alignItems: 'center', gap: 34 * z, whiteSpace: 'nowrap'}}>
+            <div style={{width: 96 * z, height: 96 * z, borderRadius: 24, ...PAPER3D, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 62 * z, color: C.orange, fontWeight: 700, transform: `scale(${0.6 + 0.4 * useSpring(t, it.t + 0.15, 9)})`}}>✓</div>
+            <div style={{fontFamily: F.serif, fontWeight: 700, fontSize: 104 * z, color: C.ink, letterSpacing: -2}}>{it.text}</div>
+            <div style={{fontFamily: F.digits, fontWeight: 600, fontSize: 52 * z, color: C.orange, opacity: step(t, it.t + 0.4)}}>+ $</div>
+          </div>
+        );
+      })}
+      {source && <Source text={source} k={step(t, 1) * exit} style={{position: 'absolute', right: 40, bottom: 30}} />}
     </div>
   );
 };
@@ -229,12 +232,12 @@ export const Licence: React.FC<P<{}>> = ({at, dur, box}) => {
   return (
     <div style={{...center, ...enterStyle(enter, exit, 'up', 80)}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 70 * z}}>
-        <div style={{width: 300 * z, height: 380 * z, borderRadius: 22, background: C.card, border: `2px solid ${C.line}`, boxShadow: SH, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', transform: `rotate(${-4 + flip * 4}deg)`}}>
+        <div style={{width: 300 * z, height: 380 * z, borderRadius: 22, ...CARD3D, border: `2px solid ${C.line}`, boxShadow: SH, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', transform: `rotate(${-4 + flip * 4}deg)`}}>
           <div style={{fontFamily: F.serif, fontWeight: 600, fontSize: 170 * z, color: C.ink, lineHeight: 1}}>Aa</div>
           <div style={{fontFamily: F.mono, fontSize: 26 * z, color: C.mute, marginTop: 20 * z}}>font.otf</div>
         </div>
         <div style={{fontFamily: F.mono, fontSize: 70 * z, color: C.orange, opacity: flip}}>→</div>
-        <div style={{width: 420 * z, height: 380 * z, borderRadius: 18, background: '#f3eee5', color: '#1d1b19', boxShadow: SH, padding: 36 * z, opacity: flip, transform: `translateX(${(1 - flip) * 60}px) rotate(2deg)`, position: 'relative'}}>
+        <div style={{width: 420 * z, height: 380 * z, borderRadius: 18, ...PAPER3D, color: '#1d1b19', padding: 36 * z, opacity: flip, transform: `translateX(${(1 - flip) * 60}px) rotate(2deg)`, position: 'relative'}}>
           <div style={{fontFamily: F.mono, fontWeight: 600, fontSize: 22 * z, letterSpacing: 3, color: C.orange}}>LICENCE</div>
           <div style={{fontFamily: F.serif, fontWeight: 600, fontSize: 44 * z, marginTop: 8 * z}}>Permission to use</div>
           {[0, 1, 2, 3].map((i) => <div key={i} style={{height: 10 * z, borderRadius: 5, background: '#d9d1c4', marginTop: 22 * z, width: `${92 - i * 14}%`}} />)}
@@ -435,7 +438,7 @@ export const Board: React.FC<P<{owner: string; logo?: string; cards: {t: number;
           return (
             <div key={i} style={{position: 'relative', opacity: Math.min(1, s * 2)}}>
               <svg style={{position: 'absolute', left: '50%', top: -60 * z, overflow: 'visible'}} width={2} height={60 * z}><line x1={0} y1={0} x2={0} y2={60 * z * s} stroke={C.orange} strokeWidth={3} strokeDasharray="6 6" /></svg>
-              <div style={{width: 420 * z, padding: `${34 * z}px ${30 * z}px`, borderRadius: 22, background: C.card, border: `2px solid ${c.hot ? C.orange : C.line}`, boxShadow: SH, textAlign: 'center',
+              <div style={{width: 420 * z, padding: `${34 * z}px ${30 * z}px`, borderRadius: 22, ...CARD3D, border: `2px solid ${c.hot ? C.orange : C.line}`, boxShadow: SH, textAlign: 'center',
                 transform: `translateY(${(1 - s) * 260}px) rotate(${(1 - s) * (i ? 10 : -10)}deg)`}}>
                 <div style={{fontFamily: fontOf(c.font), fontSize: 110 * z, color: C.ink, lineHeight: 1}}>Aa</div>
                 <div style={{fontFamily: F.sans, fontWeight: 600, fontSize: 40 * z, color: C.ink, marginTop: 14 * z}}>{c.title}</div>
@@ -455,7 +458,7 @@ export const Law: React.FC<P<{left: {title: string; items: string[]}; right: {ti
   const {t, exit, enter} = useLife(at, dur, 0.5, 0.45);
   const z = fit(box);
   const col = (c: {title: string; items: string[]}, d: number, ok: boolean) => (
-    <div style={{width: 640 * z, padding: `${40 * z}px ${46 * z}px`, borderRadius: 24, background: C.card, border: `2px solid ${ok ? C.green : C.orange}`, boxShadow: SH, opacity: step(t, d), transform: `translateY(${(1 - step(t, d)) * 60}px)`}}>
+    <div style={{width: 640 * z, padding: `${40 * z}px ${46 * z}px`, borderRadius: 24, ...CARD3D, border: `2px solid ${ok ? C.green : C.orange}`, boxShadow: SH, opacity: step(t, d), transform: `translateY(${(1 - step(t, d)) * 60}px)`}}>
       <div style={{fontFamily: F.mono, fontWeight: 600, fontSize: 24 * z, letterSpacing: 3, color: ok ? C.green : C.orange}}>{ok ? '✓ PROTECTED' : '✕ NOT PROTECTED'}</div>
       <div style={{fontFamily: F.serif, fontWeight: 600, fontSize: 48 * z, color: C.ink, margin: `${10 * z}px 0 ${20 * z}px`}}>{c.title}</div>
       {c.items.map((it, i) => <div key={i} style={{fontFamily: F.sans, fontWeight: 500, fontSize: 36 * z, color: C.ink, padding: `${10 * z}px 0`, borderTop: `1px solid ${C.line}`, opacity: step(t, d + 0.4 + i * 0.3)}}>{it}</div>)}
@@ -464,7 +467,7 @@ export const Law: React.FC<P<{left: {title: string; items: string[]}; right: {ti
   return (
     <div style={{...center, ...enterStyle(enter, exit, 'up', 50)}}>
       <Kicker text="United States · copyright" k={step(t, 0)} style={{marginBottom: 34 * z, fontSize: 22 * z}} />
-      <div style={{display: 'flex', gap: 50 * z}}>{col(left, 0.3, true)}{col(right, t2, false)}</div>
+      <div style={{display: 'flex', gap: 50 * z, transform: `translateX(${(1 - step(t, t2, 0.7)) * 345 * z}px)`}}>{col(left, 0.3, true)}<div style={{opacity: step(t, t2), transform: `perspective(1400px) rotateY(${(1 - step(t, t2, 0.7)) * -40}deg)`}}>{col(right, t2, false)}</div></div>
       {source && <Source text={source} k={step(t, t2 + 1)} style={{marginTop: 30}} />}
     </div>
   );
@@ -529,7 +532,7 @@ export const Article: React.FC<P<{outlet: string; date?: string; headline: strin
   const z = fit(box);
   return (
     <div style={{...center, ...enterStyle(enter, exit, 'up', 80)}}>
-      <div style={{width: box.w * 0.72, background: '#f4f0e8', borderRadius: 18, padding: `${44 * z}px ${54 * z}px`, boxShadow: SH, transform: `rotate(${-1.2 + 0.4 * Math.sin(t)}deg) scale(${1 + 0.03 * t / dur})`, position: 'relative'}}>
+      <div style={{width: box.w * 0.72, ...PAPER3D, borderRadius: 18, padding: `${44 * z}px ${54 * z}px`, transform: `rotate(${-1.2 + 0.4 * Math.sin(t)}deg) scale(${1 + 0.03 * t / dur})`, position: 'relative'}}>
         <div style={{display: 'flex', justifyContent: 'space-between', fontFamily: F.mono, fontSize: 22 * z, color: '#6b645a', letterSpacing: 2, borderBottom: '2px solid #d8d0c3', paddingBottom: 14 * z}}>
           <span style={{fontWeight: 600, color: '#1d1b19'}}>{outlet.toUpperCase()}</span><span>{date}</span>
         </div>
@@ -548,7 +551,7 @@ export const Specimen: React.FC<P<{name: string; font: string; by?: string; year
   const st = useSpring(t, stampAt, 8);
   return (
     <div style={{...center, ...enterStyle(enter, exit, 'up', 70)}}>
-      <div style={{width: box.w * 0.74, borderRadius: 24, background: '#f3eee5', color: '#151413', padding: `${50 * z}px ${64 * z}px`, boxShadow: SH, position: 'relative'}}>
+      <div style={{width: box.w * 0.74, borderRadius: 24, ...PAPER3D, color: '#151413', padding: `${50 * z}px ${64 * z}px`, position: 'relative'}}>
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <div style={{fontFamily: F.mono, fontSize: 22 * z, letterSpacing: 3, color: C.orange}}>{(by ?? '').toUpperCase()} {year ? `· ${year}` : ''}</div>
           {logo && <Pic s={logo} style={{height: 44 * z}} />}
@@ -572,9 +575,10 @@ export const Trio: React.FC<P<{logo: string; word: string; source?: string}>> = 
     <div style={{...center, ...enterStyle(enter, exit, 'up', 60)}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 46 * z}}>
         {items.map((it, i) => {
-          const k = step(t, 0.3 + i * 0.45);
+          const seg = dur / 3.4, d0 = 0.2 + i * seg;
+          const k = step(t, d0), on = t < d0 + seg || i === 2;
           return (
-            <div key={i} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: k, transform: `translateY(${(1 - k) * 80}px)`}}>
+            <div key={i} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: k * (on ? 1 : 0.35), transform: `perspective(1400px) translateY(${(1 - k) * 80}px) rotateY(${(1 - k) * 30}deg) scale(${on && t >= d0 ? 1.12 : 0.9})`}}>
               <div style={{width: it.w * z, height: it.h * z, borderRadius: it.r * z, background: '#f6f2ea', boxShadow: SH, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 * z, border: i === 0 ? `10px solid #111` : undefined}}>
                 <Pic s={logo} style={{height: 60 * z}} />
                 <div style={{width: '60%', height: 10 * z, borderRadius: 5, background: '#ddd5c8'}} /><div style={{width: '45%', height: 10 * z, borderRadius: 5, background: '#ddd5c8'}} />
@@ -647,7 +651,7 @@ export const SearchRead: React.FC<P<{}>> = ({at, dur, box}) => {
   const scan = interpolate(t, [1.2, 3.2], [0, 1], clamp);
   const panel = (img: boolean, i: number) => (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: step(t, 0.2 + i * 0.5)}}>
-      <div style={{width: 560 * z, height: 320 * z, borderRadius: 16, background: '#f4f0e8', boxShadow: SH, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      <div style={{width: 560 * z, height: 320 * z, borderRadius: 16, ...PAPER3D, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
         {img ? (
           <div style={{width: '82%', height: '52%', borderRadius: 10, background: 'linear-gradient(135deg,#b23a1e,#e2481b)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: F.serif, fontWeight: 700, fontSize: 54 * z, color: '#fff', filter: 'blur(0.4px)'}}>
             BIG SALE
@@ -815,17 +819,47 @@ export const Apps: React.FC<P<{items: {src: string; name: string}[]; question: s
   );
 };
 
-// ── End card ──
-export const End: React.FC<P<{line?: string}>> = ({at, dur, line = 'Every design has a price.'}) => {
+// ── Subscribe moment (reusable, every video): the button flies in, a cursor glides over, clicks, it turns into
+// SUBSCRIBED, the bell rings. Timed to his "subscribe". ──
+export const Subscribe: React.FC<P<{channel?: string; logo?: string}>> = ({at, dur, box, channel = 'Cdesh'}) => {
+  const {t, exit, enter} = useLife(at, dur, 0.5, 0.35);
+  const z = fit(box);
+  const click = 1.3, bell = 1.9;
+  const press = interpolate(t, [click - 0.08, click, click + 0.15], [1, 0.9, 1], clamp);
+  const done = t >= click;
+  const cx = interpolate(t, [0.3, click - 0.05], [360, 150], {...clamp, easing: EASE}), cy = interpolate(t, [0.3, click - 0.05], [260, 30], {...clamp, easing: EASE});
+  const ring = t > bell ? Math.sin((t - bell) * 26) * 22 * Math.exp(-(t - bell) * 3) : 0;
+  return (
+    <div style={{...center, ...enterStyle(enter, exit, 'up', 90)}}>
+      <div style={{display: 'flex', alignItems: 'center', gap: 28 * z, padding: `${28 * z}px ${36 * z}px`, borderRadius: 30 * z, ...CARD3D, position: 'relative'}}>
+        <div style={{width: 110 * z, height: 110 * z, borderRadius: 99, background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: F.serif, fontWeight: 800, fontSize: 52 * z, color: '#fff'}}>Cd</div>
+        <div>
+          <div style={{fontFamily: F.serif, fontWeight: 700, fontSize: 46 * z, color: C.ink}}>{channel}</div>
+          <div style={{fontFamily: F.sans, fontSize: 24 * z, color: C.mute}}>Designomics · every design has a price</div>
+        </div>
+        <div style={{marginLeft: 20 * z, padding: `${18 * z}px ${36 * z}px`, borderRadius: 999, background: done ? '#3a3835' : '#f1f1f1', color: done ? '#cfcac2' : '#0f0f0f', fontFamily: F.sans, fontWeight: 700, fontSize: 30 * z, transform: `scale(${press})`, transition: 'none'}}>
+          {done ? 'Subscribed' : 'Subscribe'}
+        </div>
+        <div style={{fontSize: 46 * z, transform: `rotate(${ring}deg)`, transformOrigin: '50% 10%', opacity: step(t, click + 0.1), color: C.ink}}>🔔</div>
+        <svg width={44 * z} height={44 * z} viewBox="0 0 24 24" style={{position: 'absolute', right: cx * z, top: cy * z + 60 * z, opacity: step(t, 0.3) * (1 - step(t, bell + 0.4)), filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.5))'}}>
+          <path d="M3 2 L3 20 L8 15 L11.5 22 L14.5 20.5 L11 14 L18 14 Z" fill="#fff" stroke="#111" strokeWidth={1.2} />
+        </svg>
+      </div>
+    </div>
+  );
+};
+
+// ── Thanks for watching (reusable last screen): the Cd tile lands, the line writes on, a hard cut ends it ──
+export const End: React.FC<P<{line?: string}>> = ({at, dur, line = 'Thanks for watching.'}) => {
   const {t} = useLife(at, dur + 10, 0.5, 0.1);
   const s = useSpring(t, 0, 11);
   return (
     <div style={center}>
-      <div style={{width: 130, height: 130, borderRadius: 24, background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `scale(${s})`, boxShadow: SH}}>
-        <span style={{fontFamily: F.serif, fontWeight: 700, fontSize: 80, color: '#fff'}}>Cd</span>
+      <div style={{width: 130, height: 130, borderRadius: 30, background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `perspective(1200px) rotateY(${(1 - s) * 90}deg) scale(${s})`, boxShadow: SH}}>
+        <span style={{fontFamily: F.serif, fontWeight: 800, fontSize: 70, color: '#fff'}}>Cd</span>
       </div>
-      <Rise text={line} t={t - 0.3} style={{fontFamily: F.serif, fontWeight: 600, fontSize: 64, color: C.ink, marginTop: 30}} />
-      <div style={{fontFamily: F.mono, fontSize: 24, color: C.mute, letterSpacing: 5, marginTop: 18, opacity: step(t, 0.9)}}>DESIGNOMICS · SUBSCRIBE FOR THE NEXT ONE</div>
+      <Rise text={line} t={t - 0.3} style={{fontFamily: F.serif, fontWeight: 700, fontSize: 84, color: C.ink, marginTop: 34, letterSpacing: -2}} />
+      <div style={{fontFamily: F.sans, fontWeight: 500, fontSize: 26, color: C.mute, marginTop: 16, opacity: step(t, 0.9)}}>See you in the next one.</div>
     </div>
   );
 };
@@ -853,12 +887,13 @@ export const Note: React.FC<P<{text: string; sub?: string; hot?: string[]; side?
 
 // ── Real footage (news / archive / stock clip): full bleed, a slow push, a light shared treatment so clips from
 // different sources sit together; only a small credit bottom-right (his voice already tells what it is) ──
-export const Clip: React.FC<P<{src: string; from?: number; full?: boolean; source?: string; zoom?: number; drift?: 'in' | 'out' | 'left' | 'right'}>> = ({at, dur, box, src: s, from = 0, full = true, source, zoom = 1.1, drift = 'in'}) => {
+// vol = the clip's own sound, kept low under his voice (his ask 2026-10-21: the clips felt empty without it)
+export const Clip: React.FC<P<{src: string; from?: number; full?: boolean; source?: string; zoom?: number; drift?: 'in' | 'out' | 'left' | 'right'; vol?: number}>> = ({at, dur, box, src: s, from = 0, full = true, source, zoom = 1.1, drift = 'in', vol = 0.12}) => {
   const {t, exit, enter} = useLife(at, dur, 0.2, 0.2);
   const p = Math.min(1, Math.max(0, t) / Math.max(1, dur));
   const sc = drift === 'out' ? zoom - (zoom - 1.03) * p : 1.03 + (zoom - 1.03) * p;
   const dx = drift === 'left' ? -40 * p : drift === 'right' ? 40 * p : 0;
-  const vid = <OffthreadVideo src={srcOf(s)} muted startFrom={Math.round(from * 30)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `translateX(${dx}px) scale(${drift === 'left' || drift === 'right' ? 1.08 : sc})`, filter: 'contrast(1.06) saturate(0.9)'}} />;
+  const vid = <OffthreadVideo src={srcOf(s)} volume={(f) => vol * Math.min(1, f / 6) * exit} startFrom={Math.round(from * 30)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `translateX(${dx}px) scale(${drift === 'left' || drift === 'right' ? 1.08 : sc})`, filter: 'contrast(1.06) saturate(0.9)'}} />;
   const credit = source && <div style={{position: 'absolute', right: 34, bottom: 26, fontFamily: F.sans, fontWeight: 500, fontSize: 16, color: 'rgba(255,255,255,0.72)', textShadow: '0 1px 6px rgba(0,0,0,0.6)', opacity: step(t, 0.3) * exit}}>{source}</div>;
   if (full) return (
     <div style={{position: 'absolute', inset: 0, overflow: 'hidden', opacity: Math.min(enter * 2, 1) * exit}}>
@@ -878,5 +913,5 @@ export const SCENES: Record<string, React.FC<any>> = {
   sting: Sting, chapter: Chapter, statement: Statement, type: TypeLines, logos: Logos, price: Price, meter: Meter, quote: Quote,
   evidence: Evidence, checklist: Checklist, licence: Licence, scale: Scale, stream: Stream, letters: Letters, fish: Fish, board: Board,
   law: Law, deal: Deal, jump: Jump, article: Article, specimen: Specimen, trio: Trio, watch: Watch, menu: Menu, search: SearchRead,
-  tofu: Tofu, covers: Covers, docs: Docs, blankdoc: BlankDoc, teaser: Teaser, apps: Apps, end: End, note: Note, clip: Clip,
+  tofu: Tofu, covers: Covers, docs: Docs, blankdoc: BlankDoc, teaser: Teaser, apps: Apps, end: End, note: Note, clip: Clip, subscribe: Subscribe,
 };
