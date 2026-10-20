@@ -59,6 +59,8 @@ sections at the moment of the decision.
 - Long-form = a STORY, never a lecture (2026-10-19): a real person or company the viewer follows, a moment we can
   picture, something at stake, open questions that pay off later, a reveal, an ending that lands. Explanations live
   inside the story, never as a block of theory.
+- Long-form scripts are SPOKEN English like Anurag talks to camera ("You know,…", "See,…", "right?", "think about
+  it"), never written-style fragments, epigrams or rule-of-three rhythm (longform-scripts.md "Spoken style", 2026-10-20).
 - Scripts sound human, not formula: no fixed beat order every episode, no stock phrases repeated across videos,
   plain words a 15-year-old gets on first hearing, every term explained in the same breath (2026-10-19).
 - Long-form: 3-act spine on real clips; two-part series: part 1 ends on the moment it broke (content-brief.md §10).

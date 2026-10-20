@@ -165,6 +165,20 @@ older than ~1 month needs a new event to reopen it.
   quote was small, the meter that never stops was not). Lists (acquisitions, timelines) are told as an image or
   action ("a big fish eating smaller fish"), max 2 named items + one callback name, the rest shown on screen.
 
+## Spoken style (his verdict 2026-10-20: "it sounds like a script, AI generated, not a human")
+Write it the way a YouTuber TALKS to camera, like Anurag (study his transcripts), not the way a writer writes:
+- Talk TO the viewer: "You know,…", "See,…", "Now, I want you to think about this…", "right?", "Think about it.",
+  "And the funny part is…", "Let me tell you…", "Now you might be wondering…", "Okay, now let's…", "Just remember this".
+- Longer, joined sentences with "and", "so", "but"; the way people actually explain. Small natural repeats are fine.
+- BANNED written-style tells: dramatic fragments ("Not the shows. Not the logo. The letters."), rule-of-three
+  lists for rhythm, colon reveals, punchy epigram lines at the end of sections ("That's the power of whoever owns
+  the letters."), poetic metaphors said in a literary way ("it crossed the sea"), perfectly balanced sentences.
+  A metaphor is fine only said casually ("Basically, Monotype has been doing what a big fish does").
+- Sign on like a person ("My name is Siddhesh, this is Designomics, and let's get into it"), sign off casually.
+- Light filler is human, but cap it: "basically" / "honestly" / "literally" max ~3 each per video; never "very very".
+- Spoken scripts run longer: ~2,000–2,200 words for 12–14 minutes; that's fine (his sweet spot is 11–15 min).
+- Test: read each paragraph out loud as if explaining to a friend over chai. If it sounds like an article, rewrite.
+
 ## 7c. Story, not lecture (his rule, 2026-10-19)
 - Start in a scene: a person, a place, a moment (a buyer in 2017 sending $50,000 for a car), not a definition.
 - Someone to follow from start to end (a buyer, a founder, a designer, a company), with something to win or lose.

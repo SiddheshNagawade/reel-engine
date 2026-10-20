@@ -302,3 +302,9 @@ contradictions resolved). After every round of feedback: add the dated note here
   having a face getting views or not?" → brain/thumbnails.md (split rule, 8 types, face data) + T7
   references/thumbnails/ (153 thumbnails, INDEX, contact sheets). Face verdict: helps Anurag, hurts Enrico; the
   picture's idea matters more; test with YouTube Test & Compare.
+
+## 2026-10-20: the font script sounded AI-written
+- "Isn't it too philosophical or AI-generated… 'every title, every button, every Continue Watching was suddenly written
+  in a new font' seems very AI generated… while speaking in front of camera it doesn't sound human, it sounds like a
+  script… make it how a YouTuber talks, similar to Anurag Bansal." → rewrote the whole script in spoken style;
+  "Spoken style" section in longform-scripts.md + rule in rules.md.
