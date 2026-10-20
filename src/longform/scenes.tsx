@@ -851,31 +851,25 @@ export const Note: React.FC<P<{text: string; sub?: string; hot?: string[]; side?
 };
 
 
-// ── Real footage (news / archive / stock clip): full frame with a slow push, or a tilted card; source credit always on ──
-export const Clip: React.FC<P<{src: string; from?: number; full?: boolean; source?: string; caption?: string; kicker?: string; zoom?: number}>> = ({at, dur, box, src: s, from = 0, full = true, source, caption, kicker, zoom = 1.12}) => {
-  const {t, exit, enter} = useLife(at, dur, full ? 0.25 : 0.55, 0.3);
-  const push = 1.04 + (zoom - 1.04) * Math.min(1, Math.max(0, t) / Math.max(1, dur));
-  const fps = 30;
-  const vid = <OffthreadVideo src={srcOf(s)} muted startFrom={Math.round(from * fps)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${push})`}} />;
-  const label = (
-    <div style={{position: 'absolute', left: 60, bottom: 54, opacity: step(t, 0.3) * exit}}>
-      {kicker && <Kicker text={kicker} style={{marginBottom: 10}} />}
-      {caption && <div style={{fontFamily: F.serif, fontWeight: 600, fontSize: 58, color: '#fff', textShadow: '0 4px 24px rgba(0,0,0,0.7)', maxWidth: 1300}}>{caption}</div>}
-      {source && <Source text={source} style={{marginTop: 12, color: '#ddd'}} />}
-    </div>
-  );
+// ── Real footage (news / archive / stock clip): full bleed, a slow push, a light shared treatment so clips from
+// different sources sit together; only a small credit bottom-right (his voice already tells what it is) ──
+export const Clip: React.FC<P<{src: string; from?: number; full?: boolean; source?: string; zoom?: number; drift?: 'in' | 'out' | 'left' | 'right'}>> = ({at, dur, box, src: s, from = 0, full = true, source, zoom = 1.1, drift = 'in'}) => {
+  const {t, exit, enter} = useLife(at, dur, 0.2, 0.2);
+  const p = Math.min(1, Math.max(0, t) / Math.max(1, dur));
+  const sc = drift === 'out' ? zoom - (zoom - 1.03) * p : 1.03 + (zoom - 1.03) * p;
+  const dx = drift === 'left' ? -40 * p : drift === 'right' ? 40 * p : 0;
+  const vid = <OffthreadVideo src={srcOf(s)} muted startFrom={Math.round(from * 30)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `translateX(${dx}px) scale(${drift === 'left' || drift === 'right' ? 1.08 : sc})`, filter: 'contrast(1.06) saturate(0.9)'}} />;
+  const credit = source && <div style={{position: 'absolute', right: 34, bottom: 26, fontFamily: F.sans, fontWeight: 500, fontSize: 16, color: 'rgba(255,255,255,0.72)', textShadow: '0 1px 6px rgba(0,0,0,0.6)', opacity: step(t, 0.3) * exit}}>{source}</div>;
   if (full) return (
     <div style={{position: 'absolute', inset: 0, overflow: 'hidden', opacity: Math.min(enter * 2, 1) * exit}}>
       {vid}
-      <div style={{position: 'absolute', inset: 0, background: 'linear-gradient(0deg, rgba(10,9,8,0.82) 0%, rgba(10,9,8,0) 42%), radial-gradient(120% 90% at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%)'}} />
-      {label}
+      <div style={{position: 'absolute', inset: 0, background: 'radial-gradient(130% 100% at 50% 45%, rgba(0,0,0,0) 62%, rgba(0,0,0,0.32) 100%)'}} />
+      {credit}
     </div>
   );
   return (
     <div style={{...center, ...enterStyle(enter, exit, 'up', 80)}}>
-      <div style={{width: box.w * 0.78, height: box.w * 0.78 * 9 / 16, borderRadius: 22, overflow: 'hidden', boxShadow: SH, transform: 'rotate(-1.5deg)', border: `2px solid ${C.line}`}}>{vid}</div>
-      {caption && <div style={{fontFamily: F.hand, fontWeight: 700, fontSize: 46, color: C.ink, marginTop: 26}}>{caption}</div>}
-      {source && <Source text={source} k={step(t, 0.6)} style={{marginTop: 12}} />}
+      <div style={{position: 'relative', width: box.w * 0.8, height: box.w * 0.8 * 9 / 16, borderRadius: 18, overflow: 'hidden', boxShadow: SH}}>{vid}{credit}</div>
     </div>
   );
 };

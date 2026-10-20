@@ -26,14 +26,19 @@ const all = [...main, ...extra].sort((a, b) => a.s - b.s);
 const sil = fs.readFileSync(path.join(W, 'silences.tsv'), 'utf8').trim().split('\n').map((l) => l.split('\t').map(Number)).filter((x) => x.length === 2);
 const nextSpeech = (t) => { const s = sil.find(([a, b]) => a <= t + 0.02 && b > t); return s ? s[1] : t; }; // end of the silence we're in
 
-const PAUSE = {'': 0.15, '|': 0.4, '||': 0.8};
+// pauses follow the script's punctuation: mid-sentence join (comma) / full stop / paragraph — snappy, never glued
+const PAUSE = {'': 0.08, '|': 0.22, '||': 0.42};
+// playback speed of the whole cut (his delivery is slow; 1.08 keeps the voice natural). Output times are divided by it.
+const SPEED = Number(process.argv[3] ?? 1);
 const rows = [];
+const cutouts = []; // "C a b": a retake inside a kept line, removed from every piece
 let chapter = 'intro';
 for (const raw of fs.readFileSync(path.join(W, 'cut.txt'), 'utf8').split('\n')) {
   const l = raw.trim();
   if (!l || l.startsWith('#')) continue;
   const p = l.split(/\s+/);
   if (p[0] === 'P') { chapter = p[1]; continue; }
+  if (p[0] === 'C') { cutouts.push([Number(p[1]), Number(p[2])]); continue; }
   const sep = ['|', '||'].includes(p[p.length - 1]) ? p.pop() : '';
   let s, e, text;
   if (p[0] === 'T') {
@@ -58,18 +63,27 @@ for (const raw of fs.readFileSync(path.join(W, 'cut.txt'), 'utf8').split('\n')) 
 // a range → pieces with long inner silences shortened; the row's end gets its pause from the real room tone
 const pieces = [];
 for (const [i, r] of rows.entries()) {
-  const inner = sil.filter(([a, b]) => a > r.s + 0.1 && b < r.e - 0.1 && b - a > 0.45);
+  const inner = sil.filter(([a, b]) => a > r.s + 0.1 && b < r.e - 0.1 && b - a > 0.32);
   let cur = r.s;
-  for (const [a, b] of inner) { pieces.push({s: cur, e: a + 0.13, row: i}); cur = b - 0.12; }
+  for (const [a, b] of inner) { pieces.push({s: cur, e: a + 0.09, row: i}); cur = b - 0.08; }
   const want = PAUSE[r.sep];
   // if he keeps talking right after (a retake starts), don't eat into it
   const room = Math.max(0.08, nextSpeech(r.e) - r.e - 0.05);
   pieces.push({s: cur, e: r.e + Math.min(want, room) + 0.05, row: i});
 }
+// remove the cut-outs from the pieces
+for (const [a, b] of cutouts) for (let k = pieces.length - 1; k >= 0; k--) {
+  const pc = pieces[k];
+  if (b <= pc.s || a >= pc.e) continue;
+  const parts = [];
+  if (a > pc.s + 0.05) parts.push({...pc, e: a});
+  if (b < pc.e - 0.05) parts.push({...pc, s: b});
+  pieces.splice(k, 1, ...parts);
+}
 let t = 0;
 const map = [];
-for (const pc of pieces) { pc.at = +t.toFixed(3); t += pc.e - pc.s; }
+for (const pc of pieces) { pc.at = +t.toFixed(3); t += (pc.e - pc.s) / SPEED; }
 for (const [i, r] of rows.entries()) { const first = pieces.find((pc) => pc.row === i); map.push(`${first.at.toFixed(1)}\t[${r.chapter}] ${r.text}`); r.at = first.at; }
-fs.writeFileSync(path.join(W, 'pieces.json'), JSON.stringify({total: +t.toFixed(3), pieces, rows}, null, 0));
+fs.writeFileSync(path.join(W, 'pieces.json'), JSON.stringify({total: +t.toFixed(3), speed: SPEED, pieces, rows}, null, 0));
 fs.writeFileSync(path.join(W, 'cut-map.txt'), map.join('\n'));
 console.log(`${rows.length} rows → ${pieces.length} pieces, ${(t / 60).toFixed(2)} min`);

@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export function loadTiming(W) {
-  const {pieces, rows, total} = JSON.parse(fs.readFileSync(path.join(W, 'pieces.json'), 'utf8'));
+  const {pieces, rows, total, speed = 1} = JSON.parse(fs.readFileSync(path.join(W, 'pieces.json'), 'utf8'));
   const main = JSON.parse(fs.readFileSync(path.join(W, 'words.json'), 'utf8')).words;
   let extra = [];
   const gp = path.join(W, 'words-gaps.json'); if (fs.existsSync(gp)) extra = JSON.parse(fs.readFileSync(gp, 'utf8'));
@@ -20,7 +20,7 @@ export function loadTiming(W) {
   };
   // source time → output time (inside a kept piece; else the nearest kept moment)
   const out = (t) => {
-    for (const p of pieces) if (t >= p.s && t <= p.e) return p.at + (t - p.s);
+    for (const p of pieces) if (t >= p.s && t <= p.e) return p.at + (t - p.s) / speed;
     const nx = pieces.find((p) => p.s > t);
     return nx ? nx.at : total;
   };
@@ -28,7 +28,7 @@ export function loadTiming(W) {
   const api = {
     total, rows, pieces,
     at: (sub) => rowPieces(row(sub))[0].at,
-    end: (sub) => { const ps = rowPieces(row(sub)); const l = ps[ps.length - 1]; return l.at + (l.e - l.s); },
+    end: (sub) => { const ps = rowPieces(row(sub)); const l = ps[ps.length - 1]; return l.at + (l.e - l.s) / speed; },
     // first occurrence of `w` (a word or prefix) inside the line's kept pieces
     word: (sub, w, nth = 0) => {
       const i = row(sub);

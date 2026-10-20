@@ -6,13 +6,13 @@ import path from 'node:path';
 import {workRoot} from './lib/paths.mjs';
 
 const W = path.join(workRoot(), process.argv[2]);
-const {pieces, rows} = JSON.parse(fs.readFileSync(path.join(W, 'pieces.json'), 'utf8'));
+const {pieces, rows, speed = 1} = JSON.parse(fs.readFileSync(path.join(W, 'pieces.json'), 'utf8'));
 const faces = JSON.parse(fs.readFileSync(path.join(W, 'faces.json'), 'utf8'));
 const med = (a) => { const s = [...a].sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
 let last = {fx: 0.53, fy: 0.36};
 const out = rows.map((r, i) => {
   const ps = pieces.filter((p) => p.row === i);
-  const at = ps[0].at, d = ps.reduce((a, p) => a + p.e - p.s, 0);
+  const at = ps[0].at, d = ps.reduce((a, p) => a + (p.e - p.s) / speed, 0);
   // biggest face in each sample inside this line
   const hits = faces.filter((f) => f.t >= at && f.t < at + d && f.b.length).map((f) => f.b.reduce((m, b) => (b[2] * b[3] > m[2] * m[3] ? b : m)));
   if (hits.length) last = {fx: +med(hits.map((b) => b[0] + b[2] / 2)).toFixed(4), fy: +med(hits.map((b) => b[1] + b[3] * 0.42)).toFixed(4)};

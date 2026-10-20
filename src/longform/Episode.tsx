@@ -39,6 +39,11 @@ function rectAt(shots: Shot[], t: number): Rect & {fx: number; fy: number; px: n
   const fx = cur.fx ?? 0.5, fy = cur.fy ?? 0.36;
   const px = lerpPx(prev, cur, t);
   // a layout change animates; a zoom change between two face shots is a cut (jump-cut punch)
+  // same layout, new zoom (a new sentence): the camera glides there (0.8 s), never an instant crop
+  if (prev && prev.layout === cur.layout && (prev.zoom ?? 1) !== (cur.zoom ?? 1)) {
+    const k = interpolate(t, [cur.s, cur.s + 0.8], [0, 1], {...clamp, easing: EASE});
+    return {...target, z: lerp(prev.zoom ?? 1, target.z, k), fx, fy, px};
+  }
   if (prev && prev.layout !== cur.layout) {
     const k = interpolate(t, [cur.s, cur.s + 0.55], [0, 1], {...clamp, easing: EASE});
     const a = {...RECTS[prev.layout], z: prev.zoom ?? 1};
@@ -101,7 +106,7 @@ export const Episode: React.FC<EpisodeProps> = ({base, shots, scenes, sfx = [], 
       ))}
       {music.map((m, i) => (
         <Sequence key={`m${i}`} from={Math.round(m.at * fps)} durationInFrames={Math.round(m.dur * fps)} layout="none">
-          <Audio src={src(m.src)} startFrom={Math.round((m.offset ?? 0) * fps)} volume={(f) => {
+          <Audio loop src={src(m.src)} startFrom={Math.round((m.offset ?? 0) * fps)} volume={(f) => {
             const t = f / fps;
             const a = interpolate(t, [0, m.fadeIn ?? 1], [0, 1], clamp);
             const b = interpolate(t, [m.dur - (m.fadeOut ?? 1.2), m.dur], [1, 0], clamp);

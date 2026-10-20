@@ -107,10 +107,10 @@ export const Paper: React.FC<{tint?: string}> = ({tint}) => {
   );
 };
 
-// small source credit (evidence)
+// small source credit (evidence): quiet, no ornaments
 export const Source: React.FC<{text: string; k?: number; style?: React.CSSProperties}> = ({text, k = 1, style}) => (
-  <div style={{fontFamily: F.mono, fontWeight: 500, fontSize: 17, letterSpacing: 0.5, color: C.mute, opacity: k, textTransform: 'uppercase', ...style}}>
-    <span style={{color: C.orange}}>●</span> Source: {text}
+  <div style={{fontFamily: F.sans, fontWeight: 500, fontSize: 17, letterSpacing: 0.3, color: C.mute, opacity: k * 0.85, ...style}}>
+    Source: {text}
   </div>
 );
 
