@@ -70,10 +70,35 @@ try {
     const out = PREVIEW ? path.join(work, `preview-${from}-${to}.mp4`) : path.join(outDir, `${name}-v${v}.mp4`);
     const t0 = Date.now();
     let last = -1;
-    await renderMedia({composition, serveUrl, codec: 'h264', inputProps: props, outputLocation: out, chromiumOptions, hardwareAcceleration: 'if-possible',
-      videoBitrate: opt('--bitrate', PREVIEW ? '5M' : '24M'), audioBitrate: '320k', concurrency: Number(process.env.REEL_CONCURRENCY) || 6,
-      ...(PREVIEW ? {frameRange: [Math.round(from * fps), Math.min(Math.round(to * fps), props.frames) - 1]} : {}),
-      onProgress: ({progress}) => { const p = Math.floor(progress * 100); if (p !== last && p % 5 === 0) { last = p; console.log(`  ${p}% (${((Date.now() - t0) / 60000).toFixed(1)} min)`); } }});
+    // Long renders crash Remotion's frame extractor after a few minutes ("Request closed"), so the picture is rendered
+    // in 2-minute chunks (each starts fresh, muted), the sound once as WAV, then everything is joined losslessly.
+    const f0 = PREVIEW ? Math.round(from * fps) : 0, f1 = PREVIEW ? Math.min(Math.round(to * fps), props.frames) - 1 : props.frames - 1;
+    const CH = 120 * fps, tmpDir = path.join(work, 'chunks');
+    fs.mkdirSync(tmpDir, {recursive: true});
+    const parts = [];
+    for (let a = f0; a <= f1; a += CH) {
+      const b = Math.min(f1, a + CH - 1), part = path.join(tmpDir, `v-${a}-${b}.mp4`);
+      parts.push(part);
+      if (fs.existsSync(part) && fs.statSync(part).size > 1e5 && !args.includes('--fresh')) continue; // resume after a crash
+      for (let tryN = 0; ; tryN++) {
+        try {
+          await renderMedia({composition, serveUrl, codec: 'h264', muted: true, inputProps: props, outputLocation: part + '.tmp.mp4', chromiumOptions, hardwareAcceleration: 'if-possible',
+            videoBitrate: opt('--bitrate', PREVIEW ? '5M' : '24M'), concurrency: Number(process.env.REEL_CONCURRENCY) || 6, frameRange: [a, b]});
+          fs.renameSync(part + '.tmp.mp4', part);
+          break;
+        } catch (e) { if (tryN >= 2) throw e; console.log(`  chunk ${a}-${b} failed (${String(e.message).slice(0, 60)}), retrying`); }
+      }
+      console.log(`  ${Math.round(((b - f0 + 1) / (f1 - f0 + 1)) * 100)}% (${((Date.now() - t0) / 60000).toFixed(1)} min)`);
+    }
+    const wav = path.join(tmpDir, `audio-${f0}-${f1}.wav`);
+    await renderMedia({composition, serveUrl, codec: 'wav', inputProps: props, outputLocation: wav, chromiumOptions, frameRange: [f0, f1]});
+    const list = path.join(tmpDir, 'list.txt');
+    fs.writeFileSync(list, parts.map((p) => `file '${p.replace(/'/g, "'\\''")}'`).join('\n'));
+    const {spawnSync} = await import('node:child_process');
+    const ff = (await import('ffmpeg-static')).default;
+    const r = spawnSync(ff, ['-hide_banner', '-loglevel', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', list, '-i', wav, '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '320k', '-movflags', '+faststart', out], {encoding: 'utf8'});
+    if (r.status !== 0) throw new Error(r.stderr);
+    fs.rmSync(tmpDir, {recursive: true, force: true});
     if (!PREVIEW) {
       fs.writeFileSync(path.join(outDir, `${name}-v${v}.episode.json`), JSON.stringify(ep, null, 1));
       fs.appendFileSync(path.join(outDir, 'CHANGELOG.md'), `\n## ${name} v${v} (${new Date().toISOString().slice(0, 10)}): ${(total / 60).toFixed(2)} min\n${opt('--note', '- first cut')}${PLAN_NOTE ? `\n${PLAN_NOTE}` : ''}\n`);

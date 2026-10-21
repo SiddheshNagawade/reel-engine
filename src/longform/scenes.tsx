@@ -212,7 +212,7 @@ export const Checklist: React.FC<P<{title: string; items: {t: number; text: stri
         return (
           <div key={i} style={{position: 'absolute', left: '50%', top: '50%', transform: `perspective(1400px) translate3d(${-50 + park * -0}%, -50%, 0) translate3d(${park * -box.w * 0.3}px, ${park * (-box.h * 0.18 + i * 64 * z)}px, ${(1 - k) * -260}px) rotateX(${(1 - k) * 30}deg) scale(${1 - park * 0.62})`,
             opacity: k * (i === cur ? 1 : 0.65), display: 'flex', alignItems: 'center', gap: 34 * z, whiteSpace: 'nowrap'}}>
-            <div style={{width: 96 * z, height: 96 * z, borderRadius: 24, ...PAPER3D, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 62 * z, color: C.orange, fontWeight: 700, transform: `scale(${0.6 + 0.4 * useSpring(t, it.t + 0.15, 9)})`}}>✓</div>
+            <div style={{width: 96 * z, height: 96 * z, borderRadius: 24, ...PAPER3D, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 62 * z, color: C.orange, fontWeight: 700, transform: `scale(${0.6 + 0.4 * step(t, it.t + 0.15, 0.45)})`}}>✓</div>
             <div style={{fontFamily: F.serif, fontWeight: 700, fontSize: 104 * z, color: C.ink, letterSpacing: -2}}>{it.text}</div>
             <div style={{fontFamily: F.digits, fontWeight: 600, fontSize: 52 * z, color: C.orange, opacity: step(t, it.t + 0.4)}}>+ $</div>
           </div>
