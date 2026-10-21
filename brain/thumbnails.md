@@ -77,3 +77,17 @@ Weak everywhere: wordplay to decode (Fevicol "MEME BEFORE MEMES EXISTED" 16k), u
   big, clear reaction that adds emotion (never small, never neutral). Test it: upload 3 versions with YouTube's
   "Test & Compare" (one with face, two without) for the first 6 episodes, then keep what wins.
 - Caveats: detection counts any face (celebrities too); this is correlation across different topics, not proof.
+
+## How the reference thumbnails are BUILT (studied 2026-10-21 from his 9 screenshots) → write prompts this way
+Prompts go straight to ChatGPT image and get uploaded as-is (rules.md "Thumbnail prompts"), so every prompt spells out all of this.
+- **Enrico look (fits us best, no face needed):** bright white / light-grey studio background with soft vignette and a faint
+  cracked-glass texture; ONE glossy photoreal 3D hero object (a key, a toggle, a letter "A", a phone) lit softly from the
+  top-left with a real shadow; 1–4 words HUGE in a heavy rounded sans (Inter / SF style), mostly lowercase, deep navy or
+  red-to-pink gradient, tiny extrusion shadow, often ending in a full stop ("dead.", "gone.", "lies.", "complicated.");
+  red hand-drawn marker circles, arrows and scribbles pointing at the one detail that matters. His typography video
+  ("The Ridiculous Engineering Of Text", 301k) = a giant serif "A" with chromatic blur + red circles: our topic works.
+- **Anurag look:** dark cinematic real-photo scene (store, office, street at dusk), the famous face or product in a hand,
+  heavy condensed ALL-CAPS (Bebas / Anton style) white with ONE word on a yellow or red highlight bar, price tags
+  (₹40 / ₹20) as props, tug-of-war or split screens for a fight. Faces are famous people, never an unknown host.
+- Shared: one idea, 3 elements max, text and picture never say the same thing, readable at phone size, bottom-right
+  corner empty (the timestamp sits there).
