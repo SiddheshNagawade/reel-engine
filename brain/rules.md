@@ -179,4 +179,9 @@ sections at the moment of the decision.
   entrances, lit card surfaces, slow camera orbit) instead of flat vectors.
 - Nothing static > 2–4 s: held graphics get a camera step every ~3 s, long face shots a zoom glide.
 - Sound: Synthet7 music by section, whooshes/impacts clearly audible (≈ 0.5–0.7), heavy sound design in the hook.
+- Sync (v2 verdict 2026-10-21: graphics lagged up to 38 s): build the cut with scripts/longaudio.mjs + longbase.mjs
+  (exact piece order, one 30 fps clock; ffmpeg select alone keeps SOURCE order and breaks a moved cold open), then
+  transcribe the final audio and time every graphic from it (longform-time reads cutwords.json). Graphics leave
+  2.5 s after their last beat; uncovered time shows his face. Repeats: scripts/longrepeats.py (aligns the cut to the
+  script) must come back clean before any render.
 - Hook: first ~10 s = a fast recap of the whole story (4 lines over real footage, a cut every ~1 s, riser + hits).
