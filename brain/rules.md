@@ -46,6 +46,14 @@ sections at the moment of the decision.
   in projects/<slug>/ on the T7: script.md = only what he says (brain/templates/longform-script.md) and
   editor-brief.md = the full context for the editor: story, look, moment-by-moment, sources, assets, posting
   (brain/templates/longform-editor-brief.md). He records into that folder (2026-10-19).
+- Long-form titles (round 5, 2026-10-21, beats rounds 3-4): nobody knows him yet, so the title is a QUESTION or
+  strange claim the viewer is itching to have answered, never "I'll tell you about X" or a statement about a company
+  ("Why Netflix, IBM And Airbnb All Stopped Paying For Fonts" = dead). Test: would a stranger who doesn't care about
+  the topic still need the answer? Make the everyday thing feel strange or owned ("Who Owns The Alphabet?"), keep it
+  short, keep one famous name when it adds weight, and stay true to what the video delivers.
+- Thumbnail prompts (2026-10-21): give COMPLETE, ready-to-paste ChatGPT image prompts that produce the final
+  thumbnail as-is: exact text in quotes with font, colour, size and position, every element, lighting, background,
+  empty bottom-right corner (timestamp), "no other text". Nothing left for him to add in Figma; no face of his.
 - Long-form thumbnails (2026-10-19): title = the famous names, thumbnail = the feeling/contradiction in a picture
   + 1–4 words, never the same words; 3 thumbnail options per idea from the 8 types in brain/thumbnails.md; his face
   only as a big real reaction, and A/B test with YouTube Test & Compare. Library: T7 references/thumbnails/.
