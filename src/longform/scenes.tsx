@@ -1,5 +1,6 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, Easing, OffthreadVideo} from 'remotion';
+import {AbsoluteFill, interpolate, Easing, OffthreadVideo, useVideoConfig} from 'remotion';
+import {MapBoard} from '../layers/Map';
 import {C, F, SH, CARD3D, PAPER3D, EASE, clamp, useLife, step, useSpring, Rise, RiseWords, Source, Kicker, MarkerCircle, Underline, PriceTag, Pic, fontOf, enterStyle, src as srcOf, type Box} from './kit';
 
 // Every scene: {type, at, dur, ...}. `box` = where it lives (full frame when he is off screen, the free side otherwise).
@@ -8,15 +9,17 @@ const center: React.CSSProperties = {position: 'absolute', inset: 0, display: 'f
 const fit = (box: Box) => (box.w < 1400 ? 1.0 : 1.3); // full frame = big, side panel (≈1040 px) = 1
 
 // ── Series sting: the Cd tile + Designomics ──
-export const Sting: React.FC<P<{tagline?: string}>> = ({at, dur, tagline = 'Every design has a price'}) => {
+export const Sting: React.FC<P<{tagline?: string; cd?: string}>> = ({at, dur, tagline = 'Every design has a price', cd}) => {
   const {t, exit} = useLife(at, dur, 0.5, 0.4);
   const s = useSpring(t, 0, 10);
   return (
     <div style={{...center, opacity: exit, filter: `blur(${(1 - exit) * 10}px)`}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 34}}>
+        {cd ? <img src={srcOf(cd)} style={{width: 150 * 2.4, height: 150 * 2.4, margin: -150 * 0.7, objectFit: 'contain', transform: `scale(${s}) rotate(${(1 - s) * -30}deg)`, filter: 'drop-shadow(0 18px 30px rgba(0,0,0,0.45))'}} /> : (
         <div style={{width: 150, height: 150, borderRadius: 26, background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `scale(${s}) rotate(${(1 - s) * -30}deg)`, boxShadow: SH}}>
           <span style={{fontFamily: F.serif, fontWeight: 700, fontSize: 92, color: '#fff', letterSpacing: -2}}>Cd</span>
         </div>
+        )}
         <Rise text="Designomics" t={t - 0.25} style={{fontFamily: F.serif, fontWeight: 600, fontSize: 132, color: C.ink, letterSpacing: -3}} />
       </div>
       <div style={{fontFamily: F.mono, fontSize: 26, letterSpacing: 6, color: C.mute, marginTop: 26, opacity: step(t, 0.8), textTransform: 'uppercase'}}>{tagline}</div>
@@ -365,60 +368,115 @@ export const Letters: React.FC<P<{a: string; b: string; aName: string; bName: st
 };
 
 // ── The big fish (Monotype) eats the small fish (font companies), each with its famous font ──
-export const Fish: React.FC<P<{eats: {t: number; name: string; font?: string; year?: string; src?: string}[]; bigLabel?: string; japanAt?: number; logo?: string}>> = ({at, dur, box, eats, japanAt, logo}) => {
-  const {t, exit, enter} = useLife(at, dur, 0.6, 0.45);
-  const z = box.w / 1920;
-  const eaten = eats.filter((e) => t >= e.t + 0.9).length;
-  const size = 1 + eaten * 0.08;
-  const mouth = Math.max(0, ...eats.map((e) => interpolate(t, [e.t + 0.3, e.t + 0.7, e.t + 1.0], [0, 1, 0], clamp)));
-  const bigX = japanAt && t > japanAt ? interpolate(t, [japanAt, japanAt + 1.6], [560, 1180], {...clamp, easing: EASE}) : 560;
-  const bob = Math.sin(t * 2.2) * 10;
-  // body with a mouth that opens on the right (m = 0 closed … 1 open)
-  const bodyPath = (m: number) => `M 0 0 C 50 -120, 250 -130, 380 ${-14 - 40 * m} L 300 0 L 380 ${14 + 40 * m} C 250 130, 50 120, 0 0 Z`;
+// ── The big fish: an underwater world, Monotype swims and swallows one font company after another (each prey fish
+// carries its name in its own typeface); on "Japan" the sea becomes the real map of Japan and the fish swims to Tokyo
+// for Fontworks. Readable on mute: who eats whom, and that it keeps getting bigger.
+const rnd = (i: number) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const FishBody: React.FC<{mouth: number; tail: number; fin: number; color: string; belly: string; name?: string; nameFont?: string; w?: number; eyeR?: number}> = ({mouth, tail, fin, color, belly, name, nameFont, w = 520, eyeR = 16}) => {
+  const id = `g${color.replace('#', '')}${belly.replace('#', '')}`;
+  const m = mouth;
   return (
-    <div style={{position: 'absolute', inset: 0, ...enterStyle(enter, exit, 'up', 60)}}>
-      {japanAt && (
-        <div style={{position: 'absolute', right: 120 * z, top: 160 * z, opacity: step(t, japanAt - 0.4), fontFamily: F.mono, fontSize: 28 * z, color: C.mute, textAlign: 'right'}}>
-          <div style={{fontSize: 90 * z, lineHeight: 1}}>🗾</div>JAPAN
+    <svg width={w} height={w * 0.6} viewBox="-150 -160 560 320" style={{overflow: 'visible'}}>
+      <defs>
+        <linearGradient id={id} x1="0" y1="-1" x2="0" y2="1" gradientUnits="objectBoundingBox">
+          <stop offset="0" stopColor={color} /><stop offset="0.62" stopColor={color} /><stop offset="1" stopColor={belly} />
+        </linearGradient>
+        <radialGradient id={id + 'h'} cx="0.6" cy="0.3" r="0.6"><stop offset="0" stopColor="#fff" stopOpacity="0.35" /><stop offset="1" stopColor="#fff" stopOpacity="0" /></radialGradient>
+      </defs>
+      {/* tail wags from its root */}
+      <g transform={`rotate(${tail * 14} 10 0)`}><path d="M 20 0 C -40 -30, -90 -110, -130 -120 C -110 -50, -110 50, -130 120 C -90 110, -40 30, 20 0 Z" fill={color} opacity={0.92} /></g>
+      {/* dorsal + belly fins */}
+      <path d="M 120 -88 C 160 -160, 240 -150, 270 -96 Z" fill={color} opacity={0.85} />
+      <path d="M 150 92 C 180 140, 230 140, 250 96 Z" fill={color} opacity={0.75} />
+      {/* body; the mouth opens on the right */}
+      <path d={`M 10 0 C 40 -120, 270 -128, 390 ${-16 - 46 * m} L 320 0 L 390 ${16 + 46 * m} C 270 128, 40 120, 10 0 Z`} fill={`url(#${id})`} />
+      <path d={`M 10 0 C 40 -120, 270 -128, 390 ${-16 - 46 * m} L 320 0 L 390 ${16 + 46 * m} C 270 128, 40 120, 10 0 Z`} fill={`url(#${id}h)`} />
+      {/* scales: a few soft arcs */}
+      {[110, 160, 210].map((x, i) => <path key={i} d={`M ${x} -60 Q ${x + 26} 0 ${x} 60`} stroke="#000" strokeOpacity={0.12} strokeWidth={6} fill="none" />)}
+      <path d="M 268 -70 Q 300 0 268 70" stroke="#000" strokeOpacity={0.22} strokeWidth={7} fill="none" />
+      {/* side fin flaps */}
+      <g transform={`rotate(${fin * 18} 230 30)`}><path d="M 230 30 C 200 60, 170 80, 150 70 C 175 50, 200 34, 230 30 Z" fill={belly} opacity={0.9} /></g>
+      <circle cx={318} cy={-46} r={eyeR} fill="#fff" /><circle cx={322} cy={-46} r={eyeR * 0.55} fill="#0d0d0d" /><circle cx={326} cy={-51} r={eyeR * 0.18} fill="#fff" />
+      {name && <text x={170} y={18} textAnchor="middle" fontFamily={nameFont ?? F.sans} fontWeight={700} fontSize={50} fill="#fff" style={{letterSpacing: -0.5}}>{name}</text>}
+    </svg>
+  );
+};
+
+export const Fish: React.FC<P<{eats: {t: number; name: string; font?: string; year?: string; src?: string}[]; bigLabel?: string; japanAt?: number; logo?: string; map?: string}>> = ({at, dur, box, eats, japanAt, map}) => {
+  const {t, exit, enter} = useLife(at, dur, 0.6, 0.45);
+  const {fps} = useVideoConfig();
+  const z = box.w / 1920;
+  const eaten = eats.filter((e) => t >= e.t + 0.7).length;
+  // grows with every meal (springy gulp)
+  const size = 0.82 + eats.reduce((a, e) => a + 0.1 * interpolate(t, [e.t + 0.55, e.t + 1.1], [0, 1], {...clamp, easing: Easing.out(Easing.back(2.5))}), 0);
+  const mouth = Math.max(0, ...eats.map((e) => interpolate(t, [e.t - 0.25, e.t + 0.2, e.t + 0.55], [0, 1, 0], clamp)));
+  const jk = japanAt ? step(t, japanAt, 1.2) : 0;
+  // the fish cruises; for Japan it moves over to Tokyo (right of centre on the map)
+  const fx = interpolate(jk, [0, 1], [700 + Math.sin(t * 0.6) * 40, 760]);
+  const fy = interpolate(jk, [0, 1], [560, 600]) + Math.sin(t * 2.1) * 14;
+  const sc = size * (1 - 0.32 * jk);
+  const mouthX = fx + 175 * sc * 1.15, mouthY = fy;
+  const sea = '#062a40';
+  return (
+    <div style={{position: 'absolute', inset: 0, overflow: 'hidden', ...enterStyle(enter, exit, 'pop', 0)}}>
+      {/* the sea: depth gradient, swaying light rays, rising bubbles, drifting specks */}
+      <div style={{position: 'absolute', inset: 0, background: `radial-gradient(120% 90% at 50% -10%, #0f5a7a 0%, ${sea} 55%, #020d16 100%)`}} />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <div key={i} style={{position: 'absolute', top: -200 * z, left: (180 + i * 380 + Math.sin(t * 0.5 + i) * 40) * z, width: 160 * z, height: 1500 * z,
+          background: 'linear-gradient(180deg, rgba(160,230,255,0.16), rgba(160,230,255,0))', transform: `rotate(${12 + Math.sin(t * 0.4 + i * 2) * 4}deg)`, filter: `blur(${18 * z}px)`}} />
+      ))}
+      {Array.from({length: 26}).map((_, i) => {
+        const sp = 60 + rnd(i) * 90, y = 1150 - ((t * sp + rnd(i + 9) * 1200) % 1300), r = 4 + rnd(i + 3) * 10;
+        return <div key={i} style={{position: 'absolute', left: (rnd(i + 5) * 1920 + Math.sin(t * 2 + i) * 12) * z, top: y * z, width: r * z, height: r * z, borderRadius: '50%', border: `${1.5 * z}px solid rgba(200,240,255,0.45)`, opacity: 1 - jk}} />;
+      })}
+      {/* Japan: the real map fills the background; Tokyo is pinned where Fontworks waits */}
+      {japanAt && jk > 0 && map && (
+        <div style={{position: 'absolute', inset: 0, opacity: jk}}>
+          <MapBoard t={Math.max(0, (t - japanAt) * fps)} x={{src: map, frames: Math.round((dur - japanAt + 1) * fps), bg: sea, land: '#e9e2d4', accent: C.orange,
+            view: [{at: 0, focus: ['JPN'], pad: 0.15}], fills: [{at: Math.round(0.6 * fps), codes: ['JPN'], color: '#f0b49c'}]}} />
+          <div style={{position: 'absolute', left: 130 * z, top: 110 * z, fontFamily: F.sans, fontWeight: 700, fontSize: 64 * z, color: C.ink, letterSpacing: -1, opacity: step(t, japanAt + 0.4)}}>Japan</div>
         </div>
       )}
+      {/* prey: each one swims in from the right and is swallowed on its word */}
       {eats.map((e, i) => {
-        const swim = interpolate(t, [e.t - 0.3, e.t + 0.6], [1, 0], {...clamp, easing: EASE});
-        const gone = step(t, e.t + 0.55, 0.4);
-        if (t < e.t - 0.3 || gone >= 1) return null;
-        const y = 540 + ((i % 3) - 1) * 40;
-        const x = bigX + 350 * size + 90 + swim * 800;
+        const tokyo = japanAt && e.t > japanAt;
+        const arrive = interpolate(t, [e.t - 1.6, e.t - 0.15], [1, 0], {...clamp, easing: EASE});
+        const suck = interpolate(t, [e.t - 0.15, e.t + 0.35], [0, 1], {...clamp, easing: Easing.in(Easing.quad)});
+        if (t < e.t - 1.6 || suck >= 1) return null;
+        const restX = mouthX + 190, restY = mouthY + ((i % 3) - 1) * 30;
+        const x = interpolate(suck, [0, 1], [restX + arrive * 1000, mouthX - 30]);
+        const y = interpolate(suck, [0, 1], [restY + Math.sin(t * 5 + i) * 10, mouthY]);
         return (
-          <div key={i} style={{position: 'absolute', left: x * z, top: y * z, transform: `translate(-50%, -50%) scale(${1 - gone * 0.8})`, opacity: 1 - gone, display: 'flex', alignItems: 'center', gap: 10}}>
-            <svg width={150 * z} height={80 * z} viewBox="-10 -45 170 90"><path d="M 150 0 C 110 -40, 30 -40, 20 0 C 30 40, 110 40, 150 0 Z M 20 0 L -10 -26 L -10 26 Z" fill={C.ink} /></svg>
-            <div style={{fontFamily: F.sans, fontWeight: 600, fontSize: 30 * z, color: C.ink, background: C.card, padding: '6px 16px', borderRadius: 10, whiteSpace: 'nowrap'}}>
-              {e.name}{e.font ? <span style={{color: C.orange}}> · {e.font}</span> : null}
-            </div>
+          <div key={i} style={{position: 'absolute', left: x * z, top: y * z, transform: `translate(-50%, -50%) scale(${(tokyo ? 0.8 : 1) * (1 - suck * 0.85)}) scaleX(-1)`, opacity: 1 - suck * 0.6}}>
+            <FishBody w={340 * z} mouth={0} tail={Math.sin(t * 12 + i)} fin={Math.sin(t * 9 + i)} color={tokyo ? '#c94b4b' : '#6f8fa6'} belly={tokyo ? '#f3d3c3' : '#c9d8e2'} eyeR={20} />
+            <div style={{position: 'absolute', left: 0, right: 0, top: '42%', textAlign: 'center', fontFamily: e.font ? fontOf(e.font) : F.sans, fontWeight: 700, fontSize: 40 * z, color: '#fff', textShadow: '0 2px 8px rgba(0,0,0,0.35)', whiteSpace: 'nowrap'}}>{e.name}</div>
           </div>
         );
       })}
-      <div style={{position: 'absolute', left: bigX * z, top: (540 + bob) * z, transform: `translate(-50%, -50%) scale(${size * z * 1.7})`, transformOrigin: 'center'}}>
-        <svg width={520} height={300} viewBox="-120 -150 560 300" style={{overflow: 'visible'}}>
-          <path d="M -110 -90 L 10 0 L -110 90 Z" fill={C.orange} opacity={0.85} />
-          <path d={bodyPath(mouth)} fill={C.orange} />
-          <circle cx={270} cy={-40} r={14} fill="#fff" /><circle cx={274} cy={-40} r={7} fill="#111" />
-        </svg>
-        <div style={{position: 'absolute', left: 150, top: 128, width: 200, textAlign: 'center'}}>
-          <span style={{fontFamily: F.sans, fontWeight: 700, color: '#fff', fontSize: 34}}>Monotype</span>
-        </div>
+      {/* gulp: a puff of bubbles at the mouth */}
+      {eats.map((e, i) => {
+        const k = interpolate(t, [e.t + 0.3, e.t + 1.3], [0, 1], clamp);
+        if (k <= 0 || k >= 1) return null;
+        return Array.from({length: 8}).map((_, j) => <div key={`${i}-${j}`} style={{position: 'absolute', left: (mouthX + 20 + Math.cos(j) * 60 * k) * z, top: (mouthY - 40 - k * 160 * (0.6 + rnd(j))) * z, width: (8 + rnd(j + i) * 14) * z, height: (8 + rnd(j + i) * 14) * z, borderRadius: '50%', border: `${2 * z}px solid rgba(220,245,255,${0.8 * (1 - k)})`}} />);
+      })}
+      {/* Monotype */}
+      <div style={{position: 'absolute', left: fx * z, top: fy * z, transform: `translate(-50%, -50%) scale(${sc * 1.15})`, filter: 'drop-shadow(0 30px 40px rgba(0,0,0,0.45))'}}>
+        <FishBody w={620 * z} mouth={mouth} tail={Math.sin(t * 6)} fin={Math.sin(t * 4)} color={C.orange} belly="#ffb08a" name="Monotype" />
       </div>
-      <div style={{position: 'absolute', left: 120 * z, bottom: 90 * z, display: 'flex', gap: 14 * z, flexWrap: 'wrap', width: 1680 * z}}>
-        {eats.filter((e) => t >= e.t + 0.9).map((e, i) => {
-          const k = step(t, e.t + 0.9, 0.4);
-          const glow = e.name === 'Fontworks' ? 0.5 + 0.5 * Math.sin(t * 4) : 0;
+      {/* what it has eaten so far: small fish icons with names, lined up at the bottom */}
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 70 * z, display: 'flex', justifyContent: 'center', gap: 18 * z}}>
+        {eats.filter((e) => t >= e.t + 0.7).map((e, i) => {
+          const k = step(t, e.t + 0.7, 0.4);
           return (
-            <div key={i} style={{fontFamily: F.mono, fontSize: 24 * z, color: e.name === 'Fontworks' ? '#fff' : C.ink, background: e.name === 'Fontworks' ? C.orange : C.card, border: `1px solid ${C.line}`, padding: `${8 * z}px ${16 * z}px`, borderRadius: 999,
-              opacity: k, transform: `translateY(${(1 - k) * 30}px)`, boxShadow: glow ? `0 0 ${30 * glow}px ${C.orange}` : undefined}}>
-              {e.year ? `${e.year} · ` : ''}{e.name}
+            <div key={i} style={{display: 'flex', alignItems: 'center', gap: 8 * z, fontFamily: e.font ? fontOf(e.font) : F.sans, fontWeight: 600, fontSize: 26 * z, color: C.ink,
+              background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.16)', padding: `${8 * z}px ${16 * z}px`, borderRadius: 999, opacity: k, transform: `translateY(${(1 - k) * 30}px)`}}>
+              <svg width={30 * z} height={18 * z} viewBox="-10 -45 170 90"><path d="M 150 0 C 110 -40, 30 -40, 20 0 C 30 40, 110 40, 150 0 Z M 20 0 L -10 -26 L -10 26 Z" fill={C.orange} /></svg>
+              {e.year ? `${e.year} ` : ''}{e.name}
             </div>
           );
         })}
       </div>
+      {eaten > 0 && null}
     </div>
   );
 };
@@ -821,7 +879,7 @@ export const Apps: React.FC<P<{items: {src: string; name: string}[]; question: s
 
 // ── Subscribe moment (reusable, every video): the button flies in, a cursor glides over, clicks, it turns into
 // SUBSCRIBED, the bell rings. Timed to his "subscribe". ──
-export const Subscribe: React.FC<P<{channel?: string; logo?: string}>> = ({at, dur, box, channel = 'Cdesh'}) => {
+export const Subscribe: React.FC<P<{channel?: string; logo?: string; cd?: string}>> = ({at, dur, box, channel = 'Cdesh', cd}) => {
   const {t, exit, enter} = useLife(at, dur, 0.5, 0.35);
   const z = fit(box) * 1.22;
   const click = 1.3, bell = 1.9;
@@ -832,7 +890,7 @@ export const Subscribe: React.FC<P<{channel?: string; logo?: string}>> = ({at, d
   return (
     <div style={{...center, ...enterStyle(enter, exit, 'up', 90)}}>
       <div style={{display: 'flex', alignItems: 'center', gap: 28 * z, padding: `${28 * z}px ${36 * z}px`, borderRadius: 30 * z, ...CARD3D, position: 'relative'}}>
-        <div style={{width: 110 * z, height: 110 * z, borderRadius: 99, background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: F.serif, fontWeight: 800, fontSize: 52 * z, color: '#fff'}}>Cd</div>
+        {cd ? <img src={srcOf(cd)} style={{width: 110 * z * 2.4, height: 110 * z * 2.4, margin: -110 * z * 0.7, objectFit: 'contain'}} /> : <div style={{width: 110 * z, height: 110 * z, borderRadius: 99, background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: F.serif, fontWeight: 800, fontSize: 52 * z, color: '#fff'}}>Cd</div>}
         <div>
           <div style={{fontFamily: F.serif, fontWeight: 700, fontSize: 46 * z, color: C.ink}}>{channel}</div>
           <div style={{fontFamily: F.sans, fontSize: 24 * z, color: C.mute}}>Designomics · every design has a price</div>
@@ -850,14 +908,16 @@ export const Subscribe: React.FC<P<{channel?: string; logo?: string}>> = ({at, d
 };
 
 // ── Thanks for watching (reusable last screen): the Cd tile lands, the line writes on, a hard cut ends it ──
-export const End: React.FC<P<{line?: string}>> = ({at, dur, line = 'Thanks for watching.'}) => {
+export const End: React.FC<P<{line?: string; cd?: string}>> = ({at, dur, line = 'Thanks for watching.', cd}) => {
   const {t} = useLife(at, dur + 10, 0.5, 0.1);
   const s = useSpring(t, 0, 11);
   return (
     <div style={center}>
+      {cd ? <img src={srcOf(cd)} style={{width: 200 * 2.4, height: 200 * 2.4, margin: -200 * 0.7, objectFit: 'contain', transform: `perspective(1200px) rotateY(${(1 - s) * 90}deg) scale(${s})`, filter: 'drop-shadow(0 18px 30px rgba(0,0,0,0.45))'}} /> : (
       <div style={{width: 200, height: 200, borderRadius: 44, background: C.orange, display: 'flex', alignItems: 'center', justifyContent: 'center', transform: `perspective(1200px) rotateY(${(1 - s) * 90}deg) scale(${s})`, boxShadow: SH}}>
         <span style={{fontFamily: F.serif, fontWeight: 800, fontSize: 108, color: '#fff'}}>Cd</span>
       </div>
+      )}
       <Rise text={line} t={t - 0.3} style={{fontFamily: F.serif, fontWeight: 700, fontSize: 132, color: C.ink, marginTop: 40, letterSpacing: -3}} />
       <div style={{fontFamily: F.sans, fontWeight: 500, fontSize: 40, color: C.mute, marginTop: 20, opacity: step(t, 0.9)}}>See you in the next one.</div>
     </div>
@@ -893,7 +953,7 @@ export const Clip: React.FC<P<{src: string; from?: number; full?: boolean; sourc
   const p = Math.min(1, Math.max(0, t) / Math.max(1, dur));
   const sc = drift === 'out' ? zoom - (zoom - 1.03) * p : 1.03 + (zoom - 1.03) * p;
   const dx = drift === 'left' ? -40 * p : drift === 'right' ? 40 * p : 0;
-  const vid = <OffthreadVideo src={srcOf(s)} volume={(f) => vol * Math.min(1, f / 6) * exit} startFrom={Math.round(from * 30)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `translateX(${dx}px) scale(${drift === 'left' || drift === 'right' ? 1.08 : sc})`, filter: 'contrast(1.06) saturate(0.9)'}} />;
+  const vid = <OffthreadVideo src={srcOf(s)} muted={vol === 0} volume={(f) => vol * Math.min(1, f / 6) * exit} startFrom={Math.round(from * 30)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `translateX(${dx}px) scale(${drift === 'left' || drift === 'right' ? 1.08 : sc})`, filter: 'contrast(1.06) saturate(0.9)'}} />;
   const credit = source && <div style={{position: 'absolute', right: 34, bottom: 26, fontFamily: F.sans, fontWeight: 500, fontSize: 16, color: 'rgba(255,255,255,0.72)', textShadow: '0 1px 6px rgba(0,0,0,0.6)', opacity: step(t, 0.3) * exit}}>{source}</div>;
   if (full) return (
     <div style={{position: 'absolute', inset: 0, overflow: 'hidden'}}>
@@ -909,7 +969,172 @@ export const Clip: React.FC<P<{src: string; from?: number; full?: boolean; sourc
   );
 };
 
+// ══════ Visual-first scenes (his v3 verdict: the story must read on MUTE, through pictures, not sentences) ══════
+
+// One screen showing the letters → it multiplies into a wall of screens, then a sea of them (Arial "on billions")
+const Laptop: React.FC<{w: number; font: string; text: string; glow?: number}> = ({w, font, text, glow = 0}) => (
+  <div style={{width: w, position: 'relative'}}>
+    <div style={{width: w, height: w * 0.62, borderRadius: w * 0.04, background: '#0e0e10', border: `${Math.max(1, w * 0.018)}px solid #3a3a3e`, display: 'flex', alignItems: 'center', justifyContent: 'center',
+      boxShadow: glow ? `0 0 ${w * 0.3 * glow}px rgba(226,72,27,${0.5 * glow})` : undefined}}>
+      <div style={{width: '88%', height: '84%', borderRadius: w * 0.015, background: '#f4f1ea', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: font, fontSize: w * 0.24, color: '#111'}}>{text}</div>
+    </div>
+    <div style={{width: w * 1.16, marginLeft: -w * 0.08, height: w * 0.05, borderRadius: `0 0 ${w * 0.04}px ${w * 0.04}px`, background: 'linear-gradient(#55555a, #2b2b2e)'}} />
+  </div>
+);
+export const Multiply: React.FC<P<{font?: string; text?: string; t2?: number; t3?: number}>> = ({at, dur, box, font = 'arial', text = 'Aa', t2 = 1.0, t3 = 2.2}) => {
+  const {t, exit, enter} = useLife(at, dur, 0.5, 0.4);
+  const z = box.w / 1920;
+  const ff = fontOf(font);
+  const k2 = step(t, t2, 0.9), k3 = step(t, t3, 1.2);
+  const hero = 620 * (1 - k2 * 0.82);
+  const cols = 13, rows = 7, cw = 1920 / cols;
+  return (
+    <div style={{position: 'absolute', inset: 0, overflow: 'hidden', ...enterStyle(enter, exit, 'pop', 0)}}>
+      <div style={{position: 'absolute', inset: 0, transform: `scale(${1 - k3 * 0.62})`, transformOrigin: '50% 50%'}}>
+        {Array.from({length: rows * 3}).map((_, r) => Array.from({length: cols * 3}).map((__, c) => {
+          const cc = c - cols, rr = r - rows; // a 3×3 block of walls: the centre wall first, the rest on k3
+          const inner = cc >= 0 && cc < cols && rr >= 0 && rr < rows;
+          const d = Math.hypot(cc + 0.5 - cols / 2, (rr + 0.5 - rows / 2) * 1.6);
+          const k = inner ? step(t, t2 + 0.15 + d * 0.035, 0.4) : step(t, t3 + 0.1 + d * 0.012, 0.35);
+          if (k <= 0 || (cc === Math.floor(cols / 2) && rr === Math.floor(rows / 2))) return null;
+          return (
+            <div key={`${r}-${c}`} style={{position: 'absolute', left: (960 + (cc - cols / 2) * cw + cw * 0.12) * z, top: (540 + (rr - rows / 2) * 152 + 20) * z, opacity: k, transform: `scale(${0.6 + 0.4 * k})`}}>
+              <Laptop w={cw * 0.76 * z} font={ff} text={text} />
+            </div>
+          );
+        }))}
+      </div>
+      <div style={{position: 'absolute', left: '50%', top: '50%', transform: `translate(-50%, -50%) scale(${1 - k3 * 0.62})`}}>
+        <Laptop w={Math.max(cw * 0.76, hero) * z} font={ff} text={text} glow={1 - k2} />
+      </div>
+    </div>
+  );
+};
+
+// Many brands, the SAME letters: wordmarks set in one font, flipping in, then pulsing together (a rented font = everyone's font)
+export const Same: React.FC<P<{names: string[]; font?: string; hot?: string}>> = ({at, dur, box, names, font = 'gothamLike', hot}) => {
+  const {t, exit, enter} = useLife(at, dur, 0.5, 0.4);
+  const z = box.w / 1920;
+  const cols = 4;
+  const pulse = t > 0.25 * names.length + 0.6 ? 1 + 0.04 * Math.max(0, Math.sin((t - 0.25 * names.length) * 6)) : 1;
+  return (
+    <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', perspective: 1600, ...enterStyle(enter, exit, 'up', 50)}}>
+      <div style={{display: 'grid', gridTemplateColumns: `repeat(${cols}, ${380 * z}px)`, gap: 26 * z}}>
+        {names.map((n, i) => {
+          const k = step(t, 0.15 + i * 0.22, 0.45);
+          const isHot = n === hot;
+          return (
+            <div key={n} style={{height: 170 * z, borderRadius: 18 * z, background: isHot ? C.orange : '#f2ece2', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: fontOf(font), fontWeight: 700, fontSize: 52 * z, color: isHot ? '#fff' : '#161514', letterSpacing: 1, textTransform: 'uppercase',
+              transform: `rotateX(${(1 - k) * 80}deg) scale(${isHot ? pulse * 1.04 : pulse})`, opacity: k, boxShadow: SH}}>{n}</div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// A break-up: brand and font tied by a line; the line snaps, the brand slides away, the font is left behind
+export const Breakup: React.FC<P<{logo: string; font?: string; fontName: string; t2?: number}>> = ({at, dur, box, logo, font = 'gothamLike', fontName, t2 = 0.9}) => {
+  const {t, exit, enter} = useLife(at, dur, 0.5, 0.4);
+  const z = box.w / 1920;
+  const snap = step(t, t2, 0.25), away = step(t, t2 + 0.15, 1.1);
+  const card = (x: number, children: React.ReactNode, o = 1, rot = 0, drop = 0) => (
+    <div style={{position: 'absolute', left: x * z, top: (540 + drop) * z, width: 520 * z, height: 360 * z, transform: `translate(-50%, -50%) rotate(${rot}deg)`, opacity: o,
+      borderRadius: 26 * z, background: '#f2ece2', boxShadow: SH, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>{children}</div>
+  );
+  const lx1 = 960 - 330 + 120, lx2 = 960 + 330 - 120;
+  return (
+    <div style={{position: 'absolute', inset: 0, ...enterStyle(enter, exit, 'up', 50)}}>
+      <svg width={box.w} height={box.h} style={{position: 'absolute', inset: 0}} viewBox="0 0 1920 1080">
+        {/* the tie: whole, then two halves falling away */}
+        <path d={`M ${lx1} 540 L ${960 - snap * 20} ${540 + snap * 60}`} stroke={C.orange} strokeWidth={10} strokeLinecap="round" opacity={1 - away} />
+        <path d={`M ${960 + snap * 20} ${540 + snap * 60} L ${lx2} 540`} stroke={C.orange} strokeWidth={10} strokeLinecap="round" opacity={1 - away} />
+        {snap > 0 && snap < 1 && <circle cx={960} cy={540} r={20 + snap * 90} fill="none" stroke="#fff" strokeOpacity={1 - snap} strokeWidth={6} />}
+      </svg>
+      {card(630 - away * 900, <Pic s={logo} style={{width: 360 * z}} />, 1, -away * 8)}
+      {card(1290, <><div style={{fontFamily: fontOf(font), fontWeight: 700, fontSize: 170 * z, color: '#161514', lineHeight: 1}}>Aa</div>
+        <div style={{fontFamily: fontOf(font), fontWeight: 600, fontSize: 40 * z, color: '#161514', marginTop: 10 * z}}>{fontName}</div></>, 1 - away * 0.55, away * 4, away * 40)}
+    </div>
+  );
+};
+
+// Two fonts collide: huge letters slam in from both sides, meet in a shockwave, names settle under them
+export const Versus: React.FC<P<{a: {font: string; name: string}; b: {font: string; name: string}; logo?: string}>> = ({at, dur, box, a, b, logo}) => {
+  const {t, exit, enter} = useLife(at, dur, 0.3, 0.4);
+  const z = box.w / 1920;
+  const hit = 0.45;
+  const k = interpolate(t, [0, hit], [0, 1], {...clamp, easing: Easing.in(Easing.cubic)});
+  const shake = t > hit && t < hit + 0.35 ? Math.sin(t * 90) * 14 * (1 - (t - hit) / 0.35) : 0;
+  const ring = step(t, hit, 0.6);
+  const lab = step(t, hit + 0.3);
+  const L1 = (x: number, f: string, col: string) => <div style={{position: 'absolute', left: x * z, top: 470 * z, transform: 'translate(-50%, -50%)', fontFamily: fontOf(f), fontSize: 420 * z, color: col, lineHeight: 1}}>Aa</div>;
+  return (
+    <div style={{position: 'absolute', inset: 0, transform: `translateX(${shake * z}px)`, ...enterStyle(enter, exit, 'pop', 0)}}>
+      {L1(-300 + k * 960, a.font, C.ink)}
+      {L1(2220 - k * 960, b.font, C.orange)}
+      <div style={{position: 'absolute', left: 960 * z, top: 470 * z, width: 40 * z, height: 40 * z, transform: `translate(-50%, -50%) scale(${1 + ring * 30})`, borderRadius: '50%', border: `${3 * z}px solid #fff`, opacity: ring > 0 ? 1 - ring : 0}} />
+      <div style={{position: 'absolute', left: 960 * z, top: 470 * z, width: 8 * z, height: 520 * z, transform: 'translate(-50%, -50%)', background: '#fff', opacity: t > hit ? 0.9 * (1 - step(t, hit, 0.3)) : 0, filter: `blur(${6 * z}px)`}} />
+      <div style={{position: 'absolute', left: 0, right: 0, top: 760 * z, display: 'flex', justifyContent: 'space-around', opacity: lab, transform: `translateY(${(1 - lab) * 20}px)`, fontFamily: F.sans, fontWeight: 600, fontSize: 40 * z, color: C.mute}}>
+        <span>{a.name}</span>{logo ? <Pic s={logo} style={{height: 90 * z}} /> : null}<span>{b.name}</span>
+      </div>
+    </div>
+  );
+};
+
+// A road that splits in two: one line draws up from the bottom, forks, and each branch ends in an icon (two ways out)
+const Icon: React.FC<{kind: string; s: number}> = ({kind, s}) => kind === 'pen' ? (
+  <svg width={s} height={s} viewBox="0 0 100 100"><path d="M 50 8 L 78 46 L 62 92 L 38 92 L 22 46 Z" fill="#161514" /><circle cx={50} cy={52} r={7} fill="#f2ece2" /><path d="M 50 8 L 50 45" stroke="#f2ece2" strokeWidth={4} /></svg>
+) : (
+  <svg width={s} height={s} viewBox="0 0 100 100"><rect x={18} y={44} width={64} height={48} rx={8} fill="#161514" /><path d="M 34 44 L 34 30 C 34 8, 66 8, 66 26" stroke="#161514" strokeWidth={9} fill="none" strokeLinecap="round" /><circle cx={50} cy={66} r={7} fill="#f2ece2" /></svg>
+);
+export const Fork: React.FC<P<{a: {icon: string; t: number}; b: {icon: string; t: number}}>> = ({at, dur, box, a, b}) => {
+  const {t, exit, enter} = useLife(at, dur, 0.3, 0.4);
+  const z = box.w / 1920;
+  const k0 = step(t, 0, 0.6), ka = step(t, a.t, 0.7), kb = step(t, b.t, 0.7);
+  const L0 = 300, LB = 900;
+  return (
+    <div style={{position: 'absolute', inset: 0, ...enterStyle(enter, exit, 'up', 40)}}>
+      <svg width={box.w} height={box.h} viewBox="0 0 1920 1080" style={{position: 'absolute', inset: 0}}>
+        <path d="M 960 1080 L 960 700" stroke={C.ink} strokeWidth={14} strokeLinecap="round" strokeDasharray={L0} strokeDashoffset={L0 * (1 - k0)} fill="none" />
+        <path d="M 960 700 C 960 520, 560 520, 520 330" stroke={C.orange} strokeWidth={14} strokeLinecap="round" strokeDasharray={LB} strokeDashoffset={LB * (1 - ka)} fill="none" />
+        <path d="M 960 700 C 960 520, 1360 520, 1400 330" stroke={C.orange} strokeWidth={14} strokeLinecap="round" strokeDasharray={LB} strokeDashoffset={LB * (1 - kb)} fill="none" />
+      </svg>
+      {[[520, ka, a.icon, '1'], [1400, kb, b.icon, '2']].map(([x, k, ic, n]) => (
+        <div key={String(n)} style={{position: 'absolute', left: (x as number) * z, top: 250 * z, transform: `translate(-50%, -50%) scale(${0.4 + 0.6 * Math.min(1, (k as number) * 1.4)})`, opacity: k as number,
+          width: 220 * z, height: 220 * z, borderRadius: '50%', background: '#f2ece2', boxShadow: SH, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <Icon kind={ic as string} s={110 * z} />
+          <div style={{position: 'absolute', top: -14 * z, right: -14 * z, width: 70 * z, height: 70 * z, borderRadius: '50%', background: C.orange, color: '#fff', fontFamily: F.serif, fontWeight: 800, fontSize: 40 * z, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{n as string}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// A flip clock rolls to the year (cold open "back in 2018"), with the brand above it
+export const Year: React.FC<P<{from: number; to: number; logo?: string}>> = ({at, dur, box, from, to, logo}) => {
+  const {t, exit, enter} = useLife(at, dur, 0.4, 0.4);
+  const z = box.w / 1920;
+  const n = Math.round(interpolate(t, [0.2, 1.1], [from, to], {...clamp, easing: EASE}));
+  const flip = (t * 8) % 1;
+  const rolling = t > 0.2 && t < 1.1;
+  return (
+    <div style={{position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 40 * z, perspective: 1400, ...enterStyle(enter, exit, 'pop', 0)}}>
+      {logo && <Pic s={logo} style={{height: 110 * z, opacity: step(t, 0.9)}} />}
+      <div style={{display: 'flex', gap: 18 * z}}>
+        {String(n).split('').map((d, i) => (
+          <div key={i} style={{width: 210 * z, height: 290 * z, borderRadius: 22 * z, background: 'linear-gradient(#2e2c29 50%, #262422 50%)', boxShadow: SH, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative',
+            fontFamily: F.serif, fontWeight: 800, fontSize: 230 * z, color: i >= 2 ? C.orange : C.ink, transform: rolling && i >= 2 ? `rotateX(${flip * 25}deg)` : undefined}}>
+            {d}<div style={{position: 'absolute', left: 0, right: 0, top: '50%', height: 3 * z, background: '#111'}} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export const SCENES: Record<string, React.FC<any>> = {
+  multiply: Multiply, same: Same, breakup: Breakup, versus: Versus, fork: Fork, year: Year,
   sting: Sting, chapter: Chapter, statement: Statement, type: TypeLines, logos: Logos, price: Price, meter: Meter, quote: Quote,
   evidence: Evidence, checklist: Checklist, licence: Licence, scale: Scale, stream: Stream, letters: Letters, fish: Fish, board: Board,
   law: Law, deal: Deal, jump: Jump, article: Article, specimen: Specimen, trio: Trio, watch: Watch, menu: Menu, search: SearchRead,

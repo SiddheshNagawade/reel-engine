@@ -13,7 +13,7 @@ export type Shot = {s: number; e: number; layout: Layout; zoom?: number; fx?: nu
 export type Scene = {type: string; at: number; dur: number; box?: 'full' | 'free' | 'right' | 'left'; [k: string]: unknown};
 export type EpisodeProps = {
   base: string; frames: number; fps: number; shots: Shot[]; scenes: Scene[];
-  sfx?: {src: string; at: number; vol?: number}[];
+  sfx?: {src: string; at: number; vol?: number; dur?: number}[];
   music?: {src: string; at: number; dur: number; vol?: number; fadeIn?: number; fadeOut?: number; offset?: number}[];
 };
 
@@ -102,7 +102,10 @@ export const Episode: React.FC<EpisodeProps> = ({base, shots, scenes, sfx = [], 
       })}
       <Audio src={src(base)} />
       {sfx.map((s, i) => (
-        <Sequence key={`s${i}`} from={Math.max(0, Math.round(s.at * fps))} layout="none"><Audio src={src(s.src)} volume={s.vol ?? 0.4} /></Sequence>
+        <Sequence key={`s${i}`} from={Math.max(0, Math.round(s.at * fps))} durationInFrames={s.dur ? Math.max(1, Math.round(s.dur * fps)) : undefined} layout="none">
+          {/* a sound is cut to its moment (dur) with a short fade, never left ringing over the next line */}
+          <Audio src={src(s.src)} volume={(f) => (s.vol ?? 0.4) * (s.dur ? interpolate(f / fps, [s.dur - 0.35, s.dur], [1, 0], clamp) : 1)} />
+        </Sequence>
       ))}
       {music.map((m, i) => (
         <Sequence key={`m${i}`} from={Math.round(m.at * fps)} durationInFrames={Math.round(m.dur * fps)} layout="none">

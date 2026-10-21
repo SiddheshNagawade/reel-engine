@@ -179,6 +179,8 @@ export const TECHNIQUES = [
   {id: 'kit-screen', pass: 'visuals', kinds: [R, V], name: 'Screen recording as a shot: chrome cropped off, camera pushes in to the one spot that matters, holds, pulls back', when: 'showing a page/app where ONE spot is the point; also inside phone/laptop', how: "direction.kit [{use: 'screen', at, until, media, crop: {top}, inset, cam: [{word|s, zoom, x, y, seconds}]}]", src: 'snapcn screen-recording (MIT)', built: true},
   {id: 'kit-search', pass: 'visuals', kinds: [R, V], name: 'Search / AI prompt bar types a query with human rhythm, camera dollies in', when: '"I googled…", "I asked ChatGPT…", the question the video answers', how: "direction.kit [{use: 'search', at, text, typeWord, icon: search|sparkle, surface: shadcn|glass, theme, bg}]", src: 'snapcn search-typing (MIT)', built: true},
 
+  {id: 'lf-verbatim-repeats', pass: 'cuts', kinds: [V], name: 'Long-form: no stumble left — verbatim per-sentence audit + sound-wave echo finder', when: 'every scripted long-form cut, before rendering', how: 'scripts/longaudit.py + scripts/longechoes.py; cut with longfix.py / longechocut.py', src: 'his v3 verdict 2026-10-21', built: true},
+  {id: 'lf-mute-story', pass: 'visuals', kinds: [V], name: 'Long-form: story readable on mute — objects that act instead of text cards', when: 'every line that has a fact/event; opinions stay on his face', how: 'src/longform scenes multiply/same/breakup/versus/fork/year/fish(+map)', src: 'his v3 verdict 2026-10-21', built: true},
   {id: 'density', pass: 'density', kinds: ALL, name: 'Something new every 2–3 s; one idea at a time', when: 'walk the timeline; fill boring stretches, thin overloaded ones', how: 'node scripts/editplan.mjs <name> check', src: 'preferences.md', built: true},
 ];
 

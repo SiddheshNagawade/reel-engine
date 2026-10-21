@@ -83,6 +83,37 @@ for (const [a, b] of cutouts) for (let k = pieces.length - 1; k >= 0; k--) {
   if (b < pc.e - 0.05) parts.push({...pc, s: b});
   pieces.splice(k, 1, ...parts);
 }
+// every cut edge that lands inside speech moves to the quietest 10 ms nearby (waveform, not Whisper): a join inside a
+// word left audible half words / sentence tails (his v3 note)
+{
+  const buf = fs.readFileSync(path.join(W, 'audio16.wav'));
+  let off = 12, data = 44;
+  while (off < 4096) { const id = buf.toString('ascii', off, off + 4), len = buf.readUInt32LE(off + 4); if (id === 'data') { data = off + 8; break; } off += 8 + len; }
+  const N = Math.floor((buf.length - data) / 2);
+  const rms = (t) => { const a = Math.max(0, Math.round(t * 16000)), b = Math.min(N, a + 160); let q = 0; for (let i = a; i < b; i++) { const v = buf.readInt16LE(data + i * 2); q += v * v; } return Math.sqrt(q / Math.max(1, b - a)); };
+  const inSil = (t) => sil.some(([a, b]) => t >= a - 0.02 && t <= b + 0.02);
+  const quiet = (t) => { let best = t, bv = Infinity; for (let x = t - 0.12; x <= t + 0.12; x += 0.01) { const v = rms(x - 0.005) + Math.abs(x - t) * 30; if (v < bv) { bv = v; best = x; } } return best; };
+  for (const pc of pieces) { if (!inSil(pc.s)) pc.s = quiet(pc.s); if (!inSil(pc.e)) pc.e = quiet(pc.e); }
+  // quiet stretches the -55 dB silence list misses (breath, room noise): any run under -45 dBFS longer than 0.3 s
+  // inside a piece shrinks to 0.14 s; the row's own end pause (last part of its last piece) stays as designed
+  const QUIET = 32768 * 10 ** (-45 / 20);
+  for (let k = pieces.length - 1; k >= 0; k--) {
+    const pc = pieces[k];
+    const last = k === pieces.length - 1 || pieces[k + 1].row !== pc.row;
+    const stop = last ? pc.e - PAUSE[rows[pc.row].sep] - 0.1 : pc.e - 0.05;
+    const runs = []; let r0 = null;
+    for (let t = pc.s + 0.05; t < stop; t += 0.02) {
+      const q = rms(t) < QUIET;
+      if (q && r0 === null) r0 = t;
+      if ((!q || t + 0.02 >= stop) && r0 !== null) { if (t - r0 > 0.3) runs.push([r0, t]); r0 = null; }
+    }
+    if (!runs.length) continue;
+    const parts = []; let cur = pc.s;
+    for (const [a, b] of runs) { parts.push({...pc, s: cur, e: a + 0.07}); cur = b - 0.07; }
+    parts.push({...pc, s: cur});
+    pieces.splice(k, 1, ...parts);
+  }
+}
 // no piece may overlap the one before it (the overlap would play twice and push every graphic late)
 for (let k = 1; k < pieces.length; k++) { const pr = pieces[k - 1], pc = pieces[k]; if (pc.s < pr.e && pc.s > pr.s - 0.01) pc.s = pr.e; }
 for (let k = pieces.length - 1; k >= 0; k--) if (pieces[k].e - pieces[k].s < 0.04) pieces.splice(k, 1);

@@ -3,6 +3,9 @@ import {AbsoluteFill, Easing, Img, interpolate, spring, staticFile, useCurrentFr
 import {loadFont as plexSans} from '@remotion/google-fonts/IBMPlexSans';
 import {loadFont as plexSerif} from '@remotion/google-fonts/IBMPlexSerif';
 import {loadFont as interTight} from '@remotion/google-fonts/InterTight';
+import {loadFont as montserrat} from '@remotion/google-fonts/Montserrat';
+import {loadFont as mplusRound} from '@remotion/google-fonts/MPLUSRounded1c';
+import {loadFont as notoJP} from '@remotion/google-fonts/NotoSansJP';
 import {loadFont as geist} from '@remotion/google-fonts/Geist';
 import {loadFont as instrSerif} from '@remotion/google-fonts/InstrumentSerif';
 import {loadFont as plexMono} from '@remotion/google-fonts/IBMPlexMono';
@@ -30,6 +33,10 @@ export const F = {
   hand: instrSerif('italic', {weights: ['400'], subsets: [...lat]}).fontFamily,
   plex: plexSans('normal', {weights: ['400', '600', '700'], subsets: [...lat]}).fontFamily,
   plexSerif: plexSerif('normal', {weights: ['600'], subsets: [...lat]}).fontFamily,
+  // stand-ins to SHOW a font being talked about: Montserrat ≈ Gotham's shapes; rounded vs plain Japanese for the Taiko swap
+  gothamLike: montserrat('normal', {weights: ['600', '700'], subsets: ['latin']}).fontFamily,
+  jpRound: mplusRound('normal', {weights: ['800'], subsets: ['latin']}).fontFamily,
+  jpPlain: notoJP('normal', {weights: ['700'], subsets: ['latin']}).fontFamily,
   calibriLike: carlito('normal', {weights: ['400', '700'], subsets: [...lat]}).fontFamily,
   deva: notoDeva('normal', {weights: ['500'], subsets: ['devanagari']}).fontFamily,
   tamil: notoTamil('normal', {weights: ['500'], subsets: ['tamil']}).fontFamily,

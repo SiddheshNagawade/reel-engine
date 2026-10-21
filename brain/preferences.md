@@ -317,3 +317,12 @@ contradictions resolved). After every round of feedback: add the dated note here
 - v1 verdict (2026-10-21): too slow and too long (17.7 min); repeated sentences left in; crop kept shifting; clip captions clunky; dots ugly; sfx inaudible; no Synthet7 music; graphics felt like slides with 3 things at once; slab serif felt old; wanted 3D; intro too slow for the first 5 s. He re-graded the footage and cleaned the audio himself (IMG_6622 new.mov, audio in Apple APAC → decode with `afconvert -f WAVE -d LEI16@48000 -c 2`).
 - v2 verdict (2026-10-21): loved the audio pace ("perfect"); visuals lagged behind the voice from 0:35 on (cause: select-based join kept source order + overlaps); still heard repeated words; wanted the real Netflix interface instead of a mock; graphics hovered too long after animating.
 - Titles + thumbnails verdict (2026-10-21, netflix-font): my 5 titles "feel so dead": statements, not questions. People don't know him, so no self in the title or thumbnail; the title must be something people are eager to know. My thumbnail prompts were "incomplete" (text to add in Figma): he wants full ChatGPT prompts whose output he uploads as it is, zero work for him.
+
+## 2026-10-21 · netflix-font v3 verdict
+He loved the pace but was angry that stumbles/second takes were still in ("the transcriber is acting smart and
+correcting it"). Also: SFX too long/repeated; clips running out and freezing; abrupt joins with sentence tails;
+too much text, wants visuals that tell the story on mute; fish scene weak and Japan as a small image; no clip
+voice-overs; cover moments he looks away; a big pause at 10:15; use his Cd logo file; final in 1080p best quality.
+Fix: verbatim per-sentence audit + sound-wave echo finder, waveform edge snapping, SFX caps, muted clips, six new
+visual scenes (multiply, same, breakup, versus, fork, year), underwater fish + real Japan map, gaze tracking.
+

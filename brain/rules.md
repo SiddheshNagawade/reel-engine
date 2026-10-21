@@ -193,3 +193,22 @@ sections at the moment of the decision.
   2.5 s after their last beat; uncovered time shows his face. Repeats: scripts/longrepeats.py (aligns the cut to the
   script) must come back clean before any render.
 - Hook: first ~10 s = a fast recap of the whole story (4 lines over real footage, a cut every ~1 s, riser + hits).
+- Repeats (v3 verdict 2026-10-21, he was angry: "literally nothing repeated"): Whisper CLEANS stumbles on its own, so a
+  transcript of the whole cut hides them. Two independent checks, both must be clean before rendering:
+  (1) scripts/longaudit.py = every sentence heard on its own with a disfluent prompt (verbatim), aligned to script.md;
+  (2) scripts/longechoes.py = the sound wave compared with itself (same words twice sound the same), each hit confirmed
+  by transcribing the two copies SEPARATELY. Cut with scripts/longfix.py / longechocut.py (quiet points, piece-bounded).
+  His stumbles are never "his way of speaking": every doubled word goes.
+- Cut edges (v3): every join sits at the quietest point nearby (longcut waveform snap); quiet stretches inside a
+  sentence (breath, room noise under −45 dB) > 0.3 s shrink to 0.14 s. No sentence tail of a dropped take may remain.
+- Sound effects (v3): each is cut to its moment with a fade (impacts ≈ 1.6 s, ticks ≈ 2.4 s), the same sound never
+  twice within 12 s, never two within 0.6 s, no whoosh on clip-to-clip hard cuts. Clips are MUTED except where their
+  own sound is the point (Netflix tudum, game music): voice-overs under his voice were clutter.
+- Visuals (v3): the story must read on MUTE through pictures, not sentences: no statement/note text cards; each line
+  gets an object that acts (fish eats, screens multiply, fonts collide, a road forks, a tie snaps) or real footage;
+  opinion lines = his face. Clips never run past their footage (no frozen frame) and stay ≤ 6 s; graphics leave
+  1.6 s after their last beat. Places = the real map full-frame (Japan), never a small icon/emoji.
+- Channel logo = his own file Library/stickers/cd-logo/sticker.png (background removed), used as is (sting,
+  subscribe, end).
+- Final versions: 1080p, highest quality, after a full check of speech, sound and visuals; he wants it done once.
+
