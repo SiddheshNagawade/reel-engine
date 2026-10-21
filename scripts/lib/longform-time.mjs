@@ -25,18 +25,34 @@ export function loadTiming(W) {
     return nx ? nx.at : total;
   };
   const rowPieces = (i) => pieces.filter((p) => p.row === i);
+  // word times measured on the FINAL cut audio (cutwords.json = Whisper on cutaudio.wav), aligned to the lines:
+  // graphics then fire on the actual spoken word, not on an estimate
+  const cwp = path.join(W, 'cutwords.json');
+  const heard = new Map(); // row index → [{w, s}]
+  if (fs.existsSync(cwp)) {
+    const cw = JSON.parse(fs.readFileSync(cwp, 'utf8')).words;
+    const rw = []; rows.forEach((r, i) => r.text.split(/\s+/).map(norm).filter(Boolean).forEach((w) => rw.push({w, i})));
+    // greedy in-order alignment: each line word finds the next matching heard word within a short window
+    let k = 0;
+    for (const x of rw) {
+      for (let j = k; j < Math.min(cw.length, k + 12); j++) if (norm(cw[j].w) === x.w) { (heard.get(x.i) ?? heard.set(x.i, []).get(x.i)).push({w: x.w, s: cw[j].s}); k = j + 1; break; }
+    }
+  }
+  const startOf = (i) => { const ps = rowPieces(i)[0].at; const h = heard.get(i)?.[0]; return h && Math.abs(h.s - ps) < 1.5 ? h.s : ps; };
   const api = {
     total, rows, pieces,
-    at: (sub) => rowPieces(row(sub))[0].at,
+    at: (sub) => +startOf(row(sub)).toFixed(2),
     end: (sub) => { const ps = rowPieces(row(sub)); const l = ps[ps.length - 1]; return l.at + (l.e - l.s) / speed; },
     // first occurrence of `w` (a word or prefix) inside the line's kept pieces
     word: (sub, w, nth = 0) => {
       const i = row(sub);
+      const hh = (heard.get(i) ?? []).filter((x) => x.w.startsWith(norm(w)));
+      if (hh[nth]) return +Math.max(startOf(i), hh[nth].s).toFixed(2);
       const ps = rowPieces(i);
       const hits = words.filter((x) => norm(x.w).startsWith(norm(w)) && ps.some((p) => x.s >= p.s - 0.15 && x.s <= p.e));
       const uniq = hits.filter((x, k) => k === 0 || Math.abs(x.s - hits[k - 1].s) > 0.2);
       if (!uniq[nth]) throw new Error(`word "${w}" not in line "${sub}"`);
-      return +Math.max(api.at(sub), out(uniq[nth].s)).toFixed(2);
+      return +Math.max(startOf(i), out(uniq[nth].s)).toFixed(2);
     },
   };
   return api;

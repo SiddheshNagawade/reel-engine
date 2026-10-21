@@ -83,6 +83,12 @@ for (const [a, b] of cutouts) for (let k = pieces.length - 1; k >= 0; k--) {
   if (b < pc.e - 0.05) parts.push({...pc, s: b});
   pieces.splice(k, 1, ...parts);
 }
+// no piece may overlap the one before it (the overlap would play twice and push every graphic late)
+for (let k = 1; k < pieces.length; k++) { const pr = pieces[k - 1], pc = pieces[k]; if (pc.s < pr.e && pc.s > pr.s - 0.01) pc.s = pr.e; }
+for (let k = pieces.length - 1; k >= 0; k--) if (pieces[k].e - pieces[k].s < 0.04) pieces.splice(k, 1);
+// snap every piece to the 30 fps frame grid so picture and sound are cut at the same instants (no drift)
+for (const pc of pieces) { pc.s = Math.round(pc.s * 30) / 30; pc.e = Math.round(pc.e * 30) / 30; }
+for (let k = pieces.length - 1; k >= 0; k--) if (pieces[k].e - pieces[k].s < 1 / 30) pieces.splice(k, 1);
 let t = 0;
 const map = [];
 for (const pc of pieces) { pc.at = +t.toFixed(3); t += (pc.e - pc.s) / SPEED; }
