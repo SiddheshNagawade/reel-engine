@@ -47,7 +47,7 @@ const deep = (o) => Array.isArray(o) ? o.map(deep) : o && typeof o === 'object' 
 
 const fps = ep.fps ?? 30;
 const total = ep.duration ?? Math.max(...ep.shots.map((s) => s.e));
-const props = {...deep({scenes: ep.scenes, sfx: ep.sfx ?? [], music: ep.music ?? [], shots: ep.shots}), base: stage(path.join(work, ep.base)), fps, frames: Math.round(total * fps)};
+const props = {...deep({scenes: ep.scenes, sfx: ep.sfx ?? [], music: ep.music ?? [], shots: ep.shots}), base: stage(path.join(work, ep.base)), voiceFrom: ep.voiceFrom, fps, frames: Math.round(total * fps)};
 const chromiumOptions = {gl: process.env.REEL_GL || 'angle'};
 
 try {

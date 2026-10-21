@@ -14,6 +14,7 @@ export type Scene = {type: string; at: number; dur: number; box?: 'full' | 'free
 export type EpisodeProps = {
   base: string; frames: number; fps: number; shots: Shot[]; scenes: Scene[];
   sfx?: {src: string; at: number; vol?: number; dur?: number}[];
+  voiceFrom?: number;
   music?: {src: string; at: number; dur: number; vol?: number; fadeIn?: number; fadeOut?: number; offset?: number}[];
 };
 
@@ -82,7 +83,7 @@ const Footage: React.FC<{base: string; shots: Shot[]}> = ({base, shots}) => {
   );
 };
 
-export const Episode: React.FC<EpisodeProps> = ({base, shots, scenes, sfx = [], music = [], fps}) => {
+export const Episode: React.FC<EpisodeProps> = ({base, shots, scenes, sfx = [], music = [], fps, voiceFrom}) => {
   const layoutAt = (t: number) => (shots.find((s) => t >= s.s && t < s.e) ?? shots[shots.length - 1]).layout;
   return (
     <AbsoluteFill style={{background: C.paper}}>
@@ -100,7 +101,8 @@ export const Episode: React.FC<EpisodeProps> = ({base, shots, scenes, sfx = [], 
           </Sequence>
         );
       })}
-      <Audio src={src(base)} />
+      {/* voiceFrom: his voice starts here (an opening breath on footage before it) */}
+      <Audio src={src(base)} volume={(f) => (voiceFrom ? interpolate(f / fps, [voiceFrom - 0.05, voiceFrom], [0, 1], clamp) : 1)} />
       {sfx.map((s, i) => (
         <Sequence key={`s${i}`} from={Math.max(0, Math.round(s.at * fps))} durationInFrames={s.dur ? Math.max(1, Math.round(s.dur * fps)) : undefined} layout="none">
           {/* a sound is cut to its moment (dur) with a short fade, never left ringing over the next line */}
