@@ -14,7 +14,7 @@ Read first, in this order:
 4. Long-form YouTube (Designomics or any 6–15 min explainer): `brain/longform-scripts.md` in full (topic test, title
    formula, the 9-beat anatomy, writing devices, overlap list, what flops). The 66 Anurag Bansal transcripts it was
    built from are on the T7 in `references/decoding brands/` (INDEX.md by views) when a beat needs a closer model.
-   Idea bank: Claude Doc "Designomics Episode Ideas" (https://claude.ai/artifact/H6jRB9nynFRHAuejHEh4Vh, read with the
+   Idea bank: `brain/ideas/ideas.md` (THE final list; research dump in `brain/ideas/research.md`); history in Claude Doc "Designomics Episode Ideas" (https://claude.ai/artifact/H6jRB9nynFRHAuejHEh4Vh, read with the
    docs connector); series identity: "Designomics Series Bible" (https://claude.ai/artifact/56MNF1JZyqXTEzGuBd7gVY).
 
 ## Long-form output (Designomics): one final file, nothing left for him to write

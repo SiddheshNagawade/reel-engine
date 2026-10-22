@@ -36,6 +36,9 @@ sections at the moment of the decision.
 - Long-form topics/titles (2026-10-19): a SPECIFIC name + a result that sounds impossible + CURRENT (this year's news),
   and the title must hide the mechanism (never question + answer in one title). Reject evergreen "everyone knows it"
   topics and anything with existing deep videos on YouTube (check with `yt-dlp ytsearch`). Global brands are fine.
+- Ideas live in ONE place (2026-10-22): brain/ideas/ideas.md = the final ranked list (every idea = title question +
+  thumbnail pair, insights, status); brain/ideas/research.md = my research dump. "What next video?" → read ideas.md
+  first, build on its ideas and titles, never restart from today's news. Update both after every research session.
 - Speed is the edge (2026-10-19): rank ideas by how fresh the news door is (days old beats months old); an older
   story (Cybertruck flop) goes INSIDE a video, never in the title. A daily 8 AM scheduled task
   (designomics-news-radar) writes picks to T7 references/news-radar/LATEST.md: read it before proposing topics.

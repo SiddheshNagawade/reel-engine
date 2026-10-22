@@ -122,7 +122,7 @@ Word budget: he speaks ~205 words/min; 12–14 min = 2,500–2,900 words. Siddhe
    pass the topic test.
 
 ## 7a. Freshness first (his rule, 2026-10-19)
-Before proposing topics read `/Volumes/T7 Shield/ReelEngine/references/news-radar/LATEST.md` (daily 8 AM scan by the
+Before proposing topics read `brain/ideas/ideas.md` (the final list) and `/Volumes/T7 Shield/ReelEngine/references/news-radar/LATEST.md` (daily 8 AM scan by the
 scheduled task `designomics-news-radar`). Rank by how old the news door is; check the date of every door; anything
 older than ~1 month needs a new event to reopen it.
 
