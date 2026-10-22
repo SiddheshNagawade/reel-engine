@@ -335,3 +335,4 @@ visual scenes (multiply, same, breakup, versus, fork, year), underwater fish + r
   question about that object and returns to it.
 - Design + business link verdict (2026-10-22): he felt the font episode had no real business side ("just that it costs") and nothing for designers either; ideas keep landing on one side only. Rule: every idea carries the design decision → behaviour → number → proof → two takeaways chain (rules.md "Design ↔ money link"); ideas.md got a link column.
 - Ideas verdict (2026-10-22): "subscription trap is so common, why would I even click?" Every idea must be unique or trending now, not on YouTube already, and pass my own "would I click as a stranger?" test before I show it.
+- Ideas verdict (2026-10-22, later): "you fucked up" by dropping old ideas; cars is relatable and covers both sides. Wants STORIES about real-world things, not only apps/UI/packaging. Asked for 10 best ideas, old ones back.

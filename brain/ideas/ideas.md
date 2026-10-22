@@ -21,19 +21,17 @@ Last updated: 2026-10-22.
 - **Netflix font / who owns letters** (Round 4 #1, 11 insights) — recorded and edited (projects/netflix-font). Don't repeat.
   Covered earlier on his channel too (overlap list in longform-scripts.md §7.6).
 
-## RETHINK v2 2026-10-22 (his verdict: "subscription trap is so common, why would I click?") — THIS is the ranking
-Filter every idea must pass before it's listed: (1) unique angle OR trending this month, (2) no deep video already
-(yt-dlp ytsearch6 run 22 Oct), (3) the design ↔ money chain, (4) the honest "would I click it as a stranger?" test.
-Dropped by the filter: subscription/cancel trap (too common), Jaguar Type 01 alone (3.8M + 976k reviews already),
-Figma (business only), OpenAI device (nothing to see yet).
-
-| # | Title | Thumbnail | Why it's not basic | Design ↔ money chain | YouTube now | Status |
-|---|---|---|---|---|---|---|
-| 1 | Blinkit Is Secretly Redesigning Every Product You Buy | a chips packet shrunk to a tiny phone tile, circled, "200 pixels." | nobody has noticed it; it's in every viewer's phone | brands now design packs for a 200×200 px app tile (bold names, colour blocks, fewer words) → the tile decides the click → quick commerce sales (proof to find: brands that redesigned + q-comm share of FMCG sales) | open: only seller how-tos | NEW · NEEDS RESEARCH (all claims so far are agency blogs) |
-| 2 | Can A Company Own A Colour? | black heel, red sole circled, "this red is owned." | his pick; 2026 colour rulings | one exact red spot → recognised across a room → free advertising + price premium (proof to find) | open: no deep video (law clips < 2k) | KEEP · needs money proof |
-| 3 | How Is A Rounded Corner Worth $533 Million? | iPhone outline, one corner circled, "$533,000,000." | an absurd number on a shape everyone touches | design patent → copier pays the WHOLE profit of the product (mem: 2018 jury $539M) | open: biggest video 1.2k views | NEW · needs a 2026 door + sources |
-| 4 | How Can Costco Sell A Lululemon Hoodie For A Quarter Of The Price? | two near-identical hoodies, price tags, "same?" | the "dupe" economy, Indian dupes (Zara/Zudio) | a hoodie's shape is protected by design patents → dupe sellers redesign just enough → the line between copy and legal is money | news clips only (434k news, no explainer) | NEW · NEEDS RESEARCH (case mostly settled May 2026) |
-| 5 | Why Are India's Snack Packs About To Get A Red Warning? | noodle pack + red "HIGH SALT" hexagon, "coming soon." | will be trending the day the rule lands | warning shape → shoppers skip → brands change recipes (Chile ~24% drop, mem) | not yet checked | WAITING |
+## THE TEN (v3, 2026-10-22) — THIS is the ranking. His verdict: old ideas were good (cars!), people love STORIES and
+real-world things; app/UI/packaging only when truly interesting. Story + relatable + design ↔ money, both sides.
+1 Why Does Every New Car Look The Same? (sec. 2 below) · 2 Can A Company Own A Colour? (sec. 1) ·
+3 Why Did Hero Splendor Never Change Its Design? (NEW: India's best-seller looks ~the same for 30 years; trust,
+resale, cheap tooling, mileage; YouTube: history videos only, 246k) · 4 Why Do Airports Make You Walk Through Duty
+Free? (NEW: walk-through layout → more sales, Indian airports; YouTube: only tiny shorts) · 5 How Is A Rounded Corner
+Worth $533 Million? (Apple v Samsung) · 6 Why Did OpenAI Pay $6.5 Billion For A Device Nobody Has Seen? (sec. 5) ·
+7 Why Are India's Snack Packs About To Get A Red Warning? (sec. 4) · 8 Why Do Indian Trucks Look Like This? (NEW:
+truck art, Horn OK Please; YouTube 19k max) · 9 Blinkit Is Secretly Redesigning Every Product You Buy ·
+10 Why Is Figma Now Worth Less Than Adobe Offered? (sec. 3). Cars note: "The Dumb Design of Modern Cars" (5.8M)
+exists: our angle must be why + who profits + India, not "cars are ugly".
 
 ## Design ↔ money check (2026-10-22, rules.md "Design ↔ money link") — an idea is READY only when its chain is complete
 
