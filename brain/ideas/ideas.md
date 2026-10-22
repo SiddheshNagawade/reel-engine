@@ -23,17 +23,17 @@ Last updated: 2026-10-22.
 
 Audience + lane (always): rules.md "AUDIENCE + LANE": visual, mechanical/functional and AI design, all tied to money.
 
-## THE TEN (v3, 2026-10-22) — THIS is the ranking. His verdict: old ideas were good (cars!), people love STORIES and
-real-world things; app/UI/packaging only when truly interesting. Story + relatable + design ↔ money, both sides.
-1 Why Does Every New Car Look The Same? (sec. 2 below) · 2 Can A Company Own A Colour? (sec. 1) ·
-3 Why Did Hero Splendor Never Change Its Design? (NEW: India's best-seller looks ~the same for 30 years; trust,
-resale, cheap tooling, mileage; YouTube: history videos only, 246k) · 4 Why Do Airports Make You Walk Through Duty
-Free? (NEW: walk-through layout → more sales, Indian airports; YouTube: only tiny shorts) · 5 How Is A Rounded Corner
-Worth $533 Million? (Apple v Samsung) · 6 Why Did OpenAI Pay $6.5 Billion For A Device Nobody Has Seen? (sec. 5) ·
-7 Why Are India's Snack Packs About To Get A Red Warning? (sec. 4) · 8 Why Do Indian Trucks Look Like This? (NEW:
-truck art, Horn OK Please; YouTube 19k max) · 9 Blinkit Is Secretly Redesigning Every Product You Buy ·
-10 Why Is Figma Now Worth Less Than Adobe Offered? (sec. 3). Cars note: "The Dumb Design of Modern Cars" (5.8M)
-exists: our angle must be why + who profits + India, not "cars are ugly".
+## THE LIST (v4, 2026-10-22) — filtered by VIEWER VALUE FIRST (≥ 3 save-worthy takeaways, enough for 5–10+ min).
+His rule: don't force an idea into the filter; drop it and find a better one. No "one label added / colour changed".
+1 Why Does Every New Car Look The Same? · 2 Why Did Hero Splendor Never Change Its Design? · 3 Why Do Ceiling Fans
+Look The Same For 50 Years? (NEW: Atomberg BLDC motor; business story covered 140k, design/mechanical angle open) ·
+4 Why Does Maggi Cook In 2 Minutes? (NEW: product engineering of the noodle cake + 2015 ban; YouTube: factory clips
+only) · 5 Can A Company Own A Colour? · 6 Why Do Airports Make You Walk Through Duty Free? · 7 How Is A Rounded Corner
+Worth $533 Million? · 8 Why Is Figma Now Worth Less Than Adobe Offered? (designer-future angle).
+DROPPED by the filter: FSSAI warning (one label added), trucks (culture trivia, no use), OpenAI device (nothing to
+learn yet), Blinkit packs (unproven, packaging-only). Checked and rejected (covered on YouTube): Nothing Phone 785k,
+Tesla gigacasting 2M, Vande Bharat 2.2M, BYD cheap EVs 9.8M, pressure cooker (thin).
+Only 8: two slots open, filled only by ideas that pass.
 
 ## Design ↔ money check (2026-10-22, rules.md "Design ↔ money link") — an idea is READY only when its chain is complete
 
