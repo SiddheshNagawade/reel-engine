@@ -60,6 +60,11 @@ sections at the moment of the decision.
 - Long-form thumbnails (2026-10-19): title = the famous names, thumbnail = the feeling/contradiction in a picture
   + 1–4 words, never the same words; 3 thumbnail options per idea from the 8 types in brain/thumbnails.md; his face
   only as a big real reaction, and A/B test with YouTube Test & Compare. Library: T7 references/thumbnails/.
+- Design ↔ money link (2026-10-22, his verdict on netflix-font: "not useful for business people, not useful for
+  designers"): every idea must state the CHAIN before it can be READY: a concrete design decision → what it changes in
+  people's behaviour → which number moves (price, sales, cost, margin, valuation) → the proof number (opened source)
+  → one takeaway a business person can use AND one a designer can use. "It costs money" alone is not a business side;
+  law/trivia alone is not a design side. No chain = NEEDS RESEARCH, whatever the insight count.
 - Thumbnail = the spine (2026-10-22): the object in the thumbnail is what the whole video follows from second 1
   to the end. Every other case enters ONLY as an answer to a question about that object ("why didn't this work for
   Cadbury?") and hands back to it. A case that can't be tied to it is cut. Never open on a different story than the

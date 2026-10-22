@@ -21,6 +21,17 @@ Last updated: 2026-10-22.
 - **Netflix font / who owns letters** (Round 4 #1, 11 insights) — recorded and edited (projects/netflix-font). Don't repeat.
   Covered earlier on his channel too (overlap list in longform-scripts.md §7.6).
 
+## Design ↔ money check (2026-10-22, rules.md "Design ↔ money link") — an idea is READY only when its chain is complete
+
+| # | Design decision | Changes what people do | Money number | Proof we have | Business takeaway | Designer takeaway | Chain |
+|---|---|---|---|---|---|---|---|
+| Done: font | own font instead of rented | nothing shown (brand feel only) | licence cost (the "millions" was denied) | none | weak | weak | BROKEN (the lesson) |
+| 1 Louboutin | one red spot on the sole | recognised across a room → wearer advertises, buyers pay for the sign | sole business "$800M+" (?), price premium vs similar heels (?) | none opened | own one exact spot, never "mostly a colour" | distinctive asset = place + shade, not colour | HALF: needs price-premium + revenue proof |
+| 2 Cars | tall blunt, jellybean, shared platforms | safety + range + resale → buyers pick the safe look | platform savings, drag → range km, resale gap (?) | R5 vs Model Y sales (s) | sameness is cheaper and less risky; difference must pay for itself | the brief decides the shape; room left = lights | HALF: needs cost/range numbers |
+| 3 Figma | shared canvas teams live in | switching cost; AI makes drawing cheap | $20B offer → ~$12B; +46% revenue | s | the moat is the shared place, not the feature | if drawing is cheap, taste/decisions are the job | HALF: weak design-decision side |
+| 4 FSSAI | red hexagon on the pack front | buyers skip "HIGH" packs; brands change recipes | Chile: sugary-drink sales drop (? %) | none opened | labels redesign the product itself | warning design = the strongest design in a store | HALF: needs Chile numbers opened |
+| 5 OpenAI | a device with no screen | ? (not shipped) | $6.5B for taste | s | buying taste: Beats, Instagram | ? | BROKEN until it ships |
+
 ## Ranking now
 
 | # | Idea | Status | Door + window | Insights |

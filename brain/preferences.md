@@ -333,3 +333,4 @@ visual scenes (multiply, same, breakup, versus, fork, year), underwater fish + r
   the shoe and stay in the shoe story; jumping to unrelated cases breaks the promise and they leave. "Connect the dots."
   → rule: the thumbnail's object is the spine of the whole video; every other case enters only as an answer to a
   question about that object and returns to it.
+- Design + business link verdict (2026-10-22): he felt the font episode had no real business side ("just that it costs") and nothing for designers either; ideas keep landing on one side only. Rule: every idea carries the design decision → behaviour → number → proof → two takeaways chain (rules.md "Design ↔ money link"); ideas.md got a link column.
