@@ -21,20 +21,19 @@ Last updated: 2026-10-22.
 - **Netflix font / who owns letters** (Round 4 #1, 11 insights) — recorded and edited (projects/netflix-font). Don't repeat.
   Covered earlier on his channel too (overlap list in longform-scripts.md §7.6).
 
-## RETHINK 2026-10-22 (his ask: every idea needs a strong design AND business link) — this ranking replaces "Ranking now"
-Each idea is now built on ONE chain: design decision → what people do → the number that moves → proof → takeaway for
-business people + takeaway for designers. Facts marked "mem" come from my memory: open the source before scripting.
+## RETHINK v2 2026-10-22 (his verdict: "subscription trap is so common, why would I click?") — THIS is the ranking
+Filter every idea must pass before it's listed: (1) unique angle OR trending this month, (2) no deep video already
+(yt-dlp ytsearch6 run 22 Oct), (3) the design ↔ money chain, (4) the honest "would I click it as a stranger?" test.
+Dropped by the filter: subscription/cancel trap (too common), Jaguar Type 01 alone (3.8M + 976k reviews already),
+Figma (business only), OpenAI device (nothing to see yet).
 
-| # | Title (question) | Thumbnail (picture + words) | The chain in one line | Proof number | Business takeaway | Designer takeaway | Status |
-|---|---|---|---|---|---|---|---|
-| 1 | Why Is Cancelling Always So Hard? | a giant green "Subscribe" button next to a tiny grey "cancel" link circled in red, "on purpose." | apps design sign-up in 1 tap and cancel in 6 screens (dark patterns) → people stay paying → revenue | mem: Amazon paid $2.5B to the US FTC (Sept 2025) over its Prime cancel flow, which staff reportedly called "Iliad"; India's consumer authority listed 13 banned dark patterns (2023) and told apps to self-audit (2025) | friction is a revenue line, until a regulator turns it into a fine | every screen is a business decision; designers are the ones asked to build the trap | NEW · NEEDS DOOR + YouTube check |
-| 2 | Can A Company Own A Colour? | black heel, red sole circled, "this red is owned." | one exact red spot → recognised across a room → every wearer is free advertising → buyers pay for the sign | to find: Louboutin revenue + price vs similar heels (the $800M figure is unchecked) | own one exact spot, never "mostly a colour" (Cadbury lost) | a distinctive asset is a place + shade, not a colour | KEEP · needs money proof |
-| 3 | Why Are India's Snack Packs About To Get A Red Warning? | plain noodle pack with a red "HIGH SALT" hexagon, "coming soon." | a warning shape on the front → shoppers skip it → brands change recipes before the law lands | mem: Chile's black warning labels cut sugary-drink purchases ~24% (2020 study) | a label redesigns the PRODUCT, not the pack | the most powerful design in a store is the one a government draws | WAITING for the final FSSAI rule |
-| 4 | How Is A Rounded Corner Worth $500 Million? | an iPhone outline with one corner circled, "$533,000,000." | a protected shape (design patent) → copying it costs you ALL the profit of the copied product | mem: Apple v Samsung retrial 2018, jury $539M (≈$533M for design patents), then settled | protect the shape, not just the tech: design patents pay out on total profit | a single shape decision can be the most valuable thing you ever draw | NEW · needs a 2026 door |
-| 5 | Why Does Every New Car Look The Same? | four near-identical white SUVs, "name one." | shared platforms + safety + range rules → the safe shape is the cheap shape → difference must pay for itself (Jaguar's bet) | to find: platform cost savings, drag → km of range | sameness is cheaper; being different is a bet you price in | the brief decides the shape; only lights are left to design | KEEP · needs cost numbers |
-
-Parked from the old list: Figma (business-only, weak design decision; revisit only if Q3 gives a design angle) ·
-OpenAI device (no design to judge until it ships).
+| # | Title | Thumbnail | Why it's not basic | Design ↔ money chain | YouTube now | Status |
+|---|---|---|---|---|---|---|
+| 1 | Blinkit Is Secretly Redesigning Every Product You Buy | a chips packet shrunk to a tiny phone tile, circled, "200 pixels." | nobody has noticed it; it's in every viewer's phone | brands now design packs for a 200×200 px app tile (bold names, colour blocks, fewer words) → the tile decides the click → quick commerce sales (proof to find: brands that redesigned + q-comm share of FMCG sales) | open: only seller how-tos | NEW · NEEDS RESEARCH (all claims so far are agency blogs) |
+| 2 | Can A Company Own A Colour? | black heel, red sole circled, "this red is owned." | his pick; 2026 colour rulings | one exact red spot → recognised across a room → free advertising + price premium (proof to find) | open: no deep video (law clips < 2k) | KEEP · needs money proof |
+| 3 | How Is A Rounded Corner Worth $533 Million? | iPhone outline, one corner circled, "$533,000,000." | an absurd number on a shape everyone touches | design patent → copier pays the WHOLE profit of the product (mem: 2018 jury $539M) | open: biggest video 1.2k views | NEW · needs a 2026 door + sources |
+| 4 | How Can Costco Sell A Lululemon Hoodie For A Quarter Of The Price? | two near-identical hoodies, price tags, "same?" | the "dupe" economy, Indian dupes (Zara/Zudio) | a hoodie's shape is protected by design patents → dupe sellers redesign just enough → the line between copy and legal is money | news clips only (434k news, no explainer) | NEW · NEEDS RESEARCH (case mostly settled May 2026) |
+| 5 | Why Are India's Snack Packs About To Get A Red Warning? | noodle pack + red "HIGH SALT" hexagon, "coming soon." | will be trending the day the rule lands | warning shape → shoppers skip → brands change recipes (Chile ~24% drop, mem) | not yet checked | WAITING |
 
 ## Design ↔ money check (2026-10-22, rules.md "Design ↔ money link") — an idea is READY only when its chain is complete
 
