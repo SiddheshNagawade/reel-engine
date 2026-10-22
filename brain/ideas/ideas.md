@@ -36,8 +36,8 @@ Last updated: 2026-10-22.
 ## 1. How did a shoe brand own the colour red? — READY (do this next; rebuilt 2026-10-22 around HIS thumbnail)
 - **Thumbnail (his, made 2026-10-22):** black patent heel, red sole circled in marker, arrow, "this red is owned."
   This object is the SPINE: the video follows this shoe from the first second to the last (rules.md "Thumbnail = the spine").
-- **Title (pick):** How Can A Shoe Brand Own The Colour Red?
-  Alts: "Can A Company Own A Colour?" · "Why Can't Anyone Else Paint Their Soles Red?"
+- **Title (his pick, 2026-10-22):** Can A Company Own A Colour?
+  (thumbnail answers "yes, this red is owned." → the video shows how, through the shoe.)
   (title asks the question, thumbnail makes the claim; both about the shoe.)
 - **Apple Music: CUT** (his verdict: everyone is going monochrome, nothing new). Cracker Barrel, Airtel/Vi, Instagram: cut.
 - **Door (honest):** no new Louboutin ruling in 2026 (searched 22 Oct). The 2026 hooks are the colour rulings that
