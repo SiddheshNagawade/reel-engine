@@ -33,6 +33,14 @@ sections at the moment of the decision.
 - Endings: NEVER a fade, any video. A loop back into the first line, or a hard cut on the payoff. Keep his concluding
   line, don't clip the last word (~0.3 s tail).
 - Honest: clickbait only as far as the video delivers; say when a drawing came from Pinterest; never invent facts.
+- VIEWER VALUE FIRST (2026-10-22, beats "who gets rich" as the main point): every episode exists to give an
+  aspirational viewer something they will USE again in life (save-worthy, rewatchable), not a fact they'll never need.
+  Like Anurag = business lessons for future founders, Enrico = how companies play with your attention, Varun Mayya =
+  how to grow and not fall behind. Our promise: how the things around you are designed and how they work, so you can
+  think like the people who make them (to build a product, start a business, design better, or not get played).
+  Every idea/script must name its "you can use this when…" takeaways (≥ 3, concrete, said in the video as lessons
+  inside the story) for: the curious viewer, the would-be founder, the designer. Money/business stays, as supporting
+  proof. No takeaway = not an episode. Test: would a viewer save this to watch again before starting something?
 - AUDIENCE + LANE (2026-10-22, test EVERY idea, title, script line against this): main viewer = Indian, 18–30,
   curious, NOT a designer, already watches Anurag Bansal (business) and likes Enrico's "never noticed that"; sees the
   topic in daily life. Second: Indian design/architecture/engineering students and young designers (every kind:

@@ -18,6 +18,8 @@ Read first, in this order:
    docs connector); series identity: "Designomics Series Bible" (https://claude.ai/artifact/56MNF1JZyqXTEzGuBd7gVY).
 
 ## Long-form output (Designomics): one final file, nothing left for him to write
+- Viewer value first (rules.md "VIEWER VALUE FIRST"): list ≥ 3 concrete "you can use this when…" takeaways
+  (curious viewer / founder / designer) before writing; the story delivers them; the CHECK fails without them.
 - Research first: open every page a number comes from (a search snippet is not a source); check the topic is still
   current and that no deep video already exists (`yt-dlp ytsearch8:`).
 - Two files in `/Volumes/T7 Shield/ReelEngine/projects/<slug>/` (T7 missing → `./projects/<slug>/`):
