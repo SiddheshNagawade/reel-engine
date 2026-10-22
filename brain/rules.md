@@ -60,6 +60,10 @@ sections at the moment of the decision.
 - Long-form thumbnails (2026-10-19): title = the famous names, thumbnail = the feeling/contradiction in a picture
   + 1–4 words, never the same words; 3 thumbnail options per idea from the 8 types in brain/thumbnails.md; his face
   only as a big real reaction, and A/B test with YouTube Test & Compare. Library: T7 references/thumbnails/.
+- Thumbnail = the spine (2026-10-22): the object in the thumbnail is what the whole video follows from second 1
+  to the end. Every other case enters ONLY as an answer to a question about that object ("why didn't this work for
+  Cadbury?") and hands back to it. A case that can't be tied to it is cut. Never open on a different story than the
+  thumbnail promised.
 - Long-form density (2026-10-19): ≥ 8 separate insights per episode, all in one story; research until you have
   them or drop the idea. One fact stretched over minutes is the worst failure.
 - Long-form titles (round 4, 2026-10-19): famous name + hidden reason, always 3 options (specific / mixed / broad)

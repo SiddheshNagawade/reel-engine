@@ -25,7 +25,7 @@ Last updated: 2026-10-22.
 
 | # | Idea | Status | Door + window | Insights |
 |---|---|---|---|---|
-| 1 | Who can own a colour (Cadbury purple vs Louboutin red) | READY | Apple Music officially drops its red, ships ~next week (from 21 Oct) → ~7 days | 12 + Adidas chapter |
+| 1 | How did a shoe brand own the colour red? (Louboutin spine) | READY | 2026 colour rulings + Adidas stripes; no expiry | 11 |
 | 2 | Why every new car looks the same | NEEDS RESEARCH (≈10, half to check) | Paris show revivals + Jaguar Type 01 (Oct) → fading, 1–2 weeks | ~10 |
 | 3 | Figma worth less than Adobe offered | NEEDS RESEARCH (6) | Q3 results early Nov (date not announced) | 6 |
 | 4 | India's snack packs get a red warning (FSSAI) | WAITING | final rule / next Supreme Court step | ~8, mostly to check |
@@ -33,39 +33,53 @@ Last updated: 2026-10-22.
 
 ---
 
-## 1. Who can own a colour? — READY (do this next)
-- **Title (pick):** Can A Company Own A Colour?
-  Alts: "Why Can Louboutin Own Red But Cadbury Can't Own Purple?" · "Why Did Apple Music Suddenly Lose Its Red?"
-- **Thumbnail (pick):** one black high heel tipped up, red sole circled in marker, words "this red is owned."
-  (his idea, 22 Oct: the shoe sole in the thumbnail). Alt: split, red sole stamped OWNED | plain purple wrapper
-  stamped LOST. Alt 2: the Apple Music icon draining from red to grey, words "red is gone."
-- **Door:** 13 Oct iOS 27.2 beta took red out of Apple Music; **21 Oct Apple made it official** (video "Apple Music.
-  Made by Sound": logo filmed through vibrating water, with Fred again..), reaches everyone with iOS 27.2 "next week".
-  Plus: Germany's top court let Obi lose its orange (Sept 2026).
-- **The story (beats):** open on a purple wrapper with no words → everyone says "Cadbury" → so Cadbury owns purple?
-  → it lost → Louboutin owns red, but only on a sole, only in some countries → this week Apple gave red away by
-  choice → the turn: you never own a colour, you own a colour in one exact place, if people already link it to you
-  → why Apple can afford to let go.
-- **Insights (14):**
-  1. ✔ What changed in Apple Music: icon, tabs (now blue), widgets, library all lost red (beta 4, 13 Oct).
-  2. ✔ Official 21 Oct; ships with iOS 27.2 next week (MacRumors, 9to5Mac).
-  3. ✔ Apple tells HOW the logo was made (sound through water, in camera), never WHY red left: that gap is our video.
-  4. ✔ The icon now follows your phone's light/dark mode: the system owns the colour, not the brand.
-  5. ✔ iOS 27 lets users turn every icon Clear/Tinted: when users can recolour you, the SHAPE must carry the brand (link = our reading).
-  6. ✔ Backlash: "potentially the worst change made to iOS in the last 10 years" (user quoted by Cult of Mac).
-  7. ✔ Obi lost its orange in Germany's top court (Sept 2026): decades of orange, still not owned.
-  8. ✔ Same court, 3 Sept 2026, let a red-circle mark SURVIVE because the exact shade was registered (kpw.law).
-  9. ✔ Cadbury registered Pantone 2685C, won vs Nestlé 2012, lost on appeal 2013 because "predominant" purple was too vague; lost again 2018/19.
-  10. ✔ Louboutin: won in the US 2012 (only when the sole contrasts), EU 2018 as a "position" mark, lost in Japan 2022.
-  11. ✔ The mechanism: "secondary meaning" — law follows memory; that's why brands repeat one colour for decades.
-  12. s Cracker Barrel's logo change cost $100–140M in market value at worst, reversed, CEO left (check the number).
-  13. ✔ Adidas bought its stripes from Karhu for two bottles of whiskey + ~€1,600; now sues White Fox over FOUR stripes (Australia, Oct 2026); lost vs Thom Browne in the US. A brand that stops suing can lose the mark (? lawyer source).
-  14. ? Tiffany blue (1837 Blue) — the colour became the product.
-- **Other cases:** Obi orange · Adidas stripes · Tiffany · Indian: Airtel red vs Vi (Vi new identity 1 Sept 2026, colour unchecked) / Cadbury purple in India / Asian Paints (check what is registered in India).
-- **Ending:** "Cadbury lost the law but kept your brain — you said Cadbury at the start." Take: the cheapest trademark is consistency; Apple can drop red because the shape is already in your head.
-- **YouTube (22 Oct):** Apple's own video 230k; quick take "Apple Music Just Killed Its Iconic Red Logo" 24.7k; no "who owns a colour" breakdown. Open lane, closing.
-- **To check:** Cracker Barrel number, Tiffany, Indian colour marks, Adidas "must keep suing" source, Apple Music revenue if the title says "billions".
-- **Sources:** macrumors.com/2026/10/21/apple-music-new-look-announced/ · 9to5mac.com/2026/10/21/apple-music-unveils-new-design-rebrand-with-logo-made-by-sound/ · cultofmac.com/news/apple-music-app-icon-change-ios-27-beta · morganlewis.com/news/2026/09/who-owns-the-color-orange-obi-loses-the-battle-for-its-signature-color-markt-und-mittelstand · kpw.law/en/red-circle-stays-a-trademark/ · designweek.co.uk/cadbury-loses-legal-fight-over-rights-to-pantone-2685c-purple/ · confectionerynews.com (2018 ruling) · reedsmith.com (Louboutin US 2012) · worldipreview.com/news/tokyo-court-dismisses-louboutin-red-sole-suit-22277 · abc.net.au/news/2026-10-12/adidas-sues-white-fox-boutique-over-stripes/107243244
+## 1. How did a shoe brand own the colour red? — READY (do this next; rebuilt 2026-10-22 around HIS thumbnail)
+- **Thumbnail (his, made 2026-10-22):** black patent heel, red sole circled in marker, arrow, "this red is owned."
+  This object is the SPINE: the video follows this shoe from the first second to the last (rules.md "Thumbnail = the spine").
+- **Title (pick):** How Can A Shoe Brand Own The Colour Red?
+  Alts: "Can A Company Own A Colour?" · "Why Can't Anyone Else Paint Their Soles Red?"
+  (title asks the question, thumbnail makes the claim; both about the shoe.)
+- **Apple Music: CUT** (his verdict: everyone is going monochrome, nothing new). Cracker Barrel, Airtel/Vi, Instagram: cut.
+- **Door (honest):** no new Louboutin ruling in 2026 (searched 22 Oct). The 2026 hooks are the colour rulings that
+  answer the shoe's questions: Germany's top court, Sept 2026 (Obi lost orange; a red circle kept because its exact
+  shade was registered) and Adidas suing over stripes (Oct 2026). Evergreen-ish topic with a 2026 layer.
+- **The story, every beat asks a question about the shoe and answers it:**
+  1. Cold open on the shoe: a heel that costs as much as a used scooter (? India price, check), and the thing you
+     recognise is paint on the bottom. "This red is owned. How do you own a colour?"
+  2. Where the red came from: Louboutin's own court filing says he painted a sole with red nail polish; red soles
+     since 1992 (s, his claim, not independently proven: say "he says").
+  3. The test: 2011, YSL makes an ALL-red shoe, Louboutin sues. First judge: nobody can own red in fashion (s).
+     2012 appeal: Louboutin owns red, but ONLY on the sole and ONLY when it contrasts with the shoe; YSL's all-red
+     shoe stays legal. → Rule 1: you never own a colour, you own a colour in one exact place.
+  4. Why the court said yes: people see a red sole and think one name ("secondary meaning": the law follows your
+     memory). Louboutin spent decades making sure only that place was red.
+  5. Why the same trick failed for Cadbury (the one detour, answered through the shoe): Cadbury claimed purple as the
+     "predominant" colour of its packs; too vague, lost in 2013. Louboutin = one exact spot, Cadbury = "mostly
+     everywhere". → Rule 2: the more exact, the more you own.
+  6. 2026 proof of rule 2: Germany's top court, Sept 2026: Obi loses its orange; the same court keeps a red-circle
+     mark because its exact shade was on the register.
+  7. The same shoe is owned in some countries and not others: EU top court 2018 (vs a Dutch shoe chain) = owned;
+     Tokyo 2022 = lost (Japanese buyers didn't link red soles only to Louboutin); Brazil = won even without a
+     registration (check dates).
+  8. India (the Indian hook): Delhi High Court 2017 declares the red sole a "well-known" mark, Karol Bagh traders pay
+     ₹10.72 lakh; May 2018 another judge says Indian law can't protect a SINGLE colour at all (the Act says
+     "combination of colours"); July 2018 a third order goes the other way again. Same shoe, same city, three answers.
+  9. Why Louboutin keeps suing small shops: a sign that everyone copies stops meaning one brand. Adidas, also a shoe
+     brand, proves it: bought its stripes for two bottles of whiskey and ~€1,600, still suing over FOUR stripes in
+     Oct 2026, and lost to Thom Browne in the US.
+  10. What the red is worth: Fashion Law calls the soles an "$800 million-plus" business (check what the figure is).
+  11. Ending twist back on the shoe: ? the red wears off the sole after a few walks and owners get it repainted:
+      the red you paid lakhs for doesn't even stay on your shoe; what Louboutin owns isn't paint, it's the picture in
+      your head (verify resoling/repainting before using). Take: you can't own a colour, you can own a memory.
+- **Insights: 11 (8 confirmed or near, 3 to check).**
+- **YouTube check:** not yet run for "Louboutin red sole trademark" (do before scripting).
+- **To check:** India price, origin/1992, the first YSL ruling wording, Brazil/Japan dates, $800M figure, sole repaint,
+  the current Indian position after 2018 (Division Bench?).
+- **Sources (search results, open before scripting):** natlawreview.com (appeal saves but trims the mark) ·
+  worldfootwear.com (EU win) · worldipreview.com/news/tokyo-court-dismisses-louboutin-red-sole-suit-22277 ·
+  thefashionlaw.com (India uncertainty; Brazil) · spicyip.com 2017/12 + 2018/08 · scconline.com 2017/12/18 ·
+  designweek.co.uk (Cadbury) · morganlewis.com (Obi) · kpw.law/en/red-circle-stays-a-trademark/ ·
+  abc.net.au/news/2026-10-12/adidas-sues-white-fox-boutique-over-stripes/107243244
 
 ## 2. Why does every new car look the same? — NEEDS RESEARCH
 - **Title (pick):** Why Does Every New Car Look The Same?

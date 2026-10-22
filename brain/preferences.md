@@ -326,3 +326,10 @@ voice-overs; cover moments he looks away; a big pause at 10:15; use his Cd logo 
 Fix: verbatim per-sentence audit + sound-wave echo finder, waveform edge snapping, SFX caps, muted clips, six new
 visual scenes (multiply, same, breakup, versus, fork, year), underwater fish + real Japan map, gaze tracking.
 
+
+## 2026-10-22 · colour episode: the thumbnail sets the spine
+- He made the thumbnail himself (black heel, red sole circled, "this red is owned.") and rejected Apple Music as the
+  door: "every company is making their logo monochrome, that's nothing new". Verdict: whoever clicks a shoe must SEE
+  the shoe and stay in the shoe story; jumping to unrelated cases breaks the promise and they leave. "Connect the dots."
+  → rule: the thumbnail's object is the spine of the whole video; every other case enters only as an answer to a
+  question about that object and returns to it.
