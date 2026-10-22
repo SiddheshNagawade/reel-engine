@@ -21,6 +21,8 @@ Last updated: 2026-10-22.
 - **Netflix font / who owns letters** (Round 4 #1, 11 insights) — recorded and edited (projects/netflix-font). Don't repeat.
   Covered earlier on his channel too (overlap list in longform-scripts.md §7.6).
 
+Audience + lane (always): rules.md "AUDIENCE + LANE": visual, mechanical/functional and AI design, all tied to money.
+
 ## THE TEN (v3, 2026-10-22) — THIS is the ranking. His verdict: old ideas were good (cars!), people love STORIES and
 real-world things; app/UI/packaging only when truly interesting. Story + relatable + design ↔ money, both sides.
 1 Why Does Every New Car Look The Same? (sec. 2 below) · 2 Can A Company Own A Colour? (sec. 1) ·

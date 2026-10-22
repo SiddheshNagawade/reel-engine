@@ -33,6 +33,14 @@ sections at the moment of the decision.
 - Endings: NEVER a fade, any video. A loop back into the first line, or a hard cut on the payoff. Keep his concluding
   line, don't clip the last word (~0.3 s tail).
 - Honest: clickbait only as far as the video delivers; say when a drawing came from Pinterest; never invent facts.
+- AUDIENCE + LANE (2026-10-22, test EVERY idea, title, script line against this): main viewer = Indian, 18–30,
+  curious, NOT a designer, already watches Anurag Bansal (business) and likes Enrico's "never noticed that"; sees the
+  topic in daily life. Second: Indian design/architecture/engineering students and young designers (every kind:
+  visual, product/mechanical, UI, AI). Third: business/MBA types. Lane = why things look AND work the way they do,
+  and who makes money from that design decision. "Design" = visual + FUNCTIONAL/mechanical (how a product physically
+  works: engines, hinges, materials, how a ceiling fan or pressure cooker is engineered) + tech/AI (how AI is
+  actually used inside products, Varun Mayya-style, but tied to design + money). Real-world stories beat app/UI-only
+  topics. Every idea still needs the design ↔ money chain and a story.
 - Long-form topics/titles (2026-10-19): a SPECIFIC name + a result that sounds impossible + CURRENT (this year's news),
   and the title must hide the mechanism (never question + answer in one title). Reject evergreen "everyone knows it"
   topics and anything with existing deep videos on YouTube (check with `yt-dlp ytsearch`). Global brands are fine.
