@@ -236,3 +236,8 @@ mood tags ([calm] [warm] [curious] [excited] [playful] [soft] [serious] [sad]); 
 moods, so the tone glides instead of jumping. `.venv-tts/bin/python scripts/sida.py script.txt out.wav`.
 English only: Hindi/Hinglish TTS (Kokoro, Chatterbox) sounded bad to him; cloning his voice gave the wrong accent.
 Samples: T7 references/tts-samples/sida/. Venv: .venv-tts (also has Chatterbox, scripts/tts.py).
+Expressive Sida (2026-10-22, after he called the speed-only moods "dead"): emotion must be ACTED, not speed/pauses.
+Qwen3-TTS VoiceDesign (.venv-mlx, mlx-audio, `--instruct "<voice>. Emotion: <words>"`) performs laughs, sighs, gasps,
+whispers, stretched words; then scripts/sida_vc.py (Chatterbox voice conversion) swaps the timbre to Sida
+(Library/voices/sida/ref.wav). Write fillers into the text ("Hahaha", "Hhh...", "Waaait", "oof"). One take per
+paragraph, never sentence-by-sentence gluing. Paid ceiling if this isn't enough: ElevenLabs v3.
