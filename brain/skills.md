@@ -229,3 +229,10 @@ skips it for drafts. Fast exits show slight stepping at 6 samples: use 8 there. 
 - **direction.separate**: face-following light that separates him from the background without a mask (no halo).
   Use on flat/busy backgrounds; subtle (amount ≤ 0.5); not on canvas cards where he's already separated.
 - autograde stays PARKED on purpose (the trained model lost to his raw footage, 2026-10-15).
+
+## Sida: our narrator voice (scripts/sida.py, 2026-10-22)
+Local Kokoro voice blend (heart + bella + nicole + a little sky/isabella so she isn't a stock voice). Script lines carry
+mood tags ([calm] [warm] [curious] [excited] [playful] [soft] [serious] [sad]); each sentence blends its neighbours'
+moods, so the tone glides instead of jumping. `.venv-tts/bin/python scripts/sida.py script.txt out.wav`.
+English only: Hindi/Hinglish TTS (Kokoro, Chatterbox) sounded bad to him; cloning his voice gave the wrong accent.
+Samples: T7 references/tts-samples/sida/. Venv: .venv-tts (also has Chatterbox, scripts/tts.py).
