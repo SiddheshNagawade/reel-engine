@@ -23,6 +23,17 @@ Last updated: 2026-10-22.
 
 Audience + lane (always): rules.md "AUDIENCE + LANE": visual, mechanical/functional and AI design, all tied to money.
 
+## CASE-STUDY LIST (v5, 2026-10-23) — THIS is the ranking. Each = "Why did [company] do [thing]?", search demand
+checked in YouTube autocomplete (India) on 23 Oct ("AC" = the question appears in autocomplete).
+1 Why Did Apple Remove The SIM Card? (NEW, AC; eSIM-only iPhones: thinner/battery vs carrier control; India still has a
+  SIM tray → comparison) · 2 Why Did Apple Switch Back To Aluminium? (NEW, AC; iPhone 17 Pro titanium → aluminium,
+  heat/vapour chamber; mechanical) · 3 Why Did Hero Never Redesign The Splendor? (AC "why hero splendor so popular") ·
+  4 Why Did Maggi Make Its Noodles Wavy? (AC "why maggi was banned", "why maggi packet is white") · 5 Why Does Every
+  New Car Look The Same? (AC) · 6 Why Did Louboutin Paint Its Soles Red? (AC "why louboutin shoes are so expensive") ·
+  7 Why Did Atomberg Rebuild The Ceiling Fan? · 8 Why Did Airports Turn Into Shopping Malls? · 9 Why Did Apple Sue
+  Samsung Over A Rounded Corner? · 10 Why Did Adobe Try To Pay $20 Billion For Figma?
+  New ones (1, 2) still need the YouTube-coverage check and facts opened.
+
 ## THE LIST (v4, 2026-10-22) — filtered by VIEWER VALUE FIRST (≥ 3 save-worthy takeaways, enough for 5–10+ min).
 His rule: don't force an idea into the filter; drop it and find a better one. No "one label added / colour changed".
 1 Why Does Every New Car Look The Same? · 2 Why Did Hero Splendor Never Change Its Design? · 3 Why Do Ceiling Fans

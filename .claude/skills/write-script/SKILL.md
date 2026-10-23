@@ -18,6 +18,8 @@ Read first, in this order:
    docs connector); series identity: "Designomics Series Bible" (https://claude.ai/artifact/56MNF1JZyqXTEzGuBd7gVY).
 
 ## Long-form output (Designomics): one final file, nothing left for him to write
+- Case study + engagement: longform-scripts.md "Case-study format + engagement" (autocomplete check, comparisons,
+  character, 4–6 humour moments each flagged for the editor). Only-information scripts fail the CHECK.
 - Viewer value first (rules.md "VIEWER VALUE FIRST"): list ≥ 3 concrete "you can use this when…" takeaways
   (curious viewer / founder / designer) before writing; the story delivers them; the CHECK fails without them.
 - Research first: open every page a number comes from (a search snippet is not a source); check the topic is still

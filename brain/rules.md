@@ -33,6 +33,11 @@ sections at the moment of the decision.
 - Endings: NEVER a fade, any video. A loop back into the first line, or a hard cut on the payoff. Keep his concluding
   line, don't clip the last word (~0.3 s tail).
 - Honest: clickbait only as far as the video delivers; say when a drawing came from Pinterest; never invent facts.
+- CASE-STUDY FORMAT + ENGAGEMENT (2026-10-23, from YouTube Studio's advice he brought): every episode = "Why did
+  [recognisable company] do [visible thing]?", picked from what people already SEARCH (YouTube autocomplete India /
+  his Studio Research tab), told through visual comparisons (before/after, side-by-side), with the host as a
+  CHARACTER (obsessed designer, a bit sarcastic, on the viewer's side) and 4–6 humour devices per script
+  (longform-scripts.md "Case-study format + engagement"). A script that is only information fails the check.
 - VIEWER VALUE FIRST (2026-10-22, beats "who gets rich" as the main point): every episode exists to give an
   aspirational viewer something they will USE again in life (save-worthy, rewatchable), not a fact they'll never need.
   Like Anurag = business lessons for future founders, Enrico = how companies play with your attention, Varun Mayya =

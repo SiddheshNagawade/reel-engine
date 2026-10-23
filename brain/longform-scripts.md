@@ -263,3 +263,31 @@ Idea list built this way: Claude Doc "Designomics Episode Ideas" (https://claude
 | 7k | Korea's culture (10:34) | concept | Squid Game |
 | 6k | Concerts (9:20) | concept | resale prices |
 | (podcasts) | Gurudev Prasad 122k, Zostel 8k | interview | cold open = a montage of the guest's best lines |
+
+
+## Case-study format + engagement (2026-10-23, his redirect from YouTube Studio's advice; overrides any "lecture" shape)
+**Format = a case study about ONE recognisable company decision:** "Why did [company] do [visible thing]?"
+- Topic source = what people already search: YouTube autocomplete (India) + his Studio Research tab. Free check:
+  `curl "https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&hl=en&gl=IN&q=why+maggi"`.
+  An idea whose question already shows up in autocomplete has proven demand (e.g. "why hero splendor so popular",
+  "why maggi was banned", "why maggi packet is white", "why louboutin shoes are so expensive", "why all cars look the
+  same", "why did apple remove the sim card", "why did apple switch to aluminum" — all seen 23 Oct 2026).
+- Every case study is built from VISUAL COMPARISONS: before/after, theirs/competitor, old/new, expected/actual. At
+  least one side-by-side per section; the editor brief names each comparison.
+- Shape (not a fixed order): the decision people noticed → what everyone assumes → what actually happened inside the
+  company (the meeting, the people, the risk) → how the thing works (design/mechanics) → what it did to sales or
+  costs → the lessons you can steal → ending callback.
+
+**Engagement = character + humour, not just information.**
+- The host is a CHARACTER: a designer who can't stop noticing things and is a bit obsessed, slightly sarcastic,
+  self-aware, on the viewer's side ("companies are playing with us, and I'm going to snitch"). He has opinions.
+- Humour devices (use 4–6 per episode, never forced):
+  1. Re-enact the meeting: the executives as characters ("So the CEO walks in and says…"), he plays both sides.
+  2. Indian everyday comparisons: mom, chai, Splendor uncle, the hostel friend, the shaadi relative, cricket.
+  3. Absurd number rulers: "that's more than what IPL pays for…", "you could buy 4,000 Splendors with that."
+  4. Self-roasting as a designer ("we designers will charge you ₹50,000 to move a logo 2 pixels").
+  5. Fake-out: build the obvious answer, then "…yeah, no. That's not it."
+  6. Callbacks: a running joke from the first minute that pays off at the end.
+  7. Talk to the viewer: "Pause the video. Guess. … Wrong." / "Check your phone right now."
+- Each joke marks a moment for the editor (meme / sound / reaction cut) in the editor brief.
+- Still spoken English like Anurag, plain words; humour comes from situations, not puns.
