@@ -340,3 +340,9 @@ visual scenes (multiply, same, breakup, versus, fork, year), underwater fish + r
 - Purpose verdict (2026-10-22): we were a "fact channel" (this works like this, okay). Main purpose must be value to aspirational viewers: lessons they would save and need again (start a business, design, not get played), like Anurag/Enrico/Varun each serve a dream. Money side stays but is not the main point.
 - Ideas filter (2026-10-22): redo with viewer value; never force an idea, drop and replace; no "one label/colour changed" topics; must sustain 5–10+ min.
 - Format verdict (2026-10-23): scripts "not at all engaging", no humour, no character. He brought YouTube Studio advice: curiosity case studies ("Why did X do this?") on everyday brands, visual comparisons, topics from search. Adopted as the format.
+- Geometry tutorials (2026-11-25): rejected 4 looks for plain white + modern sans; hates boxes/cards/Android UI;
+  gave a flat pastel stationery image for the tools ("recreate them from this"); then: everything drawn must look
+  hand-drawn in grey pencil, fonts too; no colours (exam = pencil only); too much clutter (bigger drawing, smaller
+  marks, never label every line, no extra lines); no subtitles (separate transcript); the step list on the side was
+  cluttered: show each step for ~2 s like a notification, then hide it. One focus at a time for kids.
+

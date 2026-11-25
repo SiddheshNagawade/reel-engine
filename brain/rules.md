@@ -245,3 +245,15 @@ sections at the moment of the decision.
   subscribe, end).
 - Final versions: 1080p, highest quality, after a full check of speech, sound and visuals; he wants it done once.
 
+## Geometry tutorials (animated exam constructions, src/geometry) {visuals,look,captions,motion}
+- His verdicts 2026-11-25 (newest wins). One plain white sheet, a floating camera over it, premium grain.
+- Everything ON the paper is grey graphite pencil and hand-written (Kalam): question, labels, numbers, ticks.
+  No colours anywhere on the paper (exam = pencil only); construction arcs look rough (light, double pass).
+- Clutter is the enemy: one focus at a time (kids). Drawing big, markings small. Never label/name every line, no
+  notes, no sparkles, no lines left behind; a teaching demo (like the equal-distance probe) appears and goes.
+- Steps = a small pop-up that comes for ~3 s and goes; never a side panel, never boxes/cards/mobile-UI.
+- No subtitles in the video (YouTube adds them); the transcript is a separate file he reads and records from.
+- Instruments = his flat pastel reference (src/geometry/Tools.tsx), real tools, never a hand.
+- Transition: the last line runs across the sheet, curls into the next question number, it shrinks, the question
+  writes itself beside it, then a pencil scribble marks the concept word (not the numbers).
+

@@ -7,6 +7,7 @@ import type {Edit} from './types';
 import {Gallery} from './templates/Gallery';
 import {VlogPiece, type VlogPieceProps} from './vlog/VlogPiece';
 import {Episode, type EpisodeProps} from './longform/Episode';
+import {GeoVideo, lessonFrames, type GeoProps} from './geometry/GeoVideo';
 
 export const Root: React.FC = () => (
   <>
@@ -61,6 +62,16 @@ export const Root: React.FC = () => (
       const p = props as unknown as EpisodeProps;
       return {durationInFrames: Math.max(1, p.frames), fps: p.fps ?? 30};
     }}
+  />
+  <Composition
+    id="Geo"
+    component={GeoVideo as unknown as React.FC<Record<string, unknown>>}
+    width={1920}
+    height={1080}
+    fps={30}
+    durationInFrames={90}
+    defaultProps={{lesson: 'pilot', subs: true}}
+    calculateMetadata={({props}) => ({durationInFrames: lessonFrames((props as unknown as GeoProps).lesson)})}
   />
   <Composition id="Gallery" component={Gallery} width={1080} height={1920} fps={30} durationInFrames={310} defaultProps={{footage: 'input/gallery.mp4'}} />
   </>

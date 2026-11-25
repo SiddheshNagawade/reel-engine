@@ -241,3 +241,14 @@ Qwen3-TTS VoiceDesign (.venv-mlx, mlx-audio, `--instruct "<voice>. Emotion: <wor
 whispers, stretched words; then scripts/sida_vc.py (Chatterbox voice conversion) swaps the timbre to Sida
 (Library/voices/sida/ref.wav). Write fillers into the text ("Hahaha", "Hhh...", "Waaait", "oof"). One take per
 paragraph, never sentence-by-sentence gluing. Paid ceiling if this isn't enough: ElevenLabs v3.
+
+## Geometry constructions on a pencil sheet (src/geometry, composition `Geo`), 2026-11-25
+What: animated exam constructions on one white sheet. `Lesson` (engine.ts) is a timeline builder: `say(text, fn)`
+times actions to speech, `line()` brings the ruler + pencil, `compassTo()/arcPair()` swing the compass, `label()`,
+`ticks()`, `right()`, `probe()` (equal-distance demo that disappears), `connect()` (line → next question number),
+`guide()/step()` (step pop-ups), `fast(k, fn)` (quick recap of a known technique), `frame()` (camera). Tools.tsx =
+the flat pastel instruments (his reference). Render: `npx remotion render src/index.ts Geo <out> --props='{"lesson":"pilot"}'`.
+Transcript for him: bundle lessons.ts with esbuild and print `L.subs` (see projects/elementary/pilot-transcript.md).
+When: tutorial videos of geometry, a reel moment that explains a shape. When NOT: anything that isn't drawn with
+instruments; never add colour, notes or subtitles on the sheet (rules.md "Geometry tutorials").
+
