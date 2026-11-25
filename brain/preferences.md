@@ -350,4 +350,10 @@ visual scenes (multiply, same, breakup, versus, fork, year), underwater fish + r
   in the tool's own colour.
 - Geometry (2026-11-25, later still): I darkened the letters/labels and made points crisp black: "you again just
   made it worse". Everything stays light pencil; points = same texture, smaller, slightly darker. Nothing more.
+- Geometry (2026-11-25, "everything feels nice", then): say when a radius is random, show the ruler reading for
+  exact lengths (up to 5 cm); only one tool on the page at a time; light "Question N" in the corner above the step
+  pop-up; question words must not jump lines while written; highlighter instead of bold + underline; pan down to Q2
+  instead of zooming out; line first, then points/letters one by one; steady graphite + highlighter sounds, quieter
+  under the voice ("the ones you use are janky"); after each question shrink the figure aside and show the exam steps
+  in easy English for a screenshot.
 

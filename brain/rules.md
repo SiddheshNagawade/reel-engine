@@ -263,4 +263,15 @@ sections at the moment of the decision.
   like printed stationery branding, never YouTube red (Tools.tsx ToolMark).
 - Transition: the last line runs across the sheet, curls into the next question number, it shrinks, the question
   writes itself beside it, then a pencil scribble marks the concept word (not the numbers).
+- One tool on the page at a time (2026-11-25): the ruler + pencil come only after the compass has left, and back.
+  One action at a time: line first, then each point + letter one by one (faster is fine, all at once is not).
+- Measuring: a free compass opening is SAID to be random ("koi bhi radius chalega"); an exact length shows the
+  ruler with the reading marked from 0 up to the number (scale `hl`, compassMeasure for an exact radius).
+- Corner: "QUESTION N" in light small text, the step pop-up just below it. The question's layout is fixed from the
+  first letter (words never jump lines while writing). Concept word = a yellow highlighter swipe, not bold/underline.
+- Between questions the camera pans down to the next area; never a zoom-out look back.
+- Sounds: one steady graphite-line tone while drawing (never a scribble), the same kind for the highlighter, all
+  effects quieter under the voice.
+- End of every question: the drawing slides to one side, the exam steps appear beside it in easy English for kids
+  (short lines), held a few seconds for a screenshot/revision, then on to the next question.
 

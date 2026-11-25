@@ -111,7 +111,7 @@ export const Compass: React.FC<{x: number; y: number; r: number; ang: number; li
 };
 
 // ---------------- scale (ruler) ----------------
-export const Scale: React.FC<{x: number; y: number; ang: number; side: number; vis: number}> = ({x, y, ang, side, vis}) => {
+export const Scale: React.FC<{x: number; y: number; ang: number; side: number; vis: number; hl?: number}> = ({x, y, ang, side, vis, hl = 0}) => {
   if (vis <= 0.001) return null;
   const off = (1 - vis) * 1000;
   const W = 2.6 * CM, L0 = -0.35 * CM, L1 = 15.9 * CM;
@@ -122,12 +122,16 @@ export const Scale: React.FC<{x: number; y: number; ang: number; side: number; v
     const X = (mm / 10) * CM;
     const len = mm % 10 === 0 ? 24 : mm % 5 === 0 ? 16 : 9;
     ticks.push(<line key={mm} x1={X} y1={2} x2={X} y2={len} stroke={TOOL.line} strokeWidth={mm % 10 === 0 ? 1.8 : 1.1} strokeLinecap="round" />);
-    if (mm % 10 === 0)
+    if (mm % 10 === 0) {
+      // the reading: the number where the measurement ends grows a little and goes bold
+      const hit = hl > 0.05 ? Math.max(0, 1 - Math.abs(hl - mm / 10) * 2.5) : 0;
+      const k = 1 + hit * 0.45;
       ticks.push(
-        <text key={'n' + mm} x={X} y={46} transform={s < 0 ? `scale(1,-1) translate(0,${-46 * 2 + 13})` : undefined} textAnchor="middle" fontFamily="Geist Mono" fontWeight={500} fontSize={16} fill={TOOL.line}>
+        <text key={'n' + mm} x={X} y={46} transform={`translate(${X} ${s < 0 ? 46 - 13 / 2 : 46 - 13 / 2}) scale(${k} ${k * s}) translate(${-X} ${-(46 - 13 / 2)})`} textAnchor="middle" fontFamily="Geist Mono" fontWeight={hit > 0.5 ? 700 : 500} fontSize={16} fill={TOOL.line}>
           {mm / 10}
         </text>,
       );
+    }
   }
   return (
     <g transform={`translate(${x + off * 0.6} ${y - off * 0.35}) rotate(${ang}) scale(1 ${s})`} opacity={Math.min(1, vis * 1.4)}>
@@ -136,6 +140,13 @@ export const Scale: React.FC<{x: number; y: number; ang: number; side: number; v
       </defs>
       <rect x={L0 + SH.x * z} y={SH.y * z * s + 3} width={L1 - L0} height={W} rx={10} fill={TOOL.shadow} opacity={0.1} filter="url(#sc-blur)" />
       <rect x={L0} y={0} width={L1 - L0} height={W} rx={10} fill={TOOL.ruler} fillOpacity={0.94} />
+      {hl > 0.02 && (
+        <g>
+          {/* the measured length, marked on the ruler from 0 to the reading */}
+          <rect x={0} y={0} width={hl * CM} height={30} fill="#f0b74c" opacity={0.55} />
+          <line x1={hl * CM} y1={0} x2={hl * CM} y2={34} stroke={TOOL.line} strokeWidth={3} strokeLinecap="round" />
+        </g>
+      )}
       {ticks}
       <circle cx={L1 - 22} cy={W - 24} r={8} fill="#fff" stroke={TOOL.line} strokeWidth={1.8} />
       <g transform={`translate(0 ${W * 0.78}) scale(1 ${s})`}>

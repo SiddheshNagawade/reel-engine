@@ -17,7 +17,10 @@ export function bisect(L: Lesson, a: Pt, b: Pt, r: number, o: {mid?: string; end
   const u = {x: (c.x - d.x) / dist(c, d), y: (c.y - d.y) / dist(c, d)};
   L.line(add(c, {x: u.x * ext, y: u.y * ext}), add(d, {x: -u.x * ext, y: -u.y * ext}), {style: o.style ?? 'main'});
   const m = mid(a, b);
-  if (o.mid) L.label(o.mid, m, 22, 26);
+  if (o.mid) {
+    L.burst(m, 26);
+    L.label(o.mid, m, 22, 26);
+  }
   return {c, d, m};
 }
 
@@ -35,6 +38,12 @@ function q(L: Lesson, n: number, x: number, y: number, chip: string, title: stri
   return qt;
 }
 
+/** mark the concept word with the highlighter at time `at` (with its stroke sound) */
+function highlight(L: Lesson, q: QText, seg: number, at: number) {
+  q.segs[seg].tMark = at;
+  L.sfx.push({t: at, name: 'highlighter-stroke', vol: 0.22, dur: 0.6});
+}
+
 function pilot(): Lesson {
   const L = new Lesson();
   // ===================== Q1: bisect a line =====================
@@ -43,29 +52,30 @@ function pilot(): Lesson {
   const [C, D] = circleX(A, r, B, r);
   const O = mid(A, B);
   const G1 = glyphAt(1, 0, 0);
+  const steps1 = [
+    'Draw a line AB, 5 cm long.',
+    'Open the compass more than half of AB.',
+    'Needle on A. Draw arcs above and below AB.',
+    'Same opening, needle on B. Draw arcs to cut them at C and D.',
+    'Join C and D. CD cuts AB at O.',
+  ];
   L.cam.to(0, 0.01, {x: -1300, y: G1.y, zoom: 0.85, tilt: 3});
   L.t = 0.2;
   L.connect(P(-1700, G1.y), G1, 1);
   L.camTo({x: 660, y: 90, zoom: 1.2, tilt: 2}, 1.2);
   L.camTo({x: 680, y: 95, zoom: 1.28, tilt: 3}, 7, 'lin');
   const q1 = q(L, 1, 0, 0, 'Division of lines', 'Bisect a line', [{s: 'Bisect', mark: 'concept'}, {s: ' a line AB, '}, {s: '5 cm', mark: 'num'}, {s: ' long.'}]);
+  L.guide(1, 'Division of lines', 'Bisect a line AB, 5 cm long.', steps1);
   L.say('Pehla question.');
   L.say('Bisect a line AB, five centimetre long.');
   L.say('Isme main word kaunsa hai? Five cm nahi. Bisect. Bisect matlab line ko exactly beech se do barabar hisson mein kaatna.', () => {
-    q1.segs[2].tMark = L.t + 1.2;
-    q1.segs[0].tMark = L.t + 2.6;
+    highlight(L, q1, 0, L.t + 2.6);
   });
-  L.guide(1, 'Division of lines', 'Bisect a line AB, 5 cm long.', [
-    'Draw AB = 5 cm with the scale',
-    'Compass: radius more than half of AB',
-    'Centre A: arcs above and below AB',
-    'Same radius, centre B: arcs cut at C and D',
-    'Join C and D. It cuts AB at O',
-  ]);
+  // the camera drags down to the empty part of the sheet where we draw
   L.frame([A, B, C, D], {pad: 70, dur: 1.6, tilt: 5});
-  L.wait(0.6);
+  L.wait(1.2);
   L.step(0);
-  L.say('Pehle scale se AB khicho, five cm.', () => L.line(A, B, {measure: true, label: ['A', 'B']}));
+  L.say('Pehle scale rakho. Zero A pe, aur five cm tak line khicho.', () => L.line(A, B, {measure: true, label: ['A', 'B']}));
   L.say('Ab socho: beech ka point milega kaise, bina naape?');
   // the idea, shown once and then gone (no lines left behind): a point slides along the middle, equally far from A and B
   L.say('Trick yeh hai: jo point A aur B, dono se same doori pe ho, woh hamesha beech wali line pe hi hota hai.', () => {
@@ -74,7 +84,7 @@ function pilot(): Lesson {
   });
   L.say('Toh hum aise do points dhoondhenge, aur unhe jod denge.');
   L.step(1);
-  L.say('Ab compass. Radius kitna? AB ke aadhe se thoda zyada.', () => {
+  L.say('Ab compass. Radius kitna? AB ke aadhe se thoda zyada. Yahan exact naap nahi chahiye, koi bhi radius chalega, bas aadhe se zyada ho.', () => {
     L.wait(0.6);
     L.compassTo(A, 125, 0, 1);
     L.wait(0.7);
@@ -92,7 +102,6 @@ function pilot(): Lesson {
     L.arcPair(B, r, angOf(B, C), angOf(B, D));
     L.burst(C);
     L.label('C', C, 26, -20);
-    L.wait(0.35);
     L.burst(D);
     L.label('D', D, 26, 24);
   });
@@ -107,48 +116,50 @@ function pilot(): Lesson {
     L.frame([A, B, C, D], {pad: 110, dur: 1, tilt: 4});
     L.wait(0.6);
     L.ticks(A, O, 1);
-    L.wait(0.25);
+    L.wait(0.5);
     L.ticks(O, B, 1);
-    L.wait(2);
+    L.wait(1.6);
     L.right(O, -90, 0);
   });
   L.say('Isko kehte hain perpendicular bisector. Naam yaad rakhna, yeh trick aage bahut baar aayegi.', () => {
     L.wait(1.5);
     L.done([O, C, D]);
   });
+  // exam steps beside the figure: copy them or take a screenshot
+  L.say('Yeh rahe steps. Exam mein yahi likhne hain. Screenshot le lo.', () => {
+    L.stepSheet([A, B, C, D], P(860, 845), steps1, 'So, AO = OB.');
+  });
   L.endGuide();
 
   // ===================== Q2: four equal parts =====================
-  const X0 = 2000, Y2 = 1000 - 42 * SMALL; // Q2's number sits on AB's own line, extended
+  // Q2 sits BELOW Q1: the final line runs down, turns, and curls into the 2
+  const X0 = 860, Y2 = 1760;
+  const G2 = glyphAt(2, X0, Y2);
   const A2 = P(X0 + 520, Y2 + 760), B2 = P(X0 + 870, Y2 + 760); // 7 cm
   const O2 = mid(A2, B2);
+  const steps2 = [
+    'Draw a line AB, 7 cm long.',
+    'Bisect AB (like Q1). Mark the middle O.',
+    'Bisect AO. Mark its middle C.',
+    'Bisect OB. Mark its middle D.',
+    'C, O and D cut AB into 4 equal parts.',
+  ];
   L.wait(0.4);
-  L.connect(B, glyphAt(2, X0, Y2), 2);
+  L.connect(add(D, P(0, 36)), G2, 2, {via: P(D.x, G2.y)});
   L.camTo({x: X0 + 680, y: Y2 + 95, zoom: 1.28, tilt: 2}, 1.2);
   const q2 = q(L, 2, X0, Y2, 'Division of lines', 'Four equal parts', [{s: 'Divide line AB, '}, {s: '7 cm', mark: 'num'}, {s: ' long, into '}, {s: 'four equal parts', mark: 'concept'}, {s: '.'}]);
+  L.guide(2, 'Division of lines', 'Divide AB, 7 cm, into 4 equal parts.', steps2);
   L.say('Question two.');
   L.say('Divide line AB, seven cm long, into four equal parts.');
   L.say('Four equal parts. Aur do parts karna toh humein abhi aa gaya.', () => {
-    q2.segs[3].tMark = L.t + 0.3;
-    q2.segs[1].tMark = L.t + 0.3;
-    L.wait(1.6);
-    // look back at Q1 on the same sheet
-    L.camTo({x: 1700, y: 1050, zoom: 0.55, tilt: 6}, 1.8);
+    highlight(L, q2, 3, L.t + 0.3);
   });
-  L.say('Toh socho, chaar kaise?', () => {
-    L.wait(0.3);
-    L.camTo({x: X0 + 680, y: Y2 + 95, zoom: 1.28, tilt: 2}, 1.6);
-  });
-  L.guide(2, 'Division of lines', 'Divide AB, 7 cm, into 4 equal parts.', [
-    'Draw AB = 7 cm',
-    'Bisect AB: point O (same as Q1)',
-    'Bisect AO: point C',
-    'Bisect OB: point D',
-    'C, O, D cut AB into 4 equal parts',
-  ]);
   const R2 = 230, r2 = 120;
   const [C2u, D2u] = circleX(A2, R2, B2, R2);
-  L.frame([A2, B2, C2u, D2u], {pad: 70, dur: 1.6, tilt: 5});
+  L.say('Toh socho, chaar kaise?', () => {
+    L.wait(0.3);
+    L.frame([A2, B2, C2u, D2u], {pad: 70, dur: 1.6, tilt: 5});
+  });
   L.wait(0.5);
   L.step(0);
   L.say('AB khicho, seven cm.', () => L.line(A2, B2, {measure: true, label: ['A', 'B']}));
@@ -177,12 +188,14 @@ function pilot(): Lesson {
     L.wait(0.4);
     [[A2, C2], [C2, O2], [O2, D2], [D2, B2]].forEach(([a, b]) => {
       L.ticks(a, b, 2);
-      L.wait(0.22);
+      L.wait(0.35);
     });
     L.done([C2, O2, D2]);
   });
   L.say('Aur kabhi eight parts aaye, toh bas ek baar aur.');
-  L.wait(1.5);
+  L.say('Steps yeh rahe. Likh lo.', () => {
+    L.stepSheet([A2, B2, C2u, D2u], P(B2.x + 140, A2.y - 175), steps2, 'So, AC = CO = OD = DB.');
+  });
   L.endGuide();
   return L.finish();
 }

@@ -248,6 +248,10 @@ times actions to speech, `line()` brings the ruler + pencil, `compassTo()/arcPai
 `ticks()`, `right()`, `probe()` (equal-distance demo that disappears), `connect()` (line → next question number),
 `guide()/step()` (step pop-ups), `fast(k, fn)` (quick recap of a known technique), `frame()` (camera). Tools.tsx =
 the flat pastel instruments (his reference). Render: `npx remotion render src/index.ts Geo <out> --props='{"lesson":"pilot"}'`.
+One tool at a time is automatic (`need()` waits for the other tool to leave). `line(a,b,{measure:true})` shows the
+ruler reading up to the length; `compassMeasure(cm, spot)` opens the compass on the ruler for an exact radius;
+`stepSheet(fig, at, lines, result)` = exam steps beside the figure at the end of a question; `connect(from, glyph, n,
+{via})` = L-shaped line into the next number (camera pans along). Sounds: Library/sounds/pencil-line, highlighter-stroke.
 Transcript for him: bundle lessons.ts with esbuild and print `L.subs` (see projects/elementary/pilot-transcript.md).
 When: tutorial videos of geometry, a reel moment that explains a shape. When NOT: anything that isn't drawn with
 instruments; never add colour, notes or subtitles on the sheet (rules.md "Geometry tutorials").

@@ -89,6 +89,8 @@ export type Shape =
   | {k: 'sparkle'; p: Pt; t0: number; size?: number};
 type Timed = {t0: number; t1?: number};
 
+/** the exam steps written next to the finished figure (for students to copy / screenshot) */
+export type StepSheet = {x: number; y: number; t0: number; t1: number; lines: string[]; result?: string};
 export type QText = {glyph?: boolean; n: number; x: number; y: number; t0: number; cps: number; segs: {s: string; mark?: 'concept' | 'num'; tMark?: number}[]; title: string; chip: string};
 export type Guide = {q: number; title: string; question: string; steps: string[]; t0: number; t1: number; cur: {t: number; i: number}[]; recap: {t0: number; t1: number; text: string}[]};
 export type Sub = {t0: number; t1: number; text: string};
@@ -102,12 +104,13 @@ export class Lesson {
   speed = 1;
   shapes: Shape[] = [];
   qtexts: QText[] = [];
+  sheets: StepSheet[] = [];
   guides: Guide[] = [];
   subs: Sub[] = [];
   sfx: {t: number; name: string; vol: number; dur?: number}[] = [];
   cam = new Track({x: 0, y: 0, zoom: 1, tilt: 0, rot: 0});
   compass = new Track({x: 0, y: 0, r: 120, ang: -30, lift: 1});
-  scale = new Track({x: 0, y: 0, ang: 0, side: 1});
+  scale = new Track({x: 0, y: 0, ang: 0, side: 1, hl: 0}); // hl = cm of the ruler marked as the reading
   pencil = new Track({x: 0, y: 0, lift: 1});
   uses: Record<ToolName, [number, number][]> = {compass: [], scale: [], pencil: []};
   vis: Record<ToolName, Track<{v: number}>> = {compass: new Track({v: 0}), scale: new Track({v: 0}), pencil: new Track({v: 0})};
@@ -142,10 +145,22 @@ export class Lesson {
   }
   step(i: number) {
     this.g?.cur.push({t: this.t, i});
-    this.sfx.push({t: this.t, name: 'click-rm-click-2', vol: 0.18});
+    this.sfx.push({t: this.t, name: 'click-rm-click-2', vol: 0.1});
+    this.t += 0.5; // the step pop-up is read before anything moves
   }
   recapBadge(text: string, dur: number) {
     this.g?.recap.push({t0: this.t, t1: this.t + dur, text});
+  }
+  /** end of a question: the figure moves aside (smaller) and the exam steps are written next to it, held long
+   *  enough to read / screenshot (his ask 2026-11-25) */
+  stepSheet(fig: Pt[], at: Pt, lines: string[], result?: string, hold = 4) {
+    const w = 820, h = 64 + (lines.length + (result ? 1.4 : 0)) * 52;
+    this.frame([...fig, at, add(at, {x: w, y: h})], {pad: 70, dur: 1.4, tilt: 3});
+    this.t += 0.9;
+    const t0 = this.t;
+    const write = 0.45 * lines.length + (result ? 0.5 : 0);
+    this.t += write + hold;
+    this.sheets.push({x: at.x, y: at.y, t0, t1: this.t, lines, result});
   }
   endGuide() {
     if (this.g) this.g.t1 = this.t;
@@ -165,7 +180,7 @@ export class Lesson {
     // a little room at the top for the step pop-up
     const availW = 1920 - 160, availH = 1080 - 170;
     const zoom = opts.zoom ?? Math.min(2.6, availW / (x1 - x0), availH / (y1 - y0));
-    const cx = (x0 + x1) / 2;
+    const cx = (x0 + x1) / 2 - 90 / zoom;
     this.camTo({x: cx, y: (y0 + y1) / 2 - 30 / zoom, zoom, tilt: opts.tilt ?? 4, rot: opts.rot ?? 0}, opts.dur ?? 1.4);
     if (opts.wait) this.t += this.d(opts.dur ?? 1.4);
   }
@@ -174,8 +189,26 @@ export class Lesson {
   private use(tool: ToolName, t0: number, t1: number) {
     this.uses[tool].push([t0, t1]);
   }
-  /** drawing a straight line: scale lines up (0 mark on `a` when measuring), pencil runs along its edge */
+  private cuts: Record<ToolName, number[]> = {compass: [], scale: [], pencil: []};
+  /** ONE tool at a time (his verdict 2026-11-25): every other tool leaves the page first, then these come in */
+  private need(tools: ToolName[]) {
+    let ready = this.t;
+    for (const tool of ['compass', 'scale', 'pencil'] as ToolName[]) {
+      if (tools.includes(tool)) continue;
+      const u = this.uses[tool];
+      if (!u.length) continue;
+      const last = Math.max(...u.map((x) => x[1]));
+      if (this.cuts[tool].includes(last)) continue;
+      this.cuts[tool].push(last);
+      if (this.t - last < 1.6) ready = Math.max(ready, last + 0.05 + 0.5 + 0.6);
+    }
+    this.t = ready;
+  }
+  /** drawing a straight line, one thing at a time: the ruler comes and settles (0 on `a` when measuring, the
+   *  reading marks up to the length as the pencil goes), the pencil comes, draws, leaves; then the end points and
+   *  letters appear one by one; then the ruler leaves. */
   line(a: Pt, b: Pt, o: {style?: Style; measure?: boolean; side?: 1 | -1; dash?: boolean; label?: [string, string]} = {}) {
+    this.need(['scale', 'pencil']);
     const ang = angOf(a, b);
     const len = dist(a, b);
     const side = o.side ?? 1;
@@ -186,30 +219,62 @@ export class Lesson {
     const sc = this.scale.valueAt(s0);
     const same = Math.abs(sc.x - zero.x) < 2 && Math.abs(sc.y - zero.y) < 2 && Math.abs(sc.ang - ang) < 0.5;
     const tMove = same ? 0 : this.d(0.8);
-    this.scale.to(s0, tMove, {x: zero.x, y: zero.y, ang, side});
-    this.sfx.push({t: s0 + tMove * 0.6, name: 'paper-paper-slide-03', vol: 0.22});
-    let t = s0 + tMove * 0.7;
-    this.pencil.to(t, this.d(0.45), {x: a.x, y: a.y, lift: 1});
-    t += this.d(0.45);
+    this.scale.to(s0, tMove, {x: zero.x, y: zero.y, ang, side, hl: 0});
+    let t = s0 + tMove + this.d(0.15);
+    // pencil enters only once the ruler has settled (its slide-in is the 0.55 s before its first use)
+    t += this.d(0.55);
+    const pStart = t;
+    this.pencil.to(t, this.d(0.3), {x: a.x, y: a.y, lift: 1});
+    t += this.d(0.3);
     this.pencil.to(t, this.d(0.15), {lift: 0});
     t += this.d(0.15);
     const dd = this.d(0.45 + len / 260);
     this.pencil.to(t, dd, {x: b.x, y: b.y}, 'io');
+    if (o.measure) this.scale.to(t, dd, {hl: lenCm}, 'io');
     this.shapes.push({k: 'seg', a, b, style: o.style ?? 'main', t0: t, t1: t + dd, e: 'io', dash: o.dash});
-    this.sfx.push({t, name: 'paper-writing-2', vol: 0.32, dur: dd});
+    this.sfx.push({t, name: 'pencil-line', vol: 0.3, dur: dd});
     t += dd;
     this.pencil.to(t, this.d(0.2), {lift: 1});
     t += this.d(0.2);
-    this.use('scale', s0, t);
-    this.use('pencil', s0 + tMove * 0.7, t);
-    if (o.label) {
-      this.label(o.label[0], a, -34, 10, s0 + tMove + this.d(0.5));
-      this.label(o.label[1], b, 30, 10, t - this.d(0.2));
-    }
+    this.use('pencil', pStart, t);
     this.t = t;
+    if (o.measure) this.wait(0.6); // the reading stays a moment
+    this.use('scale', s0, this.t);
+    if (o.measure) this.scale.to(this.t + 0.6, 0.01, {hl: 0});
+    if (o.label) {
+      // the ruler leaves first (it would cover the letters), then the points + letters one by one
+      this.cuts.scale.push(this.t);
+      this.cuts.pencil.push(t);
+      this.t += 0.75;
+      this.label(o.label[0], a, -34, 10);
+      this.label(o.label[1], b, 30, 10);
+    }
+  }
+  /** an EXACT compass opening: the ruler comes, the needle sits on 0, the compass opens to `cm` (reading marked),
+   *  the ruler leaves. For a free opening ("more than half") just use compassTo and say it is any size. */
+  private measuring = false;
+  compassMeasure(cm: number, spot: Pt) {
+    this.need(['compass', 'scale']);
+    this.measuring = true;
+    const r = cm * CM;
+    const s0 = this.t;
+    this.scale.to(s0, this.d(0.01), {x: spot.x, y: spot.y, ang: 0, side: 1, hl: 0});
+    this.t += this.d(0.6);
+    const needle = add(spot, {x: 0, y: 3});
+    this.compassTo(needle, Math.min(r, 60), 0, 0.9);
+    this.wait(0.2);
+    this.scale.to(this.t, this.d(0.9), {hl: cm}, 'io');
+    this.compassTo(needle, r, 0, 0.9);
+    this.wait(0.8);
+    this.use('scale', s0, this.t);
+    this.scale.to(this.t + 0.6, 0.01, {hl: 0});
+    this.cuts.scale.push(this.t);
+    this.measuring = false;
+    this.wait(0.6);
   }
   /** open / move the compass (lifted) without drawing */
   compassTo(c: Pt, r: number, ang?: number, dur = 0.8) {
+    if (!this.measuring) this.need(['compass']);
     const cur = this.compass.valueAt(this.t);
     let a = ang ?? cur.ang;
     while (a - cur.ang > 180) a -= 360;
@@ -231,7 +296,7 @@ export class Lesson {
     const dur = this.d(0.45 + (Math.abs(a1 - a0) / 360) * 4.2);
     this.compass.to(this.t, dur, {ang: a1 + shift}, 'io');
     this.shapes.push({k: 'arc', c, r, a0, a1, style: o.style ?? 'build', t0: this.t, t1: this.t + dur, e: 'io'});
-    this.sfx.push({t: this.t, name: 'paper-03', vol: 0.3, dur});
+    this.sfx.push({t: this.t, name: 'pencil-line', vol: 0.26, dur});
     this.t += dur;
     this.compass.to(this.t, this.d(0.2), {lift: 1});
     this.t += this.d(0.2);
@@ -247,13 +312,15 @@ export class Lesson {
   // ---------- marks ----------
   label(text: string, p: Pt, dx = 18, dy = -18, t?: number, style: Style = 'main') {
     const t0 = t ?? this.t;
-    this.shapes.push({k: 'dot', p, t0, style}, {k: 'label', p, text, dx, dy, t0, style});
-    this.sfx.push({t: t0, name: ['pop9-01', 'pop9-03'][this.shapes.length % 2], vol: 0.16});
+    this.shapes.push({k: 'dot', p, t0, style}, {k: 'label', p, text, dx, dy, t0: t0 + 0.2, style});
+    this.sfx.push({t: t0 + 0.2, name: ['pop9-01', 'pop9-03'][this.shapes.length % 2], vol: 0.1});
+    if (t == null) this.t += this.d(0.55); // the next thing waits: one at a time
   }
   /** "here we got the point": a quick pencil ring is drawn round a found crossing and fades (then the dark dot pins it) */
   burst(p: Pt, r = 34, t?: number) {
     this.shapes.push({k: 'burst', p, t0: t ?? this.t, r});
-    this.sfx.push({t: t ?? this.t, name: 'pop-pop-bubble', vol: 0.14});
+    this.sfx.push({t: t ?? this.t, name: 'pop-pop-bubble', vol: 0.09});
+    if (t == null) this.t += this.d(0.45);
   }
   /** the answer is complete: sparkles + a soft ding */
   done(pts: Pt[]) {
@@ -288,21 +355,27 @@ export class Lesson {
   /** TRANSITION (his idea): a line keeps extending across the blank sheet (camera rides along), then curls into the
    *  next question's number as line art, which shrinks into the title spot so the question can type in beside it.
    *  `at` = where the number's pen-start sits (the question's title corner). */
-  connect(from: Pt, at: Pt, n: number, o: {big?: number; small?: number} = {}) {
-    const len = dist(from, at);
-    const dLine = Math.max(1.2, len / 1100);
-    this.cam.to(this.t, 0.9, {x: from.x + 300, y: from.y, zoom: 0.85, tilt: 3});
-    this.shapes.push({k: 'seg', a: from, b: at, style: 'main', t0: this.t + 0.3, t1: this.t + 0.3 + dLine, e: 'io'});
-    this.sfx.push({t: this.t + 0.3, name: 'swish-03', vol: 0.18});
-    this.cam.to(this.t + 0.6, dLine, {x: at.x + 120, y: at.y + 60, zoom: 0.9, tilt: 2}, 'io');
+  connect(from: Pt, at: Pt, n: number, o: {big?: number; small?: number; via?: Pt} = {}) {
+    const legs: [Pt, Pt][] = o.via ? [[from, o.via], [o.via, at]] : [[from, at]];
+    const total = legs.reduce((n2, [p, q]) => n2 + dist(p, q), 0);
+    const dLine = Math.max(1.4, total / 700);
+    let tt = this.t + 0.3;
+    legs.forEach(([p, q], i) => {
+      const d = (dLine * dist(p, q)) / total;
+      this.shapes.push({k: 'seg', a: p, b: q, style: 'main', t0: tt, t1: tt + d, e: legs.length > 1 ? 'lin' : 'io'});
+      // the camera rides along with the pencil line (first leg also eases out of the previous framing)
+      const c0 = i === 0 ? this.t : tt;
+      this.cam.to(c0, tt + d - c0, {x: q.x + (q === at ? 120 : 0), y: q.y + 60, zoom: 0.85, tilt: 2}, i === 0 ? 'in' : i === legs.length - 1 ? 'out' : 'lin');
+      tt += d;
+    });
+    this.sfx.push({t: this.t + 0.3, name: 'pencil-line', vol: 0.2, dur: dLine});
     this.t += 0.3 + dLine;
     const big = o.big ?? 3.2, small = o.small ?? 1.1;
     const dDraw = 1.3 * String(n).length;
     const g: Shape = {k: 'glyph', text: String(n), at, t0: this.t, t1: this.t + dDraw, s0: this.t + dDraw + 0.35, s1: this.t + dDraw + 1.15, big, small};
     this.shapes.push(g);
-    this.sfx.push({t: this.t, name: 'paper-writing-2', vol: 0.25, dur: dDraw});
+    this.sfx.push({t: this.t, name: 'pencil-line', vol: 0.2, dur: dDraw});
     this.t += dDraw + 0.35;
-    this.sfx.push({t: this.t, name: 'swish-06', vol: 0.15});
     return this;
   }
   /** hide every teaching mark that is still on screen (notes have their own end) */
@@ -317,7 +390,8 @@ export class Lesson {
       const merged: [number, number][] = [];
       for (const u of iv) {
         const l = merged[merged.length - 1];
-        if (l && u[0] - l[1] < 1.6) l[1] = Math.max(l[1], u[1]);
+        const cut = this.cuts[tool].some((c) => c >= l?.[1] - 0.001 && c < u[0]);
+        if (l && u[0] - l[1] < 1.6 && !cut) l[1] = Math.max(l[1], u[1]);
         else merged.push([u[0], u[1]]);
       }
       for (const [a, b] of merged) {

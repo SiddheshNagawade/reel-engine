@@ -254,11 +254,13 @@ const MarkView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
 };
 
 // ---------------- the question, hand-written on the sheet ----------------
-// a pencil scribble under the concept word (the "highlighter", in pencil: exam = no colour pens)
-const Scribble: React.FC<{p: number}> = ({p}) => (
-  <svg viewBox="0 0 200 20" preserveAspectRatio="none" style={{position: 'absolute', left: -4, right: -4, bottom: -6, width: 'calc(100% + 8px)', height: 18, overflow: 'visible'}}>
-    <path d="M3 11C30 6 52 13 80 9S135 6 160 10S190 9 197 7" fill="none" stroke={COL.ink} strokeWidth={3} vectorEffect="non-scaling-stroke" strokeLinecap="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - p} />
-    <path d="M10 15C45 12 90 16 130 13S180 12 192 12" fill="none" stroke={COL.ink} strokeWidth={1.8} strokeOpacity={0.6} vectorEffect="non-scaling-stroke" strokeLinecap="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - Math.max(0, p * 1.3 - 0.3)} />
+// a highlighter pulled over the concept word (his ask 2026-11-25: a highlighter, not bold + underline)
+const Highlight: React.FC<{p: number}> = ({p}) => (
+  <svg viewBox="0 0 200 40" preserveAspectRatio="none" style={{position: 'absolute', left: -8, top: '18%', width: 'calc(100% + 16px)', height: '72%', overflow: 'visible', zIndex: -1}}>
+    <clipPath id="hl-clip">
+      <rect x={0} y={-10} width={200 * p} height={60} />
+    </clipPath>
+    <path clipPath="url(#hl-clip)" d="M3 9C40 5 90 7 140 5S190 6 197 8L198 31C160 34 110 33 70 35S20 33 2 32Z" fill="#ffe76b" opacity={0.6} style={{mixBlendMode: 'multiply'}} />
   </svg>
 );
 const QuestionText: React.FC<{q: Lesson['qtexts'][number]; t: number}> = ({q, t}) => {
@@ -267,22 +269,20 @@ const QuestionText: React.FC<{q: Lesson['qtexts'][number]; t: number}> = ({q, t}
   const shown = Math.max(0, t - typeStart) * q.cps;
   let used = 0;
   return (
-    <div style={{position: 'absolute', left: q.x, top: q.y, width: 1500, display: 'flex', gap: 40, alignItems: 'flex-start', filter: 'url(#graphite)'}}>
+    <div style={{position: 'absolute', left: q.x, top: q.y, width: 1500, display: 'flex', gap: 40, alignItems: 'flex-start'}}>
       <div style={{width: 110 * String(q.n).length, height: 154, flex: 'none'}} />
-      <div style={{paddingTop: 2, width: 1240, fontFamily: F.hand, fontWeight: 400, fontSize: 64, lineHeight: 1.3, color: COL.ink}}>
+      <div style={{paddingTop: 2, width: 1240, fontFamily: F.hand, fontWeight: 400, fontSize: 64, lineHeight: 1.3, color: COL.ink, position: 'relative', isolation: 'isolate'}}>
         {q.segs.map((s, i) => {
           const from = used;
           used += s.s.length;
-          if (shown <= from) return null;
-          const mp = s.mark === 'concept' && s.tMark != null ? ease('io', prog(t, s.tMark, s.tMark + 0.6)) : 0;
+          const mp = s.mark === 'concept' && s.tMark != null ? ease('io', prog(t, s.tMark, s.tMark + 0.55)) : 0;
           return (
-            <span key={i} style={s.mark === 'concept' ? {position: 'relative', whiteSpace: 'nowrap', fontWeight: mp > 0.4 ? 700 : 400} : undefined}>
-              {s.s.split('').map((ch, j) => {
-                // each letter is written in: a quick fade as the "pen" passes
-                const o = clamp01(shown - from - j);
-                return o > 0 ? <span key={j} style={{opacity: o}}>{ch}</span> : null;
-              })}
-              {mp > 0 && <Scribble p={mp} />}
+            <span key={i} style={s.mark === 'concept' ? {position: 'relative', whiteSpace: 'nowrap'} : undefined}>
+              {mp > 0 && <Highlight p={mp} />}
+              {s.s.split('').map((ch, j) => (
+                // every letter holds its place from the start, so nothing jumps to a new line while writing
+                <span key={j} style={{opacity: clamp01(shown - from - j), filter: 'url(#graphite)'}}>{ch}</span>
+              ))}
             </span>
           );
         })}
@@ -291,25 +291,53 @@ const QuestionText: React.FC<{q: Lesson['qtexts'][number]; t: number}> = ({q, t}
   );
 };
 
+// ---------------- the exam steps, written next to the finished figure ----------------
+const StepSheetView: React.FC<{s: Lesson['sheets'][number]; t: number}> = ({s, t}) => {
+  if (t < s.t0 - 0.1) return null;
+  const rows = [...s.lines.map((l, i) => ({txt: `${i + 1}.  ${l}`, res: false})), ...(s.result ? [{txt: s.result, res: true}] : [])];
+  return (
+    <div style={{position: 'absolute', left: s.x, top: s.y, width: 820, fontFamily: F.hand, color: COL.ink, filter: 'url(#graphite)'}}>
+      <div style={{fontSize: 30, fontWeight: 700, opacity: ease('out', prog(t, s.t0, s.t0 + 0.4)), marginBottom: 10}}>Steps</div>
+      {rows.map((r, i) => {
+        const t0 = s.t0 + 0.3 + i * 0.45;
+        const p = ease('out', prog(t, t0, t0 + 0.4));
+        return (
+          <div key={i} style={{fontSize: 27, lineHeight: 1.45, fontWeight: r.res ? 700 : 400, marginTop: r.res ? 14 : 0, opacity: p, transform: `translateX(${(1 - p) * -12}px)`, clipPath: `inset(-10px ${100 - p * 100}% -10px -10px)`}}>
+            {r.txt}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 // ---------------- the step pop-up: comes for a moment, says what we do now, goes ----------------
 const TOAST = 3.2;
 const StepToast: React.FC<{g: Lesson['guides'][number]; t: number}> = ({g, t}) => {
+  if (t < g.t0 || t > g.t1 + 0.6) return null;
+  const qIn = ease('out', prog(t, g.t0, g.t0 + 0.6)) * (1 - prog(t, g.t1, g.t1 + 0.5));
+  const qLabel = (
+    <div style={{position: 'absolute', left: 84, top: 46, opacity: qIn * 0.9, fontFamily: F.body, fontWeight: 500, fontSize: 22, letterSpacing: '0.24em', color: '#b3b3b9'}}>QUESTION {g.q}</div>
+  );
   const cur = [...g.cur].filter((c) => c.t <= t && c.i < g.steps.length).pop();
-  if (!cur) return null;
+  if (!cur) return qLabel;
   const next = g.cur.find((c) => c.t > cur.t);
   const end = Math.min(cur.t + TOAST, next ? next.t : 1e9, g.t1);
-  if (t > end + 0.45) return null;
+  if (t > end + 0.45) return qLabel;
   const inP = ease('out', prog(t, cur.t, cur.t + 0.45));
   const outP = ease('in', prog(t, end, end + 0.4));
   const extra = g.recap.find((r) => Math.abs(r.t0 - cur.t) < 0.6);
   return (
-    <div style={{position: 'absolute', left: 84, top: 58, opacity: inP * (1 - outP), transform: `translateY(${(1 - inP) * -18 - outP * 10}px)`, filter: `blur(${(1 - inP) * 6 + outP * 4}px)`, textShadow: '0 0 18px #fff, 0 0 8px #fff'}}>
+    <>
+    {qLabel}
+    <div style={{position: 'absolute', left: 84, top: 96, opacity: inP * (1 - outP), transform: `translateY(${(1 - inP) * -18 - outP * 10}px)`, filter: `blur(${(1 - inP) * 6 + outP * 4}px)`, textShadow: '0 0 18px #fff, 0 0 8px #fff'}}>
       <div style={{fontFamily: F.body, fontWeight: 600, fontSize: 21, letterSpacing: '0.2em', color: COL.soft}}>
         STEP {cur.i + 1} / {g.steps.length}
       </div>
       <div style={{marginTop: 8, fontFamily: F.body, fontWeight: 500, fontSize: 38, letterSpacing: -0.4, color: COL.ui, maxWidth: 900}}>{g.steps[cur.i]}</div>
       {extra && <div style={{marginTop: 8, fontFamily: F.body, fontWeight: 500, fontSize: 25, color: COL.soft}}>{extra.text}</div>}
     </div>
+    </>
   );
 };
 
@@ -337,6 +365,9 @@ export const GeoVideo: React.FC<GeoProps> = ({lesson}) => {
         <div style={{position: 'absolute', left: 0, top: 0, transform: world, transformOrigin: '0 0'}}>
           {L.qtexts.map((q, i) => (
             <QuestionText key={i} q={q} t={t} />
+          ))}
+          {L.sheets.map((sh, i) => (
+            <StepSheetView key={i} s={sh} t={t} />
           ))}
           <svg width={1} height={1} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
             <defs>
@@ -382,7 +413,7 @@ export const GeoVideo: React.FC<GeoProps> = ({lesson}) => {
                 <ShapeView key={i} s={s} t={t} />
               ))}
             </g>
-            <Scale {...sc} vis={L.vis.scale.valueAt(t).v} />
+            <Scale {...sc} hl={sc.hl} vis={L.vis.scale.valueAt(t).v} />
             <Compass {...cp} vis={L.vis.compass.valueAt(t).v} />
             <Pencil {...pc} vis={L.vis.pencil.valueAt(t).v} />
           </svg>
@@ -394,11 +425,24 @@ export const GeoVideo: React.FC<GeoProps> = ({lesson}) => {
       {/* film grain: multiplied very lightly so the white stays white but feels printed */}
       <Img src={staticFile(`assets/film/grain-${grain + 1}.jpg`)} style={{position: 'absolute', inset: 0, width: '100%', height: '100%', mixBlendMode: 'multiply', opacity: 0.045, filter: 'contrast(1.6) brightness(1.25)', pointerEvents: 'none'}} />
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 60%, rgba(20,20,30,0.035) 100%)', pointerEvents: 'none'}} />
-      {L.sfx.map((s, i) => (
-        <Sequence key={i} from={Math.round(s.t * fps)} durationInFrames={Math.max(6, Math.round((s.dur ?? 1.6) * fps))}>
-          <Audio src={staticFile(`geo-stage/sfx/${s.name}.mp3`)} volume={s.vol} />
-        </Sequence>
-      ))}
+      {L.sfx.map((s, i) => {
+        const from = Math.round(s.t * fps);
+        const len = Math.max(6, Math.round((s.dur ?? 1.6) * fps));
+        return (
+          <Sequence key={i} from={from} durationInFrames={len}>
+            <Audio
+              src={staticFile(`geo-stage/sfx/${s.name}.mp3`)}
+              volume={(f) => {
+                // effects stay under the voice (his ask): ~45 % lower while he speaks; trimmed sounds fade out
+                const tt = (from + f) / fps;
+                const speaking = L.subs.some((u) => tt >= u.t0 && tt <= u.t1);
+                const tail = s.dur ? Math.min(1, (len - f) / 5) : 1;
+                return s.vol * 0.8 * (speaking ? 0.55 : 1) * tail;
+              }}
+            />
+          </Sequence>
+        );
+      })}
     </AbsoluteFill>
   );
 };
