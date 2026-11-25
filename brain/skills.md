@@ -258,6 +258,8 @@ squareOn, open/close/highlight/toFigure; `setRef` makes "same as" badges point a
 `lead` replaces a reused question's first line). `angleAt()` = protractor (camera frames it), `lighten(pts)` = eraser
 pass, `dim(a,b,text)` / `dimOut` = length on the figure, labels go through a solver (no overlaps). Full video render:
 `node scripts/geo-render.mjs <lesson>` (chunks + resume). Transcript + YouTube chapters: projects/<lesson>/<lesson>-transcript.md.
+Preview: `npm run studio` → sidebar Geometry → elementary / intermediate → `<lesson>-full` + `<lesson>-q07` etc.
+(src/geometry/GeoPart.tsx cuts the full video to one question; a new lesson = add its name to GEO_LESSONS in Root.tsx).
 When: tutorial videos of geometry, a reel moment that explains a shape. When NOT: anything that isn't drawn with
 instruments; never add colour, notes or subtitles on the sheet (rules.md "Geometry tutorials").
 

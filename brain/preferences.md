@@ -361,4 +361,7 @@ visual scenes (multiply, same, breakup, versus, fork, year), underwater fish + r
   then the Intermediate; use all tools incl. the protractor; an eraser to lighten the base so base vs final is clear;
   write how long each line is; labels must not overlap or clutter. Built: voice.ts re-timing hook, eraser pass,
   dims, label solver, protractor framing; Elementary (23 parts, 33.7 min) + Intermediate (22 parts, 37.5 min).
-
+- Workflow (2026-11-25): "why can't you create a web preview… reusable for all the videos… every time you just waste
+  my tokens"; wants to see it before rendering, on any device, and have one specific thing edited without redoing
+  the whole. → Remotion Studio is THE preview for every video type (reels via the editor, long-form, vlog pieces,
+  geometry with one entry per question), reachable from his phone on the same Wi-Fi; preview first, render once.

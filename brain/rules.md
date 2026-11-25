@@ -19,6 +19,13 @@ sections at the moment of the decision.
 - Never "we can't do that": a moment needs X → HAVE (skills.md) → PORT/IDEA (brain/toolbox.md, repos on the T7,
   `node scripts/toolbox.mjs find`) → build. Find new open-source repos myself, keep the useful ones (permissive licence) in
   the toolbox and the map (2026-10-17).
+- PREVIEW FIRST, render once (2026-11-25, he was upset about wasted tokens and full re-renders): every video is
+  watched live in Remotion Studio before any render (`npm run studio`; the startup line prints a Network address he
+  opens on his phone on the same Wi-Fi). Geometry videos show as Geometry → <lesson> → full + one item per question
+  (intro, q01…, outro), so he checks one question alone. Code edits show in the preview instantly, no render. I don't
+  render test stills/videos just to show him; he points at "q07 at 0:40" and I change only that question/layer.
+  Build things as reusable parts (one function per question/scene, one layer per effect) so a change never touches
+  the rest. Final render = once, after he says it's right.
 - Ready-made skills/pages he brings: read fully, adopt what helps HIS videos into these files, say what was skipped.
 
 ## Story, hooks, endings {story}
