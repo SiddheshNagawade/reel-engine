@@ -253,6 +253,11 @@ ruler reading up to the length; `compassMeasure(cm, spot)` opens the compass on 
 `stepSheet(fig, at, lines, result)` = exam steps beside the figure at the end of a question; `connect(from, glyph, n,
 {via})` = L-shaped line into the next number (camera pans along). Sounds: Library/sounds/pencil-line, highlighter-stroke.
 Transcript for him: bundle lessons.ts with esbuild and print `L.subs` (see projects/elementary/pilot-transcript.md).
+Round 3: questions live in elementary.ts / intermediate.ts (helpers exported: bisect, perpOn, perpFrom, angleBisect,
+squareOn, open/close/highlight/toFigure; `setRef` makes "same as" badges point at another video's numbers; a block's
+`lead` replaces a reused question's first line). `angleAt()` = protractor (camera frames it), `lighten(pts)` = eraser
+pass, `dim(a,b,text)` / `dimOut` = length on the figure, labels go through a solver (no overlaps). Full video render:
+`node scripts/geo-render.mjs <lesson>` (chunks + resume). Transcript + YouTube chapters: projects/<lesson>/<lesson>-transcript.md.
 When: tutorial videos of geometry, a reel moment that explains a shape. When NOT: anything that isn't drawn with
 instruments; never add colour, notes or subtitles on the sheet (rules.md "Geometry tutorials").
 

@@ -9,7 +9,8 @@ import {loadFont as geist} from '@remotion/google-fonts/Geist';
 import {loadFont as geistMono} from '@remotion/google-fonts/GeistMono';
 import {loadFont as kalam} from '@remotion/google-fonts/Kalam';
 import {type Lesson, type Pt, type Shape, type Style, ease, polar, angOf, dist, lerpPt, add, mul} from './engine';
-import {Compass, Pencil, Scale} from './Tools';
+import {Compass, Eraser, Pencil, Protractor, Scale} from './Tools';
+import {VOICE} from './voice';
 import {LESSONS} from './lessons';
 
 const F = {
@@ -47,6 +48,9 @@ const arcPath = (c: Pt, r: number, a0: number, a1: number) => {
   return `M${p0.x} ${p0.y}A${r} ${r} 0 ${large} ${sweep} ${p1.x} ${p1.y}`;
 };
 
+// how thick lines / how big marks are, against the camera zoom: zooming in makes the drawing big, not the pencil
+// fat (his verdict: big drawing, small markings). Set once per frame in GeoVideo.
+let Z = 1;
 const ShapeView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
   switch (s.k) {
     case 'seg': {
@@ -54,7 +58,7 @@ const ShapeView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
       const p = ease(s.e, prog(t, s.t0, s.t1));
       const st = strokeOf(s.style);
       const b = lerpPt(s.a, s.b, p);
-      return <line x1={s.a.x} y1={s.a.y} x2={b.x} y2={b.y} stroke={st.stroke} strokeWidth={st.w} strokeOpacity={st.op} strokeLinecap="round" strokeDasharray={s.dash ? '12 10' : undefined} />;
+      return <line x1={s.a.x} y1={s.a.y} x2={b.x} y2={b.y} stroke={st.stroke} strokeWidth={st.w * Z} strokeOpacity={st.op} strokeLinecap="round" strokeDasharray={s.dash ? '12 10' : undefined} />;
     }
     case 'arc': {
       if (t < s.t0) return null;
@@ -65,9 +69,9 @@ const ShapeView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
       const sgn = s.a1 > s.a0 ? 1 : -1;
       return (
         <g>
-          <path d={arcPath(s.c, s.r, s.a0, s.a0 + (s.a1 - s.a0) * p)} fill="none" stroke={st.stroke} strokeWidth={st.w} strokeOpacity={st.op} strokeLinecap="round" strokeDasharray={dash} />
+          <path d={arcPath(s.c, s.r, s.a0, s.a0 + (s.a1 - s.a0) * p)} fill="none" stroke={st.stroke} strokeWidth={st.w * Z} strokeOpacity={st.op} strokeLinecap="round" strokeDasharray={dash} />
           {s.style === 'build' && p > 0.15 && (
-            <path d={arcPath(s.c, s.r + 1.3, s.a0 + sgn * 3, s.a0 + (s.a1 - s.a0) * p - sgn * 2)} fill="none" stroke={st.stroke} strokeWidth={1.3} strokeOpacity={0.45} strokeLinecap="round" />
+            <path d={arcPath(s.c, s.r + 1.3, s.a0 + sgn * 3, s.a0 + (s.a1 - s.a0) * p - sgn * 2)} fill="none" stroke={st.stroke} strokeWidth={1.3 * Z} strokeOpacity={0.45} strokeLinecap="round" />
           )}
         </g>
       );
@@ -76,7 +80,7 @@ const ShapeView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
       if (t < s.t0) return null;
       // points are PINNED: small, dark, exact (his ask 2026-11-25), not big blobs
       const p = ease('out', prog(t, s.t0 + 0.1, s.t0 + 0.3));
-      return <circle cx={s.p.x} cy={s.p.y} r={3.4 * p} fill="#2c2c31" />;
+      return <circle cx={s.p.x} cy={s.p.y} r={3.4 * p * Z} fill="#2c2c31" />;
     }
     case 'glyph':
       return <Glyph s={s} t={t} />;
@@ -122,15 +126,17 @@ const MarkView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
   switch (s.k) {
     case 'label': {
       if (t < s.t0) return null;
-      const p = ease('out', prog(t, s.t0, s.t0 + 0.32));
-      const x = s.p.x + s.dx * 0.85, y = s.p.y + s.dy * 0.85;
-      const id = `lb-${Math.round(s.p.x)}-${Math.round(s.p.y)}-${s.text}`;
+      const fs = (s.size ?? 31) * Z;
+      const p = ease('out', prog(t, s.t0, s.t0 + 0.25 + s.text.length * 0.06));
+      const x = s.at?.x ?? s.p.x + s.dx * 0.85, y = s.at?.y ?? s.p.y + s.dy * 0.85;
+      const w = fs * 0.62 * s.text.length + 10;
+      const id = `lb-${Math.round(s.p.x)}-${Math.round(s.p.y)}-${Math.round(s.t0 * 30)}`;
       return (
         <g>
           <clipPath id={id}>
-            <rect x={x - 22} y={y - 30} width={44 * p} height={60} />
+            <rect x={x - w / 2} y={y - fs} width={w * p} height={fs * 2} />
           </clipPath>
-          <text x={x} y={y} clipPath={`url(#${id})`} textAnchor="middle" dominantBaseline="central" fontFamily={F.hand} fontWeight={700} fontSize={31} fill={COL.ink}>
+          <text x={x} y={y} clipPath={`url(#${id})`} textAnchor="middle" dominantBaseline="central" fontFamily={F.hand} fontWeight={s.soft ? 400 : 700} fontSize={fs} fill={s.soft ? '#5c5c62' : COL.ink}>
             {s.text}
           </text>
         </g>
@@ -145,7 +151,7 @@ const MarkView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
         <g transform={`translate(${m.x} ${m.y}) rotate(${a}) scale(${p})`}>
           {Array.from({length: s.n}, (_, i) => {
             const x = (i - (s.n - 1) / 2) * 7;
-            return <line key={i} x1={x - 1} y1={-9} x2={x + 1} y2={9} stroke={COL.ink} strokeWidth={2.6} strokeLinecap="round" />;
+            return <line key={i} x1={(x - 1) * Z} y1={-9 * Z} x2={(x + 1) * Z} y2={9 * Z} stroke={COL.ink} strokeWidth={2.6 * Z} strokeLinecap="round" />;
           })}
         </g>
       );
@@ -153,10 +159,10 @@ const MarkView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
     case 'right': {
       if (t < s.t0) return null;
       const p = ease('out', prog(t, s.t0, s.t0 + 0.5));
-      const L = 18;
+      const L = 18 * Z;
       const a = polar(s.p, L, s.d1), b = polar(s.p, L, s.d2);
       const c = add(a, {x: b.x - s.p.x, y: b.y - s.p.y});
-      return <path d={`M${a.x} ${a.y}L${c.x} ${c.y}L${b.x} ${b.y}`} fill="none" stroke={COL.ink} strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - p} />;
+      return <path d={`M${a.x} ${a.y}L${c.x} ${c.y}L${b.x} ${b.y}`} fill="none" stroke={COL.ink} strokeWidth={2.6 * Z} strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - p} />;
     }
     case 'cross': {
       if (t < s.t0) return null;
@@ -242,8 +248,8 @@ const MarkView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
       if (t < s.t0 || t > s.t0 + 1.3) return null;
       const draw = ease('out', prog(t, s.t0 - 0.05, s.t0 + 0.35));
       const fade = 1 - prog(t, s.t0 + 0.8, s.t0 + 1.3);
-      const r = Math.max(13, (s.r ?? 34) * 0.5);
-      return <circle cx={s.p.x} cy={s.p.y} r={r} fill="none" stroke="#5a5a60" strokeWidth={2.2} transform={`rotate(-80 ${s.p.x} ${s.p.y})`} pathLength={1} strokeDasharray={1} strokeDashoffset={1 - draw} opacity={fade} />;
+      const r = Math.max(13, (s.r ?? 34) * 0.5) * Z;
+      return <circle cx={s.p.x} cy={s.p.y} r={r} fill="none" stroke="#5a5a60" strokeWidth={2.2 * Z} transform={`rotate(-80 ${s.p.x} ${s.p.y})`} pathLength={1} strokeDasharray={1} strokeDashoffset={1 - draw} opacity={fade} />;
     }
     case 'sparkle':
       // no sparkles any more (pencil only); done() keeps its ding
@@ -317,7 +323,7 @@ const StepToast: React.FC<{g: Lesson['guides'][number]; t: number}> = ({g, t}) =
   if (t < g.t0 || t > g.t1 + 0.6) return null;
   const qIn = ease('out', prog(t, g.t0, g.t0 + 0.6)) * (1 - prog(t, g.t1, g.t1 + 0.5));
   const qLabel = (
-    <div style={{position: 'absolute', left: 84, top: 46, opacity: qIn * 0.9, fontFamily: F.body, fontWeight: 500, fontSize: 22, letterSpacing: '0.24em', color: '#b3b3b9'}}>QUESTION {g.q}</div>
+    <div style={{position: 'absolute', left: 80, top: 26, opacity: qIn, fontFamily: F.hand, fontWeight: 700, fontSize: 50, color: '#8e8e94', filter: 'url(#graphite)'}}>Q{g.q}</div>
   );
   const cur = [...g.cur].filter((c) => c.t <= t && c.i < g.steps.length).pop();
   if (!cur) return qLabel;
@@ -330,7 +336,7 @@ const StepToast: React.FC<{g: Lesson['guides'][number]; t: number}> = ({g, t}) =
   return (
     <>
     {qLabel}
-    <div style={{position: 'absolute', left: 84, top: 96, opacity: inP * (1 - outP), transform: `translateY(${(1 - inP) * -18 - outP * 10}px)`, filter: `blur(${(1 - inP) * 6 + outP * 4}px)`, textShadow: '0 0 18px #fff, 0 0 8px #fff'}}>
+    <div style={{position: 'absolute', left: 84, top: 104, opacity: inP * (1 - outP), transform: `translateY(${(1 - inP) * -18 - outP * 10}px)`, filter: `blur(${(1 - inP) * 6 + outP * 4}px)`, textShadow: '0 0 18px #fff, 0 0 8px #fff'}}>
       <div style={{fontFamily: F.body, fontWeight: 600, fontSize: 21, letterSpacing: '0.2em', color: COL.soft}}>
         STEP {cur.i + 1} / {g.steps.length}
       </div>
@@ -350,6 +356,23 @@ export const GeoVideo: React.FC<GeoProps> = ({lesson}) => {
   const L = LESSONS[lesson]();
   const t = frame / fps;
   const c = L.cam.valueAt(t);
+  Z = Math.max(0.62, Math.min(1.25, Math.pow(2 / c.zoom, 0.7)));
+  // eraser passes: what was drawn before, inside the rubbed box, turns light as the eraser goes over its row
+  const repOf = (s: Shape): Pt | null =>
+    s.k === 'seg' ? lerpPt(s.a, s.b, 0.5) : s.k === 'arc' ? polar(s.c, s.r, (s.a0 + s.a1) / 2) : s.k === 'dot' || s.k === 'label' || s.k === 'right' ? s.p : s.k === 'ticks' ? lerpPt(s.a, s.b, 0.5) : null;
+  const fadeOf = (s: Shape) => {
+    let m = 1;
+    for (const f of L.fades) {
+      if (t < f.t0 || s.t0 >= f.t0) continue;
+      if ((s.k === 'seg' || s.k === 'arc') && s.style === 'final') continue;
+      const p = repOf(s);
+      if (!p || p.x < f.x0 || p.x > f.x1 || p.y < f.y0 || p.y > f.y1) continue;
+      const tf = f.t0 + (f.t1 - f.t0) * clamp01((p.y - f.y0) / (f.y1 - f.y0));
+      const k = s.k === 'label' || s.k === 'dot' ? f.k * 0.45 : f.k;
+      m *= 1 - k * ease('io', prog(t, tf - 0.2, tf + 0.35));
+    }
+    return m;
+  };
   // hovering camera: a slow float, like a camera on a gimbal
   const fx = noise2D('cx', t * 0.12, 0) * 9, fy = noise2D('cy', t * 0.12, 3) * 7, fr = noise2D('cr', t * 0.08, 7) * 0.25;
   const world = `translate(${W / 2}px, ${H / 2}px) scale(${c.zoom}) rotate(${c.rot + fr}deg) translate(${-c.x + fx}px, ${-c.y + fy}px)`;
@@ -398,7 +421,9 @@ export const GeoVideo: React.FC<GeoProps> = ({lesson}) => {
             </defs>
             <g filter="url(#graphite)">
               {pencilShapes.map((s, i) => (
-                <ShapeView key={i} s={s} t={t} />
+                <g key={i} opacity={fadeOf(s)}>
+                  <ShapeView s={s} t={t} />
+                </g>
               ))}
             </g>
             <g filter="url(#graphite)">
@@ -406,15 +431,21 @@ export const GeoVideo: React.FC<GeoProps> = ({lesson}) => {
                 <ShapeView key={i} s={s} t={t} />
               ))}
               {marks.map((s, i) => (
-                <MarkView key={i} s={s} t={t} />
+                <g key={i} opacity={fadeOf(s)}>
+                  <MarkView s={s} t={t} />
+                </g>
               ))}
               {/* points: same pencil texture, smaller, a little darker than the lines (his verdict 2026-11-25) */}
               {dots.map((s, i) => (
-                <ShapeView key={i} s={s} t={t} />
+                <g key={i} opacity={fadeOf(s)}>
+                  <ShapeView s={s} t={t} />
+                </g>
               ))}
             </g>
             <Scale {...sc} hl={sc.hl} vis={L.vis.scale.valueAt(t).v} />
             <Compass {...cp} vis={L.vis.compass.valueAt(t).v} />
+            <Protractor {...L.protractor.valueAt(t)} vis={L.vis.protractor.valueAt(t).v} />
+            <Eraser {...L.eraser.valueAt(t)} vis={L.vis.eraser.valueAt(t).v} />
             <Pencil {...pc} vis={L.vis.pencil.valueAt(t).v} />
           </svg>
         </div>
@@ -425,6 +456,13 @@ export const GeoVideo: React.FC<GeoProps> = ({lesson}) => {
       {/* film grain: multiplied very lightly so the white stays white but feels printed */}
       <Img src={staticFile(`assets/film/grain-${grain + 1}.jpg`)} style={{position: 'absolute', inset: 0, width: '100%', height: '100%', mixBlendMode: 'multiply', opacity: 0.045, filter: 'contrast(1.6) brightness(1.25)', pointerEvents: 'none'}} />
       <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 60%, rgba(20,20,30,0.035) 100%)', pointerEvents: 'none'}} />
+      {/* his recorded voice, line by line (voice.ts); effects duck under it */}
+      {VOICE[lesson] &&
+        L.voice.map((v, i) => (
+          <Sequence key={'v' + i} from={Math.round(v.t * fps)} durationInFrames={Math.max(1, Math.round((v.to - v.from) * fps))}>
+            <Audio src={staticFile(VOICE[lesson]!.src)} startFrom={Math.round(v.from * fps)} endAt={Math.round(v.to * fps)} />
+          </Sequence>
+        ))}
       {L.sfx.map((s, i) => {
         const from = Math.round(s.t * fps);
         const len = Math.max(6, Math.round((s.dur ?? 1.6) * fps));

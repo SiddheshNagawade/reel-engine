@@ -274,4 +274,14 @@ sections at the moment of the decision.
   effects quieter under the voice.
 - End of every question: the drawing slides to one side, the exam steps appear beside it in easy English for kids
   (short lines), held a few seconds for a screenshot/revision, then on to the next question.
+- Round 3 (2026-11-25, his asks before the full videos): the drawing fills the frame, centred, little empty space;
+  corner label = just "Q2" in the same handwriting, a bit bigger; every tool used for real (protractor measures and
+  shows angles; the camera frames the protractor when it would be cut off); an ERASER pass lightens the base
+  construction so the final drawing reads darker ("what was the base, what is the final"); lengths are written on the
+  figure as it is drawn (4 cm, 7.3 cm…); labels never overlap (engine label solver); timing stays editable so the
+  video can be re-timed to his recorded voice (each spoken line = one numbered transcript line).
+- Repeats inside a video and across the two videos: say where it came from ("elementary ka Q4") with a small
+  "same as" badge and do it fast; a question that IS an Elementary one (Intermediate 4(1), 14) is redrawn fully.
+- Long geometry videos render through `node scripts/geo-render.mjs <lesson>` (2-minute chunks, resumes after a
+  crash); a single 33-minute render crashed and hung.
 

@@ -356,4 +356,9 @@ visual scenes (multiply, same, breakup, versus, fork, year), underwater fish + r
   instead of zooming out; line first, then points/letters one by one; steady graphite + highlighter sounds, quieter
   under the voice ("the ones you use are janky"); after each question shrink the figure aside and show the exam steps
   in easy English for a screenshot.
+- Geometry (2026-11-25, round 3): "make it editable… after the voiceover, adjusting the timeline"; zoom in so the
+  drawing is big and centred; corner label just "Q2" in the same handwriting, bigger; make the whole Elementary video,
+  then the Intermediate; use all tools incl. the protractor; an eraser to lighten the base so base vs final is clear;
+  write how long each line is; labels must not overlap or clutter. Built: voice.ts re-timing hook, eraser pass,
+  dims, label solver, protractor framing; Elementary (23 parts, 33.7 min) + Intermediate (22 parts, 37.5 min).
 

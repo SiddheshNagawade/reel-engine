@@ -191,3 +191,87 @@ export const Pencil: React.FC<{x: number; y: number; lift: number; vis: number}>
     </g>
   );
 };
+
+// ---------------- protractor (same flat pastel family: translucent lilac, black ticks) ----------------
+export const Protractor: React.FC<{x: number; y: number; ang: number; s: number; hl: number; vis: number}> = ({x, y, ang, s, hl, vis}) => {
+  if (vis <= 0.001) return null;
+  const off = (1 - vis) * 900;
+  const cx = x + off * 0.55, cy = y - off * 0.45;
+  const R = 5.2 * CM, r0 = 0.75 * CM;
+  const sg = s >= 0 ? 1 : -1;
+  const z = (1 - vis) * 60 + 3;
+  const ticks: React.ReactNode[] = [];
+  for (let d = 0; d <= 180; d++) {
+    const len = d % 10 === 0 ? 22 : d % 5 === 0 ? 15 : 8;
+    const a = (d * Math.PI) / 180;
+    ticks.push(<line key={d} x1={Math.cos(a) * R} y1={Math.sin(a) * R} x2={Math.cos(a) * (R - len)} y2={Math.sin(a) * (R - len)} stroke={TOOL.line} strokeWidth={d % 10 === 0 ? 1.6 : 1} />);
+  }
+  // numbers are placed in WORLD space so they never read mirrored or upside down
+  const nums: React.ReactNode[] = [];
+  for (let d = 0; d <= 180; d += 10) {
+    const wa = ang + sg * d;
+    const p = polar({x: cx, y: cy}, R - 38, wa);
+    let rot = wa + 90;
+    while (rot > 90) rot -= 180;
+    while (rot <= -90) rot += 180;
+    const hit = hl > 0.5 ? Math.max(0, 1 - Math.abs(hl - d) / 4) : 0;
+    nums.push(
+      <text key={d} x={p.x} y={p.y} transform={`rotate(${rot} ${p.x} ${p.y})`} textAnchor="middle" dominantBaseline="central" fontFamily="Geist Mono" fontWeight={hit > 0.5 ? 700 : 500} fontSize={14 * (1 + hit * 0.5)} fill={TOOL.line}>
+        {d}
+      </text>,
+    );
+  }
+  const band = hl > 0.3 ? (() => {
+    const a1 = (Math.min(180, hl) * Math.PI) / 180;
+    const ro = R - 2, ri = R - 26;
+    const large = hl > 180 ? 1 : 0;
+    return `M${ro} 0A${ro} ${ro} 0 ${large} 1 ${Math.cos(a1) * ro} ${Math.sin(a1) * ro}L${Math.cos(a1) * ri} ${Math.sin(a1) * ri}A${ri} ${ri} 0 ${large} 0 ${ri} 0Z`;
+  })() : '';
+  const a1 = (hl * Math.PI) / 180;
+  return (
+    <g opacity={Math.min(1, vis * 1.4)}>
+      <defs>
+        <Blur id="pr-blur" s={4 + z * 0.06} />
+      </defs>
+      <g transform={`translate(${cx} ${cy}) rotate(${ang}) scale(1 ${sg})`}>
+        <path d={`M${R + 12} -16H${-R - 12}V0A${R} ${R} 0 0 0 ${R} 0H${R + 12}Z`} transform={`translate(${SH.x * z} ${SH.y * z * sg + 3})`} fill={TOOL.shadow} opacity={0.08} filter="url(#pr-blur)" />
+        {/* body: half disc + a straight edge strip, the little centre window cut out */}
+        <path d={`M${R + 12} -16H${-R - 12}V0H${-R}A${R} ${R} 0 0 0 ${R} 0H${R + 12}ZM${r0} 0A${r0} ${r0} 0 0 1 ${-r0} 0Z`} fill={TOOL.lilac} fillOpacity={0.55} fillRule="evenodd" />
+        {band && <path d={band} fill="#8f78e8" opacity={0.45} />}
+        {hl > 0.3 && <line x1={0} y1={0} x2={Math.cos(a1) * R} y2={Math.sin(a1) * R} stroke={TOOL.line} strokeWidth={2} strokeDasharray="6 6" opacity={0.7} />}
+        <line x1={-R} y1={0} x2={R} y2={0} stroke={TOOL.line} strokeWidth={1.4} />
+        <line x1={0} y1={-12} x2={0} y2={14} stroke={TOOL.line} strokeWidth={1.8} />
+        {ticks}
+        <path d={`M${R * 0.68} 0A${R * 0.68} ${R * 0.68} 0 0 1 ${-R * 0.68} 0`} fill="none" stroke={TOOL.line} strokeWidth={1} opacity={0.5} />
+        <g transform={`translate(${-2.1 * CM} ${R * 0.42}) scale(1 ${sg})`}>
+          <ToolMark x={0} y={0} color="#7d68cf" bg="#d9cffb" size={14} opacity={0.6} />
+        </g>
+      </g>
+      {nums}
+    </g>
+  );
+};
+
+// ---------------- eraser (white rubber in a lilac paper sleeve) ----------------
+export const Eraser: React.FC<{x: number; y: number; ang: number; lift: number; vis: number}> = ({x, y, ang, lift, vis}) => {
+  if (vis <= 0.001) return null;
+  const off = (1 - vis) * 800;
+  const z = lift * 30 + (1 - vis) * 80;
+  const b0 = {x: x + off * 0.6, y: y - off * 0.4};
+  const b = up(b0, z), sh = shadowOf(b0, z);
+  const W = 3.4 * CM, H = 1.6 * CM;
+  return (
+    <g opacity={Math.min(1, vis * 1.4)}>
+      <defs>
+        <Blur id="er-blur" s={5 + z * 0.05} />
+      </defs>
+      <rect x={sh.x - W / 2} y={sh.y - H / 2} width={W} height={H} rx={14} transform={`rotate(${ang} ${sh.x} ${sh.y})`} fill={TOOL.shadow} opacity={0.1} filter="url(#er-blur)" />
+      <g transform={`translate(${b.x} ${b.y}) rotate(${ang})`}>
+        <rect x={-W / 2} y={-H / 2} width={W} height={H} rx={14} fill="#fbf7f1" stroke={TOOL.line} strokeWidth={1.8} />
+        <rect x={-W / 2 + W * 0.36} y={-H / 2 - 3} width={W * 0.64 + 3} height={H + 6} rx={6} fill={TOOL.lilac} />
+        <line x1={-W / 2 + W * 0.36} y1={-H / 2 - 3} x2={-W / 2 + W * 0.36} y2={H / 2 + 3} stroke={TOOL.line} strokeWidth={1.6} />
+        <ToolMark x={-W / 2 + W * 0.42} y={7} color="#7d68cf" bg={TOOL.lilac} size={11} opacity={0.65} />
+      </g>
+    </g>
+  );
+};
