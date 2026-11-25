@@ -39,6 +39,21 @@ const Blur: React.FC<{id: string; s: number}> = ({id, s}) => (
   </filter>
 );
 
+// his channel mark on the instruments (2026-11-25): tiny, tone-on-tone like a printed brand on stationery,
+// never YouTube red. YouTube play-button shape + @SiddheshArts.
+export const ToolMark: React.FC<{x: number; y: number; color: string; bg: string; size?: number; opacity?: number}> = ({x, y, color, bg, size = 13, opacity = 0.55}) => {
+  const h = size * 0.95, w = h * 1.42;
+  return (
+    <g transform={`translate(${x} ${y})`} opacity={opacity}>
+      <rect x={0} y={-h * 0.82} width={w} height={h} rx={h * 0.28} fill={color} />
+      <path d={`M${w * 0.4} ${-h * 0.82 + h * 0.27}L${w * 0.68} ${-h * 0.82 + h * 0.5}L${w * 0.4} ${-h * 0.82 + h * 0.73}Z`} fill={bg} />
+      <text x={w + size * 0.4} y={0} fontFamily="Geist" fontWeight={600} fontSize={size} letterSpacing={0.2} fill={color}>
+        @SiddheshArts
+      </text>
+    </g>
+  );
+};
+
 // ---------------- compass ----------------
 const LEG = 11.5 * CM;
 export const Compass: React.FC<{x: number; y: number; r: number; ang: number; lift: number; vis: number}> = ({x, y, r, ang, lift, vis}) => {
@@ -123,6 +138,9 @@ export const Scale: React.FC<{x: number; y: number; ang: number; side: number; v
       <rect x={L0} y={0} width={L1 - L0} height={W} rx={10} fill={TOOL.ruler} fillOpacity={0.94} />
       {ticks}
       <circle cx={L1 - 22} cy={W - 24} r={8} fill="#fff" stroke={TOOL.line} strokeWidth={1.8} />
+      <g transform={`translate(0 ${W * 0.78}) scale(1 ${s})`}>
+        <ToolMark x={4.4 * CM} y={6} color="#c99a45" bg={TOOL.ruler} size={17} opacity={0.5} />
+      </g>
     </g>
   );
 };
@@ -153,6 +171,7 @@ export const Pencil: React.FC<{x: number; y: number; lift: number; vis: number}>
         <path d={`M52 ${-R}H292V${R}H52Z`} fill={TOOL.coral} />
         <path d={`M52 ${-R}A${R / 3} ${R / 3} 0 0 1 52 ${-R / 3}A${R / 3} ${R / 3} 0 0 1 52 ${R / 3}A${R / 3} ${R / 3} 0 0 1 52 ${R}`} fill={TOOL.wood} stroke={TOOL.line} strokeWidth={1.6} />
         <line x1={64} y1={0} x2={290} y2={0} stroke={TOOL.line} strokeWidth={1.6} />
+        <ToolMark x={128} y={12.5} color="#c94f4f" bg={TOOL.coral} size={9.5} opacity={0.6} />
         {/* ferrule + eraser */}
         <path d={`M292 ${-R}H314V${R}H292Z`} fill={TOOL.teal} />
         <line x1={292} y1={-R} x2={292} y2={R} stroke={TOOL.line} strokeWidth={1.6} />

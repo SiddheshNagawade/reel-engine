@@ -238,7 +238,8 @@ export class Lesson {
     this.use('compass', t0, this.t);
   }
   /** two short arcs on both sides of a line, centred at angle `at` (pointing to one side) ± span */
-  arcPair(c: Pt, r: number, up: number, down: number, span = 16) {
+  arcPair(c: Pt, r: number, up: number, down: number, span = 26) {
+    // long enough that the two arcs make a full, clear X past the crossing (his ask 2026-11-25), not a precise touch
     this.arc(c, r, up - span, up + span);
     this.arc(c, r, down - span, down + span);
   }
@@ -247,9 +248,9 @@ export class Lesson {
   label(text: string, p: Pt, dx = 18, dy = -18, t?: number, style: Style = 'main') {
     const t0 = t ?? this.t;
     this.shapes.push({k: 'dot', p, t0, style}, {k: 'label', p, text, dx, dy, t0, style});
-    this.sfx.push({t: t0, name: ['pop9-01', 'pop9-02', 'pop9-03'][this.shapes.length % 3], vol: 0.16});
+    this.sfx.push({t: t0, name: ['pop9-01', 'pop9-03'][this.shapes.length % 2], vol: 0.16});
   }
-  /** comic emphasis: little lines flick out around a point (a found intersection, a key moment) */
+  /** "here we got the point": a quick pencil ring is drawn round a found crossing and fades (then the dark dot pins it) */
   burst(p: Pt, r = 34, t?: number) {
     this.shapes.push({k: 'burst', p, t0: t ?? this.t, r});
     this.sfx.push({t: t ?? this.t, name: 'pop-pop-bubble', vol: 0.14});

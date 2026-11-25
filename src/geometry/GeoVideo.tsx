@@ -74,8 +74,9 @@ const ShapeView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
     }
     case 'dot': {
       if (t < s.t0) return null;
-      const p = ease('back', prog(t, s.t0, s.t0 + 0.3));
-      return <circle cx={s.p.x} cy={s.p.y} r={5 * p} fill={COL.ink} />;
+      // points are PINNED: small, dark, exact (his ask 2026-11-25), not big blobs
+      const p = ease('out', prog(t, s.t0 + 0.1, s.t0 + 0.3));
+      return <circle cx={s.p.x} cy={s.p.y} r={3.4 * p} fill="#2c2c31" />;
     }
     case 'glyph':
       return <Glyph s={s} t={t} />;
@@ -129,7 +130,7 @@ const MarkView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
           <clipPath id={id}>
             <rect x={x - 22} y={y - 30} width={44 * p} height={60} />
           </clipPath>
-          <text x={x} y={y} clipPath={`url(#${id})`} textAnchor="middle" dominantBaseline="central" fontFamily={F.hand} fontWeight={700} fontSize={32} fill="#2e2e33">
+          <text x={x} y={y} clipPath={`url(#${id})`} textAnchor="middle" dominantBaseline="central" fontFamily={F.hand} fontWeight={700} fontSize={31} fill={COL.ink}>
             {s.text}
           </text>
         </g>
@@ -237,18 +238,12 @@ const MarkView: React.FC<{s: Shape; t: number}> = ({s, t}) => {
       );
     }
     case 'burst': {
-      const p = prog(t, s.t0, s.t0 + 0.42);
-      if (t < s.t0 || p >= 1) return null;
-      const r = (s.r ?? 34) * 0.7;
-      return (
-        <g stroke={COL.build} strokeWidth={2.4 * (1 - p) + 0.6} strokeLinecap="round">
-          {[-60, 0, 60, 120, 180, 240].map((a, i) => {
-            const r0 = r * (0.6 + ease('out', p) * 0.5), r1 = r0 + (i % 2 ? 7 : 11) * (1 - p * 0.7);
-            const p0 = polar(s.p, r0, a), p1 = polar(s.p, r1, a);
-            return <line key={a} x1={p0.x} y1={p0.y} x2={p1.x} y2={p1.y} opacity={1 - p} />;
-          })}
-        </g>
-      );
+      // "here we got the point": a pencil ring draws round the crossing, then fades
+      if (t < s.t0 || t > s.t0 + 1.3) return null;
+      const draw = ease('out', prog(t, s.t0 - 0.05, s.t0 + 0.35));
+      const fade = 1 - prog(t, s.t0 + 0.8, s.t0 + 1.3);
+      const r = Math.max(13, (s.r ?? 34) * 0.5);
+      return <circle cx={s.p.x} cy={s.p.y} r={r} fill="none" stroke="#5a5a60" strokeWidth={2.2} transform={`rotate(-80 ${s.p.x} ${s.p.y})`} pathLength={1} strokeDasharray={1} strokeDashoffset={1 - draw} opacity={fade} />;
     }
     case 'sparkle':
       // no sparkles any more (pencil only); done() keeps its ding
@@ -272,7 +267,7 @@ const QuestionText: React.FC<{q: Lesson['qtexts'][number]; t: number}> = ({q, t}
   const shown = Math.max(0, t - typeStart) * q.cps;
   let used = 0;
   return (
-    <div style={{position: 'absolute', left: q.x, top: q.y, width: 1500, display: 'flex', gap: 40, alignItems: 'flex-start', filter: 'url(#graphite-soft)'}}>
+    <div style={{position: 'absolute', left: q.x, top: q.y, width: 1500, display: 'flex', gap: 40, alignItems: 'flex-start', filter: 'url(#graphite)'}}>
       <div style={{width: 110 * String(q.n).length, height: 154, flex: 'none'}} />
       <div style={{paddingTop: 2, width: 1240, fontFamily: F.hand, fontWeight: 400, fontSize: 64, lineHeight: 1.3, color: COL.ink}}>
         {q.segs.map((s, i) => {
@@ -330,7 +325,8 @@ export const GeoVideo: React.FC<GeoProps> = ({lesson}) => {
   // hovering camera: a slow float, like a camera on a gimbal
   const fx = noise2D('cx', t * 0.12, 0) * 9, fy = noise2D('cy', t * 0.12, 3) * 7, fr = noise2D('cr', t * 0.08, 7) * 0.25;
   const world = `translate(${W / 2}px, ${H / 2}px) scale(${c.zoom}) rotate(${c.rot + fr}deg) translate(${-c.x + fx}px, ${-c.y + fy}px)`;
-  const pencilShapes = L.shapes.filter((s) => ((s.k === 'seg' || s.k === 'arc' || s.k === 'dot') && pencilStyle(s.style)) || s.k === 'glyph');
+  const pencilShapes = L.shapes.filter((s) => ((s.k === 'seg' || s.k === 'arc') && pencilStyle(s.style)) || s.k === 'glyph');
+  const dots = L.shapes.filter((s) => s.k === 'dot');
   const teachShapes = L.shapes.filter((s) => (s.k === 'seg' || s.k === 'arc') && !pencilStyle(s.style));
   const marks = L.shapes.filter((s) => s.k !== 'seg' && s.k !== 'arc' && s.k !== 'dot' && s.k !== 'glyph');
   const cp = L.compass.valueAt(t), sc = L.scale.valueAt(t), pc = L.pencil.valueAt(t);
@@ -378,13 +374,12 @@ export const GeoVideo: React.FC<GeoProps> = ({lesson}) => {
               {teachShapes.map((s, i) => (
                 <ShapeView key={i} s={s} t={t} />
               ))}
-              {marks.filter((s) => s.k !== 'label').map((s, i) => (
+              {marks.map((s, i) => (
                 <MarkView key={i} s={s} t={t} />
               ))}
-            </g>
-            <g filter="url(#graphite-soft)">
-              {marks.filter((s) => s.k === 'label').map((s, i) => (
-                <MarkView key={i} s={s} t={t} />
+              {/* points: same pencil texture, smaller, a little darker than the lines (his verdict 2026-11-25) */}
+              {dots.map((s, i) => (
+                <ShapeView key={i} s={s} t={t} />
               ))}
             </g>
             <Scale {...sc} vis={L.vis.scale.valueAt(t).v} />

@@ -254,6 +254,13 @@ sections at the moment of the decision.
 - Steps = a small pop-up that comes for ~3 s and goes; never a side panel, never boxes/cards/mobile-UI.
 - No subtitles in the video (YouTube adds them); the transcript is a separate file he reads and records from.
 - Instruments = his flat pastel reference (src/geometry/Tools.tsx), real tools, never a hand.
+- Constructions are not "too precise": arcs run past the crossing into a full X, a quick pencil ring says "here
+  is the point", then the point is pinned: same pencil texture, a little SMALLER and only slightly darker than
+  the lines (never a big blob, never a crisp black dot).
+- Keep EVERYTHING light pencil: letters, labels, question stay light grey graphite; never darken writing to make
+  it "readable" (his verdict 2026-11-25: "you made it worse").
+- His channel mark @SiddheshArts + a YouTube play shape sits tiny on the instruments (ruler, pencil), tone-on-tone
+  like printed stationery branding, never YouTube red (Tools.tsx ToolMark).
 - Transition: the last line runs across the sheet, curls into the next question number, it shrinks, the question
   writes itself beside it, then a pencil scribble marks the concept word (not the numbers).
 

@@ -345,4 +345,9 @@ visual scenes (multiply, same, breakup, versus, fork, year), underwater fish + r
   hand-drawn in grey pencil, fonts too; no colours (exam = pencil only); too much clutter (bigger drawing, smaller
   marks, never label every line, no extra lines); no subtitles (separate transcript); the step list on the side was
   cluttered: show each step for ~2 s like a notification, then hide it. One focus at a time for kids.
+- Geometry (2026-11-25, later): lines not too precise: arcs extend into a full cross, show "we got the point", then
+  pinpoint it with a darker, small point. Add @SiddheshArts + YouTube logo on the tools as a barely-there watermark
+  in the tool's own colour.
+- Geometry (2026-11-25, later still): I darkened the letters/labels and made points crisp black: "you again just
+  made it worse". Everything stays light pencil; points = same texture, smaller, slightly darker. Nothing more.
 
