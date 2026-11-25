@@ -289,6 +289,8 @@ sections at the moment of the decision.
   video can be re-timed to his recorded voice (each spoken line = one numbered transcript line).
 - Repeats inside a video and across the two videos: say where it came from ("elementary ka Q4") with a small
   "same as" badge and do it fast; a question that IS an Elementary one (Intermediate 4(1), 14) is redrawn fully.
-- Long geometry videos render through `node scripts/geo-render.mjs <lesson>` (2-minute chunks, resumes after a
-  crash); a single 33-minute render crashed and hung.
+- Long geometry videos: `npm run preview` = editor-style page with a render bar (each question renders once into the
+  T7 cache, green when done; he starts/pauses rendering himself; edits re-render only the changed question). Export =
+  `node scripts/geo-render.mjs <lesson>` (joins the cache). Never one 33-minute render (it crashed and hung).
+  While he is still giving edits, rendering stays paused (2026-11-25: "stop the local renders, I'll see the preview").
 

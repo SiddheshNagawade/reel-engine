@@ -256,10 +256,15 @@ Transcript for him: bundle lessons.ts with esbuild and print `L.subs` (see proje
 Round 3: questions live in elementary.ts / intermediate.ts (helpers exported: bisect, perpOn, perpFrom, angleBisect,
 squareOn, open/close/highlight/toFigure; `setRef` makes "same as" badges point at another video's numbers; a block's
 `lead` replaces a reused question's first line). `angleAt()` = protractor (camera frames it), `lighten(pts)` = eraser
-pass, `dim(a,b,text)` / `dimOut` = length on the figure, labels go through a solver (no overlaps). Full video render:
-`node scripts/geo-render.mjs <lesson>` (chunks + resume). Transcript + YouTube chapters: projects/<lesson>/<lesson>-transcript.md.
+pass, `dim(a,b,text)` / `dimOut` = length on the figure, labels go through a solver (no overlaps). Full video export:
+`node scripts/geo-render.mjs <lesson>` (joins the render cache, renders only what's missing). Transcript + YouTube chapters: projects/<lesson>/<lesson>-transcript.md.
 Preview: `npm run studio` → sidebar Geometry → elementary / intermediate → `<lesson>-full` + `<lesson>-q07` etc.
 (src/geometry/GeoPart.tsx cuts the full video to one question; a new lesson = add its name to GEO_LESSONS in Root.tsx).
+Smooth preview with a render bar: `npm run preview` → http://localhost:4500 (+ phone address). Each question renders once
+in final quality into T7 _work/<lesson>/cache/<id>.<fingerprint>.mp4 (green on the bar, yellow = rendering); an edit
+changes only that question's fingerprint, so only it turns grey. Rendering is PAUSED at start; the page's "Start
+rendering" button fills the bar, "Pause" stops at once. The export reuses the cache (scripts/lib/geo-cache.mjs). Cache ≈
+290 MB per minute. Studio (live, no render) for checking edits; the preview page for watching smoothly.
 When: tutorial videos of geometry, a reel moment that explains a shape. When NOT: anything that isn't drawn with
 instruments; never add colour, notes or subtitles on the sheet (rules.md "Geometry tutorials").
 

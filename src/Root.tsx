@@ -8,7 +8,8 @@ import {Gallery} from './templates/Gallery';
 import {VlogPiece, type VlogPieceProps} from './vlog/VlogPiece';
 import {Episode, type EpisodeProps} from './longform/Episode';
 import {GeoVideo, lessonFrames, type GeoProps} from './geometry/GeoVideo';
-import {GeoPart, lessonParts} from './geometry/GeoPart';
+import {GeoPart} from './geometry/GeoPart';
+import {lessonParts} from './geometry/lessons';
 
 // geometry videos shown in the Studio as a folder each: the full video + every question on its own
 const GEO_LESSONS = ['elementary', 'intermediate'];
@@ -84,7 +85,7 @@ export const Root: React.FC = () => (
           durationInFrames={lessonFrames(lesson)} defaultProps={{lesson}} />
         {lessonParts(lesson).map((p) => (
           <Composition key={p.id} id={`${lesson}-${p.id}`} component={GeoPart as unknown as React.FC<Record<string, unknown>>} width={1920} height={1080}
-            fps={30} durationInFrames={Math.max(1, Math.round((p.to - p.from) * 30))} defaultProps={{lesson, from: p.from, to: p.to}} />
+            fps={30} durationInFrames={Math.max(1, p.f1 - p.f0)} defaultProps={{lesson, f0: p.f0, f1: p.f1}} />
         ))}
       </Folder>
     ))}

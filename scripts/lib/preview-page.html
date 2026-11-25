@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview</title>
+<style>
+  :root { --bg:#141416; --panel:#1d1d21; --line:#2c2c32; --text:#e8e8ec; --dim:#8b8b94; --done:#3fbf6a; --busy:#e0b43a; --todo:#3a3a42; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:14px/1.4 -apple-system, system-ui, sans-serif; }
+  header { display:flex; gap:12px; align-items:center; padding:10px 16px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  header b { font-size:15px; }
+  .tabs button { background:none; border:1px solid var(--line); color:var(--dim); padding:5px 12px; border-radius:6px; cursor:pointer; font:inherit; }
+  .tabs button.on { color:var(--text); border-color:#55555f; background:var(--panel); }
+  #summary { color:var(--dim); margin-left:auto; font-variant-numeric:tabular-nums; }
+  main { max-width:1280px; margin:0 auto; padding:14px 16px 30px; }
+  #bar { position:relative; display:flex; height:30px; border-radius:6px; overflow:hidden; background:var(--todo); cursor:pointer; user-select:none; }
+  .seg { position:relative; height:100%; border-right:1px solid var(--bg); background:var(--todo); overflow:hidden; }
+  .seg.done { background:var(--done); }
+  .seg.rendering { background:var(--todo); }
+  .seg .fill { position:absolute; inset:0 auto 0 0; background:var(--busy); }
+  .seg span { position:absolute; left:4px; top:7px; font-size:11px; color:#0d0d0f; font-weight:600; white-space:nowrap; pointer-events:none; }
+  .seg.todo span, .seg.rendering span { color:#c9c9d1; }
+  #head { position:absolute; top:-3px; bottom:-3px; width:2px; background:#fff; box-shadow:0 0 0 1px #000; pointer-events:none; }
+  .stage { position:relative; margin-top:12px; aspect-ratio:16/9; background:#000; border-radius:6px; overflow:hidden; }
+  .stage video { position:absolute; inset:0; width:100%; height:100%; visibility:hidden; }
+  .stage video.on { visibility:visible; }
+  #wait { position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-align:center; color:var(--dim); padding:20px; }
+  #wait.on { display:flex; }
+  #wait b { color:var(--text); font-size:17px; }
+  #wait a { color:#9cc4ff; }
+  .controls { display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap; }
+  .controls button { background:var(--panel); border:1px solid var(--line); color:var(--text); padding:7px 14px; border-radius:6px; font:inherit; cursor:pointer; }
+  #time { font-variant-numeric:tabular-nums; color:var(--dim); }
+  select { background:var(--panel); color:var(--text); border:1px solid var(--line); border-radius:6px; padding:6px; font:inherit; max-width:100%; }
+  .legend { margin-left:auto; color:var(--dim); font-size:12px; display:flex; gap:12px; }
+  .legend i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:5px; vertical-align:-1px; }
+</style>
+</head>
+<body>
+<header>
+  <b>Preview</b>
+  <div class="tabs" id="tabs"></div>
+  <div id="summary"></div>
+</header>
+<main>
+  <div id="bar"><div id="head"></div></div>
+  <div class="stage">
+    <video id="v0" playsinline preload="auto"></video>
+    <video id="v1" playsinline preload="auto"></video>
+    <div id="wait"></div>
+  </div>
+  <div class="controls">
+    <button id="play">Play</button>
+    <button id="rend" title="Render the grey parts into smooth, final-quality video (the bar turns green)">Start rendering</button>
+    <span id="time">0:00 / 0:00</span>
+    <select id="jump"></select>
+    <div class="legend"><span><i style="background:var(--done)"></i>rendered</span><span><i style="background:var(--busy)"></i>rendering</span><span><i style="background:var(--todo)"></i>not yet</span></div>
+  </div>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const V = [$('v0'), $('v1')];
+let lesson = new URLSearchParams(location.search).get('lesson') || '';
+let st = null, act = 0, cur = -1, playing = false, built = '';
+const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+
+async function poll() {
+  try {
+    const r = await fetch(`/api/status?lesson=${encodeURIComponent(lesson)}`, {cache: 'no-store'});
+    const s = await r.json();
+    const first = !st || s.lesson !== st.lesson;
+    lesson = s.lesson;
+    st = s;
+    draw(first);
+  } catch (e) {}
+  setTimeout(poll, 2500);
+}
+
+function draw(first) {
+  $('tabs').innerHTML = st.lessons.map((l) => `<button class="${l === lesson ? 'on' : ''}" data-l="${l}">${l}</button>`).join('');
+  if (!st.segs) return;
+  const sig = st.segs.map((s) => s.id + s.f1).join();
+  const bar = $('bar');
+  if (sig !== built) {
+    bar.querySelectorAll('.seg').forEach((e) => e.remove());
+    st.segs.forEach((s, i) => {
+      const d = document.createElement('div');
+      d.className = 'seg';
+      d.style.flex = `${s.f1 - s.f0} 0 0`;
+      d.title = s.title;
+      d.innerHTML = `<div class="fill"></div><span>${s.id}</span>`;
+      bar.insertBefore(d, $('head'));
+    });
+    $('jump').innerHTML = '<option value="">Jump to…</option>' + st.segs.map((s, i) => `<option value="${i}">${s.title}</option>`).join('');
+    built = sig;
+  }
+  const els = bar.querySelectorAll('.seg');
+  st.segs.forEach((s, i) => {
+    els[i].className = 'seg ' + s.state;
+    els[i].querySelector('.fill').style.width = s.state === 'rendering' ? `${Math.round(s.progress * 100)}%` : '0';
+  });
+  const done = st.segs.filter((s) => s.state === 'done').length, busy = st.segs.find((s) => s.state === 'rendering');
+  $('rend').textContent = st.rendering ? 'Pause rendering' : 'Start rendering';
+  $('summary').textContent = `${done}/${st.segs.length} rendered` + (st.rendering ? '' : ' · rendering paused') + (busy ? ` · rendering ${busy.id} ${Math.round(busy.progress * 100)}%` : '') + (st.checking ? ' · checking changes…' : '');
+  if (first || cur < 0) show(0, 0, false);
+  else if (cur >= 0 && st.segs[cur].state === 'done' && !V[act].src.endsWith(st.segs[cur].file)) show(cur, $('wait').classList.contains('on') ? 0 : V[act].currentTime || 0, playing); // just finished / re-rendered
+  tick();
+}
+
+function frameNow() {
+  if (!st || cur < 0) return 0;
+  const v = V[act];
+  return st.segs[cur].f0 + (v.src ? v.currentTime * st.fps : 0);
+}
+function tick() {
+  if (!st?.segs) return;
+  const tot = st.frames, f = frameNow();
+  $('head').style.left = `${(f / tot) * 100}%`;
+  $('time').textContent = `${fmt(f / st.fps)} / ${fmt(tot / st.fps)}`;
+}
+setInterval(tick, 100);
+
+function waitCard(s) {
+  const w = $('wait');
+  w.innerHTML = `<b>${s.title}</b><div>${s.state === 'rendering' ? `rendering now: ${Math.round(s.progress * 100)}%` : (st.rendering ? 'not rendered yet, it is in the queue' : 'not rendered yet (rendering is paused)')}</div>` +
+    `<div>It plays here as soon as it turns green. Live (slower) view: <a target="_blank" href="${st.studio.replace('localhost', location.hostname)}/${lesson}-${s.id}">open in Studio</a></div>`;
+  w.classList.add('on');
+}
+
+/** show question i at time t (seconds inside it) */
+function show(i, t, play) {
+  cur = i;
+  const s = st.segs[i], v = V[act];
+  V[1 - act].pause();
+  if (s.state !== 'done') {
+    V.forEach((x) => { x.pause(); x.classList.remove('on'); });
+    waitCard(s);
+    setPlaying(false);
+    return;
+  }
+  $('wait').classList.remove('on');
+  const src = `/media/${lesson}/${s.file}`;
+  if (!v.src.endsWith(src)) v.src = src;
+  v.currentTime = t;
+  v.classList.add('on');
+  V[1 - act].classList.remove('on');
+  if (play) v.play().catch(() => setPlaying(false));
+  setPlaying(play);
+  prepNext();
+}
+function prepNext() {
+  const n = st.segs[cur + 1], o = V[1 - act];
+  if (n && n.state === 'done') {
+    const src = `/media/${lesson}/${n.file}`;
+    if (!o.src.endsWith(src)) { o.src = src; o.load(); }
+    o.currentTime = 0;
+  }
+}
+function setPlaying(p) { playing = p; $('play').textContent = p ? 'Pause' : 'Play'; }
+
+V.forEach((v, k) => {
+  v.addEventListener('ended', () => {
+    if (k !== act) return;
+    const n = cur + 1;
+    if (n >= st.segs.length) return setPlaying(false);
+    if (st.segs[n].state === 'done' && V[1 - act].src.endsWith(st.segs[n].file)) {
+      act = 1 - act;
+      cur = n;
+      V[act].classList.add('on');
+      V[act].play();
+      V[1 - act].classList.remove('on');
+      prepNext();
+    } else show(n, 0, true);
+  });
+});
+
+$('play').onclick = () => {
+  if (!st?.segs) return;
+  if (playing) { V[act].pause(); return setPlaying(false); }
+  if (st.segs[cur]?.state !== 'done') return show(cur, 0, false);
+  V[act].play();
+  setPlaying(true);
+};
+$('rend').onclick = async () => {
+  await fetch(`/api/render?on=${st?.rendering ? 0 : 1}`, {method: 'POST'});
+  if (st) { st.rendering = !st.rendering; draw(false); }
+};
+$('bar').onclick = (e) => {
+  const r = $('bar').getBoundingClientRect(), f = ((e.clientX - r.left) / r.width) * st.frames;
+  const i = st.segs.findIndex((s) => f >= s.f0 && f < s.f1);
+  if (i >= 0) show(i, (f - st.segs[i].f0) / st.fps, playing);
+};
+$('jump').onchange = (e) => { if (e.target.value !== '') show(Number(e.target.value), 0, playing); e.target.value = ''; };
+$('tabs').onclick = (e) => {
+  const l = e.target.dataset?.l;
+  if (!l || l === lesson) return;
+  V.forEach((v) => { v.pause(); v.removeAttribute('src'); v.load(); });
+  lesson = l; st = null; cur = -1; built = ''; act = 0;
+  history.replaceState(null, '', `?lesson=${l}`);
+  setPlaying(false);
+};
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space') { e.preventDefault(); $('play').click(); }
+  if (e.code === 'ArrowRight' || e.code === 'ArrowLeft') {
+    const f = frameNow() + (e.code === 'ArrowRight' ? 5 : -5) * st.fps;
+    const i = st.segs.findIndex((s) => f >= s.f0 && f < s.f1);
+    if (i >= 0) show(i, (f - st.segs[i].f0) / st.fps, playing);
+  }
+});
+poll();
+</script>
+</body>
+</html>

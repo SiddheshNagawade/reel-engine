@@ -177,6 +177,9 @@ export class Lesson {
     this.sheets.push({x: at.x, y: at.y, t0, t1: this.t, lines, result});
   }
   endGuide() {
+    // questions end on a whole frame: an edit earlier in the video then moves every later question by whole frames,
+    // so their render-cache fingerprints stay the same (scripts/lib/geo-cache.mjs) and they don't re-render
+    this.t = Math.ceil(this.t * 30 - 1e-6) / 30;
     if (this.g) this.g.t1 = this.t;
     this.g = undefined;
   }
